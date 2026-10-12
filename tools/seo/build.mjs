@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -47,7 +48,51 @@ const SECRET = /^sec_/;
 
 // ---------- read source ----------
 const SRC_PATH = path.join(ROOT, 'index.html');
-let src = fs.readFileSync(SRC_PATH, 'utf8');
+const ASSETS = path.join(ROOT, 'assets');
+let src = hydrate(fs.readFileSync(SRC_PATH, 'utf8'));
+
+// ---------- speed: inline bundle <-> cached files ----------
+// The uploaded index.html inlines ~250 KB of fonts and a ~640 KB script into
+// every page. Output pages reference shared, content-hashed files instead, so
+// they are cached across pages and visits and each font subset only downloads
+// when a page uses that alphabet. hydrate() undoes this so the build can also
+// run on its own output.
+function hydrate(h) {
+  h = h.replace(/url\(\/assets\/fonts\/([\w.-]+\.woff2)\)/g, (_, f) =>
+    `url(data:font/woff2;base64,${fs.readFileSync(path.join(ASSETS, 'fonts', f)).toString('base64')})`);
+  h = h.replace(/<link rel="preload" href="\/assets\/[^"]+"[^>]*>\n?/g, '');
+  return h.replace(/<script src="\/assets\/(app-[\w]+\.js)"><\/script>/, (_, f) =>
+    `<script>${fs.readFileSync(path.join(ASSETS, f), 'utf8')}</script>`);
+}
+const hash = (b) => createHash('sha256').update(b).digest('hex').slice(0, 10);
+const written = new Set();
+function emit(rel, data) {
+  fs.mkdirSync(path.dirname(path.join(ASSETS, rel)), { recursive: true });
+  fs.writeFileSync(path.join(ASSETS, rel), data);
+  written.add(rel);
+  return `/assets/${rel}`;
+}
+function dehydrate(h, lang) {
+  const preload = [];
+  h = h.replace(/@font-face\{([^}]*)\}/g, (face, body) => {
+    const m = body.match(/src:url\(data:font\/woff2;base64,([^)]+)\)/);
+    if (!m) return face;
+    const fam = body.match(/font-family:'?([^;']+)/)[1].toLowerCase().replace(/\s+/g, '-');
+    const weight = body.match(/font-weight:(\d+)/)[1];
+    const style = /font-style:italic/.test(body) ? '-italic' : '';
+    const subset = /U\+0400/.test(body) ? 'cyrillic' : /U\+0600/.test(body) ? 'arabic' : 'latin';
+    const buf = Buffer.from(m[1], 'base64');
+    const url = emit(`fonts/${fam}-${weight}${style}-${subset}-${hash(buf)}.woff2`, buf);
+    // Headline (Geist 300) and body (Golos 400) in the page's own alphabet.
+    const want = lang === 'ru' ? 'cyrillic' : 'latin';
+    if (subset === want && ((fam === 'geist' && weight === '300') || (fam === 'golos-text' && weight === '400'))) preload.push(url);
+    return face.replace(m[0], `src:url(${url})`);
+  });
+  h = h.replace(/<script>(\(\(\)=>\{[^]*?)<\/script>/, (s, js) => js.length < 100000 ? s : `<script src="${emit(`app-${hash(js)}.js`, js)}"></script>`);
+  h = h.replace(/(class="fnjo"[^>]*><img )([^>]*?)src="data:image\/png;base64,[^"]+"/, '$1loading="lazy" decoding="async" $2src="/njo-logo.png"');
+  const links = preload.map((u) => `<link rel="preload" href="${u}" as="font" type="font/woff2" crossorigin>\n`).join('');
+  return h.replace(/(<!-- seo:start)/, `${links}$1`);
+}
 
 // Evaluate a JS literal that starts at the last character of `marker`.
 function grab(s, marker) {
@@ -243,7 +288,12 @@ function render(lang) {
 for (const lang of Object.keys(LANGS)) {
   const out = path.join(ROOT, LANGS[lang].file);
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, render(lang));
+  fs.writeFileSync(out, dehydrate(render(lang), lang));
+}
+// drop assets from earlier builds
+for (const f of fs.readdirSync(ASSETS, { recursive: true })) {
+  const p = path.join(ASSETS, f);
+  if (fs.statSync(p).isFile() && !written.has(f.split(path.sep).join('/'))) fs.unlinkSync(p);
 }
 
 // ---------- crawler files ----------
