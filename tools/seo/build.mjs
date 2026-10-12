@@ -57,6 +57,10 @@ const LANGS = {
   },
 };
 const X_DEFAULT = LANGS.en.url;
+// Search-console ownership codes (tools/seo/verify.json), added to every main page.
+const VERIFY = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/seo/verify.json'), 'utf8'));
+const VERIFY_TAGS = [['google', 'google-site-verification'], ['yandex', 'yandex-verification'], ['bing', 'msvalidate.01']]
+  .filter(([k]) => VERIFY[k]).map(([k, name]) => `<meta name="${name}" content="${String(VERIFY[k]).replace(/[^\w.-]/g, '')}">\n`).join('');
 const SECRET = /^sec_/;
 
 // ---------- read source ----------
@@ -263,7 +267,7 @@ function head(lang) {
 <meta name="description" content="${esc(L.description)}">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
 <meta name="author" content="NJO Business Solutions">
-<link rel="canonical" href="${L.url}">
+${VERIFY_TAGS}<link rel="canonical" href="${L.url}">
 ${Object.entries(LANGS).map(([l, x]) => `<link rel="alternate" hreflang="${l}" href="${x.url}">\n`).join('')}<link rel="alternate" hreflang="x-default" href="${X_DEFAULT}">
 <link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt">
 <link rel="icon" type="image/png" href="/favicon.png">
