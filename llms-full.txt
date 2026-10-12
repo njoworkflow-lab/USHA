@@ -31,30 +31,30 @@ Every day USHA reads 1,240 sources around your business: marketplaces, competito
 
 | | AI tools | Agency | In-house team | USHA |
 |---|---|---|---|---|
-| Knows your business | Starts from zero | Through one manager | Until people leave | Remembers everything |
-| Watches competitors daily | No | On request | When there’s time | Every day |
-| Decodes why leaders win | No | Rarely | Rarely | Always, as actions |
-| Visuals | Generic | Good, expensive | Depends on hires | From your products |
-| Facts and numbers | Can be invented | Depends | Depends | Your data, checkable |
-| Available | When prompted | Office hours | Minus holidays | 24/7 |
-| Does the work end to end | You do it | Slowly | If fully staffed | Research → publish → measure |
+| Knows your business | Starts from zero every time | Through one account manager | Until people leave | Permanent memory of everything |
+| Watches competitors and marketplaces | No | Occasionally, on request | When there is time | Every day |
+| Decodes why niche leaders win | No | Rarely | Rarely | Continuously, and turns it into actions |
+| Quality of visuals | Generic, looks like AI | Good, at a high price | Depends on who you hire | From your products, in your brand style |
+| Facts and numbers | Can be invented | Depends on the team | Depends on the team | Your data and checkable sources |
+| Available | When you prompt it | Office hours | Office hours, minus holidays and sick leave | 24/7 |
+| Does the work end to end | No, you do it | Yes, slowly | Yes, if fully staffed | Research, plan, create, publish, measure |
 
-**One engine instead of seven hires.** To cover the same work in-house you need at least seven people: months of hiring, training and managing, plus holidays and sick leave. (Head of marketing, Marketer, Paid media, Social media, Video editor, AI creator, Designer). She never takes sick leave, never says “not today”, and never leaves for a competitor with your project history.
+**One engine instead of a department.** A department means eight full-time roles, plus analysts, influencer managers and customer support on top, and months of hiring, training and managing. (Head of marketing, Marketer, Paid-media specialist, Social media specialist, Video editor, AI creator, Designer, Web designer & developer). She never goes on sick leave, never says “I’m not in the right headspace”, and never leaves for a competitor with your project history.
 
 ## Numbers, not promises.
 
 What USHA delivers for one brand every month. Switch the plan to compare.
 
-- **Intelligence**: Market and competitor radar, success decoding, and a brief that ends in actions. competitors tracked: Core 5, Pro 10; marketplaces: Core 1, Pro 3.
-- **Strategy & content**: Quarterly strategy, monthly plan and regular publishing across your channels. posts: Core 16, Pro 20; stories: Core 32, Pro 40.
-- **Video, photo & design**: Videos without a shoot, product photo shoots from your real products, designs in one style. videos: Core 4, Pro 6; edits: Core 10, Pro 15; photo shoots: Core 1, Pro 2; designs: Core 10, Pro 15.
-- **Promotion & bloggers**: Promotions, ads within your budget, bloggers and UGC creators. promotions: Core 1, Pro 2; ad platforms: Core 1, Pro 2; collaborations: Core 10, Pro 30.
+- **Intelligence**: Market, marketplace and competitor radar. Success decoding of your niche’s leaders. A regular brief that ends in actions: launch, change, promote or stop. competitors tracked: Core 5, Pro 10; marketplaces: Core 1, Pro 3.
+- **Strategy & content**: Quarterly online and offline strategy. Monthly plan and content calendar. Regular publishing across all your channels. posts a month: Core 16, Pro 20; stories a month: Core 32, Pro 40.
+- **Video, photo & design**: Videos without a shoot, from idea and script to the finished clip, plus editing of your footage. Photo shoots from your real products. Everything in one visual style. videos without a shoot: Core 4, Pro 6; edits of your footage: Core 10, Pro 15; product photo shoots: Core 1, Pro 2; designs outside social: Core 10, Pro 15.
+- **Promotion & bloggers**: Offer, mechanics, copy and designs for each promotion. Ads within the budget you approve. Bloggers and UGC creators found, briefed and coordinated. promotions: Core 1, Pro 2; ad platforms: Core 1, Pro 2; bloggers & UGC creators: Core 10, Pro 30.
 
-- **Only in Pro**: Packaging design; Customer replies, Mon–Fri 10:00–18:00; Stock intelligence.
+- **Only in Pro**: Packaging design; Customer replies, Mon–Fri 10:00–18:00; Stock intelligence; Website design, kept in sync with your products and stock.
 
 ## Same engine. Different appetite.
 
-Every plan runs the same engine. Plans differ in how much work she delivers for one brand each month.
+Core runs the full engine for one brand. Pro adds more channels and volume, customer replies, stock intelligence and website design.
 
 ### USHA Core
 The engine for one brand, one marketplace, one ad platform.
@@ -96,7 +96,7 @@ You decide how independently she works. Budgets and promotion terms are always y
 - A monthly report with honest conclusions and next month’s plan
 
 ### Everyone has the same AI models. The engineers make the difference.
-USHA is built by NJO: strategists with over ten years of methods, art directors who set her visual standards, analysts who taught her to read markets, and engineers who make her smarter every month. NJO · New Journey Onward · Since 2016 · Russia · GCC · Egypt. Official partners: Google, Meta, Midjourney, Runway, Kling AI.
+USHA is built by NJO: strategists with over ten years of methods, art directors who set her visual standards, analysts who taught her to read markets, and engineers who make her smarter every month. NJO · New Journey Onward · Since 2016 · GCC · Egypt · Russia. Official partners: Google, Meta, Midjourney, Runway, Kling AI.
 
 ## Your first week is on us.
 
@@ -120,7 +120,7 @@ No. She works in your messenger. You approve the decisions that matter; she does
 NJO’s strategists and art directors set her standards, and every output is checked against them before it reaches you.
 
 ### Which markets and platforms?
-Russia, the GCC and Egypt. Wildberries, Ozon, Yandex Market, VK, Telegram, Instagram, Dzen, YouTube, RuTube, TikTok and others.
+The GCC, Egypt and Russia. Amazon, noon, Namshi, Google, Instagram, Facebook, TikTok, Snapchat, YouTube, X, LinkedIn and others.
 
 ### Are advertising budgets included?
 No. Advertising budgets, creator fees and products for collaborations are paid separately, and you approve every budget.
@@ -162,30 +162,30 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 
 | | ИИ-сервисы | Агентство | Своя команда | USHA |
 |---|---|---|---|---|
-| Знает ваш бизнес | Каждый раз с нуля | Через одного менеджера | Пока люди не ушли | Помнит всё |
-| Следит за конкурентами ежедневно | Нет | По запросу | Когда есть время | Каждый день |
-| Разбирает, почему лидеры выигрывают | Нет | Редко | Редко | Всегда, в виде действий |
-| Визуал | Шаблонный | Хороший, дорогой | Зависит от людей | Из ваших товаров |
-| Факты и цифры | Могут быть выдуманы | По-разному | По-разному | Ваши данные, проверяемо |
-| Доступность | По запросу | В рабочие часы | Кроме отпусков | 24/7 |
-| Делает работу целиком | Делаете вы | Медленно | Если все на месте | Анализ → публикация → замеры |
+| Знает ваш бизнес | Каждый раз с нуля | Через одного менеджера | Пока люди не ушли | Помнит всё и всегда |
+| Следит за конкурентами и маркетплейсами | Нет | Иногда, по запросу | Когда есть время | Каждый день |
+| Разбирает, почему выигрывают лидеры | Нет | Редко | Редко | Постоянно — и превращает в действия |
+| Качество визуала | Шаблонный, сразу видно ИИ | Хорошее, но дорого | Зависит от того, кого наняли | Из ваших товаров, в стиле бренда |
+| Факты и цифры | Могут быть выдуманы | Зависит от команды | Зависит от команды | Ваши данные и проверяемые источники |
+| Доступность | Когда вы пишете запрос | В рабочие часы | В рабочие часы, кроме отпусков и больничных | 24/7 |
+| Делает работу целиком | Нет, делаете вы | Да, но медленно | Да, если все роли закрыты | Анализ, план, создание, публикация, измерение |
 
-**Один движок вместо семи сотрудников.** Чтобы закрыть ту же работу внутри компании, нужно минимум семь человек: месяцы найма, обучения и управления, плюс отпуска и больничные. (Директор по маркетингу, Маркетолог, Таргетолог, SMM-специалист, Видеомонтажёр, ИИ-креатор, Дизайнер). Она не уходит на больничный, не говорит «сегодня не моё» и не уходит к конкуренту с историей вашего проекта.
+**Один движок вместо целого отдела.** Отдел — это восемь ставок в штате, плюс аналитики, менеджеры по блогерам и поддержка, и месяцы найма, обучения и управления. (Руководитель маркетинга, Маркетолог, Таргетолог, SMM-специалист, Видеомонтажёр, ИИ-креатор, Дизайнер, Веб-дизайнер и разработчик). Она не уходит на больничный, не говорит «я не в ресурсе» и никогда не уйдёт к конкуренту вместе с историей вашего проекта.
 
 ## Цифры, а не обещания.
 
 Что USHA делает для одного бренда каждый месяц. Переключите тариф, чтобы сравнить.
 
-- **Аналитика**: Радар рынка и конкурентов, разбор успеха лидеров и сводка с действиями. конкурентов: Core 5, Pro 10; маркетплейса: Core 1, Pro 3.
-- **Стратегия и контент**: Стратегия на квартал, план на месяц и регулярные публикации во всех каналах. публикаций: Core 16, Pro 20; сторис: Core 32, Pro 40.
-- **Видео, фото и дизайн**: Видео без съёмки, фотосессии из ваших реальных товаров, макеты в едином стиле. видео: Core 4, Pro 6; монтажей: Core 10, Pro 15; фотосессии: Core 1, Pro 2; макетов: Core 10, Pro 15.
-- **Продвижение и блогеры**: Акции, реклама в рамках бюджета, блогеры и UGC-креаторы. акции: Core 1, Pro 2; площадки: Core 1, Pro 2; коллабораций: Core 10, Pro 30.
+- **Аналитика**: Радар рынка, маркетплейсов и конкурентов. Разбор успеха лидеров ниши. Регулярная сводка, которая заканчивается действиями: запустить, изменить, продвинуть или остановить. конкурентов под наблюдением: Core 5, Pro 10; маркетплейсов: Core 1, Pro 3.
+- **Стратегия и контент**: Стратегия онлайн и офлайн на квартал. План и контент-календарь на месяц. Регулярные публикации во всех ваших каналах. публикаций в месяц: Core 16, Pro 20; сторис в месяц: Core 32, Pro 40.
+- **Видео, фото и дизайн**: Видео без съёмки — от идеи и сценария до готового ролика, монтаж ваших исходников. Фотосессии ваших реальных товаров. Всё в одном визуальном стиле. видео без съёмки: Core 4, Pro 6; монтажей ваших видео: Core 10, Pro 15; продуктовых фотосессий: Core 1, Pro 2; макетов вне соцсетей: Core 10, Pro 15.
+- **Продвижение и блогеры**: Предложение, механика, тексты и макеты для каждой акции. Реклама в рамках утверждённого бюджета. Подбор, задания и сопровождение блогеров и UGC-креаторов. акций: Core 1, Pro 2; рекламных площадок: Core 1, Pro 2; блогеров и UGC-креаторов: Core 10, Pro 30.
 
-- **Только в Pro**: Дизайн упаковки; Ответы покупателям, пн–пт 10:00–18:00; Аналитика остатков.
+- **Только в Pro**: Дизайн упаковки; Ответы покупателям, пн–пт 10:00–18:00; Аналитика остатков; Дизайн сайта, синхронизированный с товарами и остатками.
 
 ## Один движок. Разный аппетит.
 
-Во всех тарифах работает один и тот же движок. Отличается объём работы, который она делает для одного бренда в месяц.
+Core запускает весь движок для одного бренда. Pro добавляет каналы и объём, ответы покупателям, аналитику остатков и дизайн сайта.
 
 ### USHA Core
 Движок для одного бренда, одного маркетплейса и одной рекламной площадки.
@@ -227,7 +227,7 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 - Ежемесячный отчёт с честными выводами и планом на следующий месяц
 
 ### У всех одинаковые ИИ-модели. Инженеры делают разницу.
-USHA создала NJO: стратеги с методиками, отточенными за десять с лишним лет, арт-директора, задавшие её визуальные стандарты, аналитики, научившие её читать рынки, и инженеры, которые каждый месяц делают её умнее. NJO · New Journey Onward · С 2016 года · Россия · GCC · Египет. Официальные партнёры: Google, Meta, Midjourney, Runway, Kling AI.
+USHA создала NJO: стратеги с методиками, отточенными за десять с лишним лет, арт-директора, задавшие её визуальные стандарты, аналитики, научившие её читать рынки, и инженеры, которые каждый месяц делают её умнее. NJO · New Journey Onward · С 2016 года · Россия · страны Залива · Египет. Официальные партнёры: Google, Meta, Midjourney, Runway, Kling AI.
 
 ## Первая неделя за наш счёт.
 
@@ -251,7 +251,7 @@ USHA настраивается под ваш бизнес: товары, рын
 Стратеги и арт-директора NJO задают её стандарты, и каждый результат проверяется по ним, прежде чем попасть к вам.
 
 ### Какие рынки и площадки?
-Россия, страны GCC и Египет. Wildberries, Ozon, Яндекс Маркет, ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и другие.
+Россия, страны Залива и Египет. Wildberries, Ozon, Яндекс Маркет, ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и другие.
 
 ### Рекламный бюджет входит в тариф?
 Нет. Рекламные бюджеты, гонорары блогеров и товары для коллабораций оплачиваются отдельно, и каждый бюджет утверждаете вы.
@@ -293,30 +293,30 @@ USHA настраивается под ваш бизнес: товары, рын
 
 | | أدوات الذكاء الاصطناعي | وكالة | فريق داخلي | USHA |
 |---|---|---|---|---|
-| معرفة نشاطك التجاري | تبدأ من الصفر | عبر مدير حساب واحد | حتى يغادر الموظفون | تتذكر كل شيء |
-| متابعة المنافسين يوميًا | لا | عند الطلب | إذا سمح الوقت | كل يوم |
-| كشف سرّ تفوّق المتصدّرين | لا | نادرًا | نادرًا | دائمًا، بخطوات عملية |
-| المحتوى المرئي | عام ومكرّر | جيد لكن مكلف | حسب من توظّف | من منتجاتك نفسها |
-| الحقائق والأرقام | قد تكون مختلَقة | حسب الحال | حسب الحال | من بياناتك، وقابلة للتحقق |
-| التوفّر | حين تسألها فقط | في أوقات الدوام | ما عدا الإجازات | 24/7 |
-| تنفيذ العمل من البداية إلى النهاية | أنت من ينفّذ | ببطء | إذا اكتمل الفريق | بحث ← نشر ← قياس |
+| معرفة نشاطك التجاري | تبدأ من الصفر في كل مرة | عبر مدير حساب واحد | حتى يغادر الموظفون | ذاكرة دائمة لكل شيء |
+| متابعة المنافسين ومنصات البيع | لا | أحيانًا، عند الطلب | إذا سمح الوقت | كل يوم |
+| كشف سرّ تفوّق المتصدّرين في مجالك | لا | نادرًا | نادرًا | باستمرار، وتحوّله إلى خطوات عملية |
+| جودة المحتوى المرئي | نمطي، ويبدو من صنع الذكاء الاصطناعي | جيدة، لكن بتكلفة عالية | حسب من توظّف | من منتجاتك، وبهوية علامتك |
+| الحقائق والأرقام | قد تكون مختلَقة | حسب الفريق | حسب الفريق | بياناتك ومصادر قابلة للتحقق |
+| التوفّر | حين تطلب منها | في أوقات الدوام | في أوقات الدوام، ما عدا الإجازات السنوية والمرضية | 24/7 |
+| تنفيذ العمل من البداية إلى النهاية | لا، أنت من ينفّذ | نعم، لكن ببطء | نعم، إذا اكتمل الفريق | بحث، تخطيط، إنتاج، نشر، قياس |
 
-**محرّك واحد بدل سبعة موظفين.** لتغطية العمل نفسه بفريق داخلي تحتاج إلى سبعة أشخاص على الأقل: أشهر من التوظيف والتدريب والإدارة، فضلًا عن الإجازات السنوية والمرضية. (مدير التسويق, أخصائي تسويق, أخصائي إعلانات مموّلة, مسؤول السوشيال ميديا, محرّر فيديو, صانع محتوى بالذكاء الاصطناعي, مصمّم). لا تأخذ إجازة مرضية، ولا تقول «ليس اليوم»، ولا تنتقل إلى منافسك وفي جعبتها تاريخ مشروعك.
+**محرّك واحد بدل قسم كامل.** القسم يعني ثماني وظائف بدوام كامل، يُضاف إليها محلّلون ومسؤولو التعاون مع المؤثرين وفريق لخدمة العملاء، ثم أشهر من التوظيف والتدريب والإدارة. (مدير التسويق, أخصائي تسويق, أخصائي إعلانات مموّلة, أخصائي سوشيال ميديا, محرّر فيديو, صانع محتوى بالذكاء الاصطناعي, مصمّم, مصمّم ومطوّر مواقع). لا تأخذ إجازة مرضية، ولا تقول «لستُ في مزاج للعمل»، ولا تنتقل إلى منافسك وفي جعبتها تاريخ مشروعك.
 
 ## أرقام، لا وعود.
 
 ما تنجزه USHA لعلامة تجارية واحدة كل شهر. بدّل الباقة للمقارنة.
 
-- **ذكاء السوق**: رصد السوق والمنافسين، وتحليل أسباب النجاح، وملخص ينتهي بخطوات عملية. منافسين تحت المتابعة: Core 5, Pro 10; منصات البيع: Core 1, Pro 3.
-- **الاستراتيجية والمحتوى**: استراتيجية ربع سنوية، وخطة شهرية، ونشر منتظم على قنواتك. منشورات: Core 16, Pro 20; ستوري: Core 32, Pro 40.
-- **الفيديو والتصوير والتصميم**: فيديوهات دون الحاجة إلى تصوير، وجلسات تصوير لمنتجاتك الحقيقية، وتصاميم بهوية بصرية واحدة. فيديوهات: Core 4, Pro 6; مقاطع مونتاج: Core 10, Pro 15; جلسات التصوير: Core 1, Pro 2; تصاميم: Core 10, Pro 15.
-- **الترويج والمؤثرون**: عروض ترويجية، وإعلانات ضمن ميزانيتك، ومؤثرون وصنّاع محتوى UGC. العروض الترويجية: Core 1, Pro 2; المنصات الإعلانية: Core 1, Pro 2; تعاونات: Core 10, Pro 30.
+- **ذكاء السوق**: رصد السوق ومنصات البيع والمنافسين. تحليل أسباب نجاح المتصدّرين في مجالك. وملخص دوري ينتهي بخطوات عملية: أطلِق، أو عدّل، أو روّج، أو أوقف. منافسين تحت المتابعة: Core 5, Pro 10; منصات البيع: Core 1, Pro 3.
+- **الاستراتيجية والمحتوى**: استراتيجية ربع سنوية للأونلاين والأوفلاين. خطة شهرية وتقويم للمحتوى. ونشر منتظم على جميع قنواتك. منشورات شهريًا: Core 16, Pro 20; ستوري شهريًا: Core 32, Pro 40.
+- **الفيديو والتصوير والتصميم**: فيديوهات دون الحاجة إلى تصوير، من الفكرة والسيناريو حتى المقطع النهائي، إلى جانب مونتاج المقاطع التي تصوّرها. جلسات تصوير لمنتجاتك الحقيقية. وكل ذلك بهوية بصرية واحدة. فيديوهات دون تصوير: Core 4, Pro 6; مقاطع مونتاج من تصويرك: Core 10, Pro 15; جلسات تصوير للمنتجات: Core 1, Pro 2; تصاميم خارج السوشيال ميديا: Core 10, Pro 15.
+- **الترويج والمؤثرون**: لكل عرض ترويجي: صياغة العرض، وآلية التنفيذ، والنصوص، والتصاميم. إعلانات ضمن الميزانية التي تعتمدها. ومؤثرون وصنّاع محتوى UGC تختارهم وتزوّدهم بالتوجيهات وتنسّق معهم. العروض الترويجية: Core 1, Pro 2; المنصات الإعلانية: Core 1, Pro 2; مؤثرون وصنّاع محتوى UGC: Core 10, Pro 30.
 
-- **في Pro فقط**: تصميم التغليف; الرد على العملاء، الإثنين–الجمعة 10:00–18:00; تحليلات المخزون.
+- **في Pro فقط**: تصميم التغليف; الرد على العملاء، الإثنين–الجمعة 10:00–18:00; تحليلات المخزون; تصميم موقع إلكتروني يبقى متوافقًا مع منتجاتك ومخزونك.
 
 ## المحرّك نفسه. والحجم حسب طموحك.
 
-كل الباقات تعمل بالمحرّك نفسه، والفرق بينها في حجم العمل الذي تنجزه لعلامة تجارية واحدة كل شهر.
+باقة Core تشغّل المحرّك كاملًا لعلامة تجارية واحدة. أما Pro فتضيف قنوات أكثر وحجم عمل أكبر، والرد على العملاء، وتحليلات المخزون، وتصميم الموقع الإلكتروني.
 
 ### USHA Core
 المحرّك لعلامة تجارية واحدة، ومنصة بيع واحدة، ومنصة إعلانية واحدة.
@@ -358,7 +358,7 @@ USHA настраивается под ваш бизнес: товары, рын
 - تقرير شهري باستنتاجات صريحة وخطة الشهر التالي
 
 ### نماذج الذكاء الاصطناعي متاحة للجميع، والمهندسون هم من يصنعون الفرق.
-USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت على مدى أكثر من عشر سنوات، ومديرون فنيون وضعوا معاييرها البصرية، ومحلّلون علّموها قراءة الأسواق، ومهندسون يجعلونها أذكى كل شهر. NJO · New Journey Onward · منذ 2016 · روسيا · دول الخليج · مصر. شركاء رسميون: Google, Meta, Midjourney, Runway, Kling AI.
+USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت على مدى أكثر من عشر سنوات، ومديرون فنيون وضعوا معاييرها البصرية، ومحلّلون علّموها قراءة الأسواق، ومهندسون يجعلونها أذكى كل شهر. NJO · New Journey Onward · منذ 2016 · دول الخليج · مصر · روسيا. شركاء رسميون: Google, Meta, Midjourney, Runway, Kling AI.
 
 ## أسبوعك الأول على حسابنا.
 
@@ -382,7 +382,7 @@ USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت ع�
 يضع الاستراتيجيون والمديرون الفنيون في NJO معاييرها، ويُراجَع كل عمل على أساسها قبل أن يصل إليك.
 
 ### ما الأسواق والمنصات التي تغطيها؟
-روسيا ودول الخليج ومصر. ومن المنصات: Wildberries، Ozon، Yandex Market، VK، Telegram، Instagram، Dzen، YouTube، RuTube، TikTok، وغيرها.
+دول الخليج ومصر وروسيا. ومن المنصات: Amazon، noon، Namshi، Google، Instagram، Facebook، TikTok، Snapchat، YouTube، X، LinkedIn، وغيرها.
 
 ### هل ميزانيات الإعلانات مشمولة؟
 لا. ميزانيات الإعلانات وأجور صنّاع المحتوى والمنتجات المخصّصة للتعاونات تُدفع بشكل منفصل، ولا تُصرف أي ميزانية إلا بموافقتك.

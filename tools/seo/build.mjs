@@ -20,6 +20,8 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
+import { plansHTML } from './enhance/ui.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -75,6 +77,7 @@ let src = hydrate(fs.readFileSync(SRC_PATH, 'utf8'));
 // when a page uses that alphabet. hydrate() undoes this so the build can also
 // run on its own output.
 function hydrate(h) {
+  h = h.replace(/<!--enh-->[^]*?<!--\/enh-->\n?/, '');
   h = h.replace(/url\(\/assets\/fonts\/([\w.-]+\.woff2)\)/g, (_, f) =>
     `url(data:font/woff2;base64,${fs.readFileSync(path.join(ASSETS, 'fonts', f)).toString('base64')})`);
   h = h.replace(/<link rel="preload" href="\/assets\/[^"]+"[^>]*>\n?/g, '');
@@ -129,24 +132,53 @@ function grabAt(s, marker) {
 
 const DICT = grab(src, 'var wl={');
 const PLANS = grab(src, ',ru=[');
-const COMPARE = grab(src, 'Al=[');
-const AREAS = grab(src, 'iu=[');
-const PRO_ONLY = grab(src, 'su=[');
+let COMPARE = grab(src, 'Al=[');
+let AREAS = grab(src, 'iu=[');
+let PRO_ONLY = grab(src, 'su=[');
 const PARTNERS = grab(src, 'ir=[');
 const FEED = ',Ms=[', CHATS = ',Tl=[', WEEK = ',Ta=[';
+const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'string' && typeof v[1] === 'string' && (/[\u0400-\u04FF]/.test(v[1]) || v[0] === v[1]);
+
+// ---------- content updates from the decks (tools/seo/enhance/content.mjs) ----------
+// Applied to the bundle's own data so every language and the pre-rendered HTML
+// carry them. Re-running is harmless: patched strings no longer match the keys.
+for (const l of ['en', 'ru']) for (const [k, v] of Object.entries(DICT_PATCH[l])) {
+  if (k === 'faq3') DICT[l].faq[3] = v; else DICT[l][k] = v;
+}
+const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
+  : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
+COMPARE = patchPairs(COMPARE, PAIR_PATCH);
+AREAS = patchPairs(patchPairs(AREAS, PAIR_PATCH), AREA_LABELS);
+for (const add of PRO_ONLY_ADD) if (!PRO_ONLY.some((x) => x[0] === add[0])) PRO_ONLY = [...PRO_ONLY, add];
+for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
+  [FEED, patchPairs(grab(src, FEED), PAIR_PATCH)], [CHATS, patchPairs(grab(src, CHATS), PAIR_PATCH)], [WEEK, patchPairs(grab(src, WEEK), PAIR_PATCH)]]) {
+  const { start, end } = grabAt(src, marker);
+  src = src.slice(0, start) + JSON.stringify(value) + src.slice(end);
+}
 
 // ---------- Arabic ----------
 // tools/seo/ar.json maps every English string to Arabic. The bundle stores
 // text either in the wl dictionary or as [en, ru, ...] pairs, so Arabic
 // replaces the English entry of each pair.
 const AR = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/seo/ar.json'), 'utf8'));
-const tr = (s) => { if (!(s in AR)) throw new Error(`Missing Arabic for: ${s}`); return AR[s]; };
+// AR_COLLECT=1 lists every missing string in tools/seo/ar-missing.json instead of stopping.
+const AR_MISSING = new Set();
+const tr = (s) => {
+  if (s in AR) return AR[s];
+  if (!/[A-Za-z]/.test(s)) return s; // numbers, symbols
+  if (process.env.AR_COLLECT) { AR_MISSING.add(s); return s; }
+  throw new Error(`Missing Arabic for: ${s}`);
+};
 const trAll = (v) => typeof v === 'string' ? tr(v) : Array.isArray(v) ? v.map(trAll)
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, trAll(x)])) : v;
-const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'string' && typeof v[1] === 'string' && (/[\u0400-\u04FF]/.test(v[1]) || v[0] === v[1]);
 const trPairs = (v) => isPair(v) ? [tr(v[0]), ...v.slice(1)] : Array.isArray(v) ? v.map(trPairs)
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, trPairs(x)])) : v;
 DICT.ar = trAll(DICT.en);
+// Enhancement-layer content for one language ([en, ru] pairs → one string).
+const pickX = (v, i) => isPair(v) ? v[i] : Array.isArray(v) ? v.map((x) => pickX(x, i))
+  : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, pickX(x, i)])) : v;
+const XL = { en: pickX(X, 0), ru: pickX(X, 1) };
+XL.ar = trAll(XL.en);
 const DATA = { PLANS, COMPARE, AREAS, PRO_ONLY };
 const data = (lang) => lang === 'ar' ? Object.fromEntries(Object.entries(DATA).map(([k, v]) => [k, trPairs(v)])) : DATA;
 
@@ -170,6 +202,11 @@ src = patch(src, SWITCH, SWITCH_NEW, 'language switch');
 src = patch(src, JUMP, jump('if(i.dataset.l==="ar"){try{localStorage.setItem("usha-lang","ar")}catch{}location.href="/ar/"+location.hash;return}'), 'language buttons');
 if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/button>)/, '$1<button data-l="ar">AR</button>', 'language pill');
 
+// USHA's size per scene: smaller in "Try her" and the game so she sits beside
+// the content instead of covering it (desktop, phone).
+src = src.replace('us:e?.62:1,ch:.25', 'us:e?.42:.66,ch:.25').replace('us:e?.62:.78,ch:.5', 'us:e?.5:.6,ch:.5');
+if (!src.includes('us:e?.42:.66,ch:.25')) throw new Error('Bundle changed: USHA scene sizes not found');
+
 // The Arabic page runs its own copy of the bundle: English slot → Arabic.
 let srcAr = src;
 for (const [marker, value] of [['var wl={', { en: DICT.ar, ru: DICT.ru }], [',ru=[', trPairs(PLANS)], ['Al=[', trPairs(COMPARE)], ['iu=[', trPairs(AREAS)],
@@ -180,6 +217,14 @@ for (const [marker, value] of [['var wl={', { en: DICT.ar, ru: DICT.ru }], [',ru
 srcAr = patch(srcAr, DETECT, 'fi="en"', 'language detection');
 srcAr = patch(srcAr, /document\.documentElement\.lang=fi/, 'document.documentElement.lang="ar"', 'lang attribute');
 srcAr = patch(srcAr, /i\.classList\.toggle\("on",i\.dataset\.l===fi\)/, 'i.classList.toggle("on",i.dataset.l==="ar")', 'active language');
+// Arabic mirrors the 3D canvas (CSS scaleX(-1)) so the scene reads right to
+// left; screen ↔ world conversions flip with it.
+for (const [a, b] of [['new ve(i/innerWidth*2-1,', 'new ve(1-i/innerWidth*2,'], ['let e=i.clientX/innerWidth*2-1,t=', 'let e=1-i.clientX/innerWidth*2,t='],
+  ['or.set(i.clientX/innerWidth*2-1,', 'or.set(1-i.clientX/innerWidth*2,'], ['let g=(bs.x+1)/2*innerWidth;', 'let g=(1-bs.x)/2*innerWidth;'],
+  ['hn((bs.x+1)/2*innerWidth,_,innerWidth-_)', 'hn((1-bs.x)/2*innerWidth,_,innerWidth-_)']]) {
+  if (!srcAr.includes(a)) throw new Error(`Bundle changed: ${a}`);
+  srcAr = srcAr.split(a).join(b);
+}
 srcAr = patch(srcAr, JUMP, jump('if(i.dataset.l!=="ar"){try{localStorage.setItem("usha-lang",i.dataset.l)}catch{}location.href=(i.dataset.l==="en"?"/en/":"/")+location.hash;return}'), 'language buttons');
 
 // Arabic glyphs: Hacen Saudi Arabia, served exactly as supplied (its licence
@@ -260,6 +305,17 @@ function jsonLd(lang) {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 }
 
+// ---------- enhancement layer (tools/seo/enhance) ----------
+const ENH = path.join(ROOT, 'tools/seo/enhance');
+const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8');
+let ENH_URL;
+function enhBlock(lang) {
+  ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
+  const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+}
+
 function head(lang) {
   const L = LANGS[lang];
   return `<!-- seo:start (generated by tools/seo/build.mjs) -->
@@ -287,6 +343,7 @@ ${Object.entries(LANGS).filter(([l]) => l !== lang).map(([, x]) => `<meta proper
 <meta name="twitter:image" content="${SITE}/og.jpg">
 <script type="application/ld+json">${jsonLd(lang)}</script>
 <noscript><style>#intro,#hey,#gl,#cur{display:none!important}[data-in],.rv{opacity:1!important;transform:none!important}.stick{position:relative!important;height:auto!important}#hero,#noise,#signal{height:auto!important}</style></noscript>
+<style id="x-css">${ENH_CSS}</style>
 ${lang === 'ar' ? AR_CSS + '\n' : ''}<!-- seo:end -->`;
 }
 
@@ -342,6 +399,16 @@ function render(lang) {
   const hub = GUIDES_HUB[lang];
   const links = hub ? `<!--seo:guides--><div><small>${hub.nav}</small>${GUIDES.map((g) => `<a href="${guideUrl(lang, g.slug)}">${strip(g[lang].h1)}</a>`).join('')}</div><!--/seo:guides-->` : '';
   h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => a + links);
+
+  // eight roles now (decks): the department stat
+  h = h.replace('<b>7 → 1</b>', '<b>8 → 1</b>');
+
+  // plans module, pre-rendered for crawlers (enhance.js takes it over)
+  const xplans = `<!--xplans--><div class="x-plans">${plansHTML(XL[lang], d)}</div><!--/xplans-->`;
+  h = h.replace(/<!--xplans-->[^]*?<!--\/xplans-->/, '');
+  h = h.replace(/(<div class="plans" id="plancards">[^]*?<\/div>)(?=\s*<p class="pnote)/, (m) => m + xplans);
+  if (!h.includes('<!--xplans-->')) throw new Error('Bundle changed: #plancards not found');
+  h = h.replace(/<\/body>/, () => enhBlock(lang) + '</body>');
 
   // runtime-built blocks
   for (const [id, html] of Object.entries(containers(lang))) {
@@ -561,3 +628,7 @@ fs.writeFileSync(path.join(ROOT, 'llms-full.txt'),
   `# USHA by NJO — full site text\n\nSource: ${LANGS.en.url} (English), ${LANGS.ru.url} (Russian) and ${LANGS.ar.url} (Arabic). Updated ${lastmod}.\n\n---\n\n${fullText('en')}\n\n---\n\n${fullText('ru')}\n\n---\n\n${fullText('ar')}\n`);
 
 console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, ${GUIDE_LANGS.length * (GUIDES.length + 1)} guide pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);
+if (process.env.AR_COLLECT) {
+  fs.writeFileSync(path.join(ROOT, 'tools/seo/ar-missing.json'), JSON.stringify([...AR_MISSING], null, 1));
+  console.log(`${AR_MISSING.size} strings need Arabic`);
+}
