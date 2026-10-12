@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
+import { applyLife, LIFE_BUB } from './enhance/usha-life.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -145,6 +146,7 @@ const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'stri
 for (const l of ['en', 'ru']) for (const [k, v] of Object.entries(DICT_PATCH[l])) {
   if (k === 'faq3') DICT[l].faq[3] = v; else DICT[l][k] = v;
 }
+for (const l of ['en', 'ru']) Object.assign(DICT[l].bub, LIFE_BUB[l]);
 const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
@@ -201,6 +203,9 @@ src = patch(src, DETECT, DETECT_NEW, 'language detection');
 src = patch(src, SWITCH, SWITCH_NEW, 'language switch');
 src = patch(src, JUMP, jump('if(i.dataset.l==="ar"){try{localStorage.setItem("usha-lang","ar")}catch{}location.href="/ar/"+location.hash;return}'), 'language buttons');
 if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/button>)/, '$1<button data-l="ar">AR</button>', 'language pill');
+
+// USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
+src = applyLife(src);
 
 // USHA's size per scene: smaller in "Try her" and the game so she sits beside
 // the content instead of covering it (desktop, phone).
