@@ -9,7 +9,8 @@
 //   2. writes a per-language <head> (title, description, hreflang, Open Graph,
 //      JSON-LD for the organisation, the service, its plans and the FAQ),
 //   3. makes the language deterministic per URL so Google indexes the right one,
-//   4. emits robots.txt, sitemap.xml, llms.txt and llms-full.txt.
+//   4. renders the guides in tools/seo/guides.mjs (/guides/, /en/guides/),
+//   5. emits robots.txt, sitemap.xml, llms.txt and llms-full.txt.
 //
 // It is idempotent: run it on a freshly uploaded index.html or on its own output.
 //   node tools/seo/build.mjs
@@ -19,6 +20,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const SITE = 'https://usha.one';
@@ -332,6 +334,11 @@ function render(lang) {
     typeof d[key] === 'string' ? `${open} placeholder="${esc(d[key])}"` : m);
   h = h.replace(/(id="holdBtn" aria-label=")[^"]*"/, `$1${esc(strip(d.hold))}"`);
 
+  // footer links to the guides (Russian and English pages)
+  const hub = GUIDES_HUB[lang];
+  const links = hub ? `<!--seo:guides--><div><small>${hub.nav}</small>${GUIDES.map((g) => `<a href="${guideUrl(lang, g.slug)}">${strip(g[lang].h1)}</a>`).join('')}</div><!--/seo:guides-->` : '';
+  h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => a + links);
+
   // runtime-built blocks
   for (const [id, html] of Object.entries(containers(lang))) {
     const re = new RegExp(`(<([a-z]+)\\b[^>]*\\bid="${id}"[^>]*>)(?:<!--seo:${id}-->[^]*?<!--/seo:${id}-->)?(?=</\\2>)`);
@@ -346,6 +353,110 @@ for (const lang of Object.keys(LANGS)) {
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, dehydrate(render(lang), lang));
 }
+// ---------- guides ----------
+const GUIDE_LANGS = Object.keys(GUIDES_HUB);
+function guideUrl(lang, slug) { return `${LANGS[lang].url}guides/${slug ? `${slug}/` : ''}`; }
+const guideFile = (lang, slug) => path.join(ROOT, new URL(guideUrl(lang, slug)).pathname, 'index.html');
+const FONT_FACES = (fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').match(/@font-face\{[^}]*url\(\/assets\/[^}]*\}/g) || []).join('');
+const LOGO = (src.match(/<a class="logo"[^>]*>(<svg[^]*?<\/svg>)/) || [, 'USHA'])[1];
+const GUIDE_CSS = `:root{--ink:#F3EEE8;--ink2:rgba(243,238,232,.84);--ink3:rgba(243,238,232,.6);--line:rgba(243,238,232,.16);--ember:#FF5A1F;--peach:#FFB48A;--head:'Geist',system-ui,sans-serif;--serif:'Literata',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}html{background:#030304}
+body{color:var(--ink);font-family:'Golos Text','Geist',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;background:radial-gradient(1100px 560px at 85% -10%,rgba(255,90,31,.13),transparent 60%),#030304;min-height:100vh}
+a{color:inherit}.g-h{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px clamp(16px,3.6vw,64px)}
+.logo{display:block;height:22px}.logo svg{height:100%;width:auto;display:block}
+.g-h nav{display:flex;align-items:center;gap:18px;font-size:14px;font-weight:500;color:var(--ink3)}.g-h nav a{text-decoration:none}.g-h nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 20px;border-radius:99px;background:var(--ink);color:#0b0a0f!important;font-weight:500;font-size:15px;text-decoration:none;box-shadow:0 0 50px -8px rgba(255,170,130,.45)}
+.btn::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember)}
+main{max-width:760px;margin:0 auto;padding:32px 16px 80px}.crumbs{font-size:13px;color:var(--ink3)}.crumbs a{text-decoration:none}
+.kick{display:flex;align-items:center;gap:10px;margin-top:40px;font-size:13px;font-weight:500;color:var(--ink3)}.kick::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember)}
+h1{font-family:var(--head);font-weight:300;font-size:clamp(38px,6vw,66px);line-height:1;letter-spacing:-.05em;margin-top:18px}
+h1 i,h2 i{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.025em}
+.lead{margin-top:24px;font-size:19px;color:var(--ink2)}
+h2{font-family:var(--head);font-weight:400;font-size:clamp(26px,3.4vw,34px);line-height:1.12;letter-spacing:-.035em;margin:56px 0 14px}
+main p,main li,main td{color:var(--ink2)}main p+p,main ul+p,main table+p{margin-top:12px}main ul{margin-top:12px;padding-inline-start:22px}main li{margin-top:8px}main li::marker{color:var(--peach)}b{color:var(--ink);font-weight:600}
+table{display:block;overflow-x:auto;width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}th,td{text-align:start;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:130px}th{color:var(--ink3);font-weight:500;font-size:13px}.u{background:rgba(255,90,31,.08);color:var(--ink)!important}
+.box{margin-top:56px;padding:28px;border-radius:24px;background:linear-gradient(150deg,rgba(255,255,255,.085),rgba(255,255,255,.025));box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}.box h2{margin:0 0 10px}.box .btn{margin-top:20px}
+details{border-bottom:1px solid var(--line);padding:16px 0}summary{cursor:pointer;font-weight:500;color:var(--ink)}details p{margin-top:10px}
+.cards{display:grid;gap:16px;margin-top:32px}.card{display:block;padding:24px;border-radius:20px;text-decoration:none;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}.card:hover{box-shadow:inset 0 0 0 1px var(--peach)}.card h2{margin:0 0 8px;font-size:24px}.card p{font-size:15px}.card span{display:inline-block;margin-top:12px;font-size:14px;color:var(--peach)}
+.ill{margin-top:40px;font-size:13px;color:var(--ink3)}footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:32px clamp(16px,3.6vw,64px);border-top:1px solid var(--line);font-size:14px;color:var(--ink3)}footer a{text-decoration:none}footer a:hover{color:var(--ink)}`;
+
+function guideHead(lang, { title, description, url, alt, ld }) {
+  return `<!doctype html>
+<html lang="${lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="canonical" href="${url}">
+${GUIDE_LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${alt[l]}">`).join('\n')}
+<link rel="alternate" hreflang="x-default" href="${alt.en}">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta name="theme-color" content="#030304">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="USHA by NJO">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:locale" content="${LANGS[lang].locale}">
+<meta property="og:image" content="${SITE}/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>
+<style>${FONT_FACES}${GUIDE_CSS}</style>
+</head>
+<body>`;
+}
+function guideChrome(lang, otherUrl) {
+  const H = GUIDES_HUB[lang], other = lang === 'ru' ? 'en' : 'ru';
+  return {
+    header: `<header class="g-h"><a class="logo" href="${LANGS[lang].url}" aria-label="USHA by NJO">${LOGO}</a><nav><a href="${guideUrl(lang)}">${H.nav}</a><a href="${otherUrl}" hreflang="${other}" lang="${other}">${other.toUpperCase()}</a><a class="btn" href="${LANGS[lang].url}#free">${H.cta}</a></nav></header>`,
+    footer: `<footer><span>USHA by NJO · ${strip(DICT[lang].ft_made)}</span><span><a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a> · <a href="${CONTACT.njo}" rel="noopener">njobusinesssolutions.com</a></span></footer>`,
+  };
+}
+const crumbsLd = (items) => ({ '@type': 'BreadcrumbList', itemListElement: items.map(([name, item], n) => ({ '@type': 'ListItem', position: n + 1, name, item })) });
+
+for (const lang of GUIDE_LANGS) {
+  const H = GUIDES_HUB[lang], d = DICT[lang], i = LANGS[lang].idx, { COMPARE } = data(lang);
+  const hubAlt = Object.fromEntries(GUIDE_LANGS.map((l) => [l, guideUrl(l)]));
+  // hub
+  {
+    const url = guideUrl(lang), c = guideChrome(lang, guideUrl(lang === 'ru' ? 'en' : 'ru'));
+    const ld = [{ '@type': 'CollectionPage', '@id': `${url}#page`, url, name: H.title, description: H.description, inLanguage: lang, isPartOf: { '@id': `${SITE}/#website` }, publisher: { '@id': `${SITE}/#njo` },
+      mainEntity: { '@type': 'ItemList', itemListElement: GUIDES.map((g, n) => ({ '@type': 'ListItem', position: n + 1, url: guideUrl(lang, g.slug), name: strip(g[lang].h1) })) } },
+    crumbsLd([['USHA', LANGS[lang].url], [H.nav, url]])];
+    const html = guideHead(lang, { title: H.title, description: H.description, url, alt: hubAlt, ld }) + c.header +
+      `<main><nav class="crumbs"><a href="${LANGS[lang].url}">USHA</a> / ${H.nav}</nav><p class="kick">USHA by NJO</p><h1>${H.h1}</h1><p class="lead">${H.lead}</p><div class="cards">` +
+      GUIDES.map((g) => `<a class="card" href="${guideUrl(lang, g.slug)}"><h2>${g[lang].h1}</h2><p>${g[lang].description}</p><span>${H.more} →</span></a>`).join('') +
+      `</div><div class="box"><h2>${H.ctaH}</h2><p>${H.ctaP}</p><a class="btn" href="${LANGS[lang].url}#free">${H.cta}</a></div></main>${c.footer}</body></html>\n`;
+    fs.mkdirSync(path.dirname(guideFile(lang)), { recursive: true });
+    fs.writeFileSync(guideFile(lang), html);
+  }
+  // articles
+  for (const g of GUIDES) {
+    const G = g[lang], url = guideUrl(lang, g.slug), c = guideChrome(lang, guideUrl(lang === 'ru' ? 'en' : 'ru', g.slug));
+    const alt = Object.fromEntries(GUIDE_LANGS.map((l) => [l, guideUrl(l, g.slug)]));
+    const compare = `<table><tr><th></th>${[d.w_c1, d.w_c2, d.w_c3, d.w_c4].map((x, n) => `<th${n === 3 ? ' class="u"' : ''}>${x}</th>`).join('')}</tr>` +
+      COMPARE.map((r) => `<tr>${r.map((cell, n) => n === 0 ? `<th>${cell[i]}</th>` : `<td${n === 4 ? ' class="u"' : ''}>${cell[i]}</td>`).join('')}</tr>`).join('') + '</table>';
+    const ld = [
+      { '@type': 'Article', '@id': `${url}#article`, headline: strip(G.h1), description: G.description, inLanguage: lang, url, mainEntityOfPage: url,
+        datePublished: '2026-10-12', dateModified: lastmod, image: `${SITE}/og.jpg`, author: { '@id': `${SITE}/#njo` }, publisher: { '@id': `${SITE}/#njo` }, about: { '@id': `${SITE}/#usha` } },
+      { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
+      crumbsLd([['USHA', LANGS[lang].url], [H.nav, guideUrl(lang)], [strip(G.h1), url]]),
+      { '@type': 'FAQPage', '@id': `${url}#faq`, inLanguage: lang, mainEntity: G.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+    ];
+    const html = guideHead(lang, { title: G.title, description: G.description, url, alt, ld }) + c.header +
+      `<main><nav class="crumbs"><a href="${LANGS[lang].url}">USHA</a> / <a href="${guideUrl(lang)}">${H.nav}</a></nav><p class="kick">${G.kicker}</p><h1>${G.h1}</h1><p class="lead">${G.lead}</p>` +
+      G.sections.map(([h, body]) => `<h2>${h}</h2>${body.replace('{{compare}}', compare)}`).join('') +
+      `<div class="box"><h2>${H.ctaH}</h2><p>${H.ctaP}</p><a class="btn" href="${LANGS[lang].url}#free">${H.cta}</a></div>` +
+      `<h2>${H.faq}</h2>${G.faq.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}` +
+      `<h2>${H.related}</h2><ul>${G.related.map((r) => `<li><a href="${guideUrl(lang, r)}">${strip(GUIDES.find((x) => x.slug === r)[lang].h1)}</a></li>`).join('')}</ul>` +
+      `<p class="ill">${H.ill}</p></main>${c.footer}</body></html>\n`;
+    fs.mkdirSync(path.dirname(guideFile(lang, g.slug)), { recursive: true });
+    fs.writeFileSync(guideFile(lang, g.slug), html);
+  }
+}
+
 // drop assets from earlier builds
 for (const f of fs.readdirSync(ASSETS, { recursive: true })) {
   const p = path.join(ASSETS, f);
@@ -388,6 +499,12 @@ ${Object.values(LANGS).map((L) => `  <url>
     <lastmod>${lastmod}</lastmod>
 ${alts}
   </url>`).join('\n')}
+${[undefined, ...GUIDES.map((g) => g.slug)].flatMap((slug) => GUIDE_LANGS.map((l) => `  <url>
+    <loc>${guideUrl(l, slug)}</loc>
+    <lastmod>${lastmod}</lastmod>
+${GUIDE_LANGS.map((x) => `    <xhtml:link rel="alternate" hreflang="${x}" href="${guideUrl(x, slug)}"/>`).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${guideUrl('en', slug)}"/>
+  </url>`)).join('\n')}
 </urlset>
 `);
 
@@ -404,6 +521,9 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 - [USHA — English](${LANGS.en.url}): ${LANGS.en.description}
 - [USHA — Arabic](${LANGS.ar.url}): ${LANGS.ar.description}
 - [Full text of the site](${SITE}/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
+
+## Guides
+${GUIDES.map((g) => `- [${strip(g.en.h1)}](${guideUrl('en', g.slug)}): ${g.en.description} Russian: ${guideUrl('ru', g.slug)}`).join('\n')}
 
 ## Plans
 ${PLANS.map((p) => `- ${p.n}: ${p.t[0]} ${p.pts.map((x) => x[0]).join('; ')}.`).join('\n')}
@@ -436,4 +556,4 @@ function fullText(lang) {
 fs.writeFileSync(path.join(ROOT, 'llms-full.txt'),
   `# USHA by NJO — full site text\n\nSource: ${LANGS.en.url} (English), ${LANGS.ru.url} (Russian) and ${LANGS.ar.url} (Arabic). Updated ${lastmod}.\n\n---\n\n${fullText('en')}\n\n---\n\n${fullText('ru')}\n\n---\n\n${fullText('ar')}\n`);
 
-console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);
+console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, ${GUIDE_LANGS.length * (GUIDES.length + 1)} guide pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);

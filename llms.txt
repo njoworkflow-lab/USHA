@@ -10,6 +10,11 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 - [USHA — Arabic](https://usha.one/ar/): تقرأ USHA منصات البيع ومنافسيك وعملاءك كل يوم، فتخبرك بما تغيّر ولماذا، ثم تتولّى التنفيذ: الاستراتيجية والمحتوى والإعلانات. روسيا والخليج ومصر. الأسبوع الأول مجاناً.
 - [Full text of the site](https://usha.one/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
 
+## Guides
+- [Marketplace analytics that ends in a move](https://usha.one/en/guides/marketplace-analytics/): What really decides sales on Wildberries, Ozon and Yandex Market, which signals to read every day and how to turn them into a move. A guide by NJO. Russian: https://usha.one/guides/marketplace-analytics/
+- [Competitor monitoring: every day, not every quarter](https://usha.one/en/guides/competitor-monitoring/): How to watch competitors’ prices, promotions, cards, reviews and ads, and understand why the leaders win. A guide by NJO. Russian: https://usha.one/guides/competitor-monitoring/
+- [Agency, in-house or USHA: which to choose](https://usha.one/en/guides/agency-vs-in-house-vs-usha/): A fair comparison of four ways to run a brand’s marketing: business knowledge, speed, factual accuracy and availability. A guide by NJO. Russian: https://usha.one/guides/agency-vs-in-house-vs-usha/
+
 ## Plans
 - USHA Core: The engine for one brand, one marketplace, one ad platform. Up to 5 competitors tracked; 1 marketplace; Up to 16 posts · 32 stories; Up to 4 videos · 1 photo shoot; 1 ad platform · 1 promotion.
 - USHA Pro: More reach and output, plus customer replies and stock intelligence. Up to 10 competitors tracked; Up to 3 marketplaces; Up to 20 posts · 40 stories; Packaging design · customer replies; 2 ad platforms · 2 promotions.
