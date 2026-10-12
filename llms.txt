@@ -2,12 +2,13 @@
 
 > USHA by NJO · Business intelligence engine. Every day she reads your marketplaces, competitors and buyers, tells you what changed and why, and does the work that follows. Built by NJO Business Solutions (since 2016) for brands and marketplace sellers in Russia, the GCC and Egypt. First week free.
 
-USHA is an AI business intelligence and marketing engine, not a chatbot. She works in the client's messenger 24/7: every day she reads about 1,240 sources around the business (marketplaces such as Wildberries, Ozon and Yandex Market, competitors, reviews, search and ads), reports what changed and why, and then does the work: strategy, content, video, photo, design, promotions and ads within an approved plan. NJO's strategists and art directors check every output.
+USHA is a business intelligence engine, not a chatbot or an agency. She works in the client's messenger 24/7: every day she reads about 1,240 sources around the business (marketplaces such as Wildberries, Ozon and Yandex Market, competitors, reviews, search and ads), reports what changed and why, and then does the work: strategy, content, video, photo, design, promotions and ads within an approved plan. NJO's strategists and art directors check every output.
 
 ## Pages
 - [USHA — Russian (main)](https://usha.one/): USHA — движок бизнес-аналитики от NJO. Каждый день читает Wildberries, Ozon, Яндекс Маркет, конкурентов и покупателей, объясняет, что изменилось, и делает работу: стратегия, контент, реклама. Первая неделя бесплатно.
 - [USHA — English](https://usha.one/en/): USHA by NJO reads your marketplaces, competitors and buyers every day, tells you what changed and why, and does the work: strategy, content, ads. Russia, GCC, Egypt. First week free.
-- [Full text of the site](https://usha.one/llms-full.txt): every section, plan and FAQ answer in English and Russian
+- [USHA — Arabic](https://usha.one/ar/): تقرأ USHA من NJO متاجرك الإلكترونية ومنافسيك وعملاءك كل يوم، وتخبرك بما تغيّر ولماذا، ثم تنجز العمل: الاستراتيجية والمحتوى والإعلانات. روسيا ودول الخليج ومصر. الأسبوع الأول مجاني.
+- [Full text of the site](https://usha.one/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
 
 ## Plans
 - USHA Core: The engine for one brand, one marketplace, one ad platform. Up to 5 competitors tracked; 1 marketplace; Up to 16 posts · 32 stories; Up to 4 videos · 1 photo shoot; 1 ad platform · 1 promotion.

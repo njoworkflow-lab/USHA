@@ -1,0 +1,2 @@
+Readex Pro — Arabic subset from Google Fonts (variable, weights 160–700).
+Licensed under the SIL Open Font License 1.1 (https://openfontlicense.org).
