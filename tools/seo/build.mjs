@@ -46,12 +46,12 @@ const LANGS = {
   // Arabic reuses the bundle's English slot (index 0) with translated text.
   ar: {
     idx: 0, url: `${SITE}/ar/`, file: 'ar/index.html', locale: 'ar_AR', dir: 'rtl',
-    title: 'USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية والبائعين على المتاجر الإلكترونية',
-    description: 'تقرأ USHA من NJO متاجرك الإلكترونية ومنافسيك وعملاءك كل يوم، وتخبرك بما تغيّر ولماذا، ثم تنجز العمل: الاستراتيجية والمحتوى والإعلانات. روسيا ودول الخليج ومصر. الأسبوع الأول مجاني.',
+    title: 'USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية وبائعي منصات البيع',
+    description: 'تقرأ USHA منصات البيع ومنافسيك وعملاءك كل يوم، فتخبرك بما تغيّر ولماذا، ثم تتولّى التنفيذ: الاستراتيجية والمحتوى والإعلانات. روسيا والخليج ومصر. الأسبوع الأول مجاناً.',
     ogTitle: 'USHA by NJO · الخوارزمية التي تفهم الخوارزميات',
     imageAlt: 'USHA by NJO — محرّك ذكاء الأعمال',
     serviceType: 'محرّك ذكاء الأعمال والتسويق',
-    freeWeek: 'أسبوع أول مجاني: استراتيجيتك، وأربعة منشورات جاهزة، ومحادثتك الخاصة مع USHA.',
+    freeWeek: 'الأسبوع الأول مجاناً: استراتيجية واضحة، وأربعة منشورات جاهزة، ومحادثة خاصة مع USHA.',
   },
 };
 const X_DEFAULT = LANGS.en.url;
@@ -96,7 +96,7 @@ function dehydrate(h, lang) {
     const url = emit(`fonts/${fam}-${weight}${style}-${subset}-${hash(buf)}.woff2`, buf);
     // Headline (Geist 300) and body (Golos 400) in the page's own alphabet.
     const want = { ru: 'cyrillic', ar: 'arabic' }[lang] || 'latin';
-    if (subset === want && ((fam === 'geist' && weight === '300') || (fam === 'golos-text' && weight === '400') || fam === 'readex-pro')) preload.push(url);
+    if (subset === want && ((fam === 'geist' && weight === '300') || (fam === 'golos-text' && weight === '400') )) preload.push(url);
     return face.replace(m[0], `src:url(${url})`);
   });
   h = h.replace(/<script>(\(\(\)=>\{[^]*?)<\/script>/, (s, js) => js.length < 100000 ? s : `<script src="${emit(`app-${hash(js)}.js`, js)}"></script>`);
@@ -176,13 +176,18 @@ srcAr = patch(srcAr, /document\.documentElement\.lang=fi/, 'document.documentEle
 srcAr = patch(srcAr, /i\.classList\.toggle\("on",i\.dataset\.l===fi\)/, 'i.classList.toggle("on",i.dataset.l==="ar")', 'active language');
 srcAr = patch(srcAr, JUMP, jump('if(i.dataset.l!=="ar"){try{localStorage.setItem("usha-lang",i.dataset.l)}catch{}location.href=(i.dataset.l==="en"?"/en/":"/")+location.hash;return}'), 'language buttons');
 
-// Arabic glyphs: Readex Pro (variable, SIL OFL), heavier for headlines. They sit after the Latin/Cyrillic fonts so Latin words keep the
-// house type. Rules use html[lang=ar] so they outrank the page's own :root.
-const AR_FONT = (family, file, weights) => `@font-face{font-family:'${family}';font-style:normal;font-weight:${weights};font-display:swap;src:url(data:font/woff2;base64,${fs.readFileSync(path.join(ROOT, `tools/seo/fonts/${file}`)).toString('base64')}) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}`;
-const AR_CSS = '<style id="ar-type">' + AR_FONT('Readex Pro', 'readex-pro.woff2', '160 700') +
-  "html[lang=ar]{--head:'Geist','Readex Pro',system-ui,sans-serif;--body:'Golos Text','Readex Pro','Geist',system-ui,sans-serif}" +
-  'html[lang=ar] *{letter-spacing:0!important}html[lang=ar] h1,html[lang=ar] h2{font-weight:600;line-height:1.25}html[lang=ar] h3{font-weight:600}' +
-  'html[lang=ar] i{font-family:inherit;font-style:normal;font-weight:700;color:var(--peach)}' +
+// Arabic glyphs: Hacen Saudi Arabia, served exactly as supplied (its licence
+// forbids modifying the file, so no subsetting or woff2 conversion). It sits
+// after the Latin/Cyrillic fonts so Latin words keep the house type, and has
+// one weight, so the browser must not fake bold. Rules use html[lang=ar] so
+// they outrank the page's own :root.
+const HACEN = fs.readFileSync(path.join(ROOT, 'tools/seo/fonts/Hacen_Saudi_Arabia.ttf'));
+const HACEN_URL = emit(`fonts/hacen-saudi-arabia-${hash(HACEN)}.ttf`, HACEN);
+const AR_CSS = `<link rel="preload" href="${HACEN_URL}" as="font" type="font/ttf" crossorigin>\n<style id="ar-type">` +
+  `@font-face{font-family:'Hacen Saudi Arabia';font-style:normal;font-weight:400;font-display:swap;src:url(${HACEN_URL}) format('truetype');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+200C-200F,U+FB50-FDFF,U+FE70-FEFF}` +
+  "html[lang=ar]{--head:'Geist','Hacen Saudi Arabia',system-ui,sans-serif;--body:'Golos Text','Hacen Saudi Arabia','Geist',system-ui,sans-serif;font-synthesis:none}" +
+  'html[lang=ar] *{letter-spacing:0!important}html[lang=ar] h1,html[lang=ar] h2{line-height:1.3}' +
+  'html[lang=ar] i{font-family:inherit;font-style:normal;color:var(--peach)}' +
   // Figures read left to right; arrows point the reading way; the section 02
   // paragraph keeps the English position, clear of the signal stream.
   '[dir=rtl] .fitem .fv,[dir=rtl] .stat b{direction:ltr;text-align:right}[dir=rtl] .nums b,[dir=rtl] .prep b{direction:ltr;unicode-bidi:isolate}' +
