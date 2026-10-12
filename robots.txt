@@ -1,0 +1,24 @@
+# usha.one — every search engine and AI assistant is welcome.
+User-agent: *
+Allow: /
+
+# AI search and assistant crawlers (listed explicitly so the intent is clear)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: YandexBot
+User-agent: YandexAdditional
+User-agent: GigaBot
+User-agent: CCBot
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://usha.one/sitemap.xml

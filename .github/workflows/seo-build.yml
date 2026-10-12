@@ -1,0 +1,56 @@
+# Re-runs the SEO/GEO build whenever a new index.html (or the build itself)
+# lands on main, publishes the regenerated files, then tells IndexNow search
+# engines (Bing, Yandex, Seznam, Naver…) which URLs changed.
+name: SEO build
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html, tools/seo/**]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: seo-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/seo/build.mjs
+      - name: Commit generated files
+        run: |
+          git add -A index.html en ar guides assets robots.txt sitemap.xml llms.txt llms-full.txt favicon.png njo-logo.png
+          if git diff --cached --quiet; then echo "Nothing to update"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate SEO/GEO files"
+          git push
+          # Commits made with GITHUB_TOKEN may not start a Pages build on their own.
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Pages build request skipped"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Notify IndexNow once the new sitemap is live
+        run: |
+          KEY=$(basename "$(ls ./*.txt | grep -E '/[0-9a-f]{32}\.txt$' | head -1 || true)" .txt)
+          if [ -z "$KEY" ]; then echo "No IndexNow key file"; exit 0; fi
+          for i in $(seq 1 40); do
+            if curl -fsS https://usha.one/sitemap.xml | cmp -s - sitemap.xml; then LIVE=1; break; fi
+            sleep 15
+          done
+          if [ -z "$LIVE" ]; then echo "Site not updated after 10 minutes; skipping IndexNow"; exit 0; fi
+          URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g' | jq -R . | jq -s .)
+          jq -n --arg key "$KEY" --argjson urls "$URLS" \
+            '{host:"usha.one", key:$key, keyLocation:("https://usha.one/" + $key + ".txt"), urlList:$urls}' > indexnow.json
+          curl -sS -o /dev/null -w "IndexNow HTTP %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' --data @indexnow.json
