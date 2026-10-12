@@ -1,0 +1,32 @@
+# Re-runs the SEO/GEO build whenever a new index.html is uploaded, so the
+# pre-rendered text, /en/ page, sitemap and llms files never drift from the site.
+name: SEO build
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html, tools/seo/**]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/seo/build.mjs
+      - name: Commit generated files
+        run: |
+          git add -A index.html en robots.txt sitemap.xml llms.txt llms-full.txt favicon.png njo-logo.png
+          if git diff --cached --quiet; then echo "Nothing to update"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate SEO/GEO files"
+          git push
