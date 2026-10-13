@@ -430,6 +430,11 @@ html[lang=ar] .xp-k{font-family:var(--body);font-size:13px;letter-spacing:0;text
 .xp-det:hover{color:#fff;border-color:#fff}.xp-det:hover i{transform:translate(2px,-2px)}
 .xp-det+.xp-go{margin-top:auto}
 html.x-modal-on,html.x-modal-on body{overflow:hidden}
+/* the site's eyes cursor lives below popups: inside them the normal pointer always shows */
+.cur-on .x-modal,.cur-on .x-modal *{cursor:auto!important}
+.cur-on .x-modal :is(a,button,select,summary,label,.xl-fix){cursor:pointer!important}
+.cur-on .x-modal :is(input,textarea){cursor:text!important}
+html.x-modal-on #cur{opacity:0!important}
 .x-modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px 16px}
 .xm-scrim{position:absolute;inset:0;background:rgba(3,3,4,.45);-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);opacity:0;transition:opacity .4s}
 .x-modal.on .xm-scrim{opacity:1}
