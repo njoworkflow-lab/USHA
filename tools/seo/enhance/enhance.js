@@ -228,6 +228,7 @@
 
   // each number becomes the work itself: one tile per deliverable, shaped like
   // it; tiles Pro adds are ember and leave when Core is chosen
+  let monthPro = true;
   const SHAPES = [['comp', 'mkt'], ['post', 'story'], ['video', 'edit', 'shoot', 'design'], ['promo', 'ads', 'creator']];
   function decorateAreas() {
     $$('#areas .area').forEach((a, ai) => {
