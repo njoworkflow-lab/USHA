@@ -282,6 +282,46 @@
     $$('.xw-lock:not(.shut)').forEach((l) => { const q = l.getBoundingClientRect(); if (q.top < innerHeight * 0.75) l.classList.add('shut'); });
   }
 
+  // ---------- guarantees: a seal and four promises ----------
+  function guarUI() {
+    const g = $('.guar'); if (!g) return;
+    g.classList.add('x-guar');
+    $$('li', g).forEach((li, i) => { li.style.setProperty('--i', i); li.dataset.n = '0' + (i + 1); });
+    $('.x-seal', g)?.remove();
+    const ring = X().guarRing || '';
+    const logo = $('header .logo svg');
+    g.insertAdjacentHTML('afterbegin', `<div class="x-seal" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="xsr" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#xsr" textLength="488" lengthAdjust="spacing">${esc(ring)}</textPath></text></svg><span class="x-seal-c"></span></div>`);
+    if (logo) $('.x-seal-c', g).append(logo.cloneNode(true));
+  }
+  // ---------- free week: the deliverables on a timeline ----------
+  function freeUI() {
+    const d = $('.deliv'); if (!d) return;
+    d.classList.add('x-line');
+    $$('li', d).forEach((li, i) => li.style.setProperty('--i', i));
+    let end = $('.x-decide'); if (!end) { end = D.createElement('div'); end.className = 'x-decide'; d.after(end); }
+    end.textContent = X().decide || '';
+  }
+  // ---------- FAQ: smooth open and close ----------
+  function faqUI() {
+    $$('#faq details').forEach((dt, i) => {
+      const sm = $('summary', dt); if (!sm) return;
+      dt.style.setProperty('--i', i); sm.dataset.n = String(i + 1).padStart(2, '0');
+      if (dt.dataset.xa) return; dt.dataset.xa = 1;
+      sm.addEventListener('click', (e) => {
+        const p = $('p', dt); if (!p || reduce || !p.animate) return;
+        e.preventDefault();
+        if (dt.open) {
+          dt.classList.add('closing');
+          p.animate([{ opacity: 1, transform: 'none', height: p.offsetHeight + 'px' }, { opacity: 0, transform: 'translateY(-6px)', height: '0px' }], { duration: 320, easing: 'ease' }).onfinish = () => { dt.open = false; dt.classList.remove('closing'); };
+        } else {
+          dt.open = true;
+          const h = p.offsetHeight;
+          p.animate([{ opacity: 0, transform: 'translateY(-8px)', height: '0px' }, { opacity: 1, transform: 'none', height: h + 'px' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+        }
+      });
+    });
+  }
+
   // ---------- live findings: light drawn under each number ----------
   function findingsUI() {
     $$('#fbody .fitem').forEach((f, i) => {
@@ -330,11 +370,11 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
-  [['#areas', decorateAreas], ['#fbody', findingsUI], ['#cmp', compareUI], ['#roles', rolesUI]].forEach(([s, fn]) => {
+  [['#areas', decorateAreas], ['#fbody', findingsUI], ['#cmp', compareUI], ['#roles', rolesUI], ['#faq', faqUI]].forEach(([s, fn]) => {
     const el = $(s); if (el) new MutationObserver(() => later(fn)).observe(el, { childList: true });
   });
   addEventListener('scroll', onScroll, { passive: true });

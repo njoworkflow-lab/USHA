@@ -141,6 +141,8 @@ export const X = {
     lock: [['Deals', 'Сделки'], ['Payments', 'Платежи']],
     only: ['Only you', 'Только вы'],
   },
+  guarRing: ['NJO GUARANTEE · EVERY MONTH · CHECKED · ', 'ГАРАНТИЯ NJO · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
+  decide: ['Your decision', 'Ваше решение'],
   // 8 → 1: each role hands its job to USHA
   hand: {
     tags: [['Strategy', 'Стратегия'], ['Plans', 'Планы'], ['Ads', 'Реклама'], ['Channels', 'Каналы'], ['Video', 'Видео'], ['Visuals', 'Визуалы'], ['Design', 'Дизайн'], ['Website', 'Сайт']],
