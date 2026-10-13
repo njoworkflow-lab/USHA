@@ -18,6 +18,9 @@ html[dir=rtl] header::after{left:auto;right:0;background:linear-gradient(270deg,
 /* ---------- type: Unbounded wakes from thin to bold as she wakes; Onest reads; mono labels ---------- */
 html:root{--head:'Unbounded','Geist',system-ui,sans-serif;--body:'Onest','Golos Text',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--ember-t:#FF6A2B}
 body{font-feature-settings:'ss01'}
+.lead,.sec p,.seven p,.area p,.glass p,.fitem p,.faq p,.hero-t p,.n-t p,.s-t p,.x-d1 p{font-weight:450;color:rgba(243,238,232,.84)}
+.lead{font-size:clamp(16px,1.2vw,18px)}
+.area p,.glass p{color:rgba(243,238,232,.76)}
 h1,h2.hx,h2.sp,.sec h2.big,.seven h3,.eng h3,.g-in h2{letter-spacing:-.045em;text-wrap:balance}
 h1{font-size:clamp(40px,5.7vw,104px);line-height:.98}
 h2.hx,h2.sp{font-size:clamp(30px,3.7vw,66px);line-height:1.02}
@@ -77,17 +80,24 @@ html[lang=ar] .kick{font-family:var(--body);font-size:14px;text-transform:none}
 .x-vs.x-in .vs-rows::before{transform:none}
 .vs-rows li{display:grid;grid-template-columns:1fr minmax(200px,auto) 1fr;align-items:center;gap:28px;padding:16px 0;opacity:0;transform:translateY(16px);transition:opacity .8s var(--x-ease),transform .9s var(--x-ease);transition-delay:calc(var(--r)*90ms + .2s)}
 .x-vs.x-in .vs-rows li{opacity:1;transform:none}
-.vs-l{text-align:end;font-size:clamp(15px,1.15vw,18px);color:rgba(243,238,232,.86);perspective:400px}
-.vs-flip{display:inline-block;padding:7px 13px;border-radius:12px;background:rgba(8,7,10,.82);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.vs-r{padding:7px 0}
+.vs-l{text-align:end;font-size:clamp(15px,1.15vw,18px);color:rgba(243,238,232,.8);font-weight:450;perspective:400px}
+.vs-flip{display:inline-block}
+.x-vs::before{content:'';position:absolute;z-index:-1;inset:-80px -12% -60px;pointer-events:none;background:radial-gradient(60% 55% at 50% 52%,rgba(3,3,4,.82),rgba(3,3,4,.5) 55%,transparent 80%)}
+.vs-l,.vs-r{text-shadow:0 0 14px rgba(3,3,4,.95),0 0 3px rgba(3,3,4,.9)}
+.vs-l{display:flex;align-items:center;justify-content:flex-end;gap:16px}
+.vs-l::after,.vs-r::before{content:'';flex:0 0 clamp(20px,3vw,48px);height:1px}
+.vs-l::after{background:linear-gradient(90deg,transparent,rgba(243,238,232,.28))}
+.vs-r::before{background:linear-gradient(90deg,var(--ember),transparent);box-shadow:0 0 6px rgba(255,90,31,.6);order:-1}
+html[dir=rtl] .vs-l::after{background:linear-gradient(270deg,transparent,rgba(243,238,232,.28))}
+html[dir=rtl] .vs-r::before{background:linear-gradient(270deg,var(--ember),transparent)}
 .vs-flip.in{animation:vs-flip .6s var(--x-ease) both;animation-delay:calc(var(--r)*60ms)}
 @keyframes vs-flip{from{opacity:0;transform:rotateX(80deg) translateY(-6px)}}
 li.no .vs-l{color:rgba(243,238,232,.62)}
 li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31,.55)}
 .vs-c{position:relative;justify-self:center;text-align:center}
 .vs-c span{display:inline-block;font:600 clamp(12.5px,.95vw,14.5px)/1.3 var(--head);letter-spacing:-.01em;color:var(--ink);padding:11px 18px;border-radius:99px;background:#0d0b10;box-shadow:inset 0 0 0 1px rgba(255,140,90,.35),0 0 24px -6px rgba(255,90,31,.5);max-width:240px}
-.vs-r{display:flex;align-items:baseline;gap:10px;font-size:clamp(15.5px,1.2vw,19px);font-weight:500;color:#fff;text-shadow:0 0 22px rgba(255,170,130,.35)}
-.vs-r i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember);transform:translateY(-1px)}
+.vs-r{display:flex;align-items:center;gap:12px;font-size:clamp(15.5px,1.2vw,19px);font-weight:500;color:#fff;text-shadow:0 0 22px rgba(255,170,130,.35)}
+.vs-r i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember);margin-inline-start:-12px}
 .vs-rows li:hover .vs-c span{background:var(--ember);color:#fff}
 .vs-rows li:hover .vs-r{color:var(--peach)}
 @media (max-width:760px){
@@ -95,15 +105,17 @@ li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31
   .vs-rows::before{display:none}
   .vs-rows li{grid-template-columns:1fr 1fr;gap:10px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
   .vs-c{grid-column:1/-1;grid-row:1;justify-self:start}
-  .vs-l{text-align:start;font-size:14px}.vs-r{font-size:14px}
+  .vs-l{text-align:start;justify-content:flex-start;font-size:14px}.vs-r{font-size:14px}
+  .vs-l::after,.vs-r::before{display:none}.vs-r i{margin:0}
 }
 
 /* ---------- 8 → 1: as you scroll, each role hands its job to USHA ---------- */
 #roles{display:none!important}
 .seven.x-dept{display:block;position:relative;z-index:1;height:420vh;margin-top:60px}
 .x-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
-.x-dgrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.15fr) minmax(0,.95fr);gap:clamp(20px,3vw,48px);align-items:center;width:100%}
+.x-dgrid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.15fr) minmax(0,.95fr);gap:clamp(20px,3vw,48px);align-items:center;width:100%}
 .x-dept .stat{display:none}
+.x-dgrid::before{content:'';position:absolute;z-index:-1;inset:-12% -8%;pointer-events:none;background:radial-gradient(70% 60% at 55% 50%,rgba(3,3,4,.78),rgba(3,3,4,.45) 60%,transparent 85%)}
 .x-dept .x-d1 p{font-size:14.5px;color:var(--ink3);max-width:38ch}
 .x-dk{display:inline-flex;align-items:center;gap:10px;font:500 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ember);margin-bottom:16px}
 .x-dk::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember)}
@@ -127,7 +139,7 @@ html[lang=ar] .x-roles .t{font-family:var(--body);font-size:12.5px;letter-spacin
 .x-roles li.gone .r{text-decoration:line-through;text-decoration-color:rgba(243,238,232,.35)}
 .x-roles li.gone .t{opacity:0;transform:translateX(18px)}
 html[dir=rtl] .x-roles li.gone .t{transform:translateX(-18px)}
-.x-her{position:relative;border-radius:28px;padding:26px 24px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.x-her{position:relative;border-radius:28px;padding:26px 24px;background:linear-gradient(160deg,rgba(30,27,33,.92),rgba(12,11,14,.94));box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
 .x-all .x-her{box-shadow:inset 0 0 0 1px rgba(255,90,31,.4),0 30px 80px -30px rgba(255,90,31,.45)}
 .x-her .hd{display:flex;align-items:center;gap:16px;margin-bottom:18px}
 .x-her .hd>div:last-child{display:grid;gap:5px}
