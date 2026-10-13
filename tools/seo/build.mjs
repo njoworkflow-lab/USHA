@@ -330,6 +330,18 @@ const TYPE_FACES = [['Unbounded', 'unbounded', '200 900'], ['Onest', 'onest', '1
     return `@font-face{font-family:'${fam}';font-style:normal;font-weight:${w};font-display:swap;src:url(${url}) format('woff2');unicode-range:${RANGES[sub]}}`;
   }).join('')).join('');
 
+// ---------- service worker: hashed assets come from the device after the first visit ----------
+// /assets/* names carry a content hash, so they are cached forever (cache first);
+// pages are network first, so a new deploy shows at once and the cached copy
+// covers a flaky connection.
+fs.writeFileSync(path.join(ROOT, 'sw.js'), `const V='usha-v2';
+self.addEventListener('install',e=>self.skipWaiting());
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==location.origin)return;
+ if(u.pathname.startsWith('/assets/')||/\\.(png|jpg|svg|woff2|ttf)$/.test(u.pathname)){e.respondWith(caches.open(V).then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}))));return}
+ if(r.mode==='navigate'){e.respondWith(fetch(r).then(res=>{const cp=res.clone();caches.open(V).then(c=>c.put(r,cp));return res}).catch(()=>caches.match(r)))}});
+`);
+
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
 const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');

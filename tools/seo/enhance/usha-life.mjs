@@ -50,8 +50,6 @@ export function applyLife(src) {
     ['[[-4.1,-.25,0],[-1.35,-1.55,0],[1.35,-.25,0],[4.1,-1.55,0]]', '[[-4.3,-1.05,0],[-1.45,-1.05,0],[1.45,-1.05,0],[4.3,-1.05,0]]'],
     // their labels always stay on screen
     ['p.style.top=((1-bs.y)/2*innerHeight).toFixed(1)+"px",p.classList.toggle("on",v===d)', 'p.style.top=Math.min((1-bs.y)/2*innerHeight,innerHeight-(p._h||(p._h=p.offsetHeight))-24).toFixed(1)+"px",p.classList.toggle("on",v===d)'],
-    // "Try her": a softer ring so it never hazes over USHA
-    ['ch:.25,g:.5,gp:[(s.left+s.width*.5)/innerWidth', 'ch:e?.1:.25,g:e?0:.2,gp:[(s.left+s.width*.5)/innerWidth'],
     // phones: hero USHA a little higher so the label clears her
     ['u:e?[0,2.98,0]:[2.75,.1,1.2],us:e?1.02:.95', 'u:e?[0,3.32,0]:[2.75,.1,1.2],us:e?.9:.95'],
     // phones: "Try her" USHA larger and clear, the ring calmer
@@ -64,6 +62,10 @@ export function applyLife(src) {
     ['g==="talk"&&(g=As==="found"?"found":Ge.p.read>.5&&de.busy?"reading":"present"),de.busy&&s.i===3&&As!=="found"&&As!=="happy"&&(g="reading")', 'g==="talk"&&(g=As==="found"?"found":"present")'],
     // phones play with the on-screen joystick and dash button, so a tap no longer dashes
     ['cr=1,matchMedia("(pointer:coarse)").matches&&Xt.dash()', 'cr=1'],
+    // "Try her": a faint ring and no glow disc, so her glassy body never shows bright particles through it
+    ['st:"talk",dim:1}', 'st:"talk",dim:.32}'],
+    // smooth motion: if the frame rate drops, render at a lower pixel density until it is smooth again
+    ['mi.setPixelRatio(ui);mi.toneMapping=js;', 'mi.setPixelRatio(ui);(()=>{let n=0,t0=performance.now(),lo=0;function f(){const t=performance.now();n++;if(t-t0>1500){const fps=n*1e3/(t-t0);n=0;t0=t;if(!document.hidden&&fps<45){if(++lo>=2&&ui>1.25){ui=Math.max(1.25,+(ui-.25).toFixed(2));mi.setPixelRatio(ui);typeof Fi!="undefined"&&Fi.setPixelRatio(ui);typeof Gl=="function"&&Gl();lo=0}}else lo=0}requestAnimationFrame(f)}requestAnimationFrame(f)})();mi.toneMapping=js;'],
     // moods: the tap handler asks the mood engine first
     ['function c_(){if(de.taps++', MOOD + 'function c_(){if(Um())return;if(de.taps++'],
   ];
@@ -78,8 +80,12 @@ export function applyLife(src) {
   }
   // swaps that match both the original and an earlier applied version
   const live = [
-    // findings: beside the card and facing it (desktop), next to the headline (phone)
-    [/u:e\?(?:\[t\[0\][+-][.\d]+,t\[1\][+-][.\d]+,\.4\]|\(\(\)=>\{const c=document\.querySelector\("\.fcard"\)[^]*?\}\)\(\)):(?:\[t\[0\][+-][.\d]+,t\[1\][+-][.\d]+,\.4\]|\(\(\)=>\{const c=document\.querySelector\("\.fcard"\)[^]*?\}\)\(\)),us:e\?[.\d]+:[.\d]+/, 'u:e?(()=>{const c=document.querySelector(".fcard").getBoundingClientRect(),h=document.querySelector("#signal h2").getBoundingClientRect(),y=Math.max(h.bottom+60,(h.bottom+c.top)/2);return Ca(innerWidth/2,Math.min(y,c.top-50),.4)})():(()=>{const c=document.querySelector(".fcard").getBoundingClientRect(),r=document.documentElement.dir==="rtl",H=innerHeight,room=c.top-90;return room>H*.27?Ca(r?c.right-c.width*.3:c.left+c.width*.3,c.top-H*.13,.4):Ca(r?c.right+H*.12:c.left-H*.12,c.top+H*.06,.4)})(),us:e?.42:.4'],
+    // phones: USHA between the headline and the card (cached measurements)
+    [/u:e\?\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),h=(?:window\.__sh\|\|)?document\.querySelector\("#signal h2"\)\.getBoundingClientRect\(\),/, 'u:e?(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),h=window.__sh||document.querySelector("#signal h2").getBoundingClientRect(),'],
+    // "Try her": no glow disc behind her
+    [/ch:\.25,g:\.5,gp:\[\(s\.left|ch:e\?\.1:\.25,g:e\?0:\.2,gp:\[\(s\.left|ch:e\?\.1:\.25,g:0,gp:\[\(s\.left/, 'ch:e?.1:.25,g:0,gp:[(s.left'],
+    // findings: USHA always in one place, just above the card where the light stream arrives
+    [/:\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),(?:r=|hh=)[^]*?\}\)\(\),us:e\?\.42:[.\d]+/, ':(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),r=document.documentElement.dir==="rtl";return Ca(r?c.right-c.width*.26:c.left+c.width*.26,c.top-88,.4)})(),us:e?.42:.4'],
     // the problem: bigger, on the headline's line (desktop)
     [/if\(i===1\)return\{u:e\?\[0,-4\.6,0\]:\[[-.\d]+,[-.\d]+,[-.\d]+\],us:e\?\.001:[.\d]+/, 'if(i===1)return{u:e?[0,-4.6,0]:[3.3,1.25,.6],us:e?.001:.62'],
     // the site's own dust levels (an earlier build had dimmed them)
