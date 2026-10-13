@@ -384,6 +384,17 @@ function findingChart(i, lang) {
     let end = $('.x-decide'); if (!end) { end = D.createElement('div'); end.className = 'x-decide'; d.after(end); }
     end.textContent = X().decide || '';
   }
+  // ---------- small things: chat header, galaxy label numbers ----------
+  function sickUI() {
+    const p = $('.sick'); if (!p || p.querySelector('.x-hl')) return;
+    const t = p.innerHTML; p.innerHTML = `<span class="x-hl">${t}</span>`;
+  }
+  function smallUI() {
+    sickUI();
+    const chat = $('#chat'); if (chat) chat.dataset.head = X().chatHead || '';
+    $$('.alg b').forEach((b, i) => b.dataset.n = '0' + (i + 1));
+  }
+
   // ---------- FAQ: smooth open and close ----------
   function faqUI() {
     $$('#faq details').forEach((dt, i) => {
@@ -477,11 +488,11 @@ function findingChart(i, lang) {
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
-  [['#areas', decorateAreas], ['#fbody', findingsUI], ['#cmp', compareUI], ['#roles', rolesUI], ['#faq', faqUI]].forEach(([s, fn]) => {
+  [['#areas', decorateAreas], ['#fbody', findingsUI], ['#cmp', compareUI], ['#roles', rolesUI], ['#faq', faqUI], ['.sick', sickUI], ['.alg b', smallUI]].forEach(([s, fn]) => {
     const el = $(s); if (el) new MutationObserver(() => later(fn)).observe(el, { childList: true });
   });
   addEventListener('scroll', onScroll, { passive: true });

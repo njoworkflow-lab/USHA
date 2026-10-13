@@ -271,6 +271,49 @@ html[dir=rtl] .x-guar li::after{transform-origin:right;background:linear-gradien
 .x-guar ul{font-size:17px!important}
 .x-guar li{text-shadow:0 0 14px rgba(3,3,4,.95)}
 
+/* ---------- the four algorithms: numbered labels that read ---------- */
+.alg b{font-weight:700!important;letter-spacing:-.03em}
+.alg b::before{content:attr(data-n);display:block;font:500 10.5px/1 var(--mono);letter-spacing:.16em;color:var(--ember);margin-bottom:8px}
+.alg small{font-weight:450;color:rgba(243,238,232,.86)!important;text-shadow:0 0 12px rgba(3,3,4,.95)}
+.alg{text-shadow:0 0 16px rgba(3,3,4,.9)}
+.alg.on{background:rgba(12,10,14,.55)!important;box-shadow:inset 0 0 0 1px rgba(255,140,90,.3)}
+.n-e p{font-weight:600!important}
+.n-e p b{color:var(--ember);font-weight:800}
+
+/* ---------- "never sick": heavier, with an ember highlight that sweeps in ---------- */
+.sick{font-weight:500!important;color:var(--ink)!important;line-height:1.35}
+.sick span.x-hl{background:linear-gradient(transparent 62%,rgba(255,90,31,.45) 62%,rgba(255,90,31,.45) 92%,transparent 92%) no-repeat 0 0/0% 100%;transition:background-size 1.6s var(--x-ease) .3s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+html[dir=rtl] .sick span.x-hl{background-position:100% 0}
+.sick.in span.x-hl{background-size:100% 100%}
+
+/* ---------- "Try her": a living chat ---------- */
+#chat{position:relative;padding-top:64px!important;background:linear-gradient(170deg,rgba(28,25,31,.86),rgba(10,9,12,.9))!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 40px 90px -50px rgba(255,90,31,.5)}
+#chat::before{content:attr(data-head);position:absolute;left:0;right:0;top:0;height:46px;display:flex;align-items:center;padding-inline:52px 20px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);background:radial-gradient(circle at 30px 23px,#D4FF3A 0 4px,rgba(212,255,58,.25) 5px 8px,transparent 9px)}
+html[lang=ar] #chat::before{font-family:var(--body);font-size:13px;letter-spacing:0;background-position:calc(100% - 0px) 0;padding-inline:20px 52px;background:radial-gradient(circle at calc(100% - 30px) 23px,#D4FF3A 0 4px,rgba(212,255,58,.25) 5px 8px,transparent 9px)}
+.who{font:500 11px var(--mono)!important;letter-spacing:.14em!important;color:var(--ink2)!important}
+.who::before{content:'';flex:none;width:30px;height:24px;border-radius:52% 48% 46% 54%/58% 56% 44% 42%;background:radial-gradient(circle at 36% 46%,#141217 0 1.6px,transparent 2.2px),radial-gradient(circle at 64% 46%,#141217 0 1.6px,transparent 2.2px),radial-gradient(circle at 42% 64%,#FFC7A3 0%,#F3E7DE 40%,#E6DED7 72%,#CFC6C0 100%);box-shadow:0 6px 16px -6px rgba(255,120,60,.7);animation:xh-float 4s ease-in-out infinite}
+.ub .sig{position:relative;display:inline-flex;align-items:center;gap:8px;font:500 11px var(--mono)!important;letter-spacing:.08em;color:var(--peach)!important;padding:7px 12px;border-radius:99px;box-shadow:inset 0 0 0 1px rgba(255,140,90,.35);overflow:hidden}
+.ub .sig::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,180,138,.25),transparent);transform:translateX(-100%);animation:x-scan 2.2s ease-in-out infinite}
+@keyframes x-scan{to{transform:translateX(100%)}}
+.ans{font-weight:450}
+.ans::after{content:'';display:inline-block;width:8px;height:1.05em;margin-inline-start:3px;vertical-align:-.15em;background:var(--ember);border-radius:2px;animation:x-caret 1s steps(2) infinite}
+.ub>*:not(:last-child) .ans::after,.ub .ans:not(:last-child)::after{display:none}
+@keyframes x-caret{50%{opacity:0}}
+.q span{font-weight:500}
+.chips button.on{background:var(--ember)!important;color:#fff!important;box-shadow:0 0 24px -4px rgba(255,90,31,.7)!important}
+
+/* ---------- brief form ---------- */
+.brief h3{font-weight:700!important}
+.brief .prog{height:3px!important}
+.brief .prog i{background:linear-gradient(90deg,var(--peach),var(--ember))!important;box-shadow:0 0 12px var(--ember)}
+.brief .field input{transition:box-shadow .3s}
+.brief .field input:focus{box-shadow:inset 0 0 0 1px var(--ember),0 0 0 4px rgba(255,90,31,.15)}
+
+/* ---------- partners: edges fade into the dark ---------- */
+.partners{-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.track span{font-weight:800!important;color:rgba(243,238,232,.55)!important;transition:color .4s}
+.track span:hover{color:#fff!important}
+
 /* ---------- free week: a timeline that lights up ---------- */
 .deliv.x-line{list-style:none;position:relative;margin-top:34px;padding:0;padding-inline-start:46px;display:grid;gap:22px;counter-reset:dl}
 .deliv.x-line::before{content:'';position:absolute;inset-inline-start:15px;top:6px;bottom:-34px;width:2px;background:linear-gradient(var(--ember),rgba(255,90,31,.25));box-shadow:0 0 12px rgba(255,90,31,.6);transform:scaleY(0);transform-origin:top;transition:transform 1.6s var(--x-ease) .2s}

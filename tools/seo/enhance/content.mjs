@@ -151,6 +151,7 @@ export const X = {
   proPlus: ['Only in Pro', 'Только в Pro'],
   forCore: ['One brand, the full engine', 'Один бренд, весь движок'],
   forPro: ['More channels, more volume', 'Больше каналов и объёма'],
+  chatHead: ['USHA · online · reading your market', 'USHA · онлайн · читает ваш рынок'],
   guarRing: ['NJO GUARANTEE · EVERY MONTH · CHECKED · ', 'ГАРАНТИЯ NJO · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
   decide: ['Your decision', 'Ваше решение'],
   // 8 → 1: each role hands its job to USHA
