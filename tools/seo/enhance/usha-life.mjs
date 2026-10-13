@@ -60,6 +60,9 @@ export function applyLife(src) {
   }
   // swaps that match both the original and an earlier applied version
   const live = [
+    // calmer dust behind content sections so text reads
+    [/st:"companion",dim:[.0-9]+\}/, 'st:"companion",dim:.26}'],
+    [/(st:"present",dim:)\.8\}|(st:"present",dim:)\.45\}/, 'st:"present",dim:.45}'],
     [/de\.exprT<=0&&Object\.assign\(Ge\.tgt,\{eyeW:1,eyeH:1,happy:0,blush:0[^}]*\}\)/, 'de.exprT<=0&&Object.assign(Ge.tgt,{eyeW:1,eyeH:1,happy:0,blush:0,tilt:0,droop:0,tear:0,tint:0,inner:1})'],
     [/opacity:0,fog:!1\}\)\);return m\.scale\.set\([^)]*\)/, 'opacity:0,fog:!1}));return m.scale.set(.034,.055,.034)'],
   ];

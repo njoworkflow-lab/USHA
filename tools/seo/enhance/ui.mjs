@@ -5,32 +5,45 @@
 
 export const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// ---------- plans: one switch, a living plan card, the details, Enterprise ----------
-export function plansHTML(x, d, sel = 'pro') {
-  const rows = x.plansGroups.map(([g, list]) => `<div class="xp-g"><div class="xp-gl">${esc(g)}</div>${list.map(([l, c, p]) =>
-    `<div class="xp-r${c === '—' ? ' xp-new' : ''}"><span class="xp-l">${esc(l)}</span><span class="xp-v"><span class="xp-c">${esc(c)}</span><span class="xp-p">${esc(p)}</span></span></div>`).join('')}</div>`).join('');
-  return `<div class="xp" data-sel="${sel}">
-  <div class="xp-top">
-  <div class="xp-card glass rv">
-    <div class="xp-aura" aria-hidden="true"></div>
-    <div class="tog pill xp-tog" role="radiogroup" aria-label="Core / Pro">
-      <button type="button" role="radio" data-p="core" aria-checked="${sel === 'core'}">Core</button>
-      <button type="button" role="radio" data-p="pro" aria-checked="${sel === 'pro'}">Pro</button>
-    </div>
-    <div class="xp-name"><span>USHA</span> <b data-for="core">Core</b><b data-for="pro">Pro</b></div>
-    <span class="xp-hot">${esc(d.p_rec)}</span>
-    <p class="xp-desc"><span data-for="core">${esc(x.plansCore)}</span><span data-for="pro">${esc(x.plansPro)}</span></p>
-    <p class="xp-both"><b>${esc(x.bothInclude)}</b><span>${esc(x.both)}</span></p>
-    <a class="btn btn-p xp-go" href="#free" data-plan="USHA Pro"><span class="d"></span><span>${esc(d.p_cta)}</span></a>
+// ---------- plans: Core, Pro and Enterprise side by side; every detail in a drawer ----------
+const KEY_ROWS = [[0, 0], [0, 1], [2, 1], [2, 2], [1, 1], [1, 2]];
+export function plansHTML(x, d) {
+  const g = x.plansGroups, row = ([gi, ri]) => g[gi] && g[gi][1][ri];
+  const keys = KEY_ROWS.map(row).filter(Boolean);
+  const extras = g.flatMap(([, list]) => list.filter(([, c]) => c === '—').map(([l]) => l));
+  const facts = (k) => keys.map((r) => `<div class="xp-f"><b>${esc(r[k])}</b><span>${esc(r[0])}</span></div>`).join('');
+  const sheet = g.map(([name, list]) => `<div class="xp-g"><div class="xp-gl">${esc(name)}</div>${list.map(([l, c, p]) =>
+    `<div class="xp-r${c === '—' ? ' xp-new' : ''}"><span class="xp-l">${esc(l)}</span><span class="xp-c">${esc(c)}</span><span class="xp-p">${esc(p)}</span></div>`).join('')}</div>`).join('');
+  return `<div class="xp">
+  <div class="xp-cards">
+    <article class="xp-card xp-core">
+      <span class="xp-k">${esc(x.forCore)}</span>
+      <h3 class="xp-name">USHA <b>Core</b></h3>
+      <p class="xp-desc">${esc(x.plansCore)}</p>
+      <div class="xp-facts">${facts(1)}</div>
+      <a class="btn btn-g xp-go" href="#free" data-plan="USHA Core"><span>${esc(d.p_cta)}</span></a>
+    </article>
+    <article class="xp-card xp-pro">
+      <i class="xp-aura" aria-hidden="true"></i>
+      <span class="xp-k">${esc(x.forPro)}</span><span class="xp-hot">${esc(d.p_rec)}</span>
+      <h3 class="xp-name">USHA <b>Pro</b></h3>
+      <p class="xp-desc">${esc(x.plansPro)}</p>
+      <div class="xp-facts">${facts(2)}</div>
+      <div class="xp-plus"><span class="xp-k">${esc(x.proPlus)}</span>${extras.map((e) => `<span class="xp-chip">+ ${esc(e)}</span>`).join('')}</div>
+      <a class="btn btn-p xp-go" href="#free" data-plan="USHA Pro"><span class="d"></span><span>${esc(d.p_cta)}</span></a>
+    </article>
+    <article class="xp-card xp-ent">
+      <span class="xp-k">${esc(x.entKick)}</span>
+      <h3 class="xp-name">USHA <b>Enterprise</b></h3>
+      <p class="xp-desc">${esc(x.entLead)}</p>
+      <div class="xp-plus"><span class="xp-k">${esc(x.entPlus)}</span>${x.entOnlyItems.map(([n, s]) => `<div class="xp-eo"><b>${esc(n)}</b><span>${esc(s)}</span></div>`).join('')}</div>
+      <a class="btn btn-g xp-go" href="#free" data-plan="USHA Enterprise"><span>${esc(d.p_cta)}</span> ↗</a>
+    </article>
   </div>
-  <div class="xp-list rv">${rows}</div>
-  </div>
-  <div class="xp-ent glass rv">
-    <div class="xp-e1"><span class="xp-k">${esc(x.entKick)}</span><h3>USHA <i>Enterprise</i></h3><p>${esc(x.entLead)}</p>
-      <a class="btn btn-g xp-ego" href="#free" data-plan="USHA Enterprise"><span>${esc(d.p_cta)}</span> ↗</a></div>
-    <div class="xp-e2"><span class="xp-k">${esc(x.entAll)}</span><ul>${x.entAllItems.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>
-    <div class="xp-e3"><span class="xp-k">${esc(x.entOnly)}</span>${x.entOnlyItems.map(([n, s], i) => `<div class="xp-chip" style="--i:${i}"><b>${esc(n)}</b><span>${esc(s)}</span></div>`).join('')}</div>
-  </div>
+  <p class="xp-both"><b>${esc(x.bothInclude)}</b> ${esc(x.both)}</p>
+  <details class="xp-more"><summary><span class="xp-open">${esc(x.compareAll)}</span><span class="xp-close">${esc(x.hide)}</span></summary>
+    <div class="xp-sheet"><div class="xp-sh"><span></span><span>Core</span><span>Pro</span></div>${sheet}</div>
+  </details>
 </div>`;
 }
 

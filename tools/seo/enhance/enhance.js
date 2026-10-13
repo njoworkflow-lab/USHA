@@ -16,7 +16,7 @@
 
   // in-view: .x-io → .x-in, and .rv created by this layer → .in. Checked on
   // scroll (not observed) because the bundle re-renders and swaps nodes.
-  const REV = '.x-io:not(.x-in),.x-plans .rv:not(.in),.x-plans .glass:not(.in)';
+  const REV = '.x-io:not(.x-in),.x-plans .xp-cards:not(.in)';
   function revealCheck() {
     $$(REV).forEach((el) => {
       const r = el.getBoundingClientRect();
@@ -339,24 +339,15 @@
   function plansUI() {
     const old = $('#plancards'); if (!old) return;
     let box = $('.x-plans');
-    const sel = box?.querySelector('.xp')?.dataset.sel || (monthPro ? 'pro' : 'core');
     if (!box) { box = D.createElement('div'); box.className = 'x-plans'; old.after(box); }
-    box.innerHTML = plansHTML(X(), dictLike(), sel);
-    const xp = $('.xp', box);
-    $$('.xp-r', xp).forEach((r, i) => r.style.setProperty('--d', i));
-    const setSel = (s, fromMonth) => {
-      xp.dataset.sel = s;
-      $$('.xp-tog button', xp).forEach((b) => b.setAttribute('aria-checked', String(b.dataset.p === s)));
-      $('.xp-go', xp).dataset.plan = s === 'pro' ? 'USHA Pro' : 'USHA Core';
-      if (!fromMonth) { const mb = $(`#mtog button[data-p="${s === 'pro' ? 1 : 0}"]`); if (mb && !mb.classList.contains('on')) mb.click(); }
-    };
-    $$('.xp-tog button', xp).forEach((b) => b.addEventListener('click', () => setSel(b.dataset.p)));
-    $$('a[data-plan]', xp).forEach((a) => a.addEventListener('click', (e) => {
-      const hidden = $(`#plancards a[data-plan="${a.dataset.plan}"]`);
+    const wasOpen = !!box.querySelector('.xp-more[open]');
+    box.innerHTML = plansHTML(X(), dictLike());
+    if (wasOpen) $('.xp-more', box).open = true;
+    $$('a[data-plan]', box).forEach((a) => a.addEventListener('click', (e) => {
+      const hidden = $(`#plancards a[data-plan="${a.dataset.plan}"]`) || $('#plancards a');
       if (hidden) { e.preventDefault(); hidden.click(); }
     }));
-    setSel(sel, true);
-    plansSet = setSel;
+    $$('.xp-card', box).forEach((c, i) => c.style.setProperty('--i', i));
     watch(box);
   }
 

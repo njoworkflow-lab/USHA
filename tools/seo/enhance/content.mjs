@@ -141,6 +141,12 @@ export const X = {
     lock: [['Deals', 'Сделки'], ['Payments', 'Платежи']],
     only: ['Only you', 'Только вы'],
   },
+  compareAll: ['Compare every detail', 'Сравнить все детали'],
+  hide: ['Hide details', 'Скрыть детали'],
+  entPlus: ['Everything in Pro, plus', 'Всё из Pro, плюс'],
+  proPlus: ['Only in Pro', 'Только в Pro'],
+  forCore: ['One brand, the full engine', 'Один бренд, весь движок'],
+  forPro: ['More channels, more volume', 'Больше каналов и объёма'],
   guarRing: ['NJO GUARANTEE · EVERY MONTH · CHECKED · ', 'ГАРАНТИЯ NJO · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
   decide: ['Your decision', 'Ваше решение'],
   // 8 → 1: each role hands its job to USHA
