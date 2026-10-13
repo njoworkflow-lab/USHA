@@ -4,7 +4,7 @@
 
 /* ---------- header: readable over content; a thread of light shows progress ---------- */
 header{transition:opacity .8s,transform .6s var(--ease),background .5s,padding .5s var(--x-ease)}
-header.x-solid{background:linear-gradient(rgba(3,3,4,.9),rgba(3,3,4,.66) 70%,rgba(3,3,4,0));-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding-top:14px;padding-bottom:22px}
+header.x-solid{background:linear-gradient(rgba(3,3,4,.96),rgba(3,3,4,.82) 60%,rgba(3,3,4,0));padding-top:14px;padding-bottom:22px}
 header::after{content:'';position:absolute;left:0;bottom:6px;height:1px;width:calc(var(--x-p,0)*100%);background:linear-gradient(90deg,transparent,var(--peach) 70%,#fff);box-shadow:0 0 12px var(--peach);opacity:0;transition:opacity .5s}
 header.x-solid::after{opacity:.75}
 html[dir=rtl] header::after{left:auto;right:0;background:linear-gradient(270deg,transparent,var(--peach) 70%,#fff)}

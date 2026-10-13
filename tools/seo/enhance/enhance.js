@@ -27,7 +27,15 @@
 
   // ---------- header ----------
   const header = $('header');
+  let scrollQ = 0;
+  function onScrollQ() { if (!scrollQ) scrollQ = requestAnimationFrame(() => { scrollQ = 0; onScroll(); }); }
+  function cacheRects() {
+    const fc = $('.fcard'), sh = $('#signal h2');
+    if (fc) window.__fc = fc.getBoundingClientRect();
+    if (sh) window.__sh = sh.getBoundingClientRect();
+  }
   function onScroll() {
+    cacheRects();
     wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
@@ -344,6 +352,21 @@
     })(performance.now());
   }
 
+  // ---------- live parts must not be frozen by browser translation ----------
+  function noTranslate() {
+    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
+  }
+  // ---------- findings card: always leaves room above it for USHA ----------
+  function fcardFit() {
+    const c = $('.fcard'); if (!c) return;
+    c.style.transform = '';
+    if (innerWidth <= 900) return;
+    const r = c.getBoundingClientRect(), need = 200, h = c.offsetHeight, bottomGap = innerHeight - r.bottom;
+    const room = innerHeight - bottomGap - h;
+    const k = room < need ? Math.max(.72, (innerHeight - bottomGap - need) / h) : 1;
+    if (k < 1) { c.style.transformOrigin = rtl ? '0 100%' : '100% 100%'; c.style.transform = `scale(${k.toFixed(3)})`; }
+  }
+
   // ---------- FAQ: smooth open and close ----------
   function faqUI() {
     $$('#faq details').forEach((dt, i) => {
@@ -437,14 +460,16 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
   [['#areas', decorateAreas], ['#fbody', findingsUI], ['#cmp', compareUI], ['#roles', rolesUI], ['#faq', faqUI], ['.sick', sickUI], ['.alg b', smallUI]].forEach(([s, fn]) => {
     const el = $(s); if (el) new MutationObserver(() => later(fn)).observe(el, { childList: true });
   });
-  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('scroll', onScrollQ, { passive: true });
+  if ('serviceWorker' in navigator && location.protocol === 'https:') addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  addEventListener('resize', () => run(fcardFit));
   
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', renderAll); else renderAll();
 })();
