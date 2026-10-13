@@ -981,6 +981,8 @@ function findingChart(i, lang) {
       if (!modal) return;
       if (end && end.done) {
         paint();
+        // the team sees which depth answered, to judge cost against quality
+        if (end.tier) her.insertAdjacentHTML('beforeend', `<span class="xl-tier" dir="ltr">${esc(end.tier)} · ${esc(end.model || '')}</span>`);
         state.left = end.left; setLeft();
         if (!state.team && state.left <= 0) {
           setTimeout(() => {
