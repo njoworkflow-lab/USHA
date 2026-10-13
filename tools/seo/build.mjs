@@ -456,11 +456,11 @@ for (const lang of Object.keys(LANGS)) {
 const GUIDE_LANGS = Object.keys(GUIDES_HUB);
 function guideUrl(lang, slug) { return `${LANGS[lang].url}guides/${slug ? `${slug}/` : ''}`; }
 const guideFile = (lang, slug) => path.join(ROOT, new URL(guideUrl(lang, slug)).pathname, 'index.html');
-const FONT_FACES = (fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').match(/@font-face\{[^}]*url\(\/assets\/[^}]*\}/g) || []).join('');
+const FONT_FACES = TYPE_FACES;
 const LOGO = (src.match(/<a class="logo"[^>]*>(<svg[^]*?<\/svg>)/) || [, 'USHA'])[1];
-const GUIDE_CSS = `:root{--ink:#F3EEE8;--ink2:rgba(243,238,232,.84);--ink3:rgba(243,238,232,.6);--line:rgba(243,238,232,.16);--ember:#FF5A1F;--peach:#FFB48A;--head:'Geist',system-ui,sans-serif;--serif:'Literata',Georgia,serif}
+const GUIDE_CSS = `:root{--ink:#F3EEE8;--ink2:rgba(243,238,232,.84);--ink3:rgba(243,238,232,.6);--line:rgba(243,238,232,.16);--ember:#FF5A1F;--peach:#FFB48A;--head:'Unbounded','Geist',system-ui,sans-serif;--serif:'Unbounded',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}html{background:#030304}
-body{color:var(--ink);font-family:'Golos Text','Geist',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;background:radial-gradient(1100px 560px at 85% -10%,rgba(255,90,31,.13),transparent 60%),#030304;min-height:100vh}
+body{color:var(--ink);font-family:'Onest','Golos Text',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;background:radial-gradient(1100px 560px at 85% -10%,rgba(255,90,31,.13),transparent 60%),#030304;min-height:100vh}
 a{color:inherit}.g-h{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px clamp(16px,3.6vw,64px)}
 .logo{display:block;height:22px}.logo svg{height:100%;width:auto;display:block}
 .g-h nav{display:flex;align-items:center;gap:18px;font-size:14px;font-weight:500;color:var(--ink3)}.g-h nav a{text-decoration:none}.g-h nav a:hover{color:var(--ink)}
@@ -468,10 +468,10 @@ a{color:inherit}.g-h{display:flex;justify-content:space-between;align-items:cent
 .btn::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember)}
 main{max-width:760px;margin:0 auto;padding:32px 16px 80px}.crumbs{font-size:13px;color:var(--ink3)}.crumbs a{text-decoration:none}
 .kick{display:flex;align-items:center;gap:10px;margin-top:40px;font-size:13px;font-weight:500;color:var(--ink3)}.kick::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ember);box-shadow:0 0 10px var(--ember)}
-h1{font-family:var(--head);font-weight:300;font-size:clamp(38px,6vw,66px);line-height:1;letter-spacing:-.05em;margin-top:18px}
-h1 i,h2 i{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.025em}
+h1{font-family:var(--head);font-weight:700;font-size:clamp(30px,4.8vw,56px);line-height:1.04;letter-spacing:-.045em;margin-top:18px;text-wrap:balance}
+h1 i,h2 i{font-style:normal;font-weight:800;color:#FF6A2B;letter-spacing:inherit}
 .lead{margin-top:24px;font-size:19px;color:var(--ink2)}
-h2{font-family:var(--head);font-weight:400;font-size:clamp(26px,3.4vw,34px);line-height:1.12;letter-spacing:-.035em;margin:56px 0 14px}
+h2{font-family:var(--head);font-weight:700;font-size:clamp(21px,2.6vw,28px);line-height:1.15;letter-spacing:-.035em;margin:56px 0 14px;text-wrap:balance}
 main p,main li,main td{color:var(--ink2)}main p+p,main ul+p,main table+p{margin-top:12px}main ul{margin-top:12px;padding-inline-start:22px}main li{margin-top:8px}main li::marker{color:var(--peach)}b{color:var(--ink);font-weight:600}
 table{display:block;overflow-x:auto;width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}th,td{text-align:start;vertical-align:top;padding:12px;border-bottom:1px solid var(--line);min-width:130px}th{color:var(--ink3);font-weight:500;font-size:13px}.u{background:rgba(255,90,31,.08);color:var(--ink)!important}
 .box{margin-top:56px;padding:28px;border-radius:24px;background:linear-gradient(150deg,rgba(255,255,255,.085),rgba(255,255,255,.025));box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}.box h2{margin:0 0 10px}.box .btn{margin-top:20px}
