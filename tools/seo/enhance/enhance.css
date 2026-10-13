@@ -454,3 +454,20 @@ html[dir=rtl] .hero-t,html[dir=rtl] .n-t,html[dir=rtl] .s-t{left:auto;right:var(
 html[dir=rtl] .fcard{right:auto;left:calc(var(--g) + 10px)}
 html[dir=rtl] .foot{left:auto;right:var(--g)}
 @media (max-width:820px){html[dir=rtl] .fcard{left:var(--g);right:var(--g)}}
+
+/* ---------- game HUD: level, score, lives ---------- */
+#tasks .g-lv{display:grid;gap:3px;padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+#tasks .g-lv span{font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ember)}
+#tasks .g-lv b{font:800 17px/1.1 var(--head);letter-spacing:-.02em;color:var(--ink)}
+#tasks .g-sc{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding-bottom:8px}
+#tasks .g-sc b{font:800 26px/1 var(--head);letter-spacing:-.04em;color:#fff;font-variant-numeric:tabular-nums}
+#tasks .g-sc em{font:800 14px var(--head);font-style:normal;color:var(--ember);text-shadow:0 0 12px var(--ember);animation:g-pop .4s var(--x-ease)}
+#tasks .g-sc span{flex-basis:100%;font:500 10.5px var(--mono);letter-spacing:.08em;color:var(--ink3)}
+@keyframes g-pop{from{transform:scale(1.6)}}
+#tasks .g-life{display:flex;align-items:center;gap:6px;padding-bottom:8px}
+#tasks .g-life i{width:14px;height:13px;background:rgba(243,238,232,.2);clip-path:path('M7 13 1.2 7.2A3.6 3.6 0 0 1 7 2.6a3.6 3.6 0 0 1 5.8 4.6Z');transition:background .3s}
+#tasks .g-life i.on{background:var(--ember);filter:drop-shadow(0 0 6px var(--ember))}
+#tasks .g-sh{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 2px #8fd8ff,0 0 10px #8fd8ff;animation:x-caret 1s infinite}
+#tasks .g-hp{display:inline-flex;gap:3px}
+#tasks .g-hp i{width:7px;height:10px;border-radius:2px;background:rgba(243,238,232,.18)}
+#tasks .g-hp i.on{background:var(--ember)}

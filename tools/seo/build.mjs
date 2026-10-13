@@ -22,7 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
-import { applyLife, LIFE_BUB } from './enhance/usha-life.mjs';
+import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -207,6 +207,7 @@ if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/bu
 
 // USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
 src = applyLife(src);
+src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
 
 // USHA's size per scene: smaller in "Try her" and the game so she sits beside
 // the content instead of covering it (desktop, phone).

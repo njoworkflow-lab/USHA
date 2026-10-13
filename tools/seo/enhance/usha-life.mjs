@@ -78,3 +78,14 @@ export function applyLife(src) {
   }
   return src;
 }
+
+// The game: the bundle's one-round game function is replaced whole by
+// tools/seo/enhance/game.js (endless levels). Matched by braces, so the swap
+// also refreshes an earlier version of the new game.
+export function applyGame(src, code) {
+  const i = src.indexOf('function au({');
+  if (i < 0) throw new Error('Bundle changed (game): function au not found');
+  let k = src.indexOf('){', i) + 1, d = 0, n = k;
+  for (; n < src.length; n++) { const ch = src[n]; if (ch === '{') d++; else if (ch === '}' && --d === 0) break; }
+  return src.slice(0, i) + code.trim() + src.slice(n + 1);
+}
