@@ -175,13 +175,26 @@
     });
     done = n;
     const left = Math.max(1, 8 - n), c = $('.x-count', dept);
-    c.textContent = left;
-    c.classList.toggle('one', n >= 8);
+    countTo(c, left, n >= 8);
     $('.x-cap', dept).textContent = n >= 8 ? x.capOne : n === 0 ? x.capMany : (left === 1 ? x.leftOne : x.leftMany);
     $('.x-foot', dept).classList.toggle('on', n >= 8);
     dept.classList.toggle('x-all', n >= 8);
     // whatever happened in between, the card ends in step with the counter
     clearTimeout(dept._sync); dept._sync = setTimeout(() => { const live = $$('.x-tasks li', dept); live.forEach((li, k) => li.classList.toggle('on', k < done)); }, 800);
+  }
+  // the counter walks to its target one step at a time, so a fast scroll
+  // still shows 8 → 7 → 6 … instead of jumping
+  function countTo(c, target, one) {
+    clearInterval(c._t);
+    const stepOnce = () => {
+      const cur = +c.textContent || 8;
+      if (cur === target) { clearInterval(c._t); c.classList.toggle('one', one); return; }
+      c.textContent = cur + (target < cur ? -1 : 1);
+      c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+      if (+c.textContent === target) { clearInterval(c._t); c.classList.toggle('one', one); }
+    };
+    if (!c.textContent) c.textContent = target;
+    c._t = setInterval(stepOnce, 170); stepOnce();
   }
   let mobilePlayed = false;
   function deptScroll() {
@@ -189,9 +202,10 @@
     const r = dept.getBoundingClientRect();
     if (reduce) { setDone(8); return; }
     if (innerWidth <= 900) {
-      if (!mobilePlayed && r.top < innerHeight * 0.5 && r.bottom > 0) {
+      const cr = $('.x-count', dept).getBoundingClientRect();
+      if (!mobilePlayed && cr.top > 60 && cr.bottom < innerHeight * 0.8) {
         mobilePlayed = true; let k = 0;
-        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 520);
+        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 750);
       }
       return;
     }
@@ -241,9 +255,9 @@
     const cards = $$('.ctrl > div'), c = X().ctrl; if (cards.length < 3 || !c) return;
     $$('.x-w').forEach((w) => w.remove());
     const lockSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="sh" d="M7 11V8a5 5 0 0 1 10 0v3"/><rect x="4.5" y="11" width="15" height="10" rx="3"/><circle cx="12" cy="16" r="1.4"/></svg>';
-    cards[0].insertAdjacentHTML('afterbegin', `<div class="x-w xw-auto" aria-hidden="true"><span class="xw-sw"><i></i></span><span class="xw-on">${esc(c.on)}</span><span class="xw-feed">${c.feed.map((f, i) => `<span class="${i ? '' : 'cur'}"><b>✓</b>${esc(f)}</span>`).join('')}</span></div>`);
-    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-ask"><p class="xw-q"><span class="xw-dot" aria-hidden="true"></span>${esc(c.ask)}</p><div class="xw-act"><div class="xw-btns"><button type="button" class="xw-yes">${esc(c.yes)}</button><button type="button" class="xw-no">${esc(c.later)}</button></div><p class="xw-ok" aria-live="polite">${esc(c.ok)}</p></div></div>`);
-    cards[2].insertAdjacentHTML('afterbegin', `<div class="x-w xw-lock" aria-hidden="true">${lockSvg}<span class="xw-chips">${c.lock.map((k) => `<span>${esc(k)}</span>`).join('')}</span><span class="xw-only">${esc(c.only)}</span></div>`);
+    cards[0].insertAdjacentHTML('afterbegin', `<div class="x-w xw-auto" aria-hidden="true"><div class="xw-top"><span class="xw-ic xw-sw"><i></i></span><span class="xw-lab xw-on">${esc(c.on)}</span></div><span class="xw-feed">${c.feed.map((f, i) => `<span class="${i ? '' : 'cur'}"><b>✓</b>${esc(f)}</span>`).join('')}</span></div>`);
+    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-ask"><div class="xw-top"><span class="xw-ic xw-dot" aria-hidden="true"></span><span class="xw-q">${esc(c.ask)}</span></div><div class="xw-act"><div class="xw-btns"><button type="button" class="xw-yes">${esc(c.yes)}</button><button type="button" class="xw-no">${esc(c.later)}</button></div><p class="xw-ok" aria-live="polite">${esc(c.ok)}</p></div></div>`);
+    cards[2].insertAdjacentHTML('afterbegin', `<div class="x-w xw-lock" aria-hidden="true"><div class="xw-top"><span class="xw-ic">${lockSvg}</span><span class="xw-lab xw-only">${esc(c.only)}</span></div><span class="xw-chips">${c.lock.map((k) => `<span>${esc(k)}</span>`).join('')}</span></div>`);
     // feed rolls through what she did today
     clearInterval(feedT);
     feedT = setInterval(() => {
@@ -294,9 +308,35 @@
     const t = p.innerHTML; p.innerHTML = `<span class="x-hl">${t}</span>`;
   }
   function smallUI() {
-    sickUI();
+    sickUI(); chipsGlide();
     const chat = $('#chat'); if (chat) chat.dataset.head = X().chatHead || '';
     $$('.alg b').forEach((b, i) => b.dataset.n = '0' + (i + 1));
+  }
+
+  // ---------- phones: the industry chips glide, and the demo moves on by itself ----------
+  function chipsGlide() {
+    const row = $('#ichips'); if (!row || row.dataset.xg || reduce) return;
+    row.dataset.xg = 1;
+    let dir = 1, touched = 0, last = performance.now(), cycleT = performance.now();
+    const stop = () => { touched = performance.now(); };
+    ['pointerdown', 'touchstart', 'wheel'].forEach((ev) => row.addEventListener(ev, stop, { passive: true }));
+    (function tick(now) {
+      requestAnimationFrame(tick);
+      const dt = Math.min(64, now - last); last = now;
+      if (innerWidth > 900 || now - touched < 8000) return;
+      const r = row.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      const max = row.scrollWidth - row.clientWidth; if (max < 4) return;
+      const rtlDir = rtl ? -1 : 1;
+      let x = Math.abs(row.scrollLeft) + dir * dt * 0.028;
+      if (x >= max) { x = max; dir = -1; } else if (x <= 0) { x = 0; dir = 1; }
+      row.scrollLeft = x * rtlDir;
+      // every 12 s, if nobody chose, she moves on to the next business
+      if (now - cycleT > 12000 && now - touched > 12000) {
+        cycleT = now;
+        const bs = $$('button', row), i = bs.findIndex((b) => b.classList.contains('on'));
+        const nx = bs[(i + 1) % bs.length]; if (nx) nx.click();
+      }
+    })(performance.now());
   }
 
   // ---------- FAQ: smooth open and close ----------

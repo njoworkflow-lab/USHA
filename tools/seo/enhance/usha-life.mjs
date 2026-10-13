@@ -22,12 +22,12 @@ return function(){last=performance.now();a+=1;flip^=1;
  else{face({eyeH:.3,happy:0,tilt:-.8,droop:1.4,blush:.7,tear:1,eyeW:1,inner:.75},5);Ae.voice("sob");tn("cry",2.4);ut([15,60,15,60,15])}
  return!0}})();
 var Gp_=!1,Ua_=0,Un_=(()=>{return function(){const t=performance.now();if(t-Ua_<4e3||Um_s||de.exprT>0)return;Object.assign(Ge.tgt,{eyeW:1.22,eyeH:1.22,happy:.3});de.exprT=.7;Ge.tgt.stretch=1.07;setTimeout(()=>Ge.tgt.stretch=1,180);const r=Math.random();r<.35?Ae.voice("giggle"):r<.55&&Ae.voice("tap")}})();var Ul_=(()=>{const acts=[
- ()=>{Ge.tgt.sq=1.18;setTimeout(()=>{Ge.tgt.sq=.72;Ae.voice("sneeze");ut(20)},420);setTimeout(()=>Ge.tgt.sq=1,620);Object.assign(Ge.tgt,{eyeH:.15});de.exprT=.9;tn("sneeze",2)},
+ ()=>{Ge.tgt.sq=1.1;setTimeout(()=>{Ge.tgt.sq=.88;Ae.voice("sneeze");ut(20)},480);setTimeout(()=>Ge.tgt.sq=1,800);Object.assign(Ge.tgt,{eyeH:.15});de.exprT=.9;tn("sneeze",2)},
  ()=>{Ge.tgt.stretch=1.16;Object.assign(Ge.tgt,{eyeH:.2,happy:0});de.exprT=1.6;Ae.voice("yawn");setTimeout(()=>Ge.tgt.stretch=1,1100);tn("yawn",2.2)},
- ()=>{let k=0;const t=setInterval(()=>{Ge.tgt.sq=k%2?.86:1.1;Ge.tgt.stretch=k%2?1.06:.96;if(++k>7){clearInterval(t);Ge.tgt.sq=1;Ge.tgt.stretch=1}},170);Object.assign(Ge.tgt,{happy:1,blush:.6});de.exprT=1.8;Ae.voice("laugh");tn("dance",2.2)},
+ ()=>{const t0=performance.now();(function f(){const k=(performance.now()-t0)/1600;if(k>=1){Ge.tgt.sq=1;Ge.tgt.stretch=1;return}const e=Math.sin(k*Math.PI);Ge.tgt.sq=1+Math.sin(k*Math.PI*6)*.06*e;Ge.tgt.stretch=1-Math.sin(k*Math.PI*6)*.04*e;requestAnimationFrame(f)})();Object.assign(Ge.tgt,{happy:1,blush:.6});de.exprT=1.8;Ae.voice("laugh");tn("dance",2.2)},
  ()=>{Object.assign(Ge.tgt,{happy:.6,eyeH:.9});de.exprT=2;Ae.voice("hum");tn("hum",2.2)}];
 let lastAct=0;addEventListener("pointerdown",()=>lastAct=performance.now(),{passive:!0});
-(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},18e3+Math.random()*22e3)})()})();`;
+(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},3e4+Math.random()*3e4)})()})();`;
 
 const VOICES = `case"laugh":for(let t=0;t<7;t++)xt(e(1000,1250)-t*70,e(700,900)-t*50,.09,.08,"sine",t*.085,6);break;case"sigh":xt(560,300,.7,.07,"triangle");break;case"sad":xt(620,430,.45,.08,"sine",0,5),xt(520,320,.7,.07,"sine",.42,5);break;case"grr":xt(140,115,.42,.08,"sawtooth",0,28),xt(170,120,.3,.07,"sawtooth",.4,28);break;case"sob":for(let t=0;t<5;t++)xt(e(680,760),e(480,540),.16,.06,"sine",t*.2,12);break;case"sneeze":xt(420,900,.3,.05,"sine"),xt(2200,300,.14,.11,"square",.42);break;case"yawn":xt(280,520,.55,.06,"triangle",0,4),xt(520,230,.8,.06,"triangle",.5,4);break;case"hum":[659,587,523,587,659,659].forEach((t,n)=>xt(t,t,.17,.045,"triangle",n*.19,5));break;`;
 
@@ -50,23 +50,25 @@ export function applyLife(src) {
     ['[[-4.1,-.25,0],[-1.35,-1.55,0],[1.35,-.25,0],[4.1,-1.55,0]]', '[[-4.3,-1.05,0],[-1.45,-1.05,0],[1.45,-1.05,0],[4.3,-1.05,0]]'],
     // their labels always stay on screen
     ['p.style.top=((1-bs.y)/2*innerHeight).toFixed(1)+"px",p.classList.toggle("on",v===d)', 'p.style.top=Math.min((1-bs.y)/2*innerHeight,innerHeight-(p._h||(p._h=p.offsetHeight))-24).toFixed(1)+"px",p.classList.toggle("on",v===d)'],
-    // findings: USHA sits above the card, not behind it
-    ['[t[0]+1.2,t[1]+.65,.4],us:e?.4:.55', '[t[0]+1.05,t[1]+1.32,.4],us:e?.4:.5'],
     // "Try her": a softer ring so it never hazes over USHA
     ['ch:.25,g:.5,gp:[(s.left+s.width*.5)/innerWidth', 'ch:e?.1:.25,g:e?0:.2,gp:[(s.left+s.width*.5)/innerWidth'],
     // phones: hero USHA a little higher so the label clears her
     ['u:e?[0,2.98,0]:[2.75,.1,1.2],us:e?1.02:.95', 'u:e?[0,3.32,0]:[2.75,.1,1.2],us:e?.9:.95'],
-    // phones: findings USHA sits higher above the card
-    ['u:e?[t[0]+1.05,t[1]+.95,.4]', 'u:e?[t[0]+1.05,t[1]+1.3,.4]'],
     // phones: "Try her" USHA larger and clear, the ring calmer
     ['us:e?.42:.66,ch:', 'us:e?.6:.66,ch:'],
     // "Try her": the particle ring forms behind her, so it frames her instead of hazing over her
     ['s.i<=3&&!l&&bt.u.uC3.value.set(f.x,f.y,f.z-.2)', 's.i<=3&&!l&&bt.u.uC3.value.set(f.x,f.y,f.z-(s.i===3?1.4:.2))'],
+    // four algorithms, four related shapes: spiral (feed), ring (search), two arms (auction), soft round (buyer)
+    ['C=Qt()*.18*h;vt()<.18&&(_=Qt()*.35*h', 'C=Qt()*.18*h;if(m===1){let q1=vt()*6.2832,q2=(.9+Qt()*.07)*h;_=Math.cos(q1)*q2;T=Math.sin(q1)*q2*.55}else if(m===2){let q1=Math.floor(vt()*2)*3.1416+p*3.4,q2=(.1+p*1.15)*h;_=Math.cos(q1)*q2+Qt()*.05*h;T=Math.sin(q1)*q2*.52+Qt()*.05*h}else if(m===3){let q1=vt()*6.2832,q2=Math.pow(vt(),1.6)*1.05*h;_=Math.cos(q1)*q2;T=Math.sin(q1)*q2*.62}vt()<.18&&(_=Qt()*.35*h'],
+    // "Try her": no switching to the eyes-closed reading pose while the chat types
+    ['g==="talk"&&(g=As==="found"?"found":Ge.p.read>.5&&de.busy?"reading":"present"),de.busy&&s.i===3&&As!=="found"&&As!=="happy"&&(g="reading")', 'g==="talk"&&(g=As==="found"?"found":"present")'],
+    // phones play with the on-screen joystick and dash button, so a tap no longer dashes
+    ['cr=1,matchMedia("(pointer:coarse)").matches&&Xt.dash()', 'cr=1'],
     // moods: the tap handler asks the mood engine first
     ['function c_(){if(de.taps++', MOOD + 'function c_(){if(Um())return;if(de.taps++'],
   ];
   // blocks owned by this file are refreshed on every build, so edits here land
-  const own = [['var Um=(()=>{', 'function c_(){', MOOD], ['case"laugh":', 'case"secret":', VOICES]];
+  const own = [[src.includes('var Um_s=0,Um=(()=>{') ? 'var Um_s=0,Um=(()=>{' : 'var Um=(()=>{', 'function c_(){', MOOD], ['case"laugh":', 'case"secret":', VOICES]];
   for (const [start, end, body] of own) {
     const i = src.indexOf(start);
     if (i < 0) continue;
@@ -76,6 +78,10 @@ export function applyLife(src) {
   }
   // swaps that match both the original and an earlier applied version
   const live = [
+    // findings: beside the card and facing it (desktop), next to the headline (phone)
+    [/u:e\?(?:\[t\[0\][+-][.\d]+,t\[1\][+-][.\d]+,\.4\]|\(\(\)=>\{const c=document\.querySelector\("\.fcard"\)[^]*?\}\)\(\)):\[t\[0\][+-][.\d]+,t\[1\][+-][.\d]+,\.4\],us:e\?[.\d]+:[.\d]+/, 'u:e?(()=>{const c=document.querySelector(".fcard").getBoundingClientRect(),h=document.querySelector("#signal h2").getBoundingClientRect(),y=Math.max(h.bottom+60,(h.bottom+c.top)/2);return Ca(innerWidth/2,Math.min(y,c.top-50),.4)})():[t[0]+.55,t[1]+.25,.4],us:e?.42:.46'],
+    // the problem: bigger, on the headline's line (desktop)
+    [/if\(i===1\)return\{u:e\?\[0,-4\.6,0\]:\[[-.\d]+,[-.\d]+,[-.\d]+\],us:e\?\.001:[.\d]+/, 'if(i===1)return{u:e?[0,-4.6,0]:[3.3,1.25,.6],us:e?.001:.62'],
     // the site's own dust levels (an earlier build had dimmed them)
     [/st:"companion",dim:[.0-9]+\}/, 'st:"companion",dim:.5}'],
     [/st:"present",dim:(\.8|\.45)\}/, 'st:"present",dim:.8}'],

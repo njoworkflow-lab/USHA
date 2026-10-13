@@ -28,6 +28,23 @@ const w={active:!1,paused:!1,lv:0,score:0,lvScore:0,combo:1,comboT:0,best:0,best
 const L={x:0,y:0,vx:0,vy:0,dash:0,tx:0,ty:0,steer:!1};
 let sigs=[],clouds=[],devs=[],walls=[],winds=[],powers=[],orbs=[],boss=null,house=null,stars=[],sec={x:0,y:0};
 const keys={},hinted={};let toastT=0;
+const coarse=matchMedia("(pointer:coarse)").matches;
+const joy={on:!1,id:null,ox:0,oy:0,x:0,y:0,el:null,knob:null,btn:null};
+function joyBuild(){
+ if(!coarse||joy.el)return;
+ joy.el=document.createElement("div");joy.el.className="g-joy";joy.el.innerHTML="<i></i>";joy.knob=joy.el.firstChild;document.body.append(joy.el);
+ joy.btn=document.createElement("button");joy.btn.type="button";joy.btn.className="g-dash";joy.btn.setAttribute("aria-label","Dash");joy.btn.innerHTML="<span></span>";document.body.append(joy.btn);
+ joy.btn.addEventListener("touchstart",ev=>{ev.preventDefault();ev.stopPropagation();dash();joy.btn.classList.remove("hit");void joy.btn.offsetWidth;joy.btn.classList.add("hit")},{passive:!1});
+ addEventListener("touchstart",joyStart,{passive:!0});addEventListener("touchmove",joyMove,{passive:!0});addEventListener("touchend",joyEnd,{passive:!0});addEventListener("touchcancel",joyEnd,{passive:!0})}
+function joyStart(ev){if(!w.active||w.paused||joy.on)return;const t0=ev.changedTouches[0],tg=t0.target;if(tg&&tg.closest&&tg.closest("button,a,.g-dash"))return;
+ joy.on=!0;joy.id=t0.identifier;joy.ox=t0.clientX;joy.oy=t0.clientY;joy.x=joy.y=0;
+ joy.el.style.left=joy.ox+"px";joy.el.style.top=joy.oy+"px";joy.el.classList.add("on");joy.knob.style.transform="translate(-50%,-50%)";w.still=0;
+ if(w.phase==="over")dash()}
+function joyMove(ev){if(!joy.on)return;for(const t0 of ev.changedTouches){if(t0.identifier!==joy.id)continue;
+ let dx=t0.clientX-joy.ox,dy=t0.clientY-joy.oy;const m=Math.hypot(dx,dy),R=56;if(m>R){dx*=R/m;dy*=R/m}
+ joy.x=dx/R;joy.y=dy/R;joy.knob.style.transform="translate(calc(-50% + "+dx+"px),calc(-50% + "+dy+"px))";w.still=0}}
+function joyEnd(ev){if(!joy.on)return;for(const t0 of ev.changedTouches)if(t0.identifier===joy.id){joy.on=!1;joy.x=joy.y=0;joy.el.classList.remove("on")}}
+function joyShow(v){if(joy.el){joy.btn.classList.toggle("show",v);if(!v)joy.el.classList.remove("on")}}
 try{const b=JSON.parse(localStorage.getItem("usha-game")||"{}");w.best=b.s||0;w.bestLv=b.l||0}catch(_){}
 function saveBest(){if(w.score>w.best||w.lv+1>w.bestLv){w.best=Math.max(w.best,w.score);w.bestLv=Math.max(w.bestLv,w.lv+1);try{localStorage.setItem("usha-game",JSON.stringify({s:w.best,l:w.bestLv}))}catch(_){}}}
 function addScore(v,combo){if(combo){w.combo=w.comboT>0?Math.min(5,w.combo+1):1;w.comboT=2.2}w.score+=v*(combo?w.combo:1);hud()}
@@ -65,8 +82,8 @@ function setup(){
 function start(){
  Object.assign(w,{active:!0,paused:!1,lv:0,lives:3,done:!1,secretOn:!1,secretGot:!1,score:0});
  for(const k in hinted)delete hinted[k];
- pts.visible=!0;setup();n.voice("wee");s([10,30,10])}
-function stop(){w.active=!1;pts.visible=!1;toastEl&&toastEl.classList.remove("on")}
+ pts.visible=!0;joyBuild();joyShow(!0);setup();n.voice("wee");s([10,30,10])}
+function stop(){w.active=!1;pts.visible=!1;joyShow(!1);joy.on=!1;toastEl&&toastEl.classList.remove("on")}
 function face(p){Object.assign(t.tgt,p)}
 function dash(){
  if(!w.active||w.paused)return;
@@ -113,9 +130,10 @@ function update(dt,time,ptr,moved){
  if(w.phase==="clear"){w.pt-=dt;if(w.pt<=0){w.lv++;setup()}}
  // ----- USHA moves -----
  const kx=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),ky=(keys.ArrowUp||keys.KeyW?1:0)-(keys.ArrowDown||keys.KeyS?1:0);
- if(moved)steer(ptr);
+ if(moved&&!coarse)steer(ptr);
  const canMove=w.phase!=="over";
- if(canMove){if(kx||ky){L.vx+=kx*22*dt;L.vy+=ky*22*dt;L.steer=!1}else if(L.steer){L.vx+=(L.tx-L.x)*6*dt;L.vy+=(L.ty-L.y)*6*dt}}
+ const mir=document.documentElement.dir==="rtl"?-1:1;
+ if(canMove){if(joy.on&&(joy.x||joy.y)){L.vx+=joy.x*30*dt*mir;L.vy-=joy.y*30*dt;L.steer=!1}else if(kx||ky){L.vx+=kx*22*dt*mir;L.vy+=ky*22*dt;L.steer=!1}else if(L.steer){L.vx+=(L.tx-L.x)*6*dt;L.vy+=(L.ty-L.y)*6*dt}}
  const boost=L.dash>0?2.2:1;L.dash-=dt;
  if(L.dash>0){const q=Math.hypot(L.vx,L.vy)||1;L.vx+=L.vx/q*30*dt;L.vy+=L.vy/q*30*dt}
  // ad winds push
@@ -126,7 +144,7 @@ function update(dt,time,ptr,moved){
  const bx=W,by=Hh;
  if(Math.abs(L.x)>bx){L.x=Math.sign(L.x)*bx;L.vx*=-.5}
  if(Math.abs(L.y)>by){L.y=Math.sign(L.y)*by;L.vy*=-.5}
- sp<.15&&!(kx||ky)?w.still+=dt:sp>.4&&(w.still=0);
+ sp<.15&&!(kx||ky||joy.on)?w.still+=dt:sp>.4&&(w.still=0);
  w.comboT-=dt;if(w.comboT<=0&&w.combo>1){w.combo=1;hud()}w.inv=Math.max(0,w.inv-dt);w.shield=Math.max(0,w.shield-dt);w.hurt=Math.max(0,w.hurt-dt);w.anger=Math.max(0,w.anger-dt);
  const flick=w.inv>0&&play?1+.1*Math.sin(time*42):1;
  let bob=Math.sin(time*3)*.03;
