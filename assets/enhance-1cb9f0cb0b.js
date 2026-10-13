@@ -244,8 +244,8 @@ function findingChart(i, lang) {
     $('.x-her', st).innerHTML = `<div class="hd"><div class="x-orb"><b></b><b></b></div><div><strong>USHA</strong><span>${esc(x.her)}</span></div></div>
       <ul class="x-tasks">${x.tags.map((t) => `<li><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3"/></svg>${esc(t)}</li>`).join('')}</ul>
       <p class="x-foot">${esc(x.foot)}</p>`;
-    dept = seven; done = -1; mobilePlayed = false;
-    setDone(0); deptScroll();
+    dept = seven; done = -1; loopK = 0; loopHold = 0;
+    setDone(0); deptLoop();
   }
   function spark(from, to) {
     if (reduce || !from.animate) return;
@@ -284,40 +284,27 @@ function findingChart(i, lang) {
       c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
       if (+c.textContent === target) { clearInterval(c._t); c.classList.toggle('one', one); }
     };
-    if (!c.textContent) c.textContent = target;
-    c._t = setInterval(stepOnce, 90); stepOnce();
+    c.textContent = target; c.dataset.n = target; c.classList.toggle('one', one);
+    c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
   }
-  // 8 → 1 follows the visitor: while the scene is pinned, scrolling counts it
-  // down (and back up); if they stop scrolling there, it finishes on its own.
-  // Phones (no pin) play it when the scene is in the middle of the screen.
-  let mobilePlayed = false, playT = 0, auto = 0, idleT = 0;
-  function deptScroll() {
-    if (!dept) return;
-    if (reduce) { setDone(8); return; }
-    const sr = dept.getBoundingClientRect();
-    if (innerWidth <= 900) {
-      if (sr.bottom < 0 || sr.top > innerHeight) { if (mobilePlayed) { mobilePlayed = false; clearInterval(playT); setDone(0); } return; }
-      const g = $('.x-dgrid', dept).getBoundingClientRect();
-      if (!mobilePlayed && g.top < innerHeight * 0.3 && g.top > -g.height * 0.4) {
-        mobilePlayed = true; let k = 0;
-        playT = setInterval(() => { setDone(++k); if (k >= 8) clearInterval(playT); }, 300);
-      }
-      return;
-    }
-    const pinLen = sr.height - innerHeight;
-    const p = Math.min(1, Math.max(0, -sr.top / pinLen));
-    if (sr.top > 0) auto = 0;
-    const byScroll = Math.round(Math.min(1, Math.max(0, (p - 0.04) / 0.7)) * 8);
-    setDone(Math.max(byScroll, auto));
-    $('.x-bar i', dept).style.setProperty('--p', (Math.max(byScroll, auto) / 8).toFixed(3));
-    clearTimeout(idleT);
-    if (sr.top <= 2 && sr.bottom >= innerHeight - 2 && Math.max(byScroll, auto) < 8) {
-      idleT = setTimeout(function step() {
-        auto = Math.max(auto, byScroll) + 1; setDone(auto); $('.x-bar i', dept).style.setProperty('--p', (auto / 8).toFixed(3));
-        if (auto < 8) idleT = setTimeout(step, 320);
-      }, 500);
-    }
+  // 8 → 1 loops on its own whenever the section is on screen: it counts down
+  // calmly, holds on 1, then starts again. Nothing depends on scrolling.
+  let loopT = 0, loopK = 0, loopHold = 0;
+  function deptLoop() {
+    clearInterval(loopT);
+    loopT = setInterval(() => {
+      if (!dept || D.hidden) return;
+      const r = dept.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      if (loopHold > 0) { loopHold--; return; }
+      if (loopK >= 8) { loopK = 0; setDone(0); loopHold = 1; return; }
+      loopK++; setDone(loopK); $('.x-bar i', dept).style.setProperty('--p', (loopK / 8).toFixed(3));
+      if (loopK >= 8) loopHold = 5;
+    }, 650);
   }
+  function deptScroll() {}
+
+
 
 
 
