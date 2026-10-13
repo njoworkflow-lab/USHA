@@ -348,8 +348,41 @@
       if (hidden) { e.preventDefault(); hidden.click(); }
     }));
     $$('.xp-card', box).forEach((c, i) => c.style.setProperty('--i', i));
+    $$('.xp-det', box).forEach((b) => b.addEventListener('click', () => openPlan(b.dataset.k, b.closest('.xp-card'))));
     watch(box);
   }
+
+  // the floating screen for a plan: it grows out of its card
+  let lastFocus = null;
+  function openPlan(k, card) {
+    closePlan(true);
+    lastFocus = D.activeElement;
+    const m = D.createElement('div'); m.className = 'x-modal';
+    m.innerHTML = `<div class="xm-scrim"></div>${planScreenHTML(X(), dictLike(), k)}`;
+    D.body.append(m); H.classList.add('x-modal-on');
+    const panel = $('.xm-panel', m);
+    if (card && panel.animate && !reduce) {
+      const a = card.getBoundingClientRect(), b = panel.getBoundingClientRect();
+      const sx = a.width / b.width, sy = a.height / b.height, dx = a.left + a.width / 2 - (b.left + b.width / 2), dy = a.top + a.height / 2 - (b.top + b.height / 2);
+      panel.animate([{ transform: `translate(${dx}px,${dy}px) scale(${sx},${sy})`, opacity: .4 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.16,1,.3,1)' });
+    }
+    requestAnimationFrame(() => m.classList.add('on'));
+    $('.xm-x', m).focus();
+    $('.xm-x', m).addEventListener('click', () => closePlan());
+    $('.xm-scrim', m).addEventListener('click', () => closePlan());
+    $$('a[data-plan]', m).forEach((a) => a.addEventListener('click', (e) => {
+      const hidden = $(`#plancards a[data-plan="${a.dataset.plan}"]`) || $('#plancards a');
+      closePlan(true);
+      if (hidden) { e.preventDefault(); hidden.click(); }
+    }));
+  }
+  function closePlan(now) {
+    const m = $('.x-modal'); if (!m) return;
+    H.classList.remove('x-modal-on');
+    if (now || reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('.x-modal')) closePlan(); });
 
   // the month toggle drives the meters and the plans switch
   D.addEventListener('click', (e) => {

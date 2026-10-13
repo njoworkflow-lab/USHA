@@ -12,8 +12,6 @@ function plansHTML(x, d) {
   const keys = KEY_ROWS.map(row).filter(Boolean);
   const extras = g.flatMap(([, list]) => list.filter(([, c]) => c === '—').map(([l]) => l));
   const facts = (k) => keys.map((r) => `<div class="xp-f"><b>${esc(r[k])}</b><span>${esc(r[0])}</span></div>`).join('');
-  const sheet = g.map(([name, list]) => `<div class="xp-g"><div class="xp-gl">${esc(name)}</div>${list.map(([l, c, p]) =>
-    `<div class="xp-r${c === '—' ? ' xp-new' : ''}"><span class="xp-l">${esc(l)}</span><span class="xp-c">${esc(c)}</span><span class="xp-p">${esc(p)}</span></div>`).join('')}</div>`).join('');
   return `<div class="xp">
   <div class="xp-cards">
     <article class="xp-card xp-core">
@@ -21,6 +19,7 @@ function plansHTML(x, d) {
       <h3 class="xp-name">USHA <b>Core</b></h3>
       <p class="xp-desc">${esc(x.plansCore)}</p>
       <div class="xp-facts">${facts(1)}</div>
+      <button type="button" class="xp-det" data-k="core">${esc(x.details)} <i aria-hidden="true">↗</i></button>
       <a class="btn btn-g xp-go" href="#free" data-plan="USHA Core"><span>${esc(d.p_cta)}</span></a>
     </article>
     <article class="xp-card xp-pro">
@@ -30,6 +29,7 @@ function plansHTML(x, d) {
       <p class="xp-desc">${esc(x.plansPro)}</p>
       <div class="xp-facts">${facts(2)}</div>
       <div class="xp-plus"><span class="xp-k">${esc(x.proPlus)}</span>${extras.map((e) => `<span class="xp-chip">+ ${esc(e)}</span>`).join('')}</div>
+      <button type="button" class="xp-det" data-k="pro">${esc(x.details)} <i aria-hidden="true">↗</i></button>
       <a class="btn btn-p xp-go" href="#free" data-plan="USHA Pro"><span class="d"></span><span>${esc(d.p_cta)}</span></a>
     </article>
     <article class="xp-card xp-ent">
@@ -37,14 +37,38 @@ function plansHTML(x, d) {
       <h3 class="xp-name">USHA <b>Enterprise</b></h3>
       <p class="xp-desc">${esc(x.entLead)}</p>
       <div class="xp-plus"><span class="xp-k">${esc(x.entPlus)}</span>${x.entOnlyItems.map(([n, s]) => `<div class="xp-eo"><b>${esc(n)}</b><span>${esc(s)}</span></div>`).join('')}</div>
+      <button type="button" class="xp-det" data-k="ent">${esc(x.details)} <i aria-hidden="true">↗</i></button>
       <a class="btn btn-g xp-go" href="#free" data-plan="USHA Enterprise"><span>${esc(d.p_cta)}</span> ↗</a>
     </article>
   </div>
   <p class="xp-both"><b>${esc(x.bothInclude)}</b> ${esc(x.both)}</p>
-  <details class="xp-more"><summary><span class="xp-open">${esc(x.compareAll)}</span><span class="xp-close">${esc(x.hide)}</span></summary>
-    <div class="xp-sheet"><div class="xp-sh"><span></span><span>Core</span><span>Pro</span></div>${sheet}</div>
-  </details>
 </div>`;
+}
+
+// the floating screen for one plan
+function planScreenHTML(x, d, k) {
+  const g = x.plansGroups;
+  const name = { core: 'Core', pro: 'Pro', ent: 'Enterprise' }[k];
+  const lead = { core: x.plansCore, pro: x.plansPro, ent: x.entLead }[k];
+  const kick = { core: x.forCore, pro: x.forPro, ent: x.entKick }[k];
+  let body;
+  if (k === 'ent') {
+    body = `<div class="xm-g"><div class="xm-gl">${esc(x.entAll)}</div><p class="xm-note">${esc(x.entAllNote)}</p><div class="xm-tags">${x.entAllItems.map((i) => `<span>${esc(i)}</span>`).join('')}</div></div>
+      <div class="xm-g"><div class="xm-gl">${esc(x.entOnly)}</div>${x.entOnlyItems.map(([n, s]) => `<div class="xm-r xm-hi"><span class="xm-l">${esc(n)}</span><span class="xm-v">${esc(s)}</span></div>`).join('')}</div>`;
+  } else {
+    const col = k === 'core' ? 1 : 2;
+    body = g.map(([gn, list]) => `<div class="xm-g"><div class="xm-gl">${esc(gn)}</div>${list.map((r) => {
+      const v = r[col], off = v === '—', only = r[1] === '—' && k === 'pro';
+      return `<div class="xm-r${off ? ' xm-off' : ''}${only ? ' xm-hi' : ''}"><span class="xm-l">${esc(r[0])}</span><span class="xm-v">${off ? esc(x.inPro) : esc(v)}</span></div>`;
+    }).join('')}</div>`).join('');
+  }
+  return `<div class="xm-panel xm-${k}" role="dialog" aria-modal="true" aria-label="USHA ${name}">
+    <i class="xm-aura" aria-hidden="true"></i>
+    <header class="xm-hd"><div><span class="xm-k">${esc(kick)}</span><h3>USHA <b>${name}</b></h3><p>${esc(lead)}</p></div>
+      <button type="button" class="xm-x" aria-label="${esc(x.close)}"></button></header>
+    <div class="xm-body">${body}</div>
+    <footer class="xm-ft"><p>${k === 'ent' ? '' : `${esc(x.bothInclude)} ${esc(x.both)}`}</p><a class="btn btn-p xm-go" href="#free" data-plan="USHA ${name}"><span class="d"></span><span>${esc(d.p_cta)}</span></a></footer>
+  </div>`;
 }
 
 // ---------- live findings: a small picture of light for every number ----------
@@ -407,8 +431,41 @@ function findingChart(i, lang) {
       if (hidden) { e.preventDefault(); hidden.click(); }
     }));
     $$('.xp-card', box).forEach((c, i) => c.style.setProperty('--i', i));
+    $$('.xp-det', box).forEach((b) => b.addEventListener('click', () => openPlan(b.dataset.k, b.closest('.xp-card'))));
     watch(box);
   }
+
+  // the floating screen for a plan: it grows out of its card
+  let lastFocus = null;
+  function openPlan(k, card) {
+    closePlan(true);
+    lastFocus = D.activeElement;
+    const m = D.createElement('div'); m.className = 'x-modal';
+    m.innerHTML = `<div class="xm-scrim"></div>${planScreenHTML(X(), dictLike(), k)}`;
+    D.body.append(m); H.classList.add('x-modal-on');
+    const panel = $('.xm-panel', m);
+    if (card && panel.animate && !reduce) {
+      const a = card.getBoundingClientRect(), b = panel.getBoundingClientRect();
+      const sx = a.width / b.width, sy = a.height / b.height, dx = a.left + a.width / 2 - (b.left + b.width / 2), dy = a.top + a.height / 2 - (b.top + b.height / 2);
+      panel.animate([{ transform: `translate(${dx}px,${dy}px) scale(${sx},${sy})`, opacity: .4 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.16,1,.3,1)' });
+    }
+    requestAnimationFrame(() => m.classList.add('on'));
+    $('.xm-x', m).focus();
+    $('.xm-x', m).addEventListener('click', () => closePlan());
+    $('.xm-scrim', m).addEventListener('click', () => closePlan());
+    $$('a[data-plan]', m).forEach((a) => a.addEventListener('click', (e) => {
+      const hidden = $(`#plancards a[data-plan="${a.dataset.plan}"]`) || $('#plancards a');
+      closePlan(true);
+      if (hidden) { e.preventDefault(); hidden.click(); }
+    }));
+  }
+  function closePlan(now) {
+    const m = $('.x-modal'); if (!m) return;
+    H.classList.remove('x-modal-on');
+    if (now || reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('.x-modal')) closePlan(); });
 
   // the month toggle drives the meters and the plans switch
   D.addEventListener('click', (e) => {
