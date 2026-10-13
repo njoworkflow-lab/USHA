@@ -58,6 +58,7 @@ function findingChart(i, lang) {
   const X = () => XS[lang()] || {};
   const rtl = H.dir === 'rtl';
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // in-view: .x-io → .x-in, and .rv created by this layer → .in. Checked on
   // scroll (not observed) because the bundle re-renders and swaps nodes.
@@ -73,7 +74,7 @@ function findingChart(i, lang) {
   // ---------- header ----------
   const header = $('header');
   function onScroll() {
-    wakeCheck(); revealCheck(); deptScroll(); tilesCheck(); ctrlCheck();
+    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -151,26 +152,48 @@ function findingChart(i, lang) {
     }, { passive: true });
   }
 
-  // ---------- comparison: her light runs down the USHA column ----------
+  // ---------- comparison: a duel, one rival at a time, on a lit spine ----------
+  let vsT = 0, vsPicked = false, vsRival = 0;
+  const NO = /^(no|нет|لا)\.?$/i;
   function compareUI() {
     const w = $('.cmpw'), t = $('#cmp'); if (!w || !t) return;
-    w.classList.add('x-io');
-    $$('tr', t).forEach((tr, r) => $$('td,th', tr).forEach((c) => c.style.setProperty('--r', r)));
-    $$('td:not(.u):not(:first-child)', t).forEach((c) => c.classList.toggle('x-no', /^(no|нет|لا)\.?$/i.test(c.textContent.trim())));
-    const th = $('th.u', t), logo = $('header .logo svg');
-    if (th && logo && !th.querySelector('svg')) { th.textContent = ''; th.append(logo.cloneNode(true)); th.setAttribute('aria-label', 'USHA'); }
-    let beam = $('.x-beam', w);
-    if (!beam) { beam = D.createElement('i'); beam.className = 'x-beam'; beam.setAttribute('aria-hidden', 'true'); w.append(beam); }
-    requestAnimationFrame(() => {
-      const c = th && th.getBoundingClientRect(), W = w.getBoundingClientRect();
-      if (!c) return;
-      beam.style.setProperty('--bx', c.left - W.left + 'px'); beam.style.setProperty('--bw', c.width + 'px'); beam.style.setProperty('--bh', t.offsetHeight + 'px');
-    });
-    watch(w.parentNode);
+    const rows = $$('tr', t), head = $$('th', rows[0]).map((h) => h.textContent.trim());
+    const rivals = head.slice(1, -1);
+    const data = rows.slice(1).map((tr) => $$('td', tr).map((c) => c.textContent.trim()));
+    const logo = $('header .logo svg');
+    w.classList.add('x-hid'); $('#cmpm')?.classList.add('x-hid');
+    let vs = $('.x-vs');
+    if (!vs) { vs = D.createElement('div'); vs.className = 'x-vs'; w.after(vs); }
+    vs.innerHTML = `<div class="vs-tabs" role="tablist">${rivals.map((r, i) => `<button type="button" role="tab" data-i="${i}" aria-selected="${i === vsRival}"><span>VS</span>${esc(r)}</button>`).join('')}</div>
+    <div class="vs-head" aria-hidden="true"><span class="vs-rv">${esc(rivals[vsRival])}</span><span class="vs-x">VS</span><span class="vs-us"></span></div>
+    <ol class="vs-rows">${data.map((d, r) => `<li style="--r:${r}"><div class="vs-l"><span class="vs-flip">${esc(d[1 + vsRival])}</span></div><div class="vs-c"><span>${esc(d[0])}</span></div><div class="vs-r"><i></i>${esc(d[d.length - 1])}</div></li>`).join('')}</ol>`;
+    if (logo) $('.vs-us', vs).append(logo.cloneNode(true)); else $('.vs-us', vs).textContent = 'USHA';
+    const show = (i) => {
+      vsRival = i;
+      $$('.vs-tabs button', vs).forEach((b) => b.setAttribute('aria-selected', String(+b.dataset.i === i)));
+      const rv = $('.vs-rv', vs); rv.classList.remove('in'); void rv.offsetWidth; rv.textContent = rivals[i]; rv.classList.add('in');
+      $$('.vs-rows li', vs).forEach((li, r) => {
+        const f = $('.vs-flip', li), v = data[r][1 + i];
+        f.classList.remove('in'); void f.offsetWidth;
+        f.textContent = v; li.classList.toggle('no', NO.test(v)); f.classList.add('in');
+      });
+    };
+    $$('.vs-tabs button', vs).forEach((b) => b.addEventListener('click', () => { vsPicked = true; show(+b.dataset.i); }));
+    show(vsRival);
+    clearInterval(vsT);
+    vsT = setInterval(() => {
+      if (vsPicked || reduce || D.hidden) return;
+      const r = vs.getBoundingClientRect();
+      if (r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.3) show((vsRival + 1) % rivals.length);
+    }, 5200);
+  }
+  function vsCheck() {
+    const vs = $('.x-vs:not(.x-in)'); if (!vs) return;
+    const r = vs.getBoundingClientRect();
+    if (r.top < innerHeight * 0.8 && r.bottom > 0) vs.classList.add('x-in');
   }
 
   // ---------- 8 → 1: as you scroll, each role hands its job to USHA ----------
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let dept = null, done = -1;
   function rolesUI() {
     const seven = $('.seven'), box = $('#roles'), x = X().hand; if (!seven || !box || !x) return;
@@ -361,6 +384,6 @@ function findingChart(i, lang) {
     const el = $(s); if (el) new MutationObserver(() => later(fn)).observe(el, { childList: true });
   });
   addEventListener('scroll', onScroll, { passive: true });
-  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { run(compareUI); }, 200); });
+  
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', renderAll); else renderAll();
 })();
