@@ -258,13 +258,26 @@ function findingChart(i, lang) {
     });
     done = n;
     const left = Math.max(1, 8 - n), c = $('.x-count', dept);
-    c.textContent = left;
-    c.classList.toggle('one', n >= 8);
+    countTo(c, left, n >= 8);
     $('.x-cap', dept).textContent = n >= 8 ? x.capOne : n === 0 ? x.capMany : (left === 1 ? x.leftOne : x.leftMany);
     $('.x-foot', dept).classList.toggle('on', n >= 8);
     dept.classList.toggle('x-all', n >= 8);
     // whatever happened in between, the card ends in step with the counter
     clearTimeout(dept._sync); dept._sync = setTimeout(() => { const live = $$('.x-tasks li', dept); live.forEach((li, k) => li.classList.toggle('on', k < done)); }, 800);
+  }
+  // the counter walks to its target one step at a time, so a fast scroll
+  // still shows 8 → 7 → 6 … instead of jumping
+  function countTo(c, target, one) {
+    clearInterval(c._t);
+    const stepOnce = () => {
+      const cur = +c.textContent || 8;
+      if (cur === target) { clearInterval(c._t); c.classList.toggle('one', one); return; }
+      c.textContent = cur + (target < cur ? -1 : 1);
+      c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+      if (+c.textContent === target) { clearInterval(c._t); c.classList.toggle('one', one); }
+    };
+    if (!c.textContent) c.textContent = target;
+    c._t = setInterval(stepOnce, 170); stepOnce();
   }
   let mobilePlayed = false;
   function deptScroll() {
@@ -272,9 +285,10 @@ function findingChart(i, lang) {
     const r = dept.getBoundingClientRect();
     if (reduce) { setDone(8); return; }
     if (innerWidth <= 900) {
-      if (!mobilePlayed && r.top < innerHeight * 0.5 && r.bottom > 0) {
+      const cr = $('.x-count', dept).getBoundingClientRect();
+      if (!mobilePlayed && cr.top > 60 && cr.bottom < innerHeight * 0.8) {
         mobilePlayed = true; let k = 0;
-        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 520);
+        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 750);
       }
       return;
     }
@@ -377,9 +391,35 @@ function findingChart(i, lang) {
     const t = p.innerHTML; p.innerHTML = `<span class="x-hl">${t}</span>`;
   }
   function smallUI() {
-    sickUI();
+    sickUI(); chipsGlide();
     const chat = $('#chat'); if (chat) chat.dataset.head = X().chatHead || '';
     $$('.alg b').forEach((b, i) => b.dataset.n = '0' + (i + 1));
+  }
+
+  // ---------- phones: the industry chips glide, and the demo moves on by itself ----------
+  function chipsGlide() {
+    const row = $('#ichips'); if (!row || row.dataset.xg || reduce) return;
+    row.dataset.xg = 1;
+    let dir = 1, touched = 0, last = performance.now(), cycleT = performance.now();
+    const stop = () => { touched = performance.now(); };
+    ['pointerdown', 'touchstart', 'wheel'].forEach((ev) => row.addEventListener(ev, stop, { passive: true }));
+    (function tick(now) {
+      requestAnimationFrame(tick);
+      const dt = Math.min(64, now - last); last = now;
+      if (innerWidth > 900 || now - touched < 8000) return;
+      const r = row.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      const max = row.scrollWidth - row.clientWidth; if (max < 4) return;
+      const rtlDir = rtl ? -1 : 1;
+      let x = Math.abs(row.scrollLeft) + dir * dt * 0.028;
+      if (x >= max) { x = max; dir = -1; } else if (x <= 0) { x = 0; dir = 1; }
+      row.scrollLeft = x * rtlDir;
+      // every 12 s, if nobody chose, she moves on to the next business
+      if (now - cycleT > 12000 && now - touched > 12000) {
+        cycleT = now;
+        const bs = $$('button', row), i = bs.findIndex((b) => b.classList.contains('on'));
+        const nx = bs[(i + 1) % bs.length]; if (nx) nx.click();
+      }
+    })(performance.now());
   }
 
   // ---------- FAQ: smooth open and close ----------

@@ -127,7 +127,7 @@ li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31
 
 /* ---------- 8 → 1: as you scroll, each role hands its job to USHA ---------- */
 #roles{display:none!important}
-.seven.x-dept{display:block;position:relative;z-index:1;height:240vh;margin-top:60px}
+.seven.x-dept{display:block;position:relative;z-index:1;height:300vh;margin-top:60px}
 .x-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
 .x-dgrid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.15fr) minmax(0,.95fr);gap:clamp(20px,3vw,48px);align-items:center;width:100%}
 .x-dept .stat{display:none}
@@ -138,6 +138,8 @@ li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31
 html[lang=ar] .x-dk{font-family:var(--body);font-size:14px;letter-spacing:0}
 .x-dept h3{font-weight:800!important;font-size:clamp(28px,3vw,44px)!important;line-height:1.02}
 .x-count{margin-top:26px;font:800 clamp(120px,15vw,240px)/.8 var(--head);letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--ink);transition:color .6s,text-shadow .6s}
+.x-count.bump{animation:x-bump .17s ease-out}
+@keyframes x-bump{from{transform:translateY(-6px);opacity:.6}}
 .x-count.one{color:var(--ember);text-shadow:0 0 70px rgba(255,90,31,.45)}
 .x-cap{margin-top:16px;font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);min-height:3em;max-width:30ch}
 html[lang=ar] .x-cap{font-family:var(--body);font-size:14px;letter-spacing:0;text-transform:none}
@@ -548,3 +550,22 @@ html[lang=ar] .fgrid small{font-family:var(--body)!important;font-size:13px!impo
 }
 
 @media (max-width:900px){#talk .talk .side{height:34vh!important;height:34svh!important}}
+
+/* control cards: the site pads every div in a card; the widgets must not inherit it */
+.ctrl .x-w,.ctrl .x-w div{padding:0!important}
+.ctrl .x-w{min-height:0!important;margin-bottom:22px!important}
+.xw-q{padding:10px 12px!important}
+
+@media (max-width:900px){#talk #ichips{-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 88%,transparent);scroll-behavior:auto}}
+
+/* ---------- game on phones: a floating joystick where the thumb lands, and a dash button ---------- */
+.g-joy{position:fixed;z-index:120;left:0;top:0;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;pointer-events:none;opacity:0;transform:scale(.8);transition:opacity .25s,transform .3s var(--x-ease);background:radial-gradient(circle,rgba(255,255,255,.05),rgba(255,255,255,.02) 60%,transparent 70%);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18)}
+.g-joy.on{opacity:1;transform:none}
+.g-joy i{position:absolute;left:50%;top:50%;width:52px;height:52px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 40% 35%,rgba(255,200,170,.55),rgba(255,90,31,.35));box-shadow:0 0 24px rgba(255,90,31,.45),inset 0 0 0 1px rgba(255,255,255,.25)}
+.g-dash{position:fixed;z-index:120;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(26px + env(safe-area-inset-bottom,0px));width:78px;height:78px;border-radius:50%;border:0;padding:0;background:rgba(255,90,31,.16);box-shadow:inset 0 0 0 1.5px rgba(255,140,90,.55),0 0 30px -6px rgba(255,90,31,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;touch-action:none}
+.g-dash.show{display:block}
+html[dir=rtl] .g-dash{right:auto;left:calc(18px + env(safe-area-inset-left,0px))}
+.g-dash span{position:absolute;inset:0;margin:auto;width:22px;height:30px;background:var(--peach);clip-path:polygon(60% 0,0 58%,44% 58%,30% 100%,100% 38%,54% 38%)}
+.g-dash.hit{animation:g-hit .3s var(--x-ease)}
+@keyframes g-hit{40%{transform:scale(.86);background:rgba(255,90,31,.45)}}
+html:not(.gaming) .g-dash{display:none!important}
