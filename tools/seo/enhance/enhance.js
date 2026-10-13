@@ -204,23 +204,38 @@
     if (!c.textContent) c.textContent = target;
     c._t = setInterval(stepOnce, 90); stepOnce();
   }
-  // the countdown plays when the scene is in front of you: on desktop the scene
-  // pins to the screen and the count starts once it is pinned; on phones it
-  // starts when the scene sits in the middle of the screen. It resets when you
-  // leave, so it plays again on the way back.
-  let mobilePlayed = false, playT = 0;
+  // 8 → 1 follows the visitor: while the scene is pinned, scrolling counts it
+  // down (and back up); if they stop scrolling there, it finishes on its own.
+  // Phones (no pin) play it when the scene is in the middle of the screen.
+  let mobilePlayed = false, playT = 0, auto = 0, idleT = 0;
   function deptScroll() {
     if (!dept) return;
     if (reduce) { setDone(8); return; }
-    const sr = dept.getBoundingClientRect(), st = $('.x-stick', dept).getBoundingClientRect(), wide = innerWidth > 900;
-    if (sr.bottom < 0 || sr.top > innerHeight) { if (mobilePlayed) { mobilePlayed = false; clearInterval(playT); setDone(0); $('.x-bar i', dept).style.setProperty('--p', 0); } return; }
-    const ready = wide ? st.top <= 4 && sr.bottom > innerHeight * 0.9
-      : (() => { const g = $('.x-dgrid', dept).getBoundingClientRect(); return g.top < innerHeight * 0.3 && g.top > -g.height * 0.4; })();
-    if (!mobilePlayed && ready) {
-      mobilePlayed = true; let k = 0;
-      playT = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(playT); }, 330);
+    const sr = dept.getBoundingClientRect();
+    if (innerWidth <= 900) {
+      if (sr.bottom < 0 || sr.top > innerHeight) { if (mobilePlayed) { mobilePlayed = false; clearInterval(playT); setDone(0); } return; }
+      const g = $('.x-dgrid', dept).getBoundingClientRect();
+      if (!mobilePlayed && g.top < innerHeight * 0.3 && g.top > -g.height * 0.4) {
+        mobilePlayed = true; let k = 0;
+        playT = setInterval(() => { setDone(++k); if (k >= 8) clearInterval(playT); }, 300);
+      }
+      return;
+    }
+    const pinLen = sr.height - innerHeight;
+    const p = Math.min(1, Math.max(0, -sr.top / pinLen));
+    if (sr.top > 0) auto = 0;
+    const byScroll = Math.round(Math.min(1, Math.max(0, (p - 0.04) / 0.7)) * 8);
+    setDone(Math.max(byScroll, auto));
+    $('.x-bar i', dept).style.setProperty('--p', (Math.max(byScroll, auto) / 8).toFixed(3));
+    clearTimeout(idleT);
+    if (sr.top <= 2 && sr.bottom >= innerHeight - 2 && Math.max(byScroll, auto) < 8) {
+      idleT = setTimeout(function step() {
+        auto = Math.max(auto, byScroll) + 1; setDone(auto); $('.x-bar i', dept).style.setProperty('--p', (auto / 8).toFixed(3));
+        if (auto < 8) idleT = setTimeout(step, 320);
+      }, 500);
     }
   }
+
 
 
 

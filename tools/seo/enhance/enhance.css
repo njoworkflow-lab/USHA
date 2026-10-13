@@ -127,7 +127,7 @@ li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31
 
 /* ---------- 8 → 1: as you scroll, each role hands its job to USHA ---------- */
 #roles{display:none!important}
-.seven.x-dept{display:block;position:relative;z-index:1;height:190vh;margin-top:60px}
+.seven.x-dept{display:block;position:relative;z-index:1;height:230vh;margin-top:60px}
 .x-stick{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding-top:64px}
 .x-dgrid{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.15fr) minmax(0,.95fr);gap:clamp(20px,3vw,48px);align-items:center;width:100%}
 .x-dept .stat{display:none}
