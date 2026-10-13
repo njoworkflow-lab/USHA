@@ -80,11 +80,11 @@ html[dir=rtl] .vs-tabs button{padding:10px 10px 10px 18px}
 .x-vs.x-in .vs-rows::before{transform:none}
 .vs-rows li{display:grid;grid-template-columns:1fr minmax(200px,auto) 1fr;align-items:center;gap:28px;padding:16px 0;opacity:0;transform:translateY(16px);transition:opacity .8s var(--x-ease),transform .9s var(--x-ease);transition-delay:calc(var(--r)*90ms + .2s)}
 .x-vs.x-in .vs-rows li{opacity:1;transform:none}
-.vs-l{text-align:end;font-size:clamp(15px,1.15vw,18px);color:rgba(243,238,232,.5);perspective:400px}
+.vs-l{text-align:end;font-size:clamp(15px,1.15vw,18px);color:rgba(243,238,232,.7);perspective:400px}
 .vs-flip{display:inline-block}
 .vs-flip.in{animation:vs-flip .6s var(--x-ease) both;animation-delay:calc(var(--r)*60ms)}
 @keyframes vs-flip{from{opacity:0;transform:rotateX(80deg) translateY(-6px)}}
-li.no .vs-l{color:rgba(243,238,232,.28)}
+li.no .vs-l{color:rgba(243,238,232,.45)}
 li.no .vs-flip{text-decoration:line-through;text-decoration-color:rgba(255,90,31,.55)}
 .vs-c{position:relative;justify-self:center;text-align:center}
 .vs-c span{display:inline-block;font:600 clamp(12.5px,.95vw,14.5px)/1.3 var(--head);letter-spacing:-.01em;color:var(--ink);padding:11px 18px;border-radius:99px;background:#0d0b10;box-shadow:inset 0 0 0 1px rgba(255,140,90,.35),0 0 24px -6px rgba(255,90,31,.5);max-width:240px}
