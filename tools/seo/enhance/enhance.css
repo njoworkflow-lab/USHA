@@ -605,3 +605,125 @@ html[lang=ar] .ctrl .xw-lab{font-family:var(--body);font-size:13px;letter-spacin
 .xp-aura,.xm-aura,.xp-ent::before{animation-play-state:paused!important}
 .xp-card:hover .xp-aura,.x-modal.on .xm-aura,.xp-ent:hover::before{animation-play-state:running!important}
 .xp-aura{will-change:auto}
+
+/* ---------- Ask USHA live: the entry card in "Try her" and the conversation window ---------- */
+.xl-cta{display:flex;align-items:center;justify-content:space-between;gap:18px 26px;flex-wrap:wrap;margin-top:18px;padding:22px 24px;border-radius:24px;background:linear-gradient(120deg,rgba(255,90,31,.16),rgba(255,180,138,.05) 55%,rgba(255,255,255,.03));box-shadow:inset 0 0 0 1px rgba(255,140,90,.35),0 30px 80px -40px rgba(255,90,31,.55)}
+.xl-cta-t{display:grid;gap:6px;min-width:0;flex:1 1 300px}
+.xl-cta-t .xm-k{display:inline-flex;align-items:center;gap:8px}
+.xl-cta-t b{font:700 clamp(19px,1.8vw,24px)/1.15 var(--head);letter-spacing:-.035em;color:var(--ink);text-wrap:balance}
+.xl-cta-t b i{font-style:normal;color:var(--ember-t)}
+.xl-cta-t p{margin:0;color:var(--ink2);font-size:14.5px}
+.xl-cta .btn{flex:none}
+.xl-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:xl-ping 2s infinite}
+@keyframes xl-ping{70%{box-shadow:0 0 0 8px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+
+.x-live [hidden]{display:none!important}
+.x-live .xl-panel{width:min(760px,100%);height:min(88vh,900px);max-height:none}
+.xl-hd{align-items:flex-start;padding:24px 28px 18px}
+.xl-hd h3{font-size:clamp(26px,3.4vw,38px)}
+.xl-hr{display:flex;align-items:center;gap:12px;flex:none}
+.xl-left{font:600 12px/1 var(--body);padding:8px 12px;border-radius:99px;color:var(--peach);background:rgba(255,90,31,.1);box-shadow:inset 0 0 0 1px rgba(255,140,90,.4);white-space:nowrap}
+.xl-left.low{color:#fff;background:var(--ember)}
+.xl-view{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+
+.xl-form{overflow:auto;overscroll-behavior:contain;padding:6px 28px 24px;display:grid;gap:16px}
+.xl-lead{margin:0;color:var(--ink2);font-size:14.5px;max-width:60ch}
+.xl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.xl-f{display:grid;gap:6px;min-width:0;align-content:start}
+.xl-f label{font-size:12.5px;font-weight:500;color:var(--ink2)}
+.xl-f input,.xl-f select,.xl-in textarea{width:100%;min-width:0;height:46px;padding:0 14px;border-radius:14px;border:0;outline:0;font:400 15px var(--body);color:var(--ink);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
+.xl-f select{padding-inline-end:34px;background-image:linear-gradient(45deg,transparent 50%,var(--ink3) 50%),linear-gradient(135deg,var(--ink3) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+html[dir=rtl] .xl-f select{background-position:18px 50%,13px 50%}
+.xl-f select option{background:#16131a;color:var(--ink)}
+.xl-f input:focus,.xl-f select:focus,.xl-in textarea:focus{box-shadow:inset 0 0 0 1.5px var(--peach),0 0 0 4px rgba(255,140,90,.12);background:rgba(255,255,255,.07)}
+.xl-f.bad input,.xl-f.bad select{box-shadow:inset 0 0 0 1.5px #ff6b5a}
+.xl-e{display:block;min-height:0;font-style:normal;font-size:12.5px;line-height:1.35;color:#ff9a8a}
+.xl-e:empty{display:none}
+.xl-fix{border:0;padding:0;background:none;color:var(--peach);font:inherit;text-decoration:underline;cursor:pointer}
+.xl-pr{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.xl-pr select{width:auto;padding-inline:12px 30px;background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%}
+html[dir=rtl] .xl-pr select{background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%}
+.xl-team{grid-column:1/-1}
+.xl-team small{font-size:12px;color:var(--ink3)}
+.xl-ts:empty{display:none}
+.xl-hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.xl-wait{margin:auto;color:var(--ink3);font-size:14px}
+.xl-team-go{border:0;background:none;cursor:pointer;font:500 12.5px var(--body);color:var(--ink3);text-decoration:underline;text-underline-offset:3px}
+.xl-go{display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap}
+.xl-go small{flex:1 1 220px;font-size:12px;color:var(--ink3);line-height:1.4}
+.xl-go .btn[disabled]{opacity:.6;cursor:progress}
+
+.xl-chat{flex:1;min-height:0;display:flex;flex-direction:column}
+.xl-log{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:18px 28px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.xl-m{max-width:88%;font-size:15px;line-height:1.55;color:var(--ink);overflow-wrap:anywhere}
+.xl-m p{margin:0 0 .55em}.xl-m p:last-child{margin:0}
+.xl-m b{color:#fff;font-weight:700}
+.xl-m h4{margin:.9em 0 .35em;font:700 15.5px/1.3 var(--head);letter-spacing:-.02em;color:var(--peach)}
+.xl-m h4:first-child{margin-top:0}
+.xl-m ul,.xl-m ol{margin:.2em 0 .7em;padding-inline-start:1.25em;display:grid;gap:.3em}
+.xl-m hr{border:0;border-top:1px solid var(--line);margin:.8em 0}
+.xl-m code{font:500 .9em var(--mono);padding:1px 5px;border-radius:6px;background:rgba(255,255,255,.08)}
+.xl-tw{overflow-x:auto;margin:.3em 0 .8em}
+.xl-m table{border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums;min-width:100%}
+.xl-m th,.xl-m td{padding:7px 10px;text-align:start;border-bottom:1px solid var(--line)}
+.xl-m th{font-weight:600;color:var(--ink2)}
+.xl-her,.xl-u-hi{align-self:flex-start;padding:14px 18px;border-radius:20px 20px 20px 6px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+html[dir=rtl] .xl-her,html[dir=rtl] .xl-u-hi{border-radius:20px 20px 6px 20px}
+.xl-u-hi{color:var(--ink2)}
+.xl-me{align-self:flex-end;padding:12px 16px;border-radius:20px 20px 6px 20px;background:linear-gradient(135deg,rgba(255,90,31,.32),rgba(255,140,90,.16));box-shadow:inset 0 0 0 1px rgba(255,140,90,.35)}
+html[dir=rtl] .xl-me{border-radius:20px 20px 20px 6px}
+.xl-who{display:block;font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--peach);margin-bottom:3px}
+html[lang=ar] .xl-who{font-family:var(--body);letter-spacing:0;font-size:12px}
+.xl-read{display:inline-flex;align-items:center;gap:4px;color:var(--ink2);font-size:14px}
+.xl-read i{width:5px;height:5px;border-radius:50%;background:var(--peach);animation:xl-dot 1.2s infinite}
+.xl-read i:nth-child(2){animation-delay:.15s}.xl-read i:nth-child(3){animation-delay:.3s}
+@keyframes xl-dot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.xl-tier{display:inline-block;margin-top:10px;font:500 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:4px 8px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line)}
+.xl-ideas{display:flex;gap:8px;flex-wrap:wrap;padding:0 28px 10px}
+.xl-ideas:empty{display:none}
+.xl-ideas button{border:0;cursor:pointer;font:500 13px var(--body);padding:8px 12px;border-radius:99px;color:var(--peach);background:rgba(255,90,31,.08);box-shadow:inset 0 0 0 1px rgba(255,140,90,.35);text-align:start}
+.xl-ideas button:hover{background:rgba(255,90,31,.18)}
+.xl-in{display:flex;align-items:flex-end;gap:10px;padding:12px 28px 6px;border-top:1px solid var(--line)}
+.xl-in textarea{height:auto;min-height:48px;max-height:160px;padding:13px 16px;resize:none;line-height:1.4;border-radius:18px}
+.xl-send{flex:none;width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;background:var(--ink);box-shadow:0 0 30px -6px rgba(255,170,130,.55);display:grid;place-items:center;transition:transform .3s var(--x-ease),opacity .3s}
+.xl-send i{width:14px;height:14px;border:solid #0b0a0f;border-width:2px 2px 0 0;transform:translate(-2px,2px) rotate(45deg)}
+html[dir=rtl] .xl-send i{transform:translate(2px,2px) rotate(-135deg)}
+.xl-send:hover{transform:scale(1.06)}
+.xl-in.busy .xl-send{opacity:.4;pointer-events:none}
+.xl-chat-e{padding:0 28px 10px}
+
+.xl-pm{margin:auto;padding:28px;display:grid;justify-items:center;gap:12px;text-align:center;max-width:520px}
+.xl-end .xl-pm{margin:6px 0 0;padding:22px 18px;max-width:none;border-radius:22px;background:rgba(255,90,31,.07);box-shadow:inset 0 0 0 1px rgba(255,140,90,.3)}
+.xl-pm-i{position:relative;width:64px;height:64px;margin-bottom:6px}
+.xl-pm-i i{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,140,90,.5);animation:xl-ring 3s var(--x-ease) infinite}
+.xl-pm-i i:nth-child(2){animation-delay:1s}.xl-pm-i i:nth-child(3){animation-delay:2s}
+.xl-pm-i::after{content:'';position:absolute;inset:22px;border-radius:50%;background:radial-gradient(circle,#fff,var(--peach) 45%,var(--ember));box-shadow:0 0 30px var(--ember)}
+@keyframes xl-ring{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.xl-pm h4{margin:0;font:700 clamp(22px,3vw,30px)/1.1 var(--head);letter-spacing:-.04em;color:var(--ink);text-wrap:balance}
+.xl-pm p{margin:0;color:var(--ink2);font-size:15px;max-width:44ch}
+.xl-pm-b{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.xl-ghost{color:var(--ink);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.xl-ghost:hover{background:rgba(255,255,255,.08)}
+.xl-pm-m{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink2);user-select:all}
+.xl-copy{border:0;cursor:pointer;font:500 12px var(--body);padding:5px 10px;border-radius:99px;color:var(--peach);background:rgba(255,255,255,.06)}
+.xl-free{font-size:14px;color:var(--peach);text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:640px){
+  .x-live{padding:0}
+  .x-live .xl-panel{width:100%;height:100%;border-radius:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .xl-hd{padding:16px 18px 14px;gap:12px}
+  .xl-hd h3{font-size:24px;margin-top:6px}
+  .xl-hr{flex-direction:column-reverse;align-items:flex-end;gap:8px}
+  html[dir=rtl] .xl-hr{align-items:flex-start}
+  .xl-form{padding:4px 18px 20px}
+  .xl-grid{grid-template-columns:1fr}
+  .xl-log{padding:14px 16px 8px}
+  .xl-m{max-width:94%}
+  .xl-ideas{padding:0 16px 8px}
+  .xl-in{padding:10px 14px 4px}
+  .xl-chat-e{padding:0 16px 8px}
+  .xl-f input,.xl-f select,.xl-in textarea{font-size:16px}
+  .xl-cta{padding:18px}
+  .xl-cta .btn{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.xl-dot,.xl-read i,.xl-pm-i i{animation:none}}
