@@ -279,17 +279,24 @@ function findingChart(i, lang) {
     if (!c.textContent) c.textContent = target;
     c._t = setInterval(stepOnce, 90); stepOnce();
   }
-  // the countdown plays once, quickly, the moment the number is fully in view
-  let mobilePlayed = false;
+  // the countdown plays when the scene is in front of you: on desktop the scene
+  // pins to the screen and the count starts once it is pinned; on phones it
+  // starts when the scene sits in the middle of the screen. It resets when you
+  // leave, so it plays again on the way back.
+  let mobilePlayed = false, playT = 0;
   function deptScroll() {
     if (!dept) return;
     if (reduce) { setDone(8); return; }
-    const c = $('.x-count', dept), cr = c.getBoundingClientRect();
-    if (!mobilePlayed && cr.top > innerHeight * 0.08 && cr.bottom < innerHeight * 0.92) {
+    const sr = dept.getBoundingClientRect(), st = $('.x-stick', dept).getBoundingClientRect(), wide = innerWidth > 900;
+    if (sr.bottom < 0 || sr.top > innerHeight) { if (mobilePlayed) { mobilePlayed = false; clearInterval(playT); setDone(0); $('.x-bar i', dept).style.setProperty('--p', 0); } return; }
+    const ready = wide ? st.top <= 4 && sr.bottom > innerHeight * 0.9
+      : (() => { const g = $('.x-dgrid', dept).getBoundingClientRect(); return g.top < innerHeight * 0.3 && g.top > -g.height * 0.4; })();
+    if (!mobilePlayed && ready) {
       mobilePlayed = true; let k = 0;
-      const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 260);
+      playT = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(playT); }, 330);
     }
   }
+
 
 
   // each number becomes the work itself: one tile per deliverable, shaped like
