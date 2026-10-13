@@ -277,25 +277,20 @@ function findingChart(i, lang) {
       if (+c.textContent === target) { clearInterval(c._t); c.classList.toggle('one', one); }
     };
     if (!c.textContent) c.textContent = target;
-    c._t = setInterval(stepOnce, 170); stepOnce();
+    c._t = setInterval(stepOnce, 90); stepOnce();
   }
+  // the countdown plays once, quickly, the moment the number is fully in view
   let mobilePlayed = false;
   function deptScroll() {
     if (!dept) return;
-    const r = dept.getBoundingClientRect();
     if (reduce) { setDone(8); return; }
-    if (innerWidth <= 900) {
-      const cr = $('.x-count', dept).getBoundingClientRect();
-      if (!mobilePlayed && cr.top > 60 && cr.bottom < innerHeight * 0.8) {
-        mobilePlayed = true; let k = 0;
-        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 750);
-      }
-      return;
+    const c = $('.x-count', dept), cr = c.getBoundingClientRect();
+    if (!mobilePlayed && cr.top > innerHeight * 0.08 && cr.bottom < innerHeight * 0.92) {
+      mobilePlayed = true; let k = 0;
+      const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 260);
     }
-    const total = r.height - innerHeight, p = Math.min(1, Math.max(0, -r.top / total));
-    $('.x-bar i', dept).style.setProperty('--p', p.toFixed(3));
-    setDone(Math.min(8, Math.floor(p * 9.2)));
   }
+
 
   // each number becomes the work itself: one tile per deliverable, shaped like
   // it; tiles Pro adds are ember and leave when Core is chosen
@@ -396,28 +391,31 @@ function findingChart(i, lang) {
     $$('.alg b').forEach((b, i) => b.dataset.n = '0' + (i + 1));
   }
 
-  // ---------- phones: the industry chips glide, and the demo moves on by itself ----------
+  // ---------- phones: the industry chips run in a loop, like the partners strip ----------
   function chipsGlide() {
-    const row = $('#ichips'); if (!row || row.dataset.xg || reduce) return;
-    row.dataset.xg = 1;
-    let dir = 1, touched = 0, last = performance.now(), cycleT = performance.now();
-    const stop = () => { touched = performance.now(); };
+    const row = $('#ichips'); if (!row || reduce) return;
+    const orig = $$('button:not(.x-clone)', row);
+    if (!orig.length) return;
+    if (!row.querySelector('.x-clone')) {
+      orig.forEach((b, i) => { const c = b.cloneNode(true); c.classList.add('x-clone'); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; c.addEventListener('click', () => orig[i].click()); row.append(c); });
+      const sync = () => $$('.x-clone', row).forEach((c, i) => c.classList.toggle('on', orig[i].classList.contains('on')));
+      orig.forEach((b) => new MutationObserver(sync).observe(b, { attributes: true, attributeFilter: ['class'] })); sync();
+    }
+    if (row.dataset.xg) return; row.dataset.xg = 1;
+    let touched = 0, last = performance.now(), cycleT = performance.now(), x = 0;
+    const stop = () => { touched = performance.now(); x = Math.abs(row.scrollLeft); };
     ['pointerdown', 'touchstart', 'wheel'].forEach((ev) => row.addEventListener(ev, stop, { passive: true }));
     (function tick(now) {
       requestAnimationFrame(tick);
       const dt = Math.min(64, now - last); last = now;
-      if (innerWidth > 900 || now - touched < 8000) return;
+      if (innerWidth > 900 || now - touched < 2500) return;
       const r = row.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-      const max = row.scrollWidth - row.clientWidth; if (max < 4) return;
-      const rtlDir = rtl ? -1 : 1;
-      let x = Math.abs(row.scrollLeft) + dir * dt * 0.028;
-      if (x >= max) { x = max; dir = -1; } else if (x <= 0) { x = 0; dir = 1; }
-      row.scrollLeft = x * rtlDir;
-      // every 12 s, if nobody chose, she moves on to the next business
-      if (now - cycleT > 12000 && now - touched > 12000) {
-        cycleT = now;
-        const bs = $$('button', row), i = bs.findIndex((b) => b.classList.contains('on'));
-        const nx = bs[(i + 1) % bs.length]; if (nx) nx.click();
+      const half = row.scrollWidth / 2;
+      x += dt * 0.035; if (x >= half) x -= half;
+      row.scrollLeft = x * (rtl ? -1 : 1);
+      if (now - cycleT > 9000 && now - touched > 9000) {
+        cycleT = now; const i = orig.findIndex((b) => b.classList.contains('on'));
+        orig[(i + 1) % orig.length].click();
       }
     })(performance.now());
   }
