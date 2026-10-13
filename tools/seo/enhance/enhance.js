@@ -27,7 +27,7 @@
   // ---------- header ----------
   const header = $('header');
   function onScroll() {
-    wakeCheck(); revealCheck(); handCheck(); tilesCheck(); ctrlCheck();
+    wakeCheck(); revealCheck(); deptScroll(); tilesCheck(); ctrlCheck();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -123,69 +123,73 @@
     watch(w.parentNode);
   }
 
-  // ---------- 8 → 1: every role hands its job to USHA ----------
+  // ---------- 8 → 1: as you scroll, each role hands its job to USHA ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let handRun = 0;
+  let dept = null, done = -1;
   function rolesUI() {
-    const box = $('#roles'), x = X().hand; if (!box || !x) return;
+    const seven = $('.seven'), box = $('#roles'), x = X().hand; if (!seven || !box || !x) return;
     const roles = $$('span:not(.one)', box).map((r) => r.textContent);
-    box.classList.add('x-hid');
-    let el = $('.x-hand');
-    if (!el) { el = D.createElement('div'); el.className = 'x-hand'; box.after(el); }
-    const tick = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-6.5"/></svg>';
-    el.innerHTML = `<ol class="xh-roles">${roles.map((r, i) => `<li><span class="xh-n">0${i + 1}</span><span class="xh-r">${esc(r)}</span><span class="xh-t">${esc(x.tags[i] || '')}</span></li>`).join('')}</ol>
-    <div class="xh-side glass">
-      <div class="xh-count"><b>8</b><span>${esc(x.capMany)}</span></div>
-      <div class="xh-her"><div class="xh-orb" aria-hidden="true"><i></i><i></i></div><div><strong>USHA</strong><span>${esc(x.her)}</span></div></div>
-      <ul class="xh-tasks">${x.tags.map((t) => `<li>${tick}<span>${esc(t)}</span></li>`).join('')}</ul>
-      <p class="xh-foot">${esc(x.foot)}</p>
-      <button type="button" class="xh-replay">↻ ${esc(x.replay)}</button>
-    </div>`;
-    $('.xh-replay', el).addEventListener('click', () => playHand(el, true));
-    el.dataset.played = '';
-    handRun++;
-    if (reduce) finishHand(el);
+    const text = $(':scope > .rv', seven) || $('.x-d1 > .rv', seven);
+    seven.classList.add('x-dept');
+    let st = $('.x-stick', seven);
+    if (!st) {
+      st = D.createElement('div'); st.className = 'x-stick';
+      st.innerHTML = '<div class="x-dgrid"><div class="x-d1"></div><ol class="x-roles"></ol><div class="x-her glass"></div></div>';
+      seven.prepend(st);
+      $('.x-d1', st).append(text);
+    }
+    const d1 = $('.x-d1', st);
+    $$('.x-count,.x-cap,.x-bar,.x-dk', d1).forEach((e) => e.remove());
+    d1.insertAdjacentHTML('afterbegin', `<span class="x-dk">${esc(x.kick)}</span>`);
+    d1.insertAdjacentHTML('beforeend', `<div class="x-count" aria-live="polite">8</div><div class="x-cap">${esc(x.capMany)}</div><div class="x-bar"><i></i></div>`);
+    $('.x-roles', st).innerHTML = roles.map((r, i) => `<li><span class="n">0${i + 1}</span><span class="r">${esc(r)}</span><span class="t">${esc(x.tags[i] || '')}</span></li>`).join('');
+    $('.x-her', st).innerHTML = `<div class="hd"><div class="x-orb"><b></b><b></b></div><div><strong>USHA</strong><span>${esc(x.her)}</span></div></div>
+      <ul class="x-tasks">${x.tags.map((t) => `<li><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3"/></svg>${esc(t)}</li>`).join('')}</ul>
+      <p class="x-foot">${esc(x.foot)}</p>`;
+    dept = seven; done = -1; mobilePlayed = false;
+    setDone(0); deptScroll();
   }
-  function finishHand(el) {
-    $$('.xh-roles li', el).forEach((li) => li.classList.add('gone'));
-    $$('.xh-tasks li', el).forEach((li) => li.classList.add('on'));
-    const c = $('.xh-count', el); $('b', c).textContent = '1'; c.classList.add('one'); $('span', c).textContent = X().hand.capOne;
-    el.classList.add('done');
+  function spark(from, to) {
+    if (reduce || !from.animate) return;
+    const orb = $('.x-orb', dept), a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    const sp = D.createElement('i'); sp.className = 'x-spark'; D.body.append(sp);
+    const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + 16, y1 = b.top + b.height / 2;
+    sp.animate([{ transform: `translate(${x0}px,${y0}px) scale(.6)`, opacity: 1 }, { transform: `translate(${(x0 + x1) / 2}px,${Math.min(y0, y1) - 60}px) scale(1.3)`, opacity: 1 }, { transform: `translate(${x1}px,${y1}px) scale(.4)`, opacity: .2 }], { duration: 650, easing: 'cubic-bezier(.5,0,.2,1)' }).onfinish = () => { sp.remove(); orb.classList.add('got'); setTimeout(() => orb.classList.remove('got'), 260); };
   }
-  function playHand(el, again) {
-    if (el.dataset.played && !again) return;
-    el.dataset.played = 1;
-    const run = ++handRun, x = X().hand;
-    const lis = $$('.xh-roles li', el), tasks = $$('.xh-tasks li', el), c = $('.xh-count', el), orb = $('.xh-orb', el);
-    el.classList.remove('done'); c.classList.remove('one');
-    lis.forEach((li) => li.classList.remove('gone')); tasks.forEach((t) => t.classList.remove('on'));
-    $('b', c).textContent = '8'; $('span', c).textContent = x.capMany;
-    lis.forEach((li, i) => setTimeout(() => {
-      if (run !== handRun) return;
-      const from = $('.xh-t', li).getBoundingClientRect(), to = orb.getBoundingClientRect();
-      const sp = D.createElement('i'); sp.className = 'xh-spark';
-      sp.style.left = from.left + from.width / 2 + 'px'; sp.style.top = from.top + from.height / 2 + 'px';
-      D.body.append(sp);
-      li.classList.add('gone');
-      requestAnimationFrame(() => { sp.style.transform = `translate(${to.left + to.width / 2 - from.left - from.width / 2}px,${to.top + to.height / 2 - from.top - from.height / 2}px) scale(.6)`; });
-      setTimeout(() => {
-        sp.remove(); if (run !== handRun) return;
-        tasks[i] && tasks[i].classList.add('on');
-        orb.classList.remove('got'); void orb.offsetWidth; orb.classList.add('got');
-        const n = Math.max(1, 7 - i);
-        $('b', c).textContent = n;
-        if (i === lis.length - 1) { c.classList.add('one'); $('span', c).textContent = x.capOne; el.classList.add('done'); }
-      }, 620);
-    }, 500 + i * 520));
+  function setDone(n) {
+    if (!dept || n === done) return;
+    const x = X().hand, rows = $$('.x-roles li', dept), slots = $$('.x-tasks li', dept);
+    rows.forEach((r, i) => {
+      const was = r.classList.contains('gone'), now = i < n;
+      r.classList.toggle('gone', now);
+      setTimeout(() => slots[i] && slots[i].classList.toggle('on', now), now && !was ? 520 : 0);
+      if (now && !was && done >= 0) spark($('.t', r), slots[i]);
+    });
+    done = n;
+    const left = Math.max(1, 8 - n), c = $('.x-count', dept);
+    c.textContent = left;
+    c.classList.toggle('one', n >= 8);
+    $('.x-cap', dept).textContent = n >= 8 ? x.capOne : n === 0 ? x.capMany : (left === 1 ? x.leftOne : x.leftMany);
+    $('.x-foot', dept).classList.toggle('on', n >= 8);
+    dept.classList.toggle('x-all', n >= 8);
   }
-  function handCheck() {
-    const el = $('.x-hand'); if (!el || el.dataset.played || reduce) return;
-    const r = el.getBoundingClientRect();
-    if (r.top < innerHeight * 0.62 && r.bottom > 0) playHand(el);
+  let mobilePlayed = false;
+  function deptScroll() {
+    if (!dept) return;
+    const r = dept.getBoundingClientRect();
+    if (reduce) { setDone(8); return; }
+    if (innerWidth <= 900) {
+      if (!mobilePlayed && r.top < innerHeight * 0.5 && r.bottom > 0) {
+        mobilePlayed = true; let k = 0;
+        const t = setInterval(() => { setDone(++k); $('.x-bar i', dept).style.setProperty('--p', k / 8); if (k >= 8) clearInterval(t); }, 520);
+      }
+      return;
+    }
+    const total = r.height - innerHeight, p = Math.min(1, Math.max(0, -r.top / total));
+    $('.x-bar i', dept).style.setProperty('--p', p.toFixed(3));
+    setDone(Math.min(8, Math.floor(p * 9.2)));
   }
 
-  // ---------- monthly numbers: a light meter for each ----------
-  let monthPro = true;
   // each number becomes the work itself: one tile per deliverable, shaped like
   // it; tiles Pro adds are ember and leave when Core is chosen
   const SHAPES = [['comp', 'mkt'], ['post', 'story'], ['video', 'edit', 'shoot', 'design'], ['promo', 'ads', 'creator']];

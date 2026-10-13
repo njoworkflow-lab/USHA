@@ -143,11 +143,13 @@ export const X = {
   },
   // 8 → 1: each role hands its job to USHA
   hand: {
-    tags: [['Strategy', 'Стратегия'], ['Plan & calendar', 'План и календарь'], ['Ads', 'Реклама'], ['Posts & stories', 'Посты и сторис'], ['Video edits', 'Монтаж'], ['AI video', 'ИИ-видео'], ['Design', 'Дизайн'], ['Website', 'Сайт']],
-    capMany: ['people to hire', 'человек в штат'],
-    capOne: ['engine. Ready in a week.', 'движок. Готов за неделю.'],
-    her: ['takes the whole job', 'берёт всю работу'],
-    foot: ['Eight jobs, one conversation in your messenger.', 'Восемь задач — один чат в вашем мессенджере.'],
-    replay: ['Replay', 'Ещё раз'],
+    tags: [['Strategy', 'Стратегия'], ['Plans', 'Планы'], ['Ads', 'Реклама'], ['Channels', 'Каналы'], ['Video', 'Видео'], ['Visuals', 'Визуалы'], ['Design', 'Дизайн'], ['Website', 'Сайт']],
+    kick: ['Why her', 'Почему она'],
+    capMany: ['full-time roles to hire, train and manage', 'ставок в штат: найти, обучить, управлять'],
+    leftOne: ['role left to hand over', 'осталось передать'],
+    leftMany: ['roles left to hand over', 'осталось передать'],
+    capOne: ['engine. Every role’s work, one memory.', 'движок. Вся работа отдела, одна память.'],
+    her: ['One engine · one memory', 'Один движок · одна память'],
+    foot: ['Ready in one week. Works 24/7. Never leaves with your project history.', 'Готова за неделю. Работает 24/7. Не уходит с историей вашего проекта.'],
   },
 };
