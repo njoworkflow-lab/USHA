@@ -35,12 +35,12 @@ const tasksEl=document.getElementById("tasks"),toastEl=document.getElementById("
 const tx=(k,f)=>{const d=r()||{};return d[k]||f||""};
 function toast(m,d=2.6){if(!toastEl)return;toastEl.textContent=m;toastEl.classList.add("on");toastT=d}
 function hud(){
- if(!tasksEl)return;const c=LVc,row=(ok,label,v)=>'<div class="'+(ok?"ok":"")+'"><span>'+label+"</span><b>"+v+"</b></div>";
+ if(!tasksEl)return;const c=LVc,row=(ok,label,v,k)=>'<div class="g-goal '+k+(ok?" ok":"")+'"><span>'+label+"</span><b>"+v+"</b></div>";
  let h='<div class="g-lv"><span>'+tx("g_lv","Level")+" "+(w.lv+1)+"</span><b>"+lvName(c)+'</b></div><div class="g-sc"><b>'+w.score.toLocaleString()+"</b>"+(w.combo>1?"<em>×"+w.combo+"</em>":"")+"<span>"+tx("g_best","Best")+" "+Math.max(w.best,w.score).toLocaleString()+" · "+tx("g_lv","Level")+" "+Math.max(w.bestLv,w.lv+1)+"</span></div>"+'<div class="g-life">'+[0,1,2].map(k=>'<i class="'+(k<w.lives?"on":"")+'"></i>').join("")+(w.shield>0?'<em class="g-sh"></em>':"")+"</div>";
- if(c.sig)h+=row(w.sig>=c.sig,tx("g_o1","Signals"),Math.min(w.sig,c.sig)+"/"+c.sig);
- if(c.cl)h+=row(w.burst>=c.cl,tx("g_o2","Noise clouds"),Math.min(w.burst,c.cl)+"/"+c.cl);
- if(c.house)h+=row(w.house,tx("g_o3","Engineers’ house"),(w.house?1:0)+"/1");
- if(c.boss&&boss)h+=row(boss.hp<=0,tx("g_o4","Noise King"),'<span class="g-hp">'+Array.from({length:Math.min(boss.max,12)},(_,k)=>'<i class="'+(k<Math.ceil(boss.hp*Math.min(boss.max,12)/boss.max)?"on":"")+'"></i>').join("")+"</span>");
+ if(c.sig)h+=row(w.sig>=c.sig,tx("g_o1","Signals"),Math.min(w.sig,c.sig)+"/"+c.sig,"g-s");
+ if(c.cl)h+=row(w.burst>=c.cl,tx("g_o2","Noise clouds"),Math.min(w.burst,c.cl)+"/"+c.cl,"g-c");
+ if(c.house)h+=row(w.house,tx("g_o3","Engineers’ house"),(w.house?1:0)+"/1","g-h");
+ if(c.boss&&boss)h+=row(boss.hp<=0,tx("g_o4","Noise King"),'<span class="g-hp">'+Array.from({length:Math.min(boss.max,12)},(_,k)=>'<i class="'+(k<Math.ceil(boss.hp*Math.min(boss.max,12)/boss.max)?"on":"")+'"></i>').join("")+"</span>","g-k");
  tasksEl.innerHTML=h}
 function bounds(){const h=Math.tan(Qs.degToRad(e.fov/2))*12;Hh=h*1.5;W=h*e.aspect*1.5}
 function spot(min){let x,y,k=0;do{x=rnd(-W*.86,W*.86);y=rnd(-Hh*.8,Hh*.8)}while(dist(x,y,L.x,L.y)<min&&++k<40);return[x,y]}

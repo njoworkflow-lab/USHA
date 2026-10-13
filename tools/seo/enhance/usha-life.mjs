@@ -46,6 +46,22 @@ export function applyLife(src) {
     ['Hl.addEventListener("pointerdown",i=>{di=', 'addEventListener("pointerdown",i=>{if(i.target.closest&&i.target.closest("a,button,input,textarea,select,label,summary,header,.lang,.chips,.ov"))return;if(!Gn&&!(i.target===Hl||i.target.closest&&i.target.closest("#hero,#noise,#signal")))return;di='],
     // she notices the cursor arriving
     ['Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,', 'Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,Gn&&!Gp_&&Un_(),!Gn&&Gp_&&(Ua_=performance.now()),Gp_=Gn,'],
+    // the four algorithms sit in one clean row under the headline (desktop)
+    ['[[-4.1,-.25,0],[-1.35,-1.55,0],[1.35,-.25,0],[4.1,-1.55,0]]', '[[-4.3,-1.05,0],[-1.45,-1.05,0],[1.45,-1.05,0],[4.3,-1.05,0]]'],
+    // their labels always stay on screen
+    ['p.style.top=((1-bs.y)/2*innerHeight).toFixed(1)+"px",p.classList.toggle("on",v===d)', 'p.style.top=Math.min((1-bs.y)/2*innerHeight,innerHeight-(p._h||(p._h=p.offsetHeight))-24).toFixed(1)+"px",p.classList.toggle("on",v===d)'],
+    // findings: USHA sits above the card, not behind it
+    ['[t[0]+1.2,t[1]+.65,.4],us:e?.4:.55', '[t[0]+1.05,t[1]+1.32,.4],us:e?.4:.5'],
+    // "Try her": a softer ring so it never hazes over USHA
+    ['ch:.25,g:.5,gp:[(s.left+s.width*.5)/innerWidth', 'ch:e?.1:.25,g:e?0:.2,gp:[(s.left+s.width*.5)/innerWidth'],
+    // phones: hero USHA a little higher so the label clears her
+    ['u:e?[0,2.98,0]:[2.75,.1,1.2],us:e?1.02:.95', 'u:e?[0,3.32,0]:[2.75,.1,1.2],us:e?.9:.95'],
+    // phones: findings USHA sits higher above the card
+    ['u:e?[t[0]+1.05,t[1]+.95,.4]', 'u:e?[t[0]+1.05,t[1]+1.3,.4]'],
+    // phones: "Try her" USHA larger and clear, the ring calmer
+    ['us:e?.42:.66,ch:', 'us:e?.6:.66,ch:'],
+    // "Try her": the particle ring forms behind her, so it frames her instead of hazing over her
+    ['s.i<=3&&!l&&bt.u.uC3.value.set(f.x,f.y,f.z-.2)', 's.i<=3&&!l&&bt.u.uC3.value.set(f.x,f.y,f.z-(s.i===3?1.4:.2))'],
     // moods: the tap handler asks the mood engine first
     ['function c_(){if(de.taps++', MOOD + 'function c_(){if(Um())return;if(de.taps++'],
   ];
