@@ -642,6 +642,8 @@ html[dir=rtl] .xl-f select{background-position:18px 50%,13px 50%}
 .xl-f select option{background:#16131a;color:var(--ink)}
 .xl-f input:focus,.xl-f select:focus,.xl-in textarea:focus{box-shadow:inset 0 0 0 1.5px var(--peach),0 0 0 4px rgba(255,140,90,.12);background:rgba(255,255,255,.07)}
 .xl-f.bad input,.xl-f.bad select{box-shadow:inset 0 0 0 1.5px #ff6b5a}
+.xl-f.ok input{box-shadow:inset 0 0 0 1.5px rgba(61,220,132,.65)}
+.xl-f select optgroup{background:#16131a;color:var(--peach);font-weight:600}
 .xl-e{display:block;min-height:0;font-style:normal;font-size:12.5px;line-height:1.35;color:#ff9a8a}
 .xl-e:empty{display:none}
 .xl-fix{border:0;padding:0;background:none;color:var(--peach);font:inherit;text-decoration:underline;cursor:pointer}
