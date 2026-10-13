@@ -106,11 +106,12 @@ function dehydrate(h, lang) {
     const url = emit(`fonts/${fam}-${weight}${style}-${subset}-${hash(buf)}.woff2`, buf);
     // Headline (Geist 300) and body (Golos 400) in the page's own alphabet.
     const want = { ru: 'cyrillic', ar: 'arabic' }[lang] || 'latin';
-    if (subset === want && ((fam === 'geist' && weight === '300') || (fam === 'golos-text' && weight === '400') )) preload.push(url);
+    if (subset === want && ((fam === 'geist' && weight === '300') || (fam === 'golos-text' && weight === '400') ) && !TYPE_FACES) preload.push(url);
     return face.replace(m[0], `src:url(${url})`);
   });
   h = h.replace(/<script>(\(\(\)=>\{[^]*?)<\/script>/, (s, js) => js.length < 100000 ? s : `<script src="${emit(`app-${hash(js)}.js`, js)}"></script>`);
   h = h.replace(/(class="fnjo"[^>]*><img )([^>]*?)src="data:image\/png;base64,[^"]+"/, '$1loading="lazy" decoding="async" $2src="/njo-logo.png"');
+  if (TYPE_FACES) preload.push(...TYPE_PRELOAD[{ ru: 'cyrillic' }[lang] || 'latin']);
   const links = preload.map((u) => `<link rel="preload" href="${u}" as="font" type="font/woff2" crossorigin>\n`).join('');
   return h.replace(/(<!-- seo:start)/, `${links}$1`);
 }
@@ -239,9 +240,10 @@ srcAr = patch(srcAr, JUMP, jump('if(i.dataset.l!=="ar"){try{localStorage.setItem
 // they outrank the page's own :root.
 const HACEN = fs.readFileSync(path.join(ROOT, 'tools/seo/fonts/Hacen_Saudi_Arabia.ttf'));
 const HACEN_URL = emit(`fonts/hacen-saudi-arabia-${hash(HACEN)}.ttf`, HACEN);
+const AR_LATE = "html[lang=ar]:root{--head:'Unbounded','Hacen Saudi Arabia',system-ui,sans-serif;--body:'Onest','Hacen Saudi Arabia',system-ui,sans-serif}";
 const AR_CSS = `<link rel="preload" href="${HACEN_URL}" as="font" type="font/ttf" crossorigin>\n<style id="ar-type">` +
   `@font-face{font-family:'Hacen Saudi Arabia';font-style:normal;font-weight:400;font-display:swap;src:url(${HACEN_URL}) format('truetype');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+200C-200F,U+FB50-FDFF,U+FE70-FEFF}` +
-  "html[lang=ar]{--head:'Geist','Hacen Saudi Arabia',system-ui,sans-serif;--body:'Golos Text','Hacen Saudi Arabia','Geist',system-ui,sans-serif;font-synthesis:none}" +
+  "html[lang=ar]{--head:'Unbounded','Hacen Saudi Arabia',system-ui,sans-serif;--body:'Onest','Hacen Saudi Arabia',system-ui,sans-serif;font-synthesis:none}" +
   'html[lang=ar] *{letter-spacing:0!important}html[lang=ar] h1,html[lang=ar] h2{line-height:1.3}' +
   'html[lang=ar] i{font-family:inherit;font-style:normal;color:var(--peach)}' +
   // Figures read left to right; arrows point the reading way; the section 02
@@ -310,6 +312,23 @@ function jsonLd(lang) {
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 }
 
+// ---------- house type: Unbounded (display), Onest (text), JetBrains Mono (labels) ----------
+// Variable fonts, latin + cyrillic subsets, self-hosted (SIL OFL). Each subset
+// downloads only when the page uses that alphabet. Arabic glyphs fall through
+// to Hacen Saudi Arabia (AR_CSS).
+const RANGES = {
+  latin: 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD',
+  cyrillic: 'U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116',
+};
+const TYPE_PRELOAD = { latin: [], cyrillic: [] };
+const TYPE_FACES = [['Unbounded', 'unbounded', '200 900'], ['Onest', 'onest', '100 900'], ['JetBrains Mono', 'jetbrains-mono', '400 800']].map(([fam, file, w]) =>
+  Object.keys(RANGES).map((sub) => {
+    const buf = fs.readFileSync(path.join(ROOT, `tools/seo/fonts/${file}-${sub}.woff2`));
+    const url = emit(`fonts/${file}-var-${sub}-${hash(buf)}.woff2`, buf);
+    if (file !== 'jetbrains-mono') TYPE_PRELOAD[sub].push(url);
+    return `@font-face{font-family:'${fam}';font-style:normal;font-weight:${w};font-display:swap;src:url(${url}) format('woff2');unicode-range:${RANGES[sub]}}`;
+  }).join('')).join('');
+
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
 const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
@@ -348,7 +367,7 @@ ${Object.entries(LANGS).filter(([l]) => l !== lang).map(([, x]) => `<meta proper
 <meta name="twitter:image" content="${SITE}/og.jpg">
 <script type="application/ld+json">${jsonLd(lang)}</script>
 <noscript><style>#intro,#hey,#gl,#cur{display:none!important}[data-in],.rv{opacity:1!important;transform:none!important}.stick{position:relative!important;height:auto!important}#hero,#noise,#signal{height:auto!important}</style></noscript>
-<style id="x-css">${ENH_CSS}</style>
+<style id="x-type">${TYPE_FACES}</style>
 ${lang === 'ar' ? AR_CSS + '\n' : ''}<!-- seo:end -->`;
 }
 
@@ -386,6 +405,10 @@ function render(lang) {
     hd = hd.replace(/(<meta name="viewport"[^>]*>\n?)/, (m) => `${m}${head(lang)}\n`);
     h = hd + h.slice(headEnd);
   }
+
+  // the layer's CSS sits last in <head> so it outranks the page's own rules
+  h = h.replace(/<!--xcss-->[^]*?<!--\/xcss-->\n?/, '');
+  h = h.replace('</head>', `<!--xcss--><style id="x-css">${ENH_CSS}</style>${lang === 'ar' ? `<style>${AR_LATE}</style>` : ''}<!--/xcss-->\n</head>`);
 
   // data-t elements: values only contain <b>, <i>, <br>, so the first matching
   // closing tag is the element's own. The easter-egg popup stays out of the

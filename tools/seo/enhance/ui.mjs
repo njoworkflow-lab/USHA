@@ -10,6 +10,7 @@ export function plansHTML(x, d, sel = 'pro') {
   const rows = x.plansGroups.map(([g, list]) => `<div class="xp-g"><div class="xp-gl">${esc(g)}</div>${list.map(([l, c, p]) =>
     `<div class="xp-r${c === '—' ? ' xp-new' : ''}"><span class="xp-l">${esc(l)}</span><span class="xp-v"><span class="xp-c">${esc(c)}</span><span class="xp-p">${esc(p)}</span></span></div>`).join('')}</div>`).join('');
   return `<div class="xp" data-sel="${sel}">
+  <div class="xp-top">
   <div class="xp-card glass rv">
     <div class="xp-aura" aria-hidden="true"></div>
     <div class="tog pill xp-tog" role="radiogroup" aria-label="Core / Pro">
@@ -23,6 +24,7 @@ export function plansHTML(x, d, sel = 'pro') {
     <a class="btn btn-p xp-go" href="#free" data-plan="USHA Pro"><span class="d"></span><span>${esc(d.p_cta)}</span></a>
   </div>
   <div class="xp-list rv">${rows}</div>
+  </div>
   <div class="xp-ent glass rv">
     <div class="xp-e1"><span class="xp-k">${esc(x.entKick)}</span><h3>USHA <i>Enterprise</i></h3><p>${esc(x.entLead)}</p>
       <a class="btn btn-g xp-ego" href="#free" data-plan="USHA Enterprise"><span>${esc(d.p_cta)}</span> ↗</a></div>

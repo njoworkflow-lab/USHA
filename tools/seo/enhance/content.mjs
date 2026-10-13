@@ -128,4 +128,26 @@ export const X = {
   entAllItems: [['Market intelligence', 'Анализ рынка'], ['Strategy', 'Стратегия'], ['Creative studio', 'Креативная студия'], ['Promotion', 'Продвижение'], ['Website design', 'Дизайн сайта'], ['One conversation', 'Один диалог']],
   entOnly: ['Only in Enterprise', 'Только в Enterprise'],
   entOnlyItems: [[['Customers', 'Покупатели'], ['replies at scale', 'ответы в любом объёме']], [['Operations', 'Операции'], ['stock & sales', 'остатки и продажи']], [['Working tools', 'Инструменты'], ['dashboards · sites · automations', 'панели · сайты · автоматизации']]],
+  // month legend and the control widgets
+  legendCore: ['In Core', 'В Core'],
+  legendPro: ['Pro adds', 'Pro добавляет'],
+  ctrl: {
+    feed: [['Post published', 'Пост опубликован'], ['14 replies sent', 'Отправлено 14 ответов'], ['Weekly report ready', 'Недельный отчёт готов'], ['Stories scheduled', 'Сторис запланированы']],
+    on: ['Autopilot', 'Автопилот'],
+    ask: ['Launch the “−15% weekend” promo?', 'Запустить акцию «−15% на выходные»?'],
+    yes: ['Yes', 'Да'],
+    later: ['Not now', 'Не сейчас'],
+    ok: ['Approved. Launching Friday.', 'Одобрено. Запуск в пятницу.'],
+    lock: [['Deals', 'Сделки'], ['Payments', 'Платежи']],
+    only: ['Only you', 'Только вы'],
+  },
+  // 8 → 1: each role hands its job to USHA
+  hand: {
+    tags: [['Strategy', 'Стратегия'], ['Plan & calendar', 'План и календарь'], ['Ads', 'Реклама'], ['Posts & stories', 'Посты и сторис'], ['Video edits', 'Монтаж'], ['AI video', 'ИИ-видео'], ['Design', 'Дизайн'], ['Website', 'Сайт']],
+    capMany: ['people to hire', 'человек в штат'],
+    capOne: ['engine. Ready in a week.', 'движок. Готов за неделю.'],
+    her: ['takes the whole job', 'берёт всю работу'],
+    foot: ['Eight jobs, one conversation in your messenger.', 'Восемь задач — один чат в вашем мессенджере.'],
+    replay: ['Replay', 'Ещё раз'],
+  },
 };
