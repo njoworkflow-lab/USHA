@@ -131,7 +131,7 @@ function findingChart(i, lang) {
   }, { passive: true });
 
   // ---------- waking headlines: letters start thin and faint, wake bold when seen ----------
-  const WAKE = '.sec h2.big,.seven h3,.eng h3,.g-in h2';
+  const WAKE = '.sec h2.big,.eng h3';
   // checked on scroll rather than observed: the bundle can swap these nodes
   function wakeCheck() {
     $$('.x-wake:not(.x-lit)').forEach((h) => {
@@ -170,24 +170,7 @@ function findingChart(i, lang) {
       }
     });
   }
-  // the letters nearest the cursor get heavier, the way her gaze lights things
-  if (fine && !rtl) {
-    let raf = 0, ev = null;
-    addEventListener('pointermove', (e) => {
-      ev = e; if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const h = ev.target.closest && ev.target.closest('.x-wake.x-done');
-        $$('.x-wake .xc[style*="font-weight"]').forEach((c) => { if (!h || !h.contains(c)) c.style.fontWeight = ''; });
-        if (!h) return;
-        $$('.xc', h).forEach((c) => {
-          const r = c.getBoundingClientRect(), d = Math.hypot(ev.clientX - (r.left + r.width / 2), ev.clientY - (r.top + r.height / 2));
-          const kk = Math.max(0, 1 - d / 150);
-          c.style.fontWeight = kk > 0.02 ? Math.round(720 + kk * 180) : '';
-        });
-      });
-    }, { passive: true });
-  }
+
 
   // ---------- comparison: a duel, one rival at a time, on a lit spine ----------
   let vsT = 0, vsPicked = false, vsRival = 0;
@@ -211,6 +194,7 @@ function findingChart(i, lang) {
       const rv = $('.vs-rv', vs); rv.classList.remove('in'); void rv.offsetWidth; rv.textContent = rivals[i]; rv.classList.add('in');
       $$('.vs-rows li', vs).forEach((li, r) => {
         const f = $('.vs-flip', li), v = data[r][1 + i];
+        $('.vs-l', li).dataset.who = rivals[i];
         f.classList.remove('in'); void f.offsetWidth;
         f.textContent = v; li.classList.toggle('no', NO.test(v)); f.classList.add('in');
       });
@@ -268,7 +252,8 @@ function findingChart(i, lang) {
     rows.forEach((r, i) => {
       const was = r.classList.contains('gone'), now = i < n;
       r.classList.toggle('gone', now);
-      setTimeout(() => slots[i] && slots[i].classList.toggle('on', now), now && !was ? 520 : 0);
+      const step = n - Math.max(done, 0) === 1;
+      setTimeout(() => slots[i] && slots[i].classList.toggle('on', now), now && !was && step ? 520 : 0);
       if (now && !was && done >= 0) spark($('.t', r), slots[i]);
     });
     done = n;
@@ -278,6 +263,8 @@ function findingChart(i, lang) {
     $('.x-cap', dept).textContent = n >= 8 ? x.capOne : n === 0 ? x.capMany : (left === 1 ? x.leftOne : x.leftMany);
     $('.x-foot', dept).classList.toggle('on', n >= 8);
     dept.classList.toggle('x-all', n >= 8);
+    // whatever happened in between, the card ends in step with the counter
+    clearTimeout(dept._sync); dept._sync = setTimeout(() => { const live = $$('.x-tasks li', dept); live.forEach((li, k) => li.classList.toggle('on', k < done)); }, 800);
   }
   let mobilePlayed = false;
   function deptScroll() {

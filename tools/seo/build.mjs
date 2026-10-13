@@ -205,14 +205,14 @@ src = patch(src, SWITCH, SWITCH_NEW, 'language switch');
 src = patch(src, JUMP, jump('if(i.dataset.l==="ar"){try{localStorage.setItem("usha-lang","ar")}catch{}location.href="/ar/"+location.hash;return}'), 'language buttons');
 if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/button>)/, '$1<button data-l="ar">AR</button>', 'language pill');
 
-// USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
-src = applyLife(src);
-src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
-
 // USHA's size per scene: smaller in "Try her" and the game so she sits beside
 // the content instead of covering it (desktop, phone).
 src = src.replace('us:e?.62:1,ch:.25', 'us:e?.42:.66,ch:.25').replace('us:e?.62:.78,ch:.5', 'us:e?.5:.6,ch:.5');
-if (!src.includes('us:e?.42:.66,ch:.25')) throw new Error('Bundle changed: USHA scene sizes not found');
+if (!src.includes('us:e?.42:.66,ch:.25') && !src.includes('us:e?.6:.66,ch:e?.1:.25')) throw new Error('Bundle changed: USHA scene sizes not found');
+
+// USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
+src = applyLife(src);
+src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
 
 // The Arabic page runs its own copy of the bundle: English slot → Arabic.
 let srcAr = src;
