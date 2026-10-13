@@ -63,7 +63,6 @@ export function applyLife(src) {
     // phones play with the on-screen joystick and dash button, so a tap no longer dashes
     ['cr=1,matchMedia("(pointer:coarse)").matches&&Xt.dash()', 'cr=1'],
     // "Try her": a faint ring and no glow disc, so her glassy body never shows bright particles through it
-    ['st:"talk",dim:1}', 'st:"talk",dim:.32}'],
     // smooth motion: if the frame rate drops, render at a lower pixel density until it is smooth again
     ['mi.setPixelRatio(ui);mi.toneMapping=js;', 'mi.setPixelRatio(ui);(()=>{let n=0,t0=performance.now(),lo=0;function f(){const t=performance.now();n++;if(t-t0>1500){const fps=n*1e3/(t-t0);n=0;t0=t;if(!document.hidden&&fps<45){if(++lo>=2&&ui>1.25){ui=Math.max(1.25,+(ui-.25).toFixed(2));mi.setPixelRatio(ui);typeof Fi!="undefined"&&Fi.setPixelRatio(ui);typeof Gl=="function"&&Gl();lo=0}}else lo=0}requestAnimationFrame(f)}requestAnimationFrame(f)})();mi.toneMapping=js;'],
     // moods: the tap handler asks the mood engine first
@@ -80,12 +79,15 @@ export function applyLife(src) {
   }
   // swaps that match both the original and an earlier applied version
   const live = [
+    [/st:"talk",dim:(?:1|\.32|\.8)\}/, 'st:"talk",dim:.8}'],
+    // the light stream ends above the card (desktop)
+    [/function Sl\(i\)\{return i\?\[\.35,\.25,0\]:\[[-.\d]+,[-.\d]+,0\]\}/, 'function Sl(i){return i?[.35,.25,0]:[2.45,1.55,0]}'],
     // phones: USHA between the headline and the card (cached measurements)
     [/u:e\?\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),h=(?:window\.__sh\|\|)?document\.querySelector\("#signal h2"\)\.getBoundingClientRect\(\),/, 'u:e?(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),h=window.__sh||document.querySelector("#signal h2").getBoundingClientRect(),'],
     // "Try her": no glow disc behind her
     [/ch:\.25,g:\.5,gp:\[\(s\.left|ch:e\?\.1:\.25,g:e\?0:\.2,gp:\[\(s\.left|ch:e\?\.1:\.25,g:0,gp:\[\(s\.left/, 'ch:e?.1:.25,g:0,gp:[(s.left'],
     // findings: USHA always in one place, just above the card where the light stream arrives
-    [/:\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),(?:r=|hh=)[^]*?\}\)\(\),us:e\?\.42:[.\d]+/, ':(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),r=document.documentElement.dir==="rtl";return Ca(r?c.right-c.width*.26:c.left+c.width*.26,c.top-88,.4)})(),us:e?.42:.4'],
+    [/:(?:\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),(?:r=|hh=)[^]*?\}\)\(\)|\[t\[0\]\+[.\d]+,t\[1\]\+[.\d]+,0\]),us:e\?\.42:[.\d]+/, ':[t[0]+.74,t[1]+.03,0],us:e?.42:.4'],
     // the problem: bigger, on the headline's line (desktop)
     [/if\(i===1\)return\{u:e\?\[0,-4\.6,0\]:\[[-.\d]+,[-.\d]+,[-.\d]+\],us:e\?\.001:[.\d]+/, 'if(i===1)return{u:e?[0,-4.6,0]:[3.3,1.25,.6],us:e?.001:.62'],
     // the site's own dust levels (an earlier build had dimmed them)
