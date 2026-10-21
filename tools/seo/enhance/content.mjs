@@ -486,3 +486,183 @@ export const COMPARE_DECK = [
     ]
   ]
 ];
+
+// NJO night notebook: slide-grounded captions; the ink-drop metaphor is illustrative.
+X.story = {
+  "kick": [
+    "Behind her · NJO",
+    "Кто за ней · NJO"
+  ],
+  "h": [
+    "NJO: ten years of growing businesses. *USHA is everything we learned.*",
+    "NJO: десять лет роста бизнеса. *USHA — всё, чему мы научились.*"
+  ],
+  "sub": [
+    "How NJO built her, in eight short chapters. Scroll, and she will walk you through.",
+    "Как NJO создала её, в восьми коротких главах. Листайте, она проведёт."
+  ],
+  "skip": [
+    "Skip the story",
+    "Пропустить историю"
+  ],
+  "note": [
+    "A story, not a timeline.",
+    "История, а не хронология."
+  ],
+  "chapterLabel": [
+    "Chapter {n}: {title}",
+    "Глава {n}: {title}"
+  ],
+  "books": [
+    "Books · Articles · Forums · University theory",
+    "Книги · Статьи · Форумы · Теория из учебников"
+  ],
+  "legend": [
+    "years · countries · projects · industries · branches",
+    "лет на рынке · страны · проектов · отраслей · филиалов"
+  ],
+  "beliefs": [
+    [
+      "Money, not only ideas",
+      "Деньги, а не только идеи"
+    ],
+    [
+      "The truth, even when it hurts",
+      "Правда, даже если она неприятна"
+    ],
+    [
+      "Test first, spend second",
+      "Сначала проверка, потом траты"
+    ],
+    [
+      "A plan is not enough",
+      "Плана мало"
+    ]
+  ],
+  "cta": [
+    "Try her on your market",
+    "Попробуйте её на своём рынке"
+  ],
+  "chapters": [
+    {
+      "k": [
+        "01 · 2016",
+        "01 · 2016"
+      ],
+      "t": [
+        "The first door.",
+        "Первая дверь."
+      ],
+      "b": [
+        "Since 2016, NJO has worked inside businesses.",
+        "С 2016 года NJO работает внутри бизнеса."
+      ]
+    },
+    {
+      "k": [
+        "02 · Ten years",
+        "02 · Десять лет"
+      ],
+      "t": [
+        "Then more than 700.",
+        "Потом больше 700."
+      ],
+      "b": [
+        "22 countries, 55+ industries, 7 branches. From kids' toys and face creams to a whole car and an entire factory.",
+        "22 страны, 55+ отраслей, 7 филиалов. От детских игрушек и кремов для лица до целого автомобиля и целого завода."
+      ]
+    },
+    {
+      "k": [
+        "03 · What we kept seeing",
+        "03 · Что мы видели"
+      ],
+      "t": [
+        "The same mistake, again and again.",
+        "Одна и та же ошибка. Снова и снова."
+      ],
+      "b": [
+        "Good companies lost money on guesses: the wrong ad, the wrong price, the wrong market.",
+        "Хорошие бизнесы теряли деньги на догадках: не та реклама, не та цена, не тот рынок."
+      ]
+    },
+    {
+      "k": [
+        "04 · The problem",
+        "04 · Проблема"
+      ],
+      "t": [
+        "The answers were locked.",
+        "Ответы были под замком."
+      ],
+      "b": [
+        "They existed, but lived in a few experts' heads and in algorithms nobody could read.",
+        "Они были, но хранились в головах немногих экспертов и в алгоритмах, которые никто не мог прочитать."
+      ]
+    },
+    {
+      "k": [
+        "05 · How she was taught",
+        "05 · Как её учили"
+      ],
+      "t": [
+        "We sat down with 200+ experts.",
+        "Мы встретились с 200+ экспертами."
+      ],
+      "b": [
+        "Sellers, founders, media buyers, factory exporters. Their real cases, failures, wins, and the tips they never wrote down.",
+        "Селлеры, основатели брендов, медиабайеры, экспортёры заводов. Их реальные кейсы, провалы, победы и советы, которые они нигде не записывали."
+      ]
+    },
+    {
+      "k": [
+        "06 · USHA wakes up",
+        "06 · USHA просыпается"
+      ],
+      "t": [
+        "One mind any business can afford.",
+        "Один ум, доступный любому бизнесу."
+      ],
+      "b": [
+        "So we put it all into one mind. She reads 1,240 sources every day, and she still learns every day.",
+        "Поэтому мы собрали всё это в один ум. Она читает 1 240 источников каждый день и продолжает учиться каждый день."
+      ]
+    },
+    {
+      "k": [
+        "07 · Who stands behind her",
+        "07 · Кто за ней стоит"
+      ],
+      "t": [
+        "USHA gives the answer. *NJO stands behind it, with our name.*",
+        "USHA даёт ответ. *NJO отвечает за него своим именем.*"
+      ],
+      "b": [
+        "Real people at NJO stand behind every answer she gives.",
+        "За каждым её ответом стоят живые люди из NJO."
+      ]
+    },
+    {
+      "k": [
+        "08 · Today",
+        "08 · Сегодня"
+      ],
+      "t": [
+        "Today.",
+        "Сегодня."
+      ],
+      "b": [
+        "Russia, the Gulf, Africa, Eurasia. USHA is opening to a limited number of companies.",
+        "Россия, Персидский залив, Африка, Евразия. USHA открыта для ограниченного числа компаний."
+      ]
+    }
+  ],
+  "meta": [
+    "",
+    "Один из 62 маркетинговых партнёров Meta*"
+  ],
+  "legal": [
+    "",
+    "* Meta Platforms Inc. признана экстремистской организацией; её деятельность запрещена на территории РФ."
+  ]
+};

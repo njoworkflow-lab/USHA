@@ -66,6 +66,8 @@ const VOICES = `case"laugh":for(let t=0;t<7;t++)xt(e(1000,1250)-t*70,e(700,900)-
 
 export function applyLife(src) {
   const swaps = [
+    // Keep the scene clock current while the opaque notebook covers the canvas.
+    ['function Pu(){let i=Math.min(.25,y_.getDelta())', 'function Pu(){if(window.__xHold){y_.getDelta();requestAnimationFrame(Pu);return}let i=Math.min(.25,y_.getDelta())'],
     // new face controls on the character
     ['rim:.6,blush:0,eyeW:1,eyeH:1,happy:0}', 'rim:.6,blush:0,eyeW:1,eyeH:1,happy:0,tilt:0,droop:0,tear:0}'],
     ['e.quaternion.setFromRotationMatrix(this._m),e.position.copy(o)', 'e.quaternion.setFromRotationMatrix(this._m),e.rotateZ((t<this.p.lookX?-1:1)*this.p.tilt),e.position.copy(o)'],

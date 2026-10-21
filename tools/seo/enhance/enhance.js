@@ -183,7 +183,7 @@
   }, { passive: true });
 
   // ---------- waking headlines: letters start thin and faint, wake bold when seen ----------
-  const WAKE = '.sec h2.big,.eng h3';
+  const WAKE = '.sec h2.big,.eng h3,#story h2';
   // checked on scroll rather than observed: the bundle can swap these nodes
   function wakeCheck() {
     $$('.x-wake:not(.x-lit)').forEach((h) => {
