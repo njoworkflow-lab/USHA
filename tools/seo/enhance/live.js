@@ -229,7 +229,7 @@
   // live chat they are the only sounds (the music fades out): full level with
   // sound on, half level with sound off.
   let ac = null;
-  const soundOn = () => { try { return localStorage.getItem('usha-sound') !== 'off'; } catch { return true; } };
+  const soundOn = () => { try { return localStorage.getItem('usha-music') !== 'off'; } catch { return true; } };
   function chime(kind) {
     const level = soundOn() ? 1 : 0.5;
     try {

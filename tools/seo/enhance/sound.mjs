@@ -16,6 +16,10 @@ export function applySound(src) {
     // effects run in both modes; their level decides whether they are heard
     ['if(!yt&&!i){yt=!0,', 'if(!yt){yt=!0,'],
     ['Iu()||(Ae.enable(),', '(Ae.enable(),'],
+    // the engine tone that rose while holding to wake her: removed in every mode
+    ['li.gain.setTargetAtTime(.12,fe.currentTime,.15)', 'li.gain.setTargetAtTime(0,fe.currentTime,.15)'],
+    // a fresh setting: an old "off" was about the engine hum, not the music
+    ['var Lu="usha-sound"', 'var Lu="usha-music"'],
     // the header button switches the music, not the whole audio engine
     ['e?Ae.enable():Ae.disable(),ue("#snd").classList.toggle("on",e)', 'Ae.enable(),window.UshaSound&&UshaSound.set(e),ue("#snd").classList.toggle("on",e)'],
   ];
