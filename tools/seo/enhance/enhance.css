@@ -735,3 +735,4 @@ html[dir=rtl] .xl-send i{transform:translate(2px,2px) rotate(-135deg)}
   .xl-cta .btn{width:100%;justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.xl-dot,.xl-read i,.xl-pm-i i{animation:none}}
+#gl,#cur,#bub,#holdBtn{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
