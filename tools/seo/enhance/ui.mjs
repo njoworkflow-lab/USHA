@@ -115,3 +115,56 @@ export function x3SplitHTML(x, lang, media, labels) {
     <div class="x3-board" style="--d:${lang==='ar'?-1:1}"><div class="x3-lay x3-off" role="group" aria-label="${esc(x.b3_off)}">${[1,2,3,4,5,6,7].map(p=>x3PanelHTML(p,'off',x,lang,media,labels)).join('')}</div><div class="x3-clip"><div class="x3-clip-in"><div class="x3-lay x3-on" role="group" aria-label="${esc(x.b3_on)}">${[1,2,3,4,5,6,7].map(p=>x3PanelHTML(p,'on',x,lang,media,labels)).join('')}</div></div></div><div class="x3-lay x3-ui" role="group" aria-label="${esc(labels.panels[6])}">${[1,2,3,4,5,6].map(p=>`<div class="x3-p${p}" aria-hidden="true"></div>`).join('')}<div class="x3-p7 x3-media-ui"><div class="x3-controls"><button type="button" class="x3-play">${esc(ctl[0])}</button><button type="button" class="x3-sound" aria-pressed="false">${esc(ctl[2])}</button><span class="x3-now" role="status"></span><div class="x3-progress"><i></i></div><div class="x3-film-switch"><button type="button" data-x3-watch="0">${esc(ctl[5])}</button><button type="button" data-x3-watch="100">${esc(ctl[6])}</button></div></div></div></div><div class="x3-seam"><button type="button" class="x3-knob" role="slider" aria-label="${esc(x.b3_slider)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="${esc(x.b3_val.replace('{x}','50'))}"><span class="x3-face" aria-hidden="true"><i></i><i></i></span><span class="x3-chevrons" aria-hidden="true">‹ ›</span></button><span class="x3-drag">${esc(x.b3_drag)}</span></div></div>
     <div class="x3-switch" role="group" aria-label="${esc(x.b3_slider)}"><button type="button" data-x3-value="0" aria-pressed="false">${esc(x.b3_off)}</button><button type="button" data-x3-value="100" aria-pressed="false">${esc(x.b3_on)}</button></div><p class="x3-disclaimer">${esc(x.b3_note)}</p><footer class="x3-end"><p>${esc(x.b3_end)}</p><a class="btn btn-g" href="#x3-live">${esc(x.b2_cta)} ↑</a></footer>`;
 }
+
+// ---------- updated decks, 30 slides: pre-rendered and shared with language switching ----------
+const DOT_GLYPHS = {
+  '0':['01110','10001','10011','10101','11001','10001','01110'],
+  '1':['00100','01100','00100','00100','00100','00100','01110'],
+  '2':['01110','10001','00001','00010','00100','01000','11111'],
+  '3':['11110','00001','00001','01110','00001','00001','11110'],
+  '4':['00010','00110','01010','10010','11111','00010','00010'],
+  '5':['11111','10000','10000','11110','00001','00001','11110'],
+  '6':['01110','10000','10000','11110','10001','10001','01110'],
+  '7':['11111','00001','00010','00100','01000','01000','01000'],
+  '8':['01110','10001','10001','01110','10001','10001','01110'],
+  '9':['01110','10001','10001','01111','00001','00001','01110'],
+  '+':['00000','00100','00100','11111','00100','00100','00000'],
+  '/':['00001','00010','00010','00100','01000','01000','10000'],
+  '%':['11001','11010','00010','00100','01000','01011','10011'],
+  ',':['000','000','000','000','000','010','100'],
+  ' ':['00','00','00','00','00','00','00'],
+};
+export function dotNumber(value) {
+  let x = 0, dots = '';
+  for (const c of String(value)) {
+    const glyph = DOT_GLYPHS[c] || DOT_GLYPHS[' '];
+    glyph.forEach((row, y) => [...row].forEach((v, col) => { if (v === '1') dots += `<circle cx="${x + col * 4 + 2}" cy="${y * 4 + 2}" r="1.25"/>`; }));
+    x += (glyph[0].length + 1) * 4;
+  }
+  return `<svg viewBox="0 0 ${x - 4} 28" aria-hidden="true" focusable="false">${dots}</svg>`;
+}
+export function deckHTML(x, lang) {
+  const d = x.deck, source = lang === 'ru' ? 'RU' : 'EN';
+  const ref = (...slides) => `<!-- ${source} deck, slides ${slides.join(', ')} -->`;
+  const title = (s) => `<h2>${esc(s)}</h2>`;
+  const section = (id, body, slides) => `<section class="sec dx-section" id="${id}" data-deck="${source}:${slides}"><div class="wrap">${ref(...slides.split(','))}${body}</div></section>`;
+  const cards = (items) => items.map(([h, p]) => `<article class="dx-card"><h3>${esc(h)}</h3><p>${esc(p)}</p></article>`).join('');
+  const p = d.problem, m = d.meet, mind = d.mind, h = d.how, trust = d.trust;
+  const numberGroups = d.numbers.groups.map(([label, figures]) => `<div class="dx-number-group"><h3>${esc(label)}</h3>${figures.map(([n,en,ru,suffix,label,slide]) => {
+    const display = (lang === 'ru' ? ru : en) + suffix;
+    return `${ref(slide)}<div class="dx-stat"><span class="dx-number" data-count="${n}" data-suffix="${esc(suffix)}" data-final="${esc(display)}"><span class="dx-dot" aria-hidden="true">${dotNumber(display)}</span><span class="dx-sr">${esc(display)}</span></span><p>${esc(label)}</p></div>`;
+  }).join('')}</div>`).join('');
+  return {
+    problem: section('deck-problem', `${title(p.title)}<div class="dx-algorithms">${cards(p.algorithms)}</div><div class="dx-foil">${ref(4)}<h3>${esc(p.same)}</h3><div class="dx-echo">${Array.from({length:4}, () => `<p>${esc(p.advice)}</p>`).join('')}</div><small>${esc(p.illustration)}</small></div>${ref(5)}<h3 class="dx-subhead">${esc(p.roads)}</h3><div class="dx-grid dx-three">${cards(p.roadItems)}</div>`, '3,4,5'),
+    meet: section('deck-meet', `${title(m.title)}<p class="dx-lead">${esc(m.intro)}</p><div class="dx-translate"><div class="dx-pair dx-labels"><span>${esc(m.raw)}</span><span>${esc(m.move)}</span></div>${m.pairs.map(([signal,move]) => `<div class="dx-pair"><bdi dir="auto">${esc(signal)}</bdi><p>${esc(move)}</p></div>`).join('')}<small>${esc(d.example)}</small></div>${ref(7)}<h3 class="dx-subhead">${esc(m.morning)}</h3><p class="dx-lead">${esc(m.daily)}</p>${ref(8)}<h3 class="dx-subhead">${esc(m.notices)}</h3><p class="dx-caption">${esc(d.example)}</p><div class="dx-grid dx-three">${cards(m.tiles)}</div>`, '6,7,8'),
+    numbers: section('deck-numbers', `${title(d.numbers.title)}<div class="dx-numbers">${numberGroups}</div>`, '7,9,11,12,13,19'),
+    mind: section('deck-mind', `${title(mind.title)}<div class="dx-grid dx-three"><article class="dx-card">${ref(9)}<h3>${esc(mind.experts)}</h3><p>${esc(mind.learn)}</p></article><article class="dx-card">${ref(10)}<h3>${esc(mind.copy)}</h3><p>${esc(mind.copyText)}</p></article><article class="dx-card">${ref(11)}<h3>${esc(mind.sim)}</h3><p>${esc(mind.simText)}</p></article></div><div class="dx-simulation">${ref(11)}<span class="dx-caption">${esc(d.example)}</span><div class="dx-grid dx-three">${[18,31,47].map((n,i)=>`<div class="dx-test${i===2?' dx-win':''}"><span>${esc(mind.testLabels[i])}</span><bdi>${esc(mind.testPrices[i])}</bdi><div class="dx-test-bar"><i style="--buyers:${n}"></i></div><b>${n}</b><small>${esc(mind.bought)}</small></div>`).join('')}</div><p>${esc(mind.winner)}</p></div>${ref(12)}<h3 class="dx-subhead">${esc(mind.skillsTitle)}</h3><ol class="dx-skills">${mind.skills.map(s=>`<li>${esc(s)}</li>`).join('')}</ol><p class="dx-lead">${esc(mind.powers)}</p><p class="dx-caption">${esc(mind.languages)}</p>`, '9,10,11,12'),
+    outcomes: section('deck-outcomes', `${title(d.outcomes.title)}<p class="dx-caption">${esc(d.example)}</p><div class="dx-outcomes">${d.outcomes.panels.map(([slide,h,without,withU])=>`${ref(slide,...(slide===14?[23]:slide===6?[24]:slide===8?[3]:slide===15?[5]:[]))}<article class="dx-outcome"><h3>${esc(h)}</h3><div><small>${esc(d.outcomes.without)}</small><p>${esc(without)}</p></div><div class="dx-with"><small>${esc(d.outcomes.with)}</small><p>${esc(withU)}</p></div></article>`).join('')}</div>`, '3,5,6,8,11,14,15,17,23,24'),
+    how: section('deck-how', `${title(h.title)}<ol class="dx-steps">${h.steps.map(([t,p],i)=>`<li><bdi>0${i+1}</bdi><h3>${esc(t)}</h3><p>${esc(p)}</p></li>`).join('')}</ol>${ref(14)}<div class="dx-brief"><h3>${esc(h.brief)}</h3><p>${esc(h.format)}</p></div>${ref(15)}<h3 class="dx-subhead">${esc(h.weekTitle)}</h3><p class="dx-caption">${esc(d.example)}</p><ol class="dx-week">${h.week.map(([day,line])=>`<li><b>${esc(day)}</b><p>${esc(line)}</p></li>`).join('')}</ol><p class="dx-equation">${esc(h.equation)}</p>${ref(16)}<h3 class="dx-subhead">${esc(h.ownersTitle)}</h3><p class="dx-caption">${esc(d.example)}</p><div class="dx-grid dx-three">${cards(h.owners)}</div>`, '13,14,15,16'),
+    price: `<div class="dx-price">${ref(17)}<h3>${esc(d.price.title)}</h3><p>${esc(d.price.basis)}</p></div>`,
+    rhythm: `<div class="dx-rhythm">${ref(21)}<h3>${esc(d.rhythm.title)}</h3><small>${esc(d.rhythm.days)}</small>${d.rhythm.rows.map(([name,kind])=>`<div class="dx-rhythm-row"><span>${esc(name)}</span><div aria-hidden="true">${Array.from({length:30},(_,i)=>`<i class="${(kind==='daily'||kind==='publish'&&i%2===0||kind==='report'&&(i===14||i===29))?'on':''}"></i>`).join('')}</div></div>`).join('')}</div>`,
+    trust: section('deck-trust', `${title(trust.title)}<p class="dx-lead">${esc(trust.intro)}</p><div class="dx-trust-grid"><div><ol class="dx-ladder">${trust.ladder.map((s,i)=>`<li style="--step:${i}"><bdi>0${i+1}</bdi><p>${esc(s)}</p></li>`).join('')}</ol><div class="dx-refund"><span aria-hidden="true">${dotNumber('100%')}</span><b>${esc(trust.refund)}</b></div><p class="dx-terms">${esc(trust.terms)}</p></div><div class="dx-data">${ref(26)}<h3>${esc(trust.data)}</h3><b class="dx-nda">${esc(trust.stamp)}</b><div class="dx-data-lists"><div><h4>${esc(trust.need)}</h4><ul>${trust.needs.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div><div><h4>${esc(trust.noNeed)}</h4><ul>${trust.noNeeds.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div></div><p>${esc(trust.messengers)}</p><p>${esc(trust.connect)}</p></div></div>${ref(23,25)}<div class="dx-promises"><b>${esc(trust.every)}</b><ul>${trust.promises.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div><p class="dx-terms">${esc(trust.results)}</p><footer class="dx-trust-footer"><p>${esc(trust.writing)}</p><a href="https://t.me/njo_manager" target="_blank" rel="noopener">${esc(trust.contact)} ↗</a></footer>`, '23,25,26'),
+    free: `${ref(27)}<p class="dx-test-lead">${esc(d.test)}</p>`,
+    footer: `${ref(30)}<p class="dx-tagline" lang="en" dir="ltr">Unified Strategy. Human Action.</p>`,
+  };
+}

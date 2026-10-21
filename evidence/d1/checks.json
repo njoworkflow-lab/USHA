@@ -1,0 +1,854 @@
+{
+  "date": "2026-10-21",
+  "branch": "d1-content-from-decks",
+  "build": {
+    "generatedFiles": 44,
+    "identical": true,
+    "different": [],
+    "overrides": false
+  },
+  "staticPages": [
+    {
+      "path": "/",
+      "lang": "ru",
+      "canonical": "https://usha.one/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/en/",
+      "lang": "en",
+      "canonical": "https://usha.one/en/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/ar/",
+      "lang": "ar",
+      "canonical": "https://usha.one/ar/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/guides/",
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/en/guides/",
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/guides/marketplace-analytics/",
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/marketplace-analytics/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/en/guides/marketplace-analytics/",
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/marketplace-analytics/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/guides/competitor-monitoring/",
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/competitor-monitoring/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/en/guides/competitor-monitoring/",
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/competitor-monitoring/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/guides/agency-vs-in-house-vs-usha/",
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/agency-vs-in-house-vs-usha/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    },
+    {
+      "path": "/en/guides/agency-vs-in-house-vs-usha/",
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/agency-vs-in-house-vs-usha/",
+      "h1": 1,
+      "jsonLdBlocks": 1,
+      "allJsonLdValid": true,
+      "passed": true
+    }
+  ],
+  "httpPages": [
+    {
+      "path": "/",
+      "status": 200,
+      "lang": "ru",
+      "canonical": "https://usha.one/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "lang": "en",
+      "canonical": "https://usha.one/en/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/ar/",
+      "status": 200,
+      "lang": "ar",
+      "canonical": "https://usha.one/ar/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/guides/",
+      "status": 200,
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/en/guides/",
+      "status": 200,
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/guides/marketplace-analytics/",
+      "status": 200,
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/marketplace-analytics/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/en/guides/marketplace-analytics/",
+      "status": 200,
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/marketplace-analytics/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/guides/competitor-monitoring/",
+      "status": 200,
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/competitor-monitoring/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/en/guides/competitor-monitoring/",
+      "status": 200,
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/competitor-monitoring/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/guides/agency-vs-in-house-vs-usha/",
+      "status": 200,
+      "lang": "ru",
+      "canonical": "https://usha.one/guides/agency-vs-in-house-vs-usha/",
+      "h1": true,
+      "jsonLd": true
+    },
+    {
+      "path": "/en/guides/agency-vs-in-house-vs-usha/",
+      "status": 200,
+      "lang": "en",
+      "canonical": "https://usha.one/en/guides/agency-vs-in-house-vs-usha/",
+      "h1": true,
+      "jsonLd": true
+    }
+  ],
+  "httpResources": [
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "size": 609
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "size": 3687
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200,
+      "size": 43879
+    },
+    {
+      "path": "/sw.js",
+      "status": 200,
+      "size": 745
+    }
+  ],
+  "baselineBrowser": [
+    {
+      "request": "d1-before-en-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+        "lang": "en",
+        "dir": "ltr",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    },
+    {
+      "request": "d1-before-en-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+        "lang": "en",
+        "dir": "ltr",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    },
+    {
+      "request": "d1-before-ru-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — движок бизнес-аналитики для брендов и селлеров маркетплейсов",
+        "lang": "ru",
+        "dir": "ltr",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    },
+    {
+      "request": "d1-before-ru-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — движок бизнес-аналитики для брендов и селлеров маркетплейсов",
+        "lang": "ru",
+        "dir": "ltr",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    },
+    {
+      "request": "d1-before-ar-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية والبائعين على منصات البيع",
+        "lang": "ar",
+        "dir": "rtl",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    },
+    {
+      "request": "d1-before-ar-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية والبائعين على منصات البيع",
+        "lang": "ar",
+        "dir": "rtl",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": null
+    }
+  ],
+  "finalBrowser": [
+    {
+      "request": "d1-final-en-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+        "lang": "en",
+        "dir": "ltr",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1,240",
+          "200+",
+          "160+",
+          "1,300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": false,
+        "priceExamples": [
+          "AED 129",
+          "AED 106",
+          "2 for AED 199"
+        ],
+        "rtl": ""
+      }
+    },
+    {
+      "request": "d1-final-en-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+        "lang": "en",
+        "dir": "ltr",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1,240",
+          "200+",
+          "160+",
+          "1,300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": false,
+        "priceExamples": [
+          "AED 129",
+          "AED 106",
+          "2 for AED 199"
+        ],
+        "rtl": ""
+      }
+    },
+    {
+      "request": "d1-final-ru-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — движок бизнес-аналитики для брендов и селлеров маркетплейсов",
+        "lang": "ru",
+        "dir": "ltr",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1 240",
+          "200+",
+          "160+",
+          "1 300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": true,
+        "priceExamples": [
+          "1 290 ₽",
+          "1 058 ₽",
+          "2 за 1 990 ₽"
+        ],
+        "rtl": ""
+      }
+    },
+    {
+      "request": "d1-final-ru-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — движок бизнес-аналитики для брендов и селлеров маркетплейсов",
+        "lang": "ru",
+        "dir": "ltr",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1 240",
+          "200+",
+          "160+",
+          "1 300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": true,
+        "priceExamples": [
+          "1 290 ₽",
+          "1 058 ₽",
+          "2 за 1 990 ₽"
+        ],
+        "rtl": ""
+      }
+    },
+    {
+      "request": "d1-final-ar-390",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية والبائعين على منصات البيع",
+        "lang": "ar",
+        "dir": "rtl",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "htmlClass": "",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1,240",
+          "200+",
+          "160+",
+          "1,300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": false,
+        "priceExamples": [
+          "129 درهمًا",
+          "106 دراهم",
+          "2 مقابل 199 درهمًا"
+        ],
+        "rtl": "rtl"
+      }
+    },
+    {
+      "request": "d1-final-ar-1440",
+      "ok": true,
+      "page": {
+        "title": "USHA by NJO — محرّك ذكاء الأعمال للعلامات التجارية والبائعين على منصات البيع",
+        "lang": "ar",
+        "dir": "rtl",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "htmlClass": "cur-on",
+        "horizontalScroll": false
+      },
+      "pageErrors": [],
+      "consoleDiagnostics": [
+        "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+      ],
+      "failedRequests": [],
+      "failedSteps": [],
+      "content": {
+        "numbers": [
+          "1,240",
+          "200+",
+          "160+",
+          "1,300+",
+          "12",
+          "24/7",
+          "700+",
+          "22"
+        ],
+        "groups": 3,
+        "skills": 12,
+        "outcomes": 6,
+        "ladder": 4,
+        "storySlot": true,
+        "rubles": false,
+        "priceExamples": [
+          "129 درهمًا",
+          "106 دراهم",
+          "2 مقابل 199 درهمًا"
+        ],
+        "rtl": "rtl"
+      }
+    }
+  ],
+  "finalEnglishPhoneAfterGridFix": {
+    "request": "d1-phone-final-layout",
+    "ok": true,
+    "page": {
+      "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+      "lang": "en",
+      "dir": "ltr",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "htmlClass": "",
+      "horizontalScroll": false
+    },
+    "pageErrors": [],
+    "consoleDiagnostics": [],
+    "failedRequests": [],
+    "failedSteps": [],
+    "content": null
+  },
+  "numberCellBounds": [
+    {
+      "number": "1,240",
+      "fits": true
+    },
+    {
+      "number": "200+",
+      "fits": true
+    },
+    {
+      "number": "160+",
+      "fits": true
+    },
+    {
+      "number": "1,300+",
+      "fits": true
+    },
+    {
+      "number": "12",
+      "fits": true
+    },
+    {
+      "number": "24/7",
+      "fits": true
+    },
+    {
+      "number": "700+",
+      "fits": true
+    },
+    {
+      "number": "22",
+      "fits": true
+    }
+  ],
+  "deckElementsOutsideViewport": [],
+  "sourcePreservation": {
+    "en": {
+      "rubleInVisibleText": false,
+      "eightCounters": true,
+      "twelveSkills": true,
+      "section03MarkupUnchanged": true,
+      "c_epUnchanged": true,
+      "a3dUnchanged": true
+    },
+    "ru": {
+      "rubleInVisibleText": true,
+      "eightCounters": true,
+      "twelveSkills": true,
+      "section03MarkupUnchanged": true,
+      "c_epUnchanged": true,
+      "a3dUnchanged": true
+    },
+    "ar": {
+      "rubleInVisibleText": false,
+      "eightCounters": true,
+      "twelveSkills": true,
+      "section03MarkupUnchanged": true,
+      "c_epUnchanged": true,
+      "a3dUnchanged": true,
+      "uncertainItem2Unchanged": true,
+      "uncertainItem8Unchanged": true
+    }
+  },
+  "unchangedGameLiveAudioSource": true,
+  "unchangedHintsSource": true,
+  "interactionCheck": {
+    "request": "d1-layout-and-regression",
+    "switchRU": {
+      "lang": "ru",
+      "groups": 3,
+      "prices": [
+        "1 290 ₽",
+        "1 058 ₽",
+        "2 за 1 990 ₽"
+      ],
+      "title": "Живой рынок. Проверки до ваших затрат."
+    },
+    "switchEN": {
+      "lang": "en",
+      "groups": 3,
+      "prices": [
+        "AED 129",
+        "AED 106",
+        "2 for AED 199"
+      ],
+      "title": "A living market. Tests before you spend."
+    },
+    "coreRows": 17,
+    "liveDialogOpened": true,
+    "reducedMotion": {
+      "harness": true,
+      "reduce": true,
+      "changes": 0,
+      "allFinal": true,
+      "count": 8
+    },
+    "phoneNumberBounds": {
+      "width": 390,
+      "overflow": [],
+      "numbers": [
+        "1,240",
+        "200+",
+        "160+",
+        "1,300+",
+        "12",
+        "24/7",
+        "700+",
+        "22"
+      ]
+    },
+    "reducedNumberBounds": {
+      "width": 390,
+      "overflow": [],
+      "numbers": [
+        "1,240",
+        "200+",
+        "160+",
+        "1,300+",
+        "12",
+        "24/7",
+        "700+",
+        "22"
+      ]
+    },
+    "pageErrors": [],
+    "consoleDiagnostics": [
+      "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+      "Blocked call to navigator.vibrate because user hasn't tapped on the frame or any embedded frame yet: https://www.chromestatus.com/feature/5644273861001216."
+    ],
+    "failedRequests": [
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+    ],
+    "limitation": "Bridge proxy blocks the external Cloudflare Turnstile script; bot-check completion and live answers were not validated. Reduced-motion preference was forced with a disposable-only matchMedia fixture."
+  },
+  "screenshots": [
+    {
+      "file": "after-ar-1440.jpg",
+      "bytes": 166541,
+      "width": 600,
+      "height": 11304,
+      "sha256": "b960434cba8487da2c193f865651d39d2835d9c87312432dc12973b5ce19f5a8"
+    },
+    {
+      "file": "after-ar-390.jpg",
+      "bytes": 164874,
+      "width": 223,
+      "height": 18827,
+      "sha256": "96eb2076771b425488430705a3784b4209e44a427a8f4da67968e046a8e6e35f"
+    },
+    {
+      "file": "after-en-1440.jpg",
+      "bytes": 179760,
+      "width": 600,
+      "height": 11351,
+      "sha256": "5359651888b535f8ee54153106bdae44dd84aa4c7eb693a17c7a08836c39dfb4"
+    },
+    {
+      "file": "after-en-390.jpg",
+      "bytes": 178187,
+      "width": 223,
+      "height": 19290,
+      "sha256": "4816c4f0934085fb4cc39615da01903b5f7fdc8ab6f3a6945d744f67c346c137"
+    },
+    {
+      "file": "after-ru-1440.jpg",
+      "bytes": 190898,
+      "width": 600,
+      "height": 11646,
+      "sha256": "cf7fe2c755b41d8b4c666fca3da10c6777f5c5bd609ab2cb60b0bae59fc1b54f"
+    },
+    {
+      "file": "after-ru-390.jpg",
+      "bytes": 187509,
+      "width": 223,
+      "height": 19994,
+      "sha256": "3fe14eba3add3692e4c0b2557928e601f0107d56ae5b1689857612b6f315f863"
+    },
+    {
+      "file": "before-ar-1440.jpg",
+      "bytes": 141549,
+      "width": 600,
+      "height": 7873,
+      "sha256": "29abf9faa34723267e4ae074fe4879378640cefadfcbfa70aa269ec72d0829d6"
+    },
+    {
+      "file": "before-ar-390.jpg",
+      "bytes": 181956,
+      "width": 260,
+      "height": 13540,
+      "sha256": "d0ee138bc0c5ca11d6df0335d31545e0a980ba36bd47f49d3076d2cba827fc7e"
+    },
+    {
+      "file": "before-en-1440.jpg",
+      "bytes": 148141,
+      "width": 600,
+      "height": 7924,
+      "sha256": "5872de509c52e540cb8be851b304874ec09bff29735859c0bb5a446958d3966f"
+    },
+    {
+      "file": "before-en-390.jpg",
+      "bytes": 193210,
+      "width": 260,
+      "height": 13818,
+      "sha256": "7a9dda2dfac7a3dac3755fa6a0f5d68fe26bebc7c0b7edda7f0f7b24ef77dd09"
+    },
+    {
+      "file": "before-ru-1440.jpg",
+      "bytes": 151753,
+      "width": 600,
+      "height": 8090,
+      "sha256": "af67fb636b1bdfbc21a8cab25296c9d0427f2238e92f9723ed62d01e24382ed2"
+    },
+    {
+      "file": "before-ru-390.jpg",
+      "bytes": 194823,
+      "width": 260,
+      "height": 14230,
+      "sha256": "66363289fd36da423f735ed243b8c54a026bb48f3f5fe190caf3d42e8e011b0f"
+    },
+    {
+      "file": "detail-ar-phone.jpg",
+      "bytes": 65189,
+      "width": 780,
+      "height": 844,
+      "sha256": "024151868c011abf8827f4c5a275961077212e38c4ec363eef62ee825779d5d6"
+    },
+    {
+      "file": "detail-en-phone.jpg",
+      "bytes": 65703,
+      "width": 780,
+      "height": 844,
+      "sha256": "cafa49b7db72123801a7eca60cd49e21f0acf4b31e033b4ca226b5c7ed22ed6b"
+    },
+    {
+      "file": "detail-ru-phone.jpg",
+      "bytes": 73711,
+      "width": 780,
+      "height": 844,
+      "sha256": "353bfcbc7336824004caa02559e7edca712a1b426873aaad656698ead76ca2d0"
+    }
+  ],
+  "bridgeRoot": "/tmp/claude-0/-home-user/cc266671-927d-5725-9c7e-f796d6242f4f/scratchpad/bridge/res",
+  "note": "EN phone panorama and detail are from d1-phone-final-layout after the phone SVG grid sizing correction. The other five panoramas are from their d1-final-* requests."
+}
