@@ -6,7 +6,7 @@
 // itself off under reduced motion, on phones, and if the page drops below
 // 50 frames a second.
 (() => {
-  const D = document, H = D.documentElement, KEY = 'usha-sound';
+  const D = document, H = D.documentElement, KEY = 'usha-music';
   const VOL = 0.75, FX_MUTED = 0.4; // effects bus runs at .8; half of it is .4
   const pref = () => { try { return localStorage.getItem(KEY) !== 'off'; } catch { return true; } };
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
