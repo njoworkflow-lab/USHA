@@ -661,6 +661,16 @@ html[dir=rtl] .xl-pr select{background-position:calc(100% - 16px) 50%,calc(100% 
 .xl-go small{flex:1 1 220px;font-size:12px;color:var(--ink3);line-height:1.4}
 .xl-go .btn[disabled]{opacity:.6;cursor:progress}
 
+.xl-code{width:100%;max-width:480px;max-height:100%;margin:auto;align-content:start;gap:18px}
+.xl-code h4{margin:0;font:700 clamp(24px,3vw,30px)/1.2 var(--head);letter-spacing:-.03em;color:var(--ink);text-wrap:balance}
+html[lang=ar] .xl-code h4{letter-spacing:0}
+.xl-code .xl-f input{height:56px;font:500 24px var(--mono);letter-spacing:.12em;text-align:center}
+.xl-code .xl-go .btn{width:100%;min-height:52px;justify-content:center}
+.xl-code .xl-e{margin:0;line-height:1.5}
+.xl-code-contact,.xl-pm .xl-code-contact{margin:0;color:var(--ink3);font-size:13px;line-height:1.55}
+.xl-code .xl-team-open{min-height:44px;padding:10px 0;text-align:start}
+.xl-expired{max-height:100%;overflow:auto}
+
 .xl-chat{flex:1;min-height:0;display:flex;flex-direction:column}
 .xl-log{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:18px 28px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
 .xl-m{max-width:88%;font-size:15px;line-height:1.55;color:var(--ink);overflow-wrap:anywhere}
@@ -735,3 +745,4 @@ html[dir=rtl] .xl-send i{transform:translate(2px,2px) rotate(-135deg)}
   .xl-cta .btn{width:100%;justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.xl-dot,.xl-read i,.xl-pm-i i{animation:none}}
+.xl-expired:focus{outline:none}
