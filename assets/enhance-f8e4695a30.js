@@ -1199,7 +1199,7 @@ function findingChart(i, lang) {
     let b = $('.xl-hero');
     if (!b) {
       b = D.createElement('button'); b.type = 'button'; b.className = 'xl-hero'; b.setAttribute('translate', 'no');
-      row.before(b);
+      row.prepend(b);
       b.addEventListener('click', open);
     }
     if (b.dataset.lang !== H.lang) {
@@ -1211,6 +1211,7 @@ function findingChart(i, lang) {
   // show it once USHA is awake (the page drops its "locked" class)
   const wake = () => { if (!H.classList.contains('locked')) { H.classList.add('xl-awake'); return true; } return false; };
   if (!wake()) { const mo = new MutationObserver(() => { if (wake()) mo.disconnect(); }); mo.observe(H, { attributes: true, attributeFilter: ['class'] }); }
+  addEventListener('usha:talk', () => open());
   addEventListener('hashchange', () => { if (location.hash === '#ask') { history.replaceState(null, '', location.pathname + location.search); open(); } });
 
   const later = () => setTimeout(() => { ctaUI(); heroUI(); }, 60);
