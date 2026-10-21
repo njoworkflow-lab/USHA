@@ -116,6 +116,16 @@ export const PRO_ONLY_ADD = [['Website design, kept in sync with your products a
 // New content used by the enhancement layer (plans and Enterprise).
 // Strings are [en, ru]; Arabic comes from ar.json.
 export const X = {
+  liveHints: {
+    primary: ['Talk to USHA live', 'Поговорить с USHA'],
+    pill: ['Try USHA live', 'Спросить USHA вживую'],
+    lines: [
+      ['Psst. Ask me about your market.', 'Псс. Спросите меня про ваш рынок.'],
+      ['Your competitors. Your questions. I’m here.', 'Ваши конкуренты. Ваши вопросы. Я здесь.'],
+      ['Something on your mind? Let’s talk.', 'Есть вопрос? Давайте поговорим.'],
+    ],
+    dismiss: ['Dismiss hint', 'Скрыть подсказку'],
+  },
   // plans table (deck slide 17)
   plansGroups: [
     [['Market intelligence', 'Аналитика рынка'], [
