@@ -6,42 +6,267 @@ Source: https://usha.one/en/ (English), https://usha.one/ (Russian) and https://
 
 # USHA by NJO · Business intelligence engine
 
-**The algorithm that understands algorithms.** Every day she reads your marketplaces, competitors and buyers, tells you what changed and why, and does the work that follows.
+**The algorithm that understands algorithms.** Where is the truth? Hidden in the algorithms. USHA reads them. Not a chatbot.
 
 - First week free
 - No new hires
 - Works in your messenger, 24/7
 
-## Four algorithms decide your sales. Nobody on your team watches them.
+## Five algorithms decide who buys from you. Have you met them?
 
-They decide who sees you, who finds you, what you pay and who buys. Their rules change every month.
+Feed, search, ad auction, marketplaces and suggestions. Their rules change every week.
 
-- **The feed**: Decides who sees your post: a thousand people or ten.
-- **The search**: Decides if your product is on page 1 or page 9.
-- **The auction**: Decides what each click and each customer costs you.
+- **The feed**: Of 1,000 followers, about 10 see your next post.
+- **The search**: Page one sells. Page two is invisible.
+- **The auction**: The price of each click changes every hour.
 - **The buyer**: Decides in seven seconds whether to trust you.
 
-Posting more won’t beat them. Reading them will. That’s her job.
+Posting more doesn’t fix it. Reading the algorithms does.
+
+## Five algorithms. Rules change every week.
+
+### The feed
+Of 1,000 followers, about 10 see your next post.
+
+### Search
+Page one sells. Page two is invisible.
+
+### The ad auction
+The price of each click changes every hour.
+
+### Marketplaces
+Amazon, noon, Ozon or Wildberries decide whose product is on top.
+
+### Suggestions
+“You may also like” sends buyers to one product.
+
+### Everyone asks the same AI. Everyone gets the same answer.
+Post more. Run ads. Fix your offer.
+Post more. Run ads. Fix your offer.
+Post more. Run ads. Fix your offer.
+Post more. Run ads. Fix your offer.
+
+Illustration, answers paraphrased
+
+### Three roads. One circle.
+
+### Hire an agency
+Pay every month. Get work like everyone else’s. Change the agency.
+
+### Build a team
+Salaries and months of hiring. The same AI tools. Costs grow.
+
+### Do it yourself
+Subscriptions and evenings. Nicer pictures, not more sales. One more tool.
 
 ## She reads everything. You get only what matters.
 
 Every day USHA reads 1,240 sources around your business: marketplaces, competitors, reviews, search and ads. When something moves, you get the finding and her next move.
 
-## Everyone has the same AI. She uses it differently.
+## She reads them. You stop guessing.
+An algorithm is a hidden set of rules inside every app and website. NJO built USHA to read them every day and turn them into plain moves.
+Raw signalHer move
+CTR 1.9% · rank #14 → #31Your photo loses on phones. Change it today.
 
-| | AI tools | Agency | In-house team | USHA |
+CPC +32% after 10:00Move your ads to the evening.
+
+Example
+
+### Before you wake up, she has read your market.
+1,240 sources, every day, before 08:00. Your market, marketplaces, competitors, leaders and buyers.
+
+### Every finding becomes a move.
+Example
+
+### A rival reaches #1 after new photos.
+She prepares new card visuals and titles.
+
+### Buyers complain about a rival’s packaging.
+She builds a campaign around your packaging.
+
+### A short-video format is growing.
+She produces your version this week.
+
+### Demand rises before the same holiday.
+She starts three weeks before competitors.
+
+### A competitor cuts price by 18% overnight.
+She recommends price, value or a bundle. With numbers.
+
+### One product runs out. Another sits in stock.
+She moves ads and content to what can sell.
+
+## Her range. In numbers.
+
+### What she reads
+1,240sources every day, before 08:00
+
+200+experts who taught her
+
+160+buyer types she can test on
+
+### What she does
+1,300+tests before you see one answer
+
+12skill areas, one memory
+
+24/7in your messenger
+
+### Who stands behind her
+700+projects since 2016
+
+22countries
+
+## A living market. Tests before you spend.
+
+### She learned from 200+ experts. She still learns every day.
+Real failures, wins and unwritten tips. Marketplace sellers, founders, media buyers, retail managers, pharma directors, restaurant owners, exporters and creators.
+
+### Thousands of digital buyers. Your competitors are there too.
+Each has an age, city, budget, habits and memory. They talk, complain and switch brands. She can stop the world and ask anyone.
+
+### Like a flight simulator for your business decisions.
+She tests your idea 1,300+ times before you see one answer. Specialist agents argue over each result. A critic challenges it.
+
+ExamplePrice AAED 129
+18bought, out of 100 digital buyers
+Price BAED 106
+31bought, out of 100 digital buyers
+Bundle C2 for AED 199
+47bought, out of 100 digital buyers
+
+Option C wins: more buyers, and you keep your profit.
+
+### A whole marketing department. And more.
+
+- Buyer panel
+
+- Competitor watch
+
+- Marketplaces
+
+- Social media
+
+- Advertising
+
+- Pricing & offers
+
+- Brand
+
+- Retail & sales
+
+- Launch & growth
+
+- Data & forecasts
+
+- Customers
+
+- Crisis & reputation
+Predicts a rival’s next 3 moves. Tests a launch before you spend. Wins price wars, keeps margin. Plans a new country in a day. Watches your market 24/7.
+Arabic. English. Russian. Plain words.
+
+## Without USHA. With USHA.
+Example
+
+### Business report
+Without USHAReach. Engagement. Visits. Enquiries. A dashboard to interpret.
+
+With USHAWhat changed. Why it matters. Your move.
+
+### Ads report
+Without USHACPC +32% after 10:00. You keep paying.
+
+With USHAMove your ads to the evening. Stay within your approved budget.
+
+### Engagement & reach
+Without USHAYou keep posting. The feed decides who sees it.
+
+With USHAShe spots a growing short-video format and makes your version this week.
+
+### Media production
+Without USHAAn agency needs a brief. Doing it yourself takes your evenings.
+
+With USHA10 minutes in the chat becomes a week of department work.
+
+### Pricing & offers
+Without USHAA rival cuts the price. You guess what to do.
+
+With USHAShe tests the price and the bundle on digital buyers before you pay.
+
+### Team & cost
+Without USHAEight roles. Months of hiring. History leaves with people.
+
+With USHAOne USHA. One memory. Ready in one week.
+
+## Three steps. Nothing to learn.
+
+- 01
+### Connect · week one
+She studies products, market, competitors and channels. You receive a strategy and first posts.
+
+- 02
+### Talk · every day
+One chat. Plain language. Like your marketing director. 24/7.
+
+- 03
+### Approve and grow · every month
+You approve strategy, budget and promotion terms. She does the work and shows results.
+
+### She doesn’t chat. She briefs.
+What changed → why it matters → your move. No app. No installation.
+
+### A gift-box launch. One working week.
+Example
+
+- MonOne line in the chat. She reads competitors, reviews and past results.
+
+- TueFreshness and local production. Keep the price. You approve.
+
+- WedImages, posts, stories, two short videos and ad creatives.
+
+- ThuLaunch within your budget. Ready buyers go to your sales team.
+
+- FriOne flavour runs low. Ads move to stock that can sell. The site is updated.
+
+10 minutes in the chat → a week of a whole department’s work.
+
+### Which owner are you?
+Example
+
+### We’re just starting.
+She studies rivals, finds an open place in the market and sets the price and message.
+
+### People visit, but nobody buys.
+She fixes photos, titles and offers. Ads reach people ready to buy.
+
+### We tried everything. Nothing works.
+She finds the blocker, tests the fix 1,300 times and gives one clear move.
+
+## Three roads, and USHA. Side by side.
+
+| | Agency | In-house team | Do it yourself | USHA |
 |---|---|---|---|---|
-| Knows your business | Starts from zero every time | Through one account manager | Until people leave | Permanent memory of everything |
-| Watches competitors and marketplaces | No | Occasionally, on request | When there is time | Every day |
-| Decodes why niche leaders win | No | Rarely | Rarely | Continuously, and turns it into actions |
-| Quality of visuals | Generic, looks like AI | Good, at a high price | Depends on who you hire | From your products, in your brand style |
-| Facts and numbers | Can be invented | Depends on the team | Depends on the team | Your data and checkable sources |
-| Available | When you prompt it | Office hours | Office hours, minus holidays and sick leave | 24/7 |
-| Does the work end to end | No, you do it | Yes, slowly | Yes, if fully staffed | Research, plan, create, publish, measure |
+| Knows your business | Through one account manager | Until people leave | From zero every time | Remembers everything, forever |
+| Watches your market daily | Sometimes, if you ask | When there is time | No | Every day |
+| Knows why leaders win | Rarely | Rarely | No | Always, and acts on it |
+| Tests ideas before you pay | No | No | No | 1,300+ times |
+| Available | Office hours | Office hours minus holidays | Your evenings | 24/7 |
+| Does the work | Yes, slowly | Yes, if fully staffed | No, you do it | Yes, from plan to report |
+| Monthly cost | High fee | 7–12x more than USHA | Low, but costs your time | A fraction |
 
-**One engine instead of a department.** A department means eight full-time roles, plus analysts, influencer managers and customer support on top, and months of hiring, training and managing. (Head of marketing, Marketer, Paid-media specialist, Social media specialist, Video editor, AI creator, Designer, Web designer & developer). She never goes on sick leave, never says “I’m not in the right headspace”, and never leaves for a competitor with your project history.
+**One USHA instead of 8 people.** Eight roles. Months of hiring and training. Holidays, sick leave and history lost when someone leaves. (Head of marketing, Marketer, Paid-media specialist, Social media specialist, Video editor, AI creator, Designer, Web designer & developer). Ready in one week. Works 24/7. Remembers every project. Never leaves with your secrets.
 
-## Numbers, not promises.
+### One USHA instead of 8 people. For 7–12x less.
+Conservative: counts only seven of the eight roles, at full 2026 salaries in Russia including employer contributions.
+
+### Every month. A steady rhythm.
+30-day rhythm · illustrationRadar · daily
+
+Publishing · about every two days
+
+Brief & report
+
+## What she delivers. Every month.
 
 What USHA delivers for one brand every month. Switch the plan to compare.
 
@@ -52,7 +277,7 @@ What USHA delivers for one brand every month. Switch the plan to compare.
 
 - **Only in Pro**: Packaging design; Customer replies, Mon–Fri 10:00–18:00; Stock intelligence; Website design, kept in sync with your products and stock.
 
-## Same engine. Different appetite.
+## Core or Pro. Same USHA, different volume.
 
 Core runs the full engine for one brand. Pro adds more channels and volume, customer replies, stock intelligence and website design.
 
@@ -73,8 +298,8 @@ More reach and output, plus customer replies and stock intelligence.
 - 2 ad platforms · 2 promotions
 
 ### USHA Enterprise
-All eight areas, configured around your company.
-- All eight areas
+For groups and larger companies. Configured around your company.
+- Everything in Pro
 - Operations and stock
 - Dashboards, websites, automations
 - Scope agreed individually
@@ -98,6 +323,53 @@ You decide how independently she works. Budgets and promotion terms are always y
 ### Everyone has the same AI models. The engineers make the difference.
 USHA is built by NJO: strategists with over ten years of methods, art directors who set her visual standards, analysts who taught her to read markets, and engineers who make her smarter every month. NJO · New Journey Onward · Since 2016 · GCC · Egypt · Russia. Official partners: Google, Meta, Midjourney, Runway, Kling AI.
 
+## AI sells answers. We take responsibility for ours.
+Real people at NJO stand behind every answer she gives you.
+
+- 01USHA re-checks your case and fixes the plan.
+
+- 02An NJO expert works on your case by hand.
+
+- 03NJO’s senior team takes over.
+
+- 04Still not right? You get your money back.
+
+100% money back
+Money-back terms are written into your contract.
+
+### Your data stays yours. Protected before you share a word.
+NDA · signed before day oneWhat you need
+- A signed NDA
+
+- Your messenger
+
+- Your yes on what matters
+
+What you don’t need
+- API integration
+
+- An app
+
+- Access to your systems
+
+WhatsApp, Telegram or Messenger.
+Connections only if you want them. You choose what she can touch. Switch off at any time.
+
+Every month, whatever happens
+- Agreed volume
+
+- 24/7 access
+
+- NJO quality check
+
+- Honest monthly report
+
+Results also depend on your product, market and budget. We set goals together. Sales effect is shown if you share sales data.
+We are responsible for every piece of data you share. In writing, not in words.
+Ask for the NDA and contract terms ↗
+
+Don’t believe us. Test her.
+
 ## Your first week is on us.
 
 USHA calibrates to your business: products, market, competitors and channels. At the end of the week you get:
@@ -111,68 +383,304 @@ Then you decide. If you continue, she starts the agreed plan the following week.
 ## Before you decide.
 
 ### Is USHA a chatbot?
-No. You talk to her in one chat, but she works on her own every day: she reads your market, plans, produces and publishes within the plan you approve.
+No. You talk to her in one chat. She reads your market, plans, produces and publishes within the plan you approve.
 
 ### Do I need to learn a new platform?
-No. She works in your messenger. You approve the decisions that matter; she does the rest and reports every month.
+No. She works in your messenger. You approve what matters. She does the work and reports every month.
 
 ### Who checks the quality?
-NJO’s strategists and art directors set her standards, and every output is checked against them before it reaches you.
+Every output is checked against NJO’s quality standards. Your monthly report includes honest conclusions.
 
 ### Which markets and platforms?
-The GCC, Egypt and Russia. Amazon, noon, Namshi, Google, Instagram, Facebook, TikTok, Snapchat, YouTube, X, LinkedIn and others.
+The GCC, Egypt and Russia. Amazon, noon, Ozon and Wildberries. Google or Meta ads. Instagram, Facebook, TikTok, Snapchat, YouTube, X and LinkedIn.
 
 ### Are advertising budgets included?
-No. Advertising budgets, creator fees and products for collaborations are paid separately, and you approve every budget.
+No. Ad budgets, creator fees and collaboration products are paid separately. You approve the budget and promotion terms.
 
 ### What happens after the free week?
 You decide. If you continue, she starts the agreed plan the following week. If not, you keep the strategy and the posts.
+
+### What if the answer is still not right?
+USHA re-checks the plan. Then an NJO expert works by hand. Then the senior team takes over. Still not right? 100% money back. Terms are written into your contract.
+
+### When do we sign the NDA?
+Before day one, before you share anything. Your numbers, plans and customers are a commercial secret.
+
+### Do I need to give access to my systems?
+No API, app or access to your systems is needed. Connections are optional. You choose what she can touch and can switch them off at any time.
 
 ## Contact
 - Telegram: https://t.me/njo_manager
 - Email: darina@njobusinesssolutions.com
 - https://www.njobusinesssolutions.com/
 
+Unified Strategy. Human Action.
+
 ---
 
 # USHA by NJO · Движок бизнес-аналитики
 
-**Алгоритм, который понимает алгоритмы.** Каждый день она читает ваши маркетплейсы, конкурентов и покупателей, говорит, что изменилось и почему, и делает работу, которая из этого следует.
+**Алгоритм, который понимает алгоритмы.** Где правда? Она скрыта в алгоритмах. USHA умеет их читать. Не чат-бот.
 
 - Первая неделя бесплатно
 - Без новых сотрудников
 - В вашем мессенджере, 24/7
 
-## Ваши продажи решают четыре алгоритма. Никто в команде за ними не следит.
+## Пять алгоритмов решают, кто у вас купит. Вы с ними знакомы?
 
-Они решают, кто вас видит, кто находит, сколько вы платите и кто покупает. Их правила меняются каждый месяц.
+Лента, поиск, рекламный аукцион, маркетплейсы и рекомендации. Их правила меняются каждую неделю.
 
-- **Лента**: Решает, кто увидит ваш пост: тысяча человек или десять.
-- **Поиск**: Решает, где ваш товар: на первой странице или на девятой.
-- **Аукцион**: Решает, сколько вам стоит каждый клик и каждый клиент.
+- **Лента**: Из 1 000 подписчиков ваш новый пост увидят около 10.
+- **Поиск**: Первая страница продаёт. Вторую не видят.
+- **Аукцион**: Цена каждого клика меняется каждый час.
 - **Покупатель**: За семь секунд решает, доверять ли вам.
 
-Больше публикаций их не обыграет. Понимание обыграет. Это её работа.
+Больше публикаций проблему не решит. Нужно читать алгоритмы.
+
+## Пять алгоритмов. Правила меняются каждую неделю.
+
+### Лента
+Из 1 000 подписчиков ваш новый пост увидят около 10.
+
+### Поиск
+Первая страница продаёт. Вторую не видят.
+
+### Рекламный аукцион
+Цена каждого клика меняется каждый час.
+
+### Маркетплейсы
+Ozon, Wildberries и Яндекс Маркет решают, чей товар окажется наверху.
+
+### Рекомендации
+«Вам также может понравиться» направляет покупателей к одному товару.
+
+### Все спрашивают один и тот же ИИ. Все получают один и тот же ответ.
+Публикуйте больше. Запустите рекламу. Исправьте предложение.
+Публикуйте больше. Запустите рекламу. Исправьте предложение.
+Публикуйте больше. Запустите рекламу. Исправьте предложение.
+Публикуйте больше. Запустите рекламу. Исправьте предложение.
+
+Иллюстрация, ответы пересказаны
+
+### Три дороги. Один круг.
+
+### Нанять агентство
+Платите каждый месяц. Получаете работу как у всех. Меняете агентство.
+
+### Собрать команду
+Зарплаты и месяцы найма. Те же ИИ-инструменты. Расходы растут.
+
+### Делать самому
+Подписки и вечера. Картинки красивее, продаж не больше. Ещё один сервис.
 
 ## Она читает всё. Вы получаете только важное.
 
 Каждый день USHA читает 1 240 источников вокруг вашего бизнеса: маркетплейсы, конкурентов, отзывы, поиск и рекламу. Когда что-то меняется, вы получаете находку и её следующий ход.
 
-## У всех одинаковый ИИ. Она использует его иначе.
+## Она читает их. Вы перестаёте гадать.
+Алгоритм — скрытые правила внутри каждого приложения и сайта. NJO создала USHA, чтобы читать их каждый день и превращать в понятные шаги.
+Сырой сигналЕё ход
+CTR 1,9% · место #14 → #31Ваше фото проигрывает на телефоне. Замените сегодня.
 
-| | ИИ-сервисы | Агентство | Своя команда | USHA |
+CPC +32% после 10:00Перенесите рекламу на вечер.
+
+Пример
+
+### Пока вы спите, она уже прочитала ваш рынок.
+1 240 источников каждый день, до 08:00. Ваш рынок, маркетплейсы, конкуренты, лидеры и покупатели.
+
+### Каждая находка становится ходом.
+Пример
+
+### Конкурент вышел на первое место с новыми фото.
+Она готовит новые фото и названия карточек.
+
+### Покупатели жалуются на упаковку конкурента.
+Она строит кампанию вокруг вашей упаковки.
+
+### Растёт новый формат коротких видео.
+Она делает вашу версию на этой неделе.
+
+### Спрос растёт перед одним и тем же праздником.
+Она начинает за три недели до конкурентов.
+
+### Конкурент за ночь снижает цену на 18%.
+Она предлагает ответ: цена, ценность или набор. С цифрами.
+
+### Один товар заканчивается. Другой лежит на складе.
+Она переводит рекламу и контент на то, что можно продать.
+
+## Её масштаб. В цифрах.
+
+### Что она читает
+1 240источников каждый день, до 08:00
+
+200+экспертов, которые её учили
+
+160+типов покупателей для проверки идей
+
+### Что она делает
+1 300+проверок, прежде чем вы увидите один ответ
+
+12направлений, одна память
+
+24/7в вашем мессенджере
+
+### Кто за ней стоит
+700+проектов с 2016 года
+
+22страны
+
+## Живой рынок. Проверки до ваших затрат.
+
+### Она училась у 200+ экспертов. И продолжает учиться каждый день.
+Реальные провалы, победы и неписаные правила. Селлеры, основатели брендов, закупщики рекламы, руководители розницы и фармпродаж, рестораторы, экспортёры и авторы контента.
+
+### Тысячи цифровых покупателей. Конкуренты тоже внутри.
+У каждого есть возраст, город, бюджет, привычки и память. Они общаются, жалуются и меняют бренды. Она может остановить этот мир и спросить любого.
+
+### Как лётный тренажёр для ваших бизнес-решений.
+Она проверяет идею 1 300+ раз, прежде чем вы увидите один ответ. Агенты-специалисты спорят о каждом результате. Критик проверяет вывод.
+
+ПримерЦена A1 290 ₽
+18купили из 100 цифровых покупателей
+Цена B1 058 ₽
+31купили из 100 цифровых покупателей
+Набор C2 за 1 990 ₽
+47купили из 100 цифровых покупателей
+
+Вариант C: больше покупателей, прибыль сохраняется.
+
+### Целый отдел маркетинга. И больше.
+
+- Панель покупателей
+
+- Наблюдение за конкурентами
+
+- Маркетплейсы
+
+- Соцсети
+
+- Реклама
+
+- Цены и предложения
+
+- Бренд
+
+- Розница и продажи
+
+- Запуск и рост
+
+- Данные и прогнозы
+
+- Клиенты
+
+- Кризис и репутация
+Предсказывает 3 хода конкурента. Проверяет запуск до трат. Выигрывает ценовые войны, сохраняя маржу. План выхода в новую страну за день. Следит за рынком 24/7.
+Русский. Английский. Арабский. Простыми словами.
+
+## Без USHA. С USHA.
+Пример
+
+### Отчёт о бизнесе
+Без USHAОхват. Вовлечение. Визиты. Обращения. Цифры нужно расшифровать.
+
+С USHAЧто изменилось. Почему это важно. Ваш ход.
+
+### Отчёт о рекламе
+Без USHACPC +32% после 10:00. Вы продолжаете платить.
+
+С USHAПеренесите рекламу на вечер. В рамках утверждённого бюджета.
+
+### Вовлечение и охват
+Без USHAВы публикуете больше. Лента решает, кто увидит.
+
+С USHAОна находит растущий формат коротких видео и делает вашу версию на этой неделе.
+
+### Производство контента
+Без USHAАгентству нужно ТЗ. Самостоятельная работа съедает вечера.
+
+С USHA10 минут в чате превращаются в неделю работы отдела.
+
+### Цены и предложения
+Без USHAКонкурент снизил цену. Вы гадаете, что делать.
+
+С USHAОна проверяет цену и набор на цифровых покупателях до ваших затрат.
+
+### Команда и расходы
+Без USHAВосемь ролей. Месяцы найма. История уходит вместе с людьми.
+
+С USHAОдна USHA. Одна память. Готова за неделю.
+
+## Три шага. Ничего не нужно осваивать.
+
+- 01
+### Подключите · первая неделя
+Она изучает товары, рынок, конкурентов и каналы. Вы получаете стратегию и первые публикации.
+
+- 02
+### Говорите · каждый день
+Один чат. Простой язык. Как с директором по маркетингу. 24/7.
+
+- 03
+### Утверждайте и растите · каждый месяц
+Вы утверждаете стратегию, бюджет и условия акций. Она делает работу и показывает результат.
+
+### Она не болтает. Она докладывает.
+Что изменилось → почему это важно → ваш ход. Без приложения. Без установки.
+
+### Запуск подарочного набора. Одна рабочая неделя.
+Пример
+
+- ПнОдна строка в чате. Она изучает конкурентов, отзывы и прошлые результаты.
+
+- ВтСвежесть и местное производство. Цену не снижать. Вы утверждаете.
+
+- СрФото, публикации, сторис, два коротких видео и рекламные креативы.
+
+- ЧтЗапуск в рамках бюджета. Готовые к покупке клиенты — в отдел продаж.
+
+- ПтОдин вкус заканчивается. Реклама переходит на доступный товар. Сайт обновлён.
+
+10 минут в чате → неделя работы целого отдела.
+
+### Какой вы владелец?
+Пример
+
+### Мы только начинаем.
+Она изучает конкурентов, находит свободное место на рынке, определяет цену и сообщение.
+
+### Заходят, но не покупают.
+Она исправляет фото, название и предложение. Реклама доходит до готовых купить.
+
+### Пробовали всё. Ничего не работает.
+Она находит причину, проверяет решение 1 300 раз и предлагает один понятный ход.
+
+## Три дороги и USHA. Сравним.
+
+| | Агентство | Штатная команда | Самостоятельно | USHA |
 |---|---|---|---|---|
-| Знает ваш бизнес | Каждый раз с нуля | Через одного менеджера | Пока люди не ушли | Помнит всё и всегда |
-| Следит за конкурентами и маркетплейсами | Нет | Иногда, по запросу | Когда есть время | Каждый день |
-| Разбирает, почему выигрывают лидеры | Нет | Редко | Редко | Постоянно — и превращает в действия |
-| Качество визуала | Шаблонный, сразу видно ИИ | Хорошее, но дорого | Зависит от того, кого наняли | Из ваших товаров, в стиле бренда |
-| Факты и цифры | Могут быть выдуманы | Зависит от команды | Зависит от команды | Ваши данные и проверяемые источники |
-| Доступность | Когда вы пишете запрос | В рабочие часы | В рабочие часы, кроме отпусков и больничных | 24/7 |
-| Делает работу целиком | Нет, делаете вы | Да, но медленно | Да, если все роли закрыты | Анализ, план, создание, публикация, измерение |
+| Знает ваш бизнес | Через одного менеджера | Пока люди не ушли | С нуля каждый раз | Помнит всё и всегда |
+| Следит за рынком каждый день | Иногда, если попросите | Когда есть время | Нет | Каждый день |
+| Знает, почему выигрывают лидеры | Редко | Редко | Нет | Всегда, и действует |
+| Проверяет идеи до ваших затрат | Нет | Нет | Нет | 1 300+ раз |
+| Доступность | В рабочие часы | В рабочие часы, кроме отпусков | Ваши вечера | 24/7 |
+| Делает работу | Да, но медленно | Да, если все роли закрыты | Нет, делаете вы | Да, от плана до отчёта |
+| Стоимость в месяц | Высокий гонорар | В 7–12 раз дороже USHA | Ниже, но стоит вашего времени | Малая часть |
 
-**Один движок вместо целого отдела.** Отдел — это восемь ставок в штате, плюс аналитики, менеджеры по блогерам и поддержка, и месяцы найма, обучения и управления. (Руководитель маркетинга, Маркетолог, Таргетолог, SMM-специалист, Видеомонтажёр, ИИ-креатор, Дизайнер, Веб-дизайнер и разработчик). Она не уходит на больничный, не говорит «я не в ресурсе» и никогда не уйдёт к конкуренту вместе с историей вашего проекта.
+**Одна USHA вместо 8 человек.** Восемь ролей. Месяцы найма и обучения. Отпуска, больничные и потеря истории, когда человек уходит. (Руководитель маркетинга, Маркетолог, Таргетолог, SMM-специалист, Видеомонтажёр, ИИ-креатор, Дизайнер, Веб-дизайнер и разработчик). Готова за неделю. Работает 24/7. Помнит каждый проект. Не уходит с вашими секретами.
 
-## Цифры, а не обещания.
+### Одна USHA вместо 8 человек. В 7–12 раз дешевле.
+Консервативно: Core 49 000 ₽ и Pro 79 000 ₽ в месяц против 611 000–1 001 000 ₽ за семь из восьми ролей по зарплатам 2026 года в России, с учётом взносов работодателя.
+
+### Каждый месяц. Понятный ритм.
+Ритм 30 дней · иллюстрацияРадар · каждый день
+
+Публикации · примерно раз в два дня
+
+Сводка и отчёт
+
+## Что она делает. Каждый месяц.
 
 Что USHA делает для одного бренда каждый месяц. Переключите тариф, чтобы сравнить.
 
@@ -183,7 +691,7 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 
 - **Только в Pro**: Дизайн упаковки; Ответы покупателям, пн–пт 10:00–18:00; Аналитика остатков; Дизайн сайта, синхронизированный с товарами и остатками.
 
-## Один движок. Разный аппетит.
+## Core или Pro. Одна USHA, разный объём.
 
 Core запускает весь движок для одного бренда. Pro добавляет каналы и объём, ответы покупателям, аналитику остатков и дизайн сайта.
 
@@ -204,8 +712,8 @@ Core запускает весь движок для одного бренда. 
 - 2 рекламные площадки · 2 акции
 
 ### USHA Enterprise
-Все восемь направлений, настроенных под вашу компанию.
-- Все восемь направлений
+Для групп компаний и крупного бизнеса. Настраивается под вашу компанию.
+- Всё, что в Pro
 - Операционные процессы и остатки
 - Панели, сайты, автоматизации
 - Объём согласуется индивидуально
@@ -229,6 +737,53 @@ Core запускает весь движок для одного бренда. 
 ### У всех одинаковые ИИ-модели. Инженеры делают разницу.
 USHA создала NJO: стратеги с методиками, отточенными за десять с лишним лет, арт-директора, задавшие её визуальные стандарты, аналитики, научившие её читать рынки, и инженеры, которые каждый месяц делают её умнее. NJO · New Journey Onward · С 2016 года · Россия · страны Залива · Египет. Официальные партнёры: Google, Meta, Midjourney, Runway, Kling AI.
 
+## Нейросети продают ответы. Мы отвечаем за свои.
+Реальные люди в NJO стоят за каждым её ответом.
+
+- 01USHA заново проверяет ваш случай и исправляет план.
+
+- 02Эксперт NJO разбирает ваш случай вручную.
+
+- 03Подключается старшая команда NJO.
+
+- 04Всё ещё не то? Вы получаете деньги обратно.
+
+100% возврат денег
+Условия возврата денег записаны в вашем договоре.
+
+### Ваши данные остаются вашими. Защищены до первого слова.
+NDA · подписываем до первого дняЧто нужно
+- Подписанное NDA
+
+- Ваш мессенджер
+
+- Ваше «да» на важное
+
+Что не нужно
+- API-интеграция
+
+- Приложение
+
+- Доступ к вашим системам
+
+Telegram, WhatsApp или VK.
+Подключения — только по вашему желанию. Вы выбираете, к чему дать доступ. Отключаете в любой момент.
+
+Каждый месяц, что бы ни случилось
+- Согласованный объём
+
+- Доступ 24/7
+
+- Проверка качества NJO
+
+- Честный ежемесячный отчёт
+
+Результаты зависят также от товара, рынка и бюджета. Цели определяем вместе. Влияние на продажи показываем, если вы делитесь данными о продажах.
+Мы отвечаем за каждую часть данных, которыми вы делитесь. Письменно, а не на словах.
+Запросить NDA и условия договора ↗
+
+Не верьте нам. Проверьте её.
+
 ## Первая неделя за наш счёт.
 
 USHA настраивается под ваш бизнес: товары, рынок, конкурентов и каналы. В конце недели вы получаете:
@@ -242,68 +797,304 @@ USHA настраивается под ваш бизнес: товары, рын
 ## Прежде чем решить.
 
 ### USHA — это чат-бот?
-Нет. Вы общаетесь с ней в одном чате, но она работает сама каждый день: читает ваш рынок, планирует, создаёт и публикует в рамках утверждённого вами плана.
+Нет. Вы общаетесь с ней в одном чате. Она читает рынок, планирует, создаёт и публикует по утверждённому плану.
 
 ### Нужно осваивать новую платформу?
-Нет. Она работает в вашем мессенджере. Вы утверждаете важные решения, остальное делает она и отчитывается каждый месяц.
+Нет. Она работает в вашем мессенджере. Вы утверждаете важное. Она делает работу и отчитывается каждый месяц.
 
 ### Кто проверяет качество?
-Стратеги и арт-директора NJO задают её стандарты, и каждый результат проверяется по ним, прежде чем попасть к вам.
+Каждый результат проверяется по стандартам качества NJO. В ежемесячном отчёте — честные выводы.
 
 ### Какие рынки и площадки?
-Россия, страны Залива и Египет. Wildberries, Ozon, Яндекс Маркет, ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и другие.
+Россия, страны Залива и Египет. Ozon, Wildberries и Яндекс Маркет. Реклама ВК или Яндекс. ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и Ритм.
 
-### Рекламный бюджет входит в тариф?
-Нет. Рекламные бюджеты, гонорары блогеров и товары для коллабораций оплачиваются отдельно, и каждый бюджет утверждаете вы.
+### Входят ли рекламные бюджеты?
+Нет. Рекламные бюджеты, гонорары авторов и товары для коллабораций оплачиваются отдельно. Бюджет и условия акций утверждаете вы.
 
 ### Что после бесплатной недели?
-Решаете вы. Если продолжаете, она начинает согласованный план со следующей недели. Если нет, стратегия и посты остаются у вас.
+Решаете вы. Если продолжаете, она начинает работать по согласованному плану со следующей недели. Если нет — стратегия и посты остаются у вас.
+
+### А если ответ всё ещё не подходит?
+USHA перепроверяет план. Затем эксперт NJO разбирает случай вручную. Потом подключается старшая команда. Всё ещё не то? 100% возврат денег. Условия записаны в договоре.
+
+### Когда подписываем NDA?
+До первого дня, прежде чем вы чем-либо поделитесь. Ваши цифры, планы и клиенты — коммерческая тайна.
+
+### Нужен доступ к моим системам?
+API, приложение и доступ к вашим системам не нужны. Подключения — по желанию. Вы выбираете доступ и можете отключить его в любой момент.
 
 ## Контакты
 - Telegram: https://t.me/njo_manager
 - Email: darina@njobusinesssolutions.com
 - https://www.njobusinesssolutions.com/
 
+Unified Strategy. Human Action.
+
 ---
 
 # USHA by NJO · محرّك ذكاء الأعمال
 
-**الخوارزمية التي تفهم الخوارزميات.** كل يوم تقرأ ما يجري في منصات البيع ولدى منافسيك وعملائك، ثم تخبرك بما تغيّر ولماذا، وتتولّى العمل الذي يترتّب على ذلك.
+**الخوارزمية التي تفهم الخوارزميات.** أين الحقيقة؟ في الخوارزميات. USHA هي التي تقرؤها. وليست روبوت محادثة.
 
 - الأسبوع الأول مجاني
 - دون توظيف جديد
 - تعمل في تطبيق المراسلة الذي تستخدمه، 24/7
 
-## أربع خوارزميات تحدّد مبيعاتك، ولا أحد في فريقك يراقبها.
+## خمس خوارزميات تقرّر من يشتري منك. هل تعرفها؟
 
-هي التي تقرّر من يراك، ومن يجدك، وكم تدفع، ومن يشتري منك. وقواعدها تتغيّر كل شهر.
+المنشورات والبحث ومزاد الإعلانات والمنصات والاقتراحات. قواعدها تتغيّر كل أسبوع.
 
-- **الفيد**: يقرّر من يرى منشورك: ألف شخص أم عشرة.
-- **البحث**: يقرّر إن كان منتجك في الصفحة 1 أم في الصفحة 9.
-- **مزاد الإعلانات**: يقرّر كم تدفع مقابل كل نقرة وكل عميل.
+- **المنشورات**: من بين 1,000 متابع، يرى منشورك التالي نحو 10.
+- **البحث**: الصفحة الأولى تبيع، والثانية لا يراها أحد.
+- **مزاد الإعلانات**: يتغيّر سعر كل نقرة كل ساعة.
 - **المشتري**: يقرّر خلال سبع ثوانٍ إن كان سيثق بك.
 
-لن تتفوّق عليها بنشر المزيد. بل بقراءتها. وهذا بالضبط عملها.
+لن تحلّ المشكلةَ بنشر المزيد. بل بقراءة الخوارزميات.
+
+## خمس خوارزميات، وقواعد تتغيّر كل أسبوع.
+
+### المنشورات
+من بين 1,000 متابع، يرى منشورك التالي نحو 10.
+
+### البحث
+الصفحة الأولى تبيع، والثانية لا يراها أحد.
+
+### مزاد الإعلانات
+يتغيّر سعر كل نقرة كل ساعة.
+
+### المنصات
+تقرّر منصات Amazon وnoon وOzon وWildberries أيّ منتج يظهر في المقدمة.
+
+### الاقتراحات
+توجّه عبارة «قد يعجبك أيضًا» العملاء إلى منتج معيّن.
+
+### يسأل الجميع الذكاء الاصطناعي نفسه، فيحصلون على الإجابة نفسها.
+انشر المزيد. أطلق إعلانات. حسّن عرضك.
+انشر المزيد. أطلق إعلانات. حسّن عرضك.
+انشر المزيد. أطلق إعلانات. حسّن عرضك.
+انشر المزيد. أطلق إعلانات. حسّن عرضك.
+
+مثال توضيحي، مع إعادة صياغة الإجابات
+
+### ثلاثة طرق، والدائرة نفسها.
+
+### التعاقد مع وكالة
+تدفع كل شهر. تحصل على عمل يشبه عمل الجميع. ثم تغيّر الوكالة.
+
+### تكوين فريق
+رواتب وأشهر من التوظيف. وأدوات الذكاء الاصطناعي نفسها. والتكاليف ترتفع.
+
+### بنفسك
+اشتراكات وأمسيات من العمل. صور أجمل دون زيادة المبيعات. ثم أداة أخرى.
 
 ## تقرأ كل شيء. ويصلك ما يهمّك فقط.
 
 كل يوم تقرأ USHA 1,240 مصدرًا مرتبطًا بنشاطك التجاري: منصات البيع، والمنافسين، والتقييمات، ونتائج البحث، والإعلانات. وحين يتغيّر شيء، يصلك ما رصدته وخطوتها التالية.
 
-## الذكاء الاصطناعي نفسه متاح للجميع، لكن هي تستخدمه بطريقة مختلفة.
+## هي تقرأها، وأنت تتوقّف عن التخمين.
+الخوارزمية مجموعة قواعد خفيّة داخل كل تطبيق وموقع. طوّرت NJO نظام USHA ليقرأها كل يوم ويحوّلها إلى خطوات واضحة.
+الإشارة الخامخطوتها
+CTR 1.9% · الترتيب #14 ← #31صورتك لا تقنع على الهاتف. غيّرها اليوم.
 
-| | أدوات الذكاء الاصطناعي | وكالة | فريق داخلي | USHA |
+CPC +32% بعد 10:00انقل إعلاناتك إلى المساء.
+
+مثال
+
+### قبل أن تستيقظ، تكون قد قرأت سوقك.
+1,240 مصدرًا كل يوم، قبل الساعة 08:00: سوقك والمنصات والمنافسون والروّاد والعملاء.
+
+### كل ملاحظة تتحوّل إلى خطوة.
+مثال
+
+### منافس يصل إلى المركز الأول بعد تغيير الصور.
+تجهّز صورًا وعناوين جديدة لصفحة منتجك.
+
+### يشكو العملاء من تغليف المنافس.
+تبني حملة حول جودة تغليفك.
+
+### ينتشر نمط جديد من الفيديو القصير.
+تنتج نسختك منه هذا الأسبوع.
+
+### يرتفع الطلب قبل العيد نفسه كل عام.
+تبدأ قبل المنافسين بثلاثة أسابيع.
+
+### يخفض منافس سعره بنسبة 18% خلال الليل.
+تقترح الردّ بالسعر أو القيمة أو عرض مجمّع، وتوضّح الأرقام.
+
+### منتج ينفد، وآخر يتكدّس في المخزون.
+تنقل الإعلانات والمحتوى إلى المنتج المتاح للبيع.
+
+## قدراتها بالأرقام.
+
+### ما تقرؤه
+1,240مصدرًا كل يوم، قبل الساعة 08:00
+
+200+خبير علّموها
+
+160+نمطًا من العملاء لاختبار الأفكار
+
+### ما تنفّذه
+1,300+اختبار قبل أن ترى إجابة واحدة
+
+12مجالًا من المهارات، وذاكرة واحدة
+
+24/7في تطبيق المراسلة الذي تستخدمه
+
+### من يقف خلفها
+700+مشروع منذ 2016
+
+22دولة
+
+## سوق حيّ، واختبارات قبل الإنفاق.
+
+### تعلّمت من أكثر من 200 خبير، وما زالت تتعلّم كل يوم.
+إخفاقات ونجاحات حقيقية ونصائح غير مكتوبة. من بائعي المنصات ومؤسّسي العلامات ومشتري الإعلانات ومديري التجزئة ومبيعات الأدوية وأصحاب المطاعم والمصدّرين وصنّاع المحتوى.
+
+### آلاف العملاء الرقميين، ومنافسوك موجودون أيضًا.
+لكلّ منهم عمر ومدينة وميزانية وعادات وذاكرة. يتحاورون ويشتكون ويغيّرون العلامات. ويمكنها إيقاف هذا العالم وسؤال أيّ منهم.
+
+### مثل محاكي الطيران لقرارات عملك.
+تختبر فكرتك أكثر من 1,300 مرة قبل أن ترى إجابة واحدة. يناقش وكلاء متخصّصون كل نتيجة، ويختبرها ناقد.
+
+مثالالسعر A129 درهمًا
+18اشتروا من أصل 100 عميل رقمي
+السعر B106 دراهم
+31اشتروا من أصل 100 عميل رقمي
+العرض المجمّع C2 مقابل 199 درهمًا
+47اشتروا من أصل 100 عميل رقمي
+
+يفوز الخيار C: عملاء أكثر مع الحفاظ على ربحك.
+
+### قسم تسويق كامل، وأكثر.
+
+- عينة العملاء
+
+- متابعة المنافسين
+
+- المنصات
+
+- وسائل التواصل الاجتماعي
+
+- الإعلانات
+
+- التسعير والعروض
+
+- العلامة التجارية
+
+- التجزئة والمبيعات
+
+- الإطلاق والنمو
+
+- البيانات والتوقّعات
+
+- العملاء
+
+- الأزمات والسمعة
+تتوقّع خطوات المنافس الثلاث التالية. تختبر الإطلاق قبل الإنفاق. تكسب حروب الأسعار وتحافظ على الهامش. تخطّط لدخول بلد جديد في يوم. وتتابع سوقك على مدار الساعة.
+العربية والإنجليزية والروسية، بكلمات واضحة.
+
+## من دون USHA، ومع USHA.
+مثال
+
+### تقرير الأعمال
+من دون USHAوصول وتفاعل وزيارات واستفسارات، ولوحة أرقام تحتاج إلى تفسير.
+
+مع USHAما الذي تغيّر، ولماذا يهمّك، وما خطوتك التالية.
+
+### تقرير الإعلانات
+من دون USHAتكلفة النقرة +32% بعد 10:00، وأنت تواصل الدفع.
+
+مع USHAانقل إعلاناتك إلى المساء، ضمن الميزانية التي وافقت عليها.
+
+### التفاعل والوصول
+من دون USHAتواصل النشر، والمنشورات تتحكّم في من يرى محتواك.
+
+مع USHAترصد نمطًا صاعدًا من الفيديو القصير وتنتج نسختك هذا الأسبوع.
+
+### إنتاج المحتوى
+من دون USHAتحتاج الوكالة إلى موجز عمل، والتنفيذ بنفسك يستهلك أمسياتك.
+
+مع USHA10 دقائق في المحادثة تتحوّل إلى أسبوع من عمل قسم كامل.
+
+### التسعير والعروض
+من دون USHAيخفض المنافس سعره، فتخمّن ما ينبغي فعله.
+
+مع USHAتختبر السعر والعرض المجمّع على العملاء الرقميين قبل أن تدفع.
+
+### الفريق والتكلفة
+من دون USHAثماني وظائف وأشهر من التوظيف، والخبرة تغادر مع الأشخاص.
+
+مع USHAUSHA واحدة، وذاكرة واحدة، وجاهزة خلال أسبوع.
+
+## ثلاث خطوات، ولا شيء تحتاج إلى تعلّمه.
+
+- 01
+### ابدأ التواصل · الأسبوع الأول
+تدرس المنتجات والسوق والمنافسين والقنوات. وتحصل على استراتيجية ومنشوراتك الأولى.
+
+- 02
+### تحدّث معها · كل يوم
+محادثة واحدة بلغة واضحة، كأنّها مديرة التسويق لديك، على مدار الساعة.
+
+- 03
+### وافق وانمُ · كل شهر
+توافق على الاستراتيجية والميزانية وشروط العروض. وهي تنفّذ العمل وتعرض النتائج.
+
+### لا تدردش، بل تُوجِز لك الموقف.
+ما الذي تغيّر ← لماذا يهمّك ← خطوتك التالية. من دون تطبيق أو تثبيت.
+
+### إطلاق علبة هدايا خلال أسبوع عمل.
+مثال
+
+- الاثنينسطر واحد في المحادثة. تدرس المنافسين والتقييمات والنتائج السابقة.
+
+- الثلاثاءالطزاجة والإنتاج المحلي. لا تخفّض السعر. وأنت توافق.
+
+- الأربعاءصور ومنشورات وقصص وفيديوهان قصيران ومواد إعلانية.
+
+- الخميسالإطلاق ضمن ميزانيتك. وإحالة العملاء المستعدّين للشراء إلى فريق المبيعات.
+
+- الجمعةيوشك أحد الأصناف على النفاد. تُنقل الإعلانات إلى المتاح ويُحدّث الموقع.
+
+10 دقائق في المحادثة ← أسبوع من عمل قسم كامل.
+
+### أيّ صاحب عمل أنت؟
+مثال
+
+### نحن في البداية.
+تدرس المنافسين وتجد موقعًا غير مشغول في السوق وتحدّد السعر والرسالة.
+
+### يزورنا الناس، لكن لا أحد يشتري.
+تحسّن الصور والعناوين والعروض، وتوجّه الإعلانات إلى المستعدّين للشراء.
+
+### جرّبنا كل شيء، ولم ينجح شيء.
+تجد العائق وتختبر الحلّ 1,300 مرة وتقدّم خطوة واضحة.
+
+## ثلاثة طرق وUSHA، جنبًا إلى جنب.
+
+| | وكالة | فريق داخلي | بنفسك | USHA |
 |---|---|---|---|---|
-| معرفة نشاطك التجاري | تبدأ من الصفر في كل مرة | عبر مدير حساب واحد | حتى يغادر الموظفون | ذاكرة دائمة لكل شيء |
-| متابعة المنافسين ومنصات البيع | لا | أحيانًا، عند الطلب | إذا سمح الوقت | كل يوم |
-| كشف سرّ تفوّق المتصدّرين في مجالك | لا | نادرًا | نادرًا | باستمرار، وتحوّله إلى خطوات عملية |
-| جودة المحتوى المرئي | نمطي، ويبدو من صنع الذكاء الاصطناعي | جيدة، لكن بتكلفة عالية | حسب من توظّف | من منتجاتك، وبهوية علامتك |
-| الحقائق والأرقام | قد تكون مختلَقة | حسب الفريق | حسب الفريق | بياناتك ومصادر قابلة للتحقق |
-| التوفّر | حين تطلب منها | في أوقات الدوام | في أوقات الدوام، ما عدا الإجازات السنوية والمرضية | 24/7 |
-| تنفيذ العمل من البداية إلى النهاية | لا، أنت من ينفّذ | نعم، لكن ببطء | نعم، إذا اكتمل الفريق | بحث، تخطيط، إنتاج، نشر، قياس |
+| تعرف نشاطك التجاري | عبر مدير حساب واحد | حتى يغادر الأشخاص | من الصفر كل مرة | تتذكّر كل شيء دائمًا |
+| تتابع سوقك يوميًا | أحيانًا إذا طلبت | حين يتوفّر الوقت | لا | كل يوم |
+| تعرف لماذا ينجح الروّاد | نادرًا | نادرًا | لا | دائمًا، وتتصرف بناءً على ذلك |
+| تختبر الأفكار قبل أن تدفع | لا | لا | لا | أكثر من 1,300 مرة |
+| التوفّر | ساعات العمل | ساعات العمل عدا الإجازات | أمسياتك | 24/7 |
+| تنفّذ العمل | نعم، ببطء | نعم، إذا اكتمل الفريق | لا، أنت من ينفّذ | نعم، من الخطة إلى التقرير |
+| التكلفة الشهرية | أتعاب مرتفعة | أعلى من USHA من 7 إلى 12 مرة | منخفضة، لكنّها تستهلك وقتك | جزء بسيط |
 
-**محرّك واحد بدل قسم كامل.** القسم يعني ثماني وظائف بدوام كامل، يُضاف إليها محلّلون ومسؤولو التعاون مع المؤثرين وفريق لخدمة العملاء، ثم أشهر من التوظيف والتدريب والإدارة. (مدير التسويق, أخصائي تسويق, أخصائي إعلانات مموّلة, أخصائي سوشيال ميديا, محرّر فيديو, صانع محتوى بالذكاء الاصطناعي, مصمّم, مصمّم ومطوّر مواقع). لا تأخذ إجازة مرضية، ولا تقول «لستُ في مزاج للعمل»، ولا تنتقل إلى منافسك وفي جعبتها تاريخ مشروعك.
+**USHA واحدة بدل 8 أشخاص.** ثماني وظائف، وأشهر من التوظيف والتدريب. وإجازات وغياب مرضي وخبرة تضيع حين يغادر أحدهم. (مدير التسويق, أخصائي تسويق, أخصائي إعلانات مموّلة, أخصائي سوشيال ميديا, محرّر فيديو, صانع محتوى بالذكاء الاصطناعي, مصمّم, مصمّم ومطوّر مواقع). جاهزة خلال أسبوع. تعمل على مدار الساعة. تتذكّر كل مشروع، ولا تغادر بأسرارك.
 
-## أرقام، لا وعود.
+### USHA واحدة بدل 8 أشخاص، بتكلفة أقلّ من 7 إلى 12 مرة.
+مقارنة متحفّظة تشمل سبعًا فقط من الوظائف الثماني، وفق الرواتب الكاملة في روسيا لعام 2026، بما فيها مساهمات صاحب العمل.
+
+### كل شهر، بإيقاع منتظم.
+إيقاع 30 يومًا · مثال توضيحيالرصد · يوميًا
+
+النشر · كل يومين تقريبًا
+
+الموجز والتقرير
+
+## ما تنفّذه، كل شهر.
 
 ما تنجزه USHA لعلامة تجارية واحدة كل شهر. بدّل الباقة للمقارنة.
 
@@ -314,7 +1105,7 @@ USHA настраивается под ваш бизнес: товары, рын
 
 - **في Pro فقط**: تصميم التغليف; الرد على العملاء، الإثنين–الجمعة 10:00–18:00; تحليلات المخزون; تصميم موقع إلكتروني يبقى متوافقًا مع منتجاتك ومخزونك.
 
-## المحرّك نفسه. والحجم حسب طموحك.
+## Core أو Pro: USHA نفسها، بحجم عمل مختلف.
 
 باقة Core تشغّل المحرّك كاملًا لعلامة تجارية واحدة. أما Pro فتضيف قنوات أكثر وحجم عمل أكبر، والرد على العملاء، وتحليلات المخزون، وتصميم الموقع الإلكتروني.
 
@@ -335,13 +1126,13 @@ USHA настраивается под ваш бизнес: товары, рын
 - منصتان إعلانيتان · عرضان ترويجيان
 
 ### USHA Enterprise
-المجالات الثمانية كلها، مفصّلة على مقاس شركتك.
-- المجالات الثمانية كلها
+للمجموعات والشركات الكبيرة. تُضبط وفق احتياجات شركتك.
+- كل ما في Pro
 - العمليات والمخزون
 - لوحات بيانات، مواقع إلكترونية، أتمتة
 - نطاق العمل يُحدَّد بالاتفاق
 
-«حتى» تعني الحد الأقصى الشهري، ونحدّد تفاصيل باقتك معك عند البدء. ميزانيات الإعلانات وأجور صنّاع المحتوى والمنتجات المخصّصة للتعاونات تُدفع بشكل منفصل.
+«حتى» تعني الحد الأقصى الشهري، ونتفق على تفاصيل باقتك عند البدء. وتُدفع ميزانيات الإعلانات وأتعاب صنّاع المحتوى ومنتجات التعاون بشكل منفصل.
 
 ## أنت توافق، وهي تنفّذ.
 
@@ -360,6 +1151,53 @@ USHA настраивается под ваш бизнес: товары, рын
 ### نماذج الذكاء الاصطناعي متاحة للجميع، والمهندسون هم من يصنعون الفرق.
 USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت على مدى أكثر من عشر سنوات، ومديرون فنيون وضعوا معاييرها البصرية، ومحلّلون علّموها قراءة الأسواق، ومهندسون يجعلونها أذكى كل شهر. NJO · New Journey Onward · منذ 2016 · دول الخليج · مصر · روسيا. شركاء رسميون: Google, Meta, Midjourney, Runway, Kling AI.
 
+## الذكاء الاصطناعي يبيع الإجابات، ونحن نتحمّل مسؤولية إجاباتنا.
+يقف أشخاص حقيقيون في NJO خلف كل إجابة تقدّمها.
+
+- 01تعيد USHA فحص حالتك وتصحّح الخطة.
+
+- 02يتولّى خبير من NJO حالتك بنفسه.
+
+- 03يتولّى الفريق الأقدم في NJO المسؤولية.
+
+- 04ما زال غير مناسب؟ تستردّ أموالك كاملة.
+
+استرداد كامل للأموال بنسبة 100%
+تُكتب شروط استرداد الأموال في عقدك.
+
+### بياناتك تبقى ملكك، ومحمية قبل أن تشارك أي معلومة.
+اتفاقية عدم إفشاء · تُوقّع قبل اليوم الأولما تحتاج إليه
+- اتفاقية عدم إفشاء موقّعة
+
+- تطبيق المراسلة الذي تستخدمه
+
+- موافقتك على القرارات المهمة
+
+ما لا تحتاج إليه
+- ربط عبر API
+
+- تطبيق جديد
+
+- الوصول إلى أنظمتك
+
+WhatsApp أو Telegram أو Messenger.
+الربط اختياري. أنت تختار ما يمكنها الوصول إليه، وتستطيع إيقافه في أي وقت.
+
+كل شهر، مهما حدث
+- حجم العمل المتّفق عليه
+
+- تواصل على مدار الساعة
+
+- مراجعة الجودة وفق معايير NJO
+
+- تقرير شهري صريح
+
+تعتمد النتائج أيضًا على منتجك وسوقك وميزانيتك. نحدّد الأهداف معًا، ونبيّن أثر العمل في المبيعات إذا شاركت بياناتها.
+نتحمّل مسؤولية كل معلومة تشاركها، كتابةً، لا بالكلام.
+اطلب اتفاقية عدم الإفشاء وشروط العقد ↗
+
+لا تصدّقنا، بل جرّبها.
+
 ## أسبوعك الأول على حسابنا.
 
 تتعرّف USHA على نشاطك وتضبط عملها عليه: منتجاتك، وسوقك، ومنافسيك، وقنواتك. وفي نهاية الأسبوع تحصل على:
@@ -373,24 +1211,35 @@ USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت ع�
 ## قبل أن تقرّر.
 
 ### هل USHA روبوت محادثة؟
-لا. تتحدث معها في محادثة واحدة، لكنها تعمل من تلقاء نفسها كل يوم: تقرأ سوقك، وتخطّط، وتُنتج، وتنشر ضمن الخطة التي تعتمدها.
+لا. تتحدّث معها في محادثة واحدة. تقرأ سوقك وتخطّط وتنتج وتنشر ضمن الخطة التي توافق عليها.
 
 ### هل أحتاج إلى تعلّم منصة جديدة؟
-لا. تعمل في تطبيق المراسلة الذي تستخدمه. أنت تعتمد القرارات المهمة، وهي تتولّى الباقي وترفع لك تقريرًا كل شهر.
+لا. تعمل في تطبيق المراسلة الذي تستخدمه. توافق على المهمّ، وهي تنفّذ العمل وتقدّم تقريرًا كل شهر.
 
-### من يراقب الجودة؟
-يضع الاستراتيجيون والمديرون الفنيون في NJO معاييرها، ويُراجَع كل عمل على أساسها قبل أن يصل إليك.
+### من يراجع الجودة؟
+تُراجع كل نتيجة وفق معايير الجودة لدى NJO، ويتضمّن تقريرك الشهري استنتاجات صريحة.
 
-### ما الأسواق والمنصات التي تغطيها؟
-دول الخليج ومصر وروسيا. ومن المنصات: Amazon، noon، Namshi، Google، Instagram، Facebook، TikTok، Snapchat، YouTube، X، LinkedIn، وغيرها.
+### ما الأسواق والمنصات التي تعمل عليها؟
+دول الخليج ومصر وروسيا. Amazon وnoon وOzon وWildberries. إعلانات Google أو Meta. وInstagram وFacebook وTikTok وSnapchat وYouTube وX وLinkedIn.
 
-### هل ميزانيات الإعلانات مشمولة؟
-لا. ميزانيات الإعلانات وأجور صنّاع المحتوى والمنتجات المخصّصة للتعاونات تُدفع بشكل منفصل، ولا تُصرف أي ميزانية إلا بموافقتك.
+### هل تشمل الباقة ميزانيات الإعلانات؟
+لا. تُدفع ميزانيات الإعلانات وأتعاب صنّاع المحتوى ومنتجات التعاون بشكل منفصل. وأنت توافق على الميزانية وشروط العروض.
 
 ### ماذا يحدث بعد الأسبوع المجاني؟
-القرار لك. إن استمررت، تبدأ الخطة المتّفق عليها في الأسبوع التالي. وإن لم تستمر، تبقى الاستراتيجية والمنشورات لك.
+أنت تقرّر. إذا واصلت، تبدأ العمل وفق الخطة المتّفق عليها في الأسبوع التالي. وإذا لم تواصل، تبقى الاستراتيجية والمنشورات لك.
+
+### ماذا لو بقيت الإجابة غير مناسبة؟
+تعيد USHA فحص الخطة، ثم يعمل خبير NJO على الحالة بنفسه، ثم يتولّى الفريق الأقدم المسؤولية. ما زالت غير مناسبة؟ تستردّ أموالك كاملة. وتُكتب الشروط في عقدك.
+
+### متى نوقّع اتفاقية عدم الإفشاء؟
+قبل اليوم الأول وقبل أن تشارك أي معلومة. أرقامك وخططك وعملاؤك أسرار تجارية.
+
+### هل أحتاج إلى إتاحة الوصول إلى أنظمتي؟
+لا تحتاج إلى API أو تطبيق جديد أو إتاحة الوصول إلى أنظمتك. الربط اختياري، وأنت تختار الصلاحيات ويمكنك إيقافه في أي وقت.
 
 ## تواصل معنا
 - Telegram: https://t.me/njo_manager
 - Email: darina@njobusinesssolutions.com
 - https://www.njobusinesssolutions.com/
+
+Unified Strategy. Human Action.

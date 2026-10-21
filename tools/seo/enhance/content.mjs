@@ -1,3 +1,4 @@
+import { DECK } from './deck-content.mjs';
 // Content updates from the client decks (October 2026).
 // English and Arabic follow the global English deck (GCC first: Amazon, noon,
 // Google and Meta). Russian follows the Russian deck (Wildberries, Ozon, VK).
@@ -52,6 +53,9 @@ export const DICT_PATCH = {
 
 // [en, ru] pairs inside the bundle's data arrays, keyed by the current English.
 export const PAIR_PATCH = {
+  // Updated EN/RU slide 22: Enterprise is Pro, configured for the company.
+  'All eight areas, configured around your company.': ['For groups and larger companies. Configured around your company.', 'Для групп компаний и крупного бизнеса. Настраивается под вашу компанию.'],
+  'All eight areas': ['Everything in Pro', 'Всё, что в Pro'],
   // live findings
   'Competitor A · Wildberries · 02:40': ['Competitor A · Amazon · 02:40', 'Конкурент A · Wildberries · 02:40'],
   'Search · Wildberries · 7 days': ['Search · noon · 7 days', 'Поиск · Ozon · 7 дней'],
@@ -88,7 +92,7 @@ export const PAIR_PATCH = {
   'Slowly': ['Yes, slowly', 'Да, но медленно'],
   'If fully staffed': ['Yes, if fully staffed', 'Да, если все роли закрыты'],
   'Research → publish → measure': ['Research, plan, create, publish, measure', 'Анализ, план, создание, публикация, измерение'],
-  // every month (deck slide 16)
+  // Updated EN/RU slides 21–22: monthly work and plan limits.
   'Intelligence': ['Intelligence', 'Аналитика'],
   'Market and competitor radar, success decoding, and a brief that ends in actions.': ['Market, marketplace and competitor radar. Success decoding of your niche’s leaders. A regular brief that ends in actions: launch, change, promote or stop.', 'Радар рынка, маркетплейсов и конкурентов. Разбор успеха лидеров ниши. Регулярная сводка, которая заканчивается действиями: запустить, изменить, продвинуть или остановить.'],
   'Quarterly strategy, monthly plan and regular publishing across your channels.': ['Quarterly online and offline strategy. Monthly plan and content calendar. Regular publishing across all your channels.', 'Стратегия онлайн и офлайн на квартал. План и контент-календарь на месяц. Регулярные публикации во всех ваших каналах.'],
@@ -116,6 +120,7 @@ export const PRO_ONLY_ADD = [['Website design, kept in sync with your products a
 // New content used by the enhancement layer (plans and Enterprise).
 // Strings are [en, ru]; Arabic comes from ar.json.
 export const X = {
+  deck: DECK,
   liveHints: {
     primary: ['Talk to USHA live', 'Поговорить с USHA'],
     pill: ['Try USHA live', 'Спросить USHA вживую'],
@@ -126,7 +131,7 @@ export const X = {
     ],
     dismiss: ['Dismiss hint', 'Скрыть подсказку'],
   },
-  // plans table (deck slide 17)
+  // Updated EN/RU decks, slide 22: all plan volumes below.
   plansGroups: [
     [['Market intelligence', 'Аналитика рынка'], [
       [['Competitors tracked', 'Конкуренты под наблюдением'], ['Up to 5', 'до 5'], ['Up to 10', 'до 10']],
@@ -188,7 +193,7 @@ export const X = {
   chatHead: ['USHA · online · reading your market', 'USHA · онлайн · читает ваш рынок'],
   guarRing: ['NJO GUARANTEE · EVERY MONTH · CHECKED · ', 'ГАРАНТИЯ NJO · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
   decide: ['Your decision', 'Ваше решение'],
-  // 8 → 1: each role hands its job to USHA
+  // Updated EN/RU slide 17: 8 → 1, one week and 24/7.
   hand: {
     tags: [['Strategy', 'Стратегия'], ['Plans', 'Планы'], ['Ads', 'Реклама'], ['Channels', 'Каналы'], ['Video', 'Видео'], ['Visuals', 'Визуалы'], ['Design', 'Дизайн'], ['Website', 'Сайт']],
     kick: ['Why her', 'Почему она'],
@@ -200,3 +205,284 @@ export const X = {
     foot: ['Ready in one week. Works 24/7. Never leaves with your project history.', 'Готова за неделю. Работает 24/7. Не уходит с историей вашего проекта.'],
   },
 };
+
+// Updated decks: hero 1/6; problem 3; comparison and roles 17/18; delivery 21; plans 22.
+Object.assign(DICT_PATCH.en, {
+  "sub": "Where is the truth? Hidden in the algorithms. USHA reads them. Not a chatbot.",
+  "n_h": "Five algorithms decide who buys from you. <i>Have you met them?</i>",
+  "n_p": "Feed, search, ad auction, marketplaces and suggestions. Their rules change every week.",
+  "a0d": "Of 1,000 followers, about 10 see your next post.",
+  "a1d": "Page one sells. Page two is invisible.",
+  "a2d": "The price of each click changes every hour.",
+  "n_e1": "Posting more doesn’t fix it.",
+  "n_e2": "<b>Reading the algorithms does.</b>",
+  "w_h": "Three roads, and USHA. <i>Side by side.</i>",
+  "w_c1": "Agency",
+  "w_c2": "In-house team",
+  "w_c3": "Do it yourself",
+  "w_7h": "One USHA <i>instead of 8 people.</i>",
+  "w_7p": "Eight roles. Months of hiring and training. Holidays, sick leave and history lost when someone leaves.",
+  "w_sick": "Ready in one week. Works 24/7. Remembers every project. Never leaves with your secrets.",
+  "m_h": "What she delivers. <i>Every month.</i>",
+  "p_h": "Core or Pro. <i>Same USHA, different volume.</i>",
+  "faq3": [
+    "Which markets and platforms?",
+    "The GCC, Egypt and Russia. Amazon, noon, Ozon and Wildberries. Google or Meta ads. Instagram, Facebook, TikTok, Snapchat, YouTube, X and LinkedIn."
+  ],
+  "faq": [
+    [
+      "Is USHA a chatbot?",
+      "No. You talk to her in one chat. She reads your market, plans, produces and publishes within the plan you approve."
+    ],
+    [
+      "Do I need to learn a new platform?",
+      "No. She works in your messenger. You approve what matters. She does the work and reports every month."
+    ],
+    [
+      "Who checks the quality?",
+      "Every output is checked against NJO’s quality standards. Your monthly report includes honest conclusions."
+    ],
+    [
+      "Which markets and platforms?",
+      "The GCC, Egypt and Russia. Amazon, noon, Ozon and Wildberries. Google or Meta ads. Instagram, Facebook, TikTok, Snapchat, YouTube, X and LinkedIn."
+    ],
+    [
+      "Are advertising budgets included?",
+      "No. Ad budgets, creator fees and collaboration products are paid separately. You approve the budget and promotion terms."
+    ],
+    [
+      "What happens after the free week?",
+      "You decide. If you continue, she starts the agreed plan the following week. If not, you keep the strategy and the posts."
+    ],
+    [
+      "What if the answer is still not right?",
+      "USHA re-checks the plan. Then an NJO expert works by hand. Then the senior team takes over. Still not right? 100% money back. Terms are written into your contract."
+    ],
+    [
+      "When do we sign the NDA?",
+      "Before day one, before you share anything. Your numbers, plans and customers are a commercial secret."
+    ],
+    [
+      "Do I need to give access to my systems?",
+      "No API, app or access to your systems is needed. Connections are optional. You choose what she can touch and can switch them off at any time."
+    ]
+  ]
+});
+Object.assign(DICT_PATCH.ru, {
+  "sub": "Где правда? Она скрыта в алгоритмах. USHA умеет их читать. Не чат-бот.",
+  "n_h": "Пять алгоритмов решают, кто у вас купит. <i>Вы с ними знакомы?</i>",
+  "n_p": "Лента, поиск, рекламный аукцион, маркетплейсы и рекомендации. Их правила меняются каждую неделю.",
+  "a0d": "Из 1 000 подписчиков ваш новый пост увидят около 10.",
+  "a1d": "Первая страница продаёт. Вторую не видят.",
+  "a2d": "Цена каждого клика меняется каждый час.",
+  "n_e1": "Больше публикаций проблему не решит.",
+  "n_e2": "<b>Нужно читать алгоритмы.</b>",
+  "w_h": "Три дороги и USHA. <i>Сравним.</i>",
+  "w_c1": "Агентство",
+  "w_c2": "Штатная команда",
+  "w_c3": "Самостоятельно",
+  "w_7h": "Одна USHA <i>вместо 8 человек.</i>",
+  "w_7p": "Восемь ролей. Месяцы найма и обучения. Отпуска, больничные и потеря истории, когда человек уходит.",
+  "w_sick": "Готова за неделю. Работает 24/7. Помнит каждый проект. Не уходит с вашими секретами.",
+  "m_h": "Что она делает. <i>Каждый месяц.</i>",
+  "p_h": "Core или Pro. <i>Одна USHA, разный объём.</i>",
+  "faq3": [
+    "Какие рынки и площадки?",
+    "Россия, страны Залива и Египет. Ozon, Wildberries и Яндекс Маркет. Реклама ВК или Яндекс. ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и Ритм."
+  ],
+  "faq": [
+    [
+      "USHA — это чат-бот?",
+      "Нет. Вы общаетесь с ней в одном чате. Она читает рынок, планирует, создаёт и публикует по утверждённому плану."
+    ],
+    [
+      "Нужно осваивать новую платформу?",
+      "Нет. Она работает в вашем мессенджере. Вы утверждаете важное. Она делает работу и отчитывается каждый месяц."
+    ],
+    [
+      "Кто проверяет качество?",
+      "Каждый результат проверяется по стандартам качества NJO. В ежемесячном отчёте — честные выводы."
+    ],
+    [
+      "Какие рынки и площадки?",
+      "Россия, страны Залива и Египет. Ozon, Wildberries и Яндекс Маркет. Реклама ВК или Яндекс. ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и Ритм."
+    ],
+    [
+      "Входят ли рекламные бюджеты?",
+      "Нет. Рекламные бюджеты, гонорары авторов и товары для коллабораций оплачиваются отдельно. Бюджет и условия акций утверждаете вы."
+    ],
+    [
+      "Что после бесплатной недели?",
+      "Решаете вы. Если продолжаете, она начинает работать по согласованному плану со следующей недели. Если нет — стратегия и посты остаются у вас."
+    ],
+    [
+      "А если ответ всё ещё не подходит?",
+      "USHA перепроверяет план. Затем эксперт NJO разбирает случай вручную. Потом подключается старшая команда. Всё ещё не то? 100% возврат денег. Условия записаны в договоре."
+    ],
+    [
+      "Когда подписываем NDA?",
+      "До первого дня, прежде чем вы чем-либо поделитесь. Ваши цифры, планы и клиенты — коммерческая тайна."
+    ],
+    [
+      "Нужен доступ к моим системам?",
+      "API, приложение и доступ к вашим системам не нужны. Подключения — по желанию. Вы выбираете доступ и можете отключить его в любой момент."
+    ]
+  ]
+});
+// EN/RU slides 18 (all seven rows), 11 (test count), 17 (cost ratio; basis printed beside the table).
+export const COMPARE_DECK = [
+  [
+    [
+      "Knows your business",
+      "Знает ваш бизнес"
+    ],
+    [
+      "Through one account manager",
+      "Через одного менеджера"
+    ],
+    [
+      "Until people leave",
+      "Пока люди не ушли"
+    ],
+    [
+      "From zero every time",
+      "С нуля каждый раз"
+    ],
+    [
+      "Remembers everything, forever",
+      "Помнит всё и всегда"
+    ]
+  ],
+  [
+    [
+      "Watches your market daily",
+      "Следит за рынком каждый день"
+    ],
+    [
+      "Sometimes, if you ask",
+      "Иногда, если попросите"
+    ],
+    [
+      "When there is time",
+      "Когда есть время"
+    ],
+    [
+      "No",
+      "Нет"
+    ],
+    [
+      "Every day",
+      "Каждый день"
+    ]
+  ],
+  [
+    [
+      "Knows why leaders win",
+      "Знает, почему выигрывают лидеры"
+    ],
+    [
+      "Rarely",
+      "Редко"
+    ],
+    [
+      "Rarely",
+      "Редко"
+    ],
+    [
+      "No",
+      "Нет"
+    ],
+    [
+      "Always, and acts on it",
+      "Всегда, и действует"
+    ]
+  ],
+  [
+    [
+      "Tests ideas before you pay",
+      "Проверяет идеи до ваших затрат"
+    ],
+    [
+      "No",
+      "Нет"
+    ],
+    [
+      "No",
+      "Нет"
+    ],
+    [
+      "No",
+      "Нет"
+    ],
+    [
+      "1,300+ times",
+      "1 300+ раз"
+    ]
+  ],
+  [
+    [
+      "Available",
+      "Доступность"
+    ],
+    [
+      "Office hours",
+      "В рабочие часы"
+    ],
+    [
+      "Office hours minus holidays",
+      "В рабочие часы, кроме отпусков"
+    ],
+    [
+      "Your evenings",
+      "Ваши вечера"
+    ],
+    [
+      "24/7",
+      "24/7"
+    ]
+  ],
+  [
+    [
+      "Does the work",
+      "Делает работу"
+    ],
+    [
+      "Yes, slowly",
+      "Да, но медленно"
+    ],
+    [
+      "Yes, if fully staffed",
+      "Да, если все роли закрыты"
+    ],
+    [
+      "You do it",
+      "Делаете вы"
+    ],
+    [
+      "Yes, from plan to report",
+      "Да, от плана до отчёта"
+    ]
+  ],
+  [
+    [
+      "Monthly cost",
+      "Стоимость в месяц"
+    ],
+    [
+      "High fee",
+      "Высокий гонорар"
+    ],
+    [
+      "7–12x more than USHA",
+      "В 7–12 раз дороже USHA"
+    ],
+    [
+      "Low, but costs your time",
+      "Ниже, но стоит вашего времени"
+    ],
+    [
+      "A fraction",
+      "Малая часть"
+    ]
+  ]
+];
