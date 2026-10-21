@@ -21,7 +21,7 @@ import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X, COMPARE_DECK } from './enhance/content.mjs';
-import { plansHTML, deckHTML } from './enhance/ui.mjs';
+import { plansHTML, x3RailHTML, x3LiveHTML, x3SplitHTML, deckHTML } from './enhance/ui.mjs';
 import { storyHTML } from './enhance/story.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
@@ -185,6 +185,8 @@ const pickX = (v, i) => isPair(v) ? v[i] : Array.isArray(v) ? v.map((x) => pickX
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, pickX(x, i)])) : v;
 const XL = { en: pickX(X, 0), ru: pickX(X, 1) };
 XL.ar = trAll(XL.en);
+// The game uses «Play» as «العب»; the film control uses «تشغيل».
+XL.ar.x3.p7_ctl[0] = AR['x3:Play'];
 const DATA = { PLANS, COMPARE, AREAS, PRO_ONLY };
 const data = (lang) => lang === 'ar' ? Object.fromEntries(Object.entries(DATA).map(([k, v]) => [k, trPairs(v)])) : DATA;
 
@@ -337,13 +339,28 @@ const TYPE_FACES = [['Unbounded', 'unbounded', '200 900'], ['Onest', 'onest', '1
 // /assets/* names carry a content hash, so they are cached forever (cache first);
 // pages are network first, so a new deploy shows at once and the cached copy
 // covers a flaky connection.
-fs.writeFileSync(path.join(ROOT, 'sw.js'), `const V='usha-v2';
+fs.writeFileSync(path.join(ROOT, 'sw.js'), `const V='usha-v3';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==location.origin)return;
+ if(r.headers.has('range')||/\\.(mp4|webm)$/.test(u.pathname))return;
  if(u.pathname.startsWith('/assets/')||/\\.(png|jpg|svg|woff2|ttf)$/.test(u.pathname)){e.respondWith(caches.open(V).then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}))));return}
  if(r.mode==='navigate'){e.respondWith(fetch(r).then(res=>{const cp=res.clone();caches.open(V).then(c=>c.put(r,cp));return res}).catch(()=>caches.match(r)))}});
 `);
+
+// Section 03 media: content hashes make replacement safe for returning visitors.
+const MEDIA_DIR = path.join(ROOT, 'tools/seo/media');
+const MEDIA = JSON.parse(fs.readFileSync(path.join(MEDIA_DIR, 'media.json'), 'utf8'));
+for (const film of Object.values(MEDIA)) {
+  const asset = (file) => {
+    const buf = fs.readFileSync(path.join(MEDIA_DIR, file));
+    const ext = path.extname(file), name = path.basename(file, ext);
+    return { url: emit(`media/${name}-${hash(buf)}${ext}`, buf), bytes: buf.length };
+  };
+  film.poster = asset(film.poster).url;
+  for (const [quality, rendition] of Object.entries(film.renditions)) film.renditions[quality] = { ...asset(rendition.file), ...(rendition.webm ? { webm: asset(rendition.webm) } : {}) };
+  film.duration = film.trim || film.duration;
+}
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
@@ -356,7 +373,7 @@ const storyJS = fs.readFileSync(path.join(ENH, 'story.js'), 'utf8').replace(/^\/
 if (Buffer.byteLength(storyJS) > 9 * 1024) throw new Error('Story controller exceeds 9 KiB');
 const compactStoryCSS = storyCSS.replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
 if (Buffer.byteLength(compactStoryCSS) > 7 * 1024) throw new Error('Story CSS exceeds 7 KiB');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
@@ -364,7 +381,7 @@ let ENH_URL;
 function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_X3_MEDIA=${JSON.stringify(MEDIA)};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {
@@ -463,6 +480,30 @@ function render(lang) {
   h = h.replace(/<!--xplans-->[^]*?<!--\/xplans-->/, '');
   h = h.replace(/(<div class="plans" id="plancards">[^]*?<\/div>)(?=\s*<p class="pnote)/, (m) => m + xplans);
   if (!h.includes('<!--xplans-->')) throw new Error('Bundle changed: #plancards not found');
+  // Strip only our marked inserts, then find the existing talk wrapper's
+  // matching close. Counting divs survives copy changes and nested chat markup.
+  const x3Hint = h.match(/<div class="hint[^>]*>[^]*?<\/div>/)?.[0] || '';
+  h = h.replace(/<!--x3(?:live|split|rail)-->[^]*?<!--\/x3(?:live|split|rail)-->/g, '');
+  const talk = h.match(/<section\b[^>]*id="talk"[^>]*>[^]*?<\/section>/);
+  if (!talk) throw new Error('Bundle changed: #talk anchor not found');
+  let t = talk[0];
+  const wrap = /<div class="wrap talk">/.exec(t);
+  if (!wrap || !t.includes('<div class="side"></div>')) throw new Error('Bundle changed: #talk anchor not found');
+  t = t.replace(/(<div class="side"><\/div>\s*<div)(?: class="x3-watch" id="x3-watch")?>/, '$1 class="x3-watch" id="x3-watch">');
+  const hint = t.match(/<div class="hint[^>]*>[^]*?<\/div>/)?.[0] || x3Hint;
+  t = t.replace(/<div class="hint[^>]*>[^]*?<\/div>/, '').replace(/^[ \t]+$/gm, '');
+  t = t.replace(/(<p class="lead" data-t="t_p">[^]*?<\/p>)/, (m) => m + `<!--x3rail-->${x3RailHTML(XL[lang].x3)}<!--/x3rail-->`);
+  let depth = 1, end = -1;
+  const tags = /<\/?div\b[^>]*>/g; tags.lastIndex = wrap.index + wrap[0].length;
+  for (let tag; (tag = tags.exec(t));) {
+    depth += tag[0].startsWith('</') ? -1 : 1;
+    if (!depth) { end = tag.index; break; }
+  }
+  if (end < 0) throw new Error('Bundle changed: #talk anchor not found');
+  const live = `<!--x3live--><div class="x3 x3-live" id="x3-live" role="group" aria-labelledby="x3-live-title" data-lang="${lang}">${x3LiveHTML(XL[lang].x3).replace('<div class="x3-hint-slot"></div>', `<div class="x3-hint-slot">${hint}</div>`)}</div><!--/x3live-->`;
+  const split = `<!--x3split--><div class="wrap x3 x3-split" id="x3-split" role="group" aria-labelledby="x3-split-title" data-lang="${lang}">${x3SplitHTML(XL[lang].x3, lang, MEDIA, XL[lang].x3Panels)}</div><!--/x3split-->`;
+  t = t.slice(0, end) + live + t.slice(end, end + 6) + split + t.slice(end + 6);
+  h = h.replace(talk[0], () => t);
   h = h.replace(/<\/body>/, () => enhBlock(lang) + '</body>');
 
   // Updated-deck additions. Marked regions are removed by hydrate() so every

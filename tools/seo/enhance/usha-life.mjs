@@ -65,6 +65,14 @@ let lastAct=0;addEventListener("pointerdown",()=>lastAct=performance.now(),{pass
 const VOICES = `case"laugh":for(let t=0;t<7;t++)xt(e(1000,1250)-t*70,e(700,900)-t*50,.09,.08,"sine",t*.085,6);break;case"sigh":xt(560,300,.7,.07,"triangle");break;case"sad":xt(620,430,.45,.08,"sine",0,5),xt(520,320,.7,.07,"sine",.42,5);break;case"grr":xt(140,115,.42,.08,"sawtooth",0,28),xt(170,120,.3,.07,"sawtooth",.4,28);break;case"sob":for(let t=0;t<5;t++)xt(e(680,760),e(480,540),.16,.06,"sine",t*.2,12);break;case"sneeze":xt(420,900,.3,.05,"sine"),xt(2200,300,.14,.11,"square",.42);break;case"yawn":xt(280,520,.55,.06,"triangle",0,4),xt(520,230,.8,.06,"triangle",.5,4);break;case"hum":[659,587,523,587,659,659].forEach((t,n)=>xt(t,t,.17,.045,"triangle",n*.19,5));break;`;
 
 export function applyLife(src) {
+  // Temporary shared duck hook until the dedicated audio manager supplies it.
+  // Keep the first-click enable path quiet while a film or modal owns sound.
+  if (!src.includes('Dk_') && !src.includes('USHA_AUDIO')) {
+    const anchor = 'var Lu="usha-sound",';
+    if (!src.includes(anchor)) throw new Error('Bundle changed: sound duck anchor not found');
+    src = src.replace(anchor, 'var Lu="usha-sound";var Dk_=new Set;window.USHA_AUDIO={duck(reason,on){on?Dk_.add(reason):Dk_.delete(reason);if(fe&&ln){ln.gain.cancelScheduledValues(fe.currentTime);ln.gain.setTargetAtTime(yt&&!Dk_.size?.8:0,fe.currentTime,on?.04:.2)}}};var ');
+    src = src.replaceAll('ln.gain.setTargetAtTime(.8,', 'ln.gain.setTargetAtTime(Dk_.size?0:.8,').replaceAll('ln.gain.setTargetAtTime(yt?.8:0,', 'ln.gain.setTargetAtTime(yt&&!Dk_.size?.8:0,');
+  }
   const swaps = [
     // Keep the scene clock current while the opaque notebook covers the canvas.
     ['function Pu(){let i=Math.min(.25,y_.getDelta())', 'function Pu(){if(window.__xHold){y_.getDelta();requestAnimationFrame(Pu);return}let i=Math.min(.25,y_.getDelta())'],

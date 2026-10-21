@@ -206,6 +206,492 @@ export const X = {
   },
 };
 
+// Section 03: the deck's examples, a live stage and two weeks on one desk.
+X.x3 = {
+  "rail": [
+    "01 Watch her think · 02 Ask her live · 03 With / without",
+    "01 Как она думает · 02 Спросить вживую · 03 С ней и без неё"
+  ],
+  "b1_tag": [
+    "Example · fixed scenario",
+    "Пример · готовый сценарий"
+  ],
+  "b1_next": [
+    "Ask her about your business ↓",
+    "Спросите её о вашем бизнесе ↓"
+  ],
+  "b2_k": [
+    "Live · USHA is online",
+    "Вживую · USHA на связи"
+  ],
+  "b2_k2": [
+    "A brief + 4 questions",
+    "Бриф + 4 вопроса"
+  ],
+  "b2_sat_k": [
+    "Owners ask her",
+    "Владельцы спрашивают"
+  ],
+  "b2_sat1": [
+    "Why did my sales drop on noon?",
+    "Почему упали продажи на Wildberries?"
+  ],
+  "b2_sat2": [
+    "A rival cut prices. Do I answer?",
+    "Конкурент снизил цены. Отвечать?"
+  ],
+  "b2_sat3": [
+    "Which ad should I stop today?",
+    "Какую рекламу остановить сегодня?"
+  ],
+  "b2_h": [
+    "Your business. *Her answer.*",
+    "Ваш бизнес. *Её ответ.*"
+  ],
+  "b2_p": [
+    "Brief her like a new Marketing Director. Then ask four questions about your market and your numbers.",
+    "Расскажите о бизнесе, как новому директору по маркетингу. Затем задайте четыре вопроса о рынке и цифрах."
+  ],
+  "b2_cta": [
+    "Ask USHA live",
+    "Спросить USHA"
+  ],
+  "b2_steps": [
+    "01 Who you are · 02 Your brief · 03 Four questions",
+    "01 Кто вы · 02 Ваш бриф · 03 Четыре вопроса"
+  ],
+  "b3_k": [
+    "03 · With / without",
+    "03 · С ней и без неё"
+  ],
+  "b3_h": [
+    "Same business. *Two different weeks.*",
+    "Тот же бизнес. *Две разные недели.*"
+  ],
+  "b3_p": [
+    "Drag the light. Everything it has passed is the week with USHA.",
+    "Двигайте свет. Всё, что он прошёл, это неделя с USHA."
+  ],
+  "b3_on": [
+    "With USHA",
+    "С USHA"
+  ],
+  "b3_off": [
+    "Without USHA",
+    "Без USHA"
+  ],
+  "b3_drag": [
+    "Drag the light",
+    "Двигайте свет"
+  ],
+  "b3_slider": [
+    "Share of the week with USHA",
+    "Доля недели с USHA"
+  ],
+  "b3_val": [
+    "{x}% with USHA",
+    "{x}% с USHA"
+  ],
+  "b3_ex": [
+    "Example",
+    "Пример"
+  ],
+  "b3_note": [
+    "Illustrative layouts, not client results. Figures from USHA's own materials are kept as written.",
+    "Макеты для иллюстрации, не результаты клиентов. Цифры из материалов USHA приведены как есть."
+  ],
+  "b3_end": [
+    "Now ask her about yours.",
+    "Теперь спросите её о своём."
+  ],
+  "p1_tu": [
+    "USHA · Monday brief · 07:52",
+    "USHA · сводка в понедельник · 07:52"
+  ],
+  "p1_w": [
+    "What changed",
+    "Что изменилось"
+  ],
+  "p1_y": [
+    "Why it matters",
+    "Почему это важно"
+  ],
+  "p1_m": [
+    "Your move",
+    "Ваш ход"
+  ],
+  "p1_a": [
+    "Views −23% since Tuesday.",
+    "Просмотры −23% со вторника."
+  ],
+  "p1_b": [
+    "Two rivals cut prices overnight: −18% and −12%.",
+    "Два конкурента за ночь снизили цены: −18% и −12%."
+  ],
+  "p1_c": [
+    "Don't chase the price. Bundle at the same price and move ads to the evening.",
+    "Не гонитесь за ценой. Соберите набор по той же цене и перенесите рекламу на вечер."
+  ],
+  "p1_k": [
+    "Stop if orders don't recover 10% in 7 days.",
+    "Остановить, если заказы не вырастут на 10% за 7 дней."
+  ],
+  "p1_f": [
+    "1,240 sources read before 08:00",
+    "1 240 источников прочитано до 08:00"
+  ],
+  "p1_o": [
+    "Refreshed 3 days ago · Export CSV",
+    "Обновлено 3 дня назад · Экспорт CSV"
+  ],
+  "p2_t": [
+    "Campaigns · All · Today",
+    "Кампании · Все · Сегодня"
+  ],
+  "p2_o": [
+    "3 recommendations: increase budget",
+    "3 рекомендации: увеличьте бюджет"
+  ],
+  "p2_a": [
+    "CPC +32% after 10:00",
+    "CPC +32% после 10:00"
+  ],
+  "p2_v": [
+    "Move your ads to the evening.",
+    "Перенесите рекламу на вечер."
+  ],
+  "p2_here": [
+    "Move here",
+    "Сюда"
+  ],
+  "p2_b": [
+    "Inside your approved budget",
+    "В рамках утверждённого бюджета"
+  ],
+  "p2_k": [
+    "Pause Promo_Gift if CPC stays above AED 2.50 for 3 days.",
+    "Остановить Promo_Gift, если CPC выше 25 ₽ три дня."
+  ],
+  "p3_o": [
+    "Of 1,000 followers, about 10 saw it.",
+    "Из 1 000 подписчиков его увидели около 10."
+  ],
+  "p3_v": [
+    "Format rising: 9-second reels",
+    "Растёт формат: ролики по 9 секунд"
+  ],
+  "p3_c": [
+    "Your version: in production, out Thursday",
+    "Ваша версия: в работе, выйдет в четверг"
+  ],
+  "p3_m": [
+    "First 2 seconds: the product, not the logo.",
+    "Первые 2 секунды: товар, а не логотип."
+  ],
+  "p4_o": [
+    "37 unread",
+    "37 непрочитанных"
+  ],
+  "p4_q": [
+    "Should we cut too?",
+    "Нам тоже снижать?"
+  ],
+  "p4_a": [
+    "Rival A: AED 129 → AED 106 (−18%) · 02:40",
+    "Конкурент A: 1 290 ₽ → 1 058 ₽ (−18%) · 02:40"
+  ],
+  "p4_t": [
+    "Tested on 100 digital buyers",
+    "Проверено на 100 цифровых покупателях"
+  ],
+  "p4_bars": [
+    "Cut price · Value message · Bundle",
+    "Снизить цену · Ценность · Набор"
+  ],
+  "p4_v": [
+    "Answer with a bundle. Keep your price.",
+    "Ответьте набором. Цену не трогайте."
+  ],
+  "p4_f": [
+    "1,300+ tests before this answer",
+    "1 300+ тестов до этого ответа"
+  ],
+  "p5_th": [
+    "Praise: freshness · Complaint: dry fillings · Other",
+    "Хвалят: свежесть · Жалобы: сухая начинка · Другое"
+  ],
+  "p5_v": [
+    "Lead with freshness and local production. Fix the filling before the gift box launch.",
+    "Делайте акцент на свежести и местном производстве. Исправьте начинку до запуска набора."
+  ],
+  "p6_o": [
+    "No plan for next week · Missed",
+    "Плана на следующую неделю нет · Пропущено"
+  ],
+  "p6_ex": [
+    "Example week",
+    "Пример недели"
+  ],
+  "p6_h": [
+    "10 minutes becomes a week.",
+    "10 минут превращаются в неделю."
+  ],
+  "p6_days": [
+    "Mon Your one line in the chat · 10 min / Tue Plan approved by you / Wed Images · 4 posts · 8 stories / Thu 2 short videos / Fri Ad creatives / Sat Published in every channel / Sun Report: what worked",
+    "Пн Ваша строка в чате · 10 мин / Вт Вы утвердили план / Ср Изображения · 4 поста · 8 сторис / Чт 2 коротких видео / Пт Рекламные креативы / Сб Опубликовано во всех каналах / Вс Отчёт: что сработало"
+  ],
+  "p7_off": [
+    "Template AI. Plastic faces. Looks like everyone's.",
+    "Шаблонный ИИ. Пластиковые лица. Как у всех."
+  ],
+  "p7_on": [
+    "Directed like a film. One visual system. Made for your brand.",
+    "Снято как кино. Один визуальный стиль. Для вашего бренда."
+  ],
+  "p7_ctl": [
+    [
+      "Play",
+      "Смотреть"
+    ],
+    [
+      "Pause",
+      "Пауза"
+    ],
+    [
+      "Sound on",
+      "Включить звук"
+    ],
+    [
+      "Sound off",
+      "Выключить звук"
+    ],
+    [
+      "Now:",
+      "Сейчас:"
+    ],
+    [
+      "Watch without",
+      "Смотреть «без»"
+    ],
+    [
+      "Watch with",
+      "Смотреть «с»"
+    ],
+    [
+      "Replay",
+      "Ещё раз"
+    ],
+    [
+      "Watch the other one",
+      "Смотреть второе"
+    ]
+  ]
+};
+X.x3Panels = {
+  "panels": [
+    [
+      "Business report",
+      "Бизнес-отчёт"
+    ],
+    [
+      "Ads",
+      "Реклама"
+    ],
+    [
+      "Engagement and reach",
+      "Вовлечённость и охват"
+    ],
+    [
+      "Competitor and price",
+      "Конкуренты и цены"
+    ],
+    [
+      "Reviews",
+      "Отзывы"
+    ],
+    [
+      "Content calendar",
+      "Контент-план"
+    ],
+    [
+      "Media",
+      "Медиа"
+    ]
+  ],
+  "metrics": [
+    [
+      "Views",
+      "Просмотры"
+    ],
+    [
+      "Visits",
+      "Посещения"
+    ],
+    [
+      "Orders",
+      "Заказы"
+    ],
+    [
+      "Conversion",
+      "Конверсия"
+    ],
+    [
+      "Avg. order",
+      "Средний чек"
+    ],
+    [
+      "Returns",
+      "Возвраты"
+    ],
+    [
+      "Rating",
+      "Рейтинг"
+    ],
+    [
+      "Ad spend",
+      "Расход на рекламу"
+    ]
+  ],
+  "adsCols": [
+    [
+      "Spend",
+      "Расход"
+    ],
+    [
+      "CPC",
+      "CPC"
+    ],
+    [
+      "CTR",
+      "CTR"
+    ],
+    [
+      "Status",
+      "Статус"
+    ]
+  ],
+  "limited": [
+    "Limited",
+    "Ограничено"
+  ],
+  "active": [
+    "Active",
+    "Активна"
+  ],
+  "followers": [
+    "Followers",
+    "Подписчики"
+  ],
+  "reach": [
+    "Reach of last post",
+    "Охват последнего поста"
+  ],
+  "posts": [
+    "Posts per week",
+    "Посты в неделю"
+  ],
+  "formats": [
+    [
+      "Reels 9 s",
+      "Ролики 9 с"
+    ],
+    [
+      "Carousels",
+      "Карусели"
+    ],
+    [
+      "Static",
+      "Статика"
+    ]
+  ],
+  "alert": [
+    "Price change detected · Rival A",
+    "Изменение цены · Конкурент A"
+  ],
+  "team": [
+    "Sales team",
+    "Отдел продаж"
+  ],
+  "reviews": [
+    [
+      "Fresh and made locally.",
+      "Свежее, местного производства."
+    ],
+    [
+      "The filling was dry.",
+      "Начинка была сухой."
+    ],
+    [
+      "A lovely gift box.",
+      "Красивый подарочный набор."
+    ]
+  ],
+  "reply": [
+    "Reply",
+    "Ответить"
+  ],
+  "reviewCount": [
+    "1,180 reviews",
+    "1 180 отзывов"
+  ],
+  "mediaOff": [
+    "Content / video / draft_final_v7.mp4",
+    "Контент / видео / draft_final_v7.mp4"
+  ],
+  "mediaOn": [
+    "USHA · Studio · brand film",
+    "USHA · студия · фильм бренда"
+  ],
+  "stepsOff": [
+    [
+      "Brief?",
+      "Бриф?"
+    ],
+    [
+      "Wait",
+      "Ожидание"
+    ],
+    [
+      "Revisions",
+      "Правки"
+    ],
+    [
+      "Revisions",
+      "Правки"
+    ]
+  ],
+  "stepsOn": [
+    [
+      "Idea",
+      "Идея"
+    ],
+    [
+      "Script",
+      "Сценарий"
+    ],
+    [
+      "Shots",
+      "Кадры"
+    ],
+    [
+      "Edit",
+      "Монтаж"
+    ],
+    [
+      "9:16 · 1:1 · 16:9",
+      "9:16 · 1:1 · 16:9"
+    ]
+  ],
+  "notSupported": [
+    "Video unavailable. Try the other film.",
+    "Видео недоступно. Попробуйте второй фильм."
+  ],
+  "chartSummary": [
+    "Illustrative trend; figures are examples.",
+    "Иллюстративная динамика; цифры приведены для примера."
+  ]
+};
+
 // Updated decks: hero 1/6; problem 3; comparison and roles 17/18; delivery 21; plans 22.
 Object.assign(DICT_PATCH.en, {
   "sub": "Where is the truth? Hidden in the algorithms. USHA reads them. Not a chatbot.",
