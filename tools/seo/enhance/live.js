@@ -34,6 +34,11 @@
       reading: 'Reading your market', intro: (n) => `Hello ${n}, I’m **USHA**, your Marketing Director. You can take a consultation from me now.\n\nTell me your brief the way you would brief a new Marketing Director joining your team: what you sell, to whom, where, your numbers, and what you want fixed. The more accurate you are, the better our work will go.`,
       brief_pill: 'Your brief · then 4 questions', brief_ph: 'Write your brief…',
       done_h: 'That was your fourth question.', done_p: 'Your project manager has this conversation and will contact you. Want to start sooner?',
+      rate_h: 'Did she earn her seat?', rate_p: 'Rate this conversation. Be honest, she can take it.',
+      rate_label: 'Conversation rating', rate_star: (n) => `${n} out of 5 stars`,
+      rate_note: 'A word for her? (optional · 300 characters)', rate_send: 'Send rating', rate_update: 'Update rating', rate_sending: 'Sending…', rate_saved: 'Sent',
+      rate_thanks: 'Thank you. Honesty looks good on you.', rate_pick: 'Pick a star first.',
+      rate_invalid: 'Check your stars and note (300 characters max).', rate_toomany: 'Too fast. Wait a little, then send again.', rate_unavailable: 'Couldn’t send. Please try again.',
       back_h: (n) => `I remember you, ${n}.`, back_p: 'We’ve talked before. Let’s continue with your project manager: they have our conversation and will take it from here.',
       tg: 'Write on Telegram', mail: 'Email the manager', copy: 'Copy email', copied: 'Copied', free: 'Start the free week',
       locked_h: 'This consultation is closed.', locked_p: 'We drifted off the business a few times. Your project manager will continue with you.',
@@ -73,6 +78,11 @@
       reading: 'Читаю ваш рынок', intro: (n) => `Здравствуйте, ${n}. Я **USHA**, ваш директор по маркетингу. Сейчас вы можете получить у меня консультацию.\n\nРасскажите мне бриф так, как если бы вы брали в команду нового директора по маркетингу: что продаёте, кому, где, ваши цифры и что нужно исправить. Чем точнее, тем лучше пойдёт наша работа.`,
       brief_pill: 'Ваш бриф · потом 4 вопроса', brief_ph: 'Напишите ваш бриф…',
       done_h: 'Это был четвёртый вопрос.', done_p: 'Ваш менеджер проекта видит этот разговор и свяжется с вами. Хотите начать раньше?',
+      rate_h: 'Заслужила ли она своё кресло?', rate_p: 'Оцените разговор. Честно: она выдержит.',
+      rate_label: 'Оценка разговора', rate_star: (n) => `${n} из 5 звёзд`,
+      rate_note: 'Пара слов для неё? (необязательно · до 300 знаков)', rate_send: 'Отправить оценку', rate_update: 'Обновить оценку', rate_sending: 'Отправляем…', rate_saved: 'Отправлено',
+      rate_thanks: 'Спасибо. Честность вам идёт.', rate_pick: 'Сначала выберите звезду.',
+      rate_invalid: 'Проверьте оценку и отзыв (до 300 знаков).', rate_toomany: 'Слишком быстро. Подождите и отправьте снова.', rate_unavailable: 'Не удалось отправить. Попробуйте ещё раз.',
       back_h: (n) => `Я вас помню, ${n}.`, back_p: 'Мы уже разговаривали. Продолжим с вашим менеджером проекта: у него есть наш разговор, дальше он всё возьмёт на себя.',
       tg: 'Написать в Telegram', mail: 'Написать менеджеру', copy: 'Скопировать email', copied: 'Скопировано', free: 'Начать бесплатную неделю',
       locked_h: 'Консультация закрыта.', locked_p: 'Мы несколько раз ушли от бизнеса. Дальше с вами продолжит менеджер проекта.',
@@ -112,6 +122,11 @@
       reading: 'أقرأ سوقك', intro: (n) => `أهلاً ${n}، أنا **USHA**، مديرة التسويق لديك. يمكنك الآن أن تأخذ مني استشارة.\n\nاكتب لي الـbrief كما لو كنت تعيّن مديراً جديداً للتسويق أو عضواً جديداً في فريقك: ماذا تبيع، لمن، أين، أرقامك، وما الذي تريد إصلاحه. كلما كنت أدق، كان عملنا أفضل.`,
       brief_pill: 'الـbrief أولاً · ثم ٤ أسئلة', brief_ph: 'اكتب الـbrief هنا…',
       done_h: 'كان هذا سؤالك الرابع.', done_p: 'مدير مشروعك لديه هذه المحادثة وسيتواصل معك. تحب تبدأ أسرع؟',
+      rate_h: 'هل استحقّت مقعدها؟', rate_p: 'قيّم هذه المحادثة بصراحة، فهي تتحمّل ذلك.',
+      rate_label: 'تقييم المحادثة', rate_star: (n) => `${n.toLocaleString('ar')} من ٥ نجوم`,
+      rate_note: 'كلمة لها؟ (اختياري · حتى ٣٠٠ حرف)', rate_send: 'أرسل التقييم', rate_update: 'حدّث التقييم', rate_sending: 'جارٍ الإرسال…', rate_saved: 'تم الإرسال',
+      rate_thanks: 'شكرًا. الصراحة تليق بك.', rate_pick: 'اختر نجمة أولًا.',
+      rate_invalid: 'تحقّق من التقييم والتعليق (حتى ٣٠٠ حرف).', rate_toomany: 'تمهّل قليلًا، ثم أرسل مجددًا.', rate_unavailable: 'تعذّر الإرسال. حاول مجددًا.',
       back_h: (n) => `أتذكرك يا ${n}.`, back_p: 'تحدثنا من قبل. لنكمل مع مدير مشروعك: لديه محادثتنا وسيتابع معك من هنا.',
       tg: 'راسلنا على تيليجرام', mail: 'راسل المدير بالبريد', copy: 'انسخ البريد', copied: 'تم النسخ', free: 'ابدأ الأسبوع المجاني',
       locked_h: 'تم إغلاق هذه الاستشارة.', locked_p: 'ابتعدنا عن العمل أكثر من مرة. مدير مشروعك سيتابع معك.',
@@ -311,6 +326,7 @@
     requestAnimationFrame(() => modal && modal.classList.add('on'));
     $('.xm-x', modal).addEventListener('click', close);
     $('.xm-scrim', modal).addEventListener('click', close);
+    $('.xm-x', modal).focus({ preventScroll: true });
     chime('open');
     start();
   }
@@ -338,7 +354,16 @@
     if (reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal) close(); });
+  addEventListener('keydown', (e) => {
+    if (!modal) return;
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    const controls = $$('a[href],button,input,select,textarea,[tabindex]', modal).filter((el) => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+    const first = controls[0], last = controls.at(-1);
+    if (first && (!modal.contains(D.activeElement) || (e.shiftKey ? D.activeElement === first : D.activeElement === last))) {
+      e.preventDefault(); (e.shiftKey ? last : first).focus();
+    }
+  });
   const view = () => $('.xl-view', modal);
   function setLeft() {
     const el = modal && $('.xl-left', modal); if (!el) return;
@@ -575,10 +600,95 @@
     });
   }
 
+  // ---------- a word for USHA, after the conversation ----------
+  function ratingCard(into) {
+    const token = state.token;
+    if (!token) return;
+    const x = L(), saved = store.get();
+    // Keep a successful rating with its session so reopening allows an edit.
+    let sent = saved.token === token && Number.isInteger(saved.rating?.stars) && saved.rating.stars >= 1 && saved.rating.stars <= 5 && typeof saved.rating.note === 'string' && saved.rating.note.length <= 300 ? saved.rating : null;
+    let busy = false;
+    const f = D.createElement('form');
+    f.className = 'xl-rate'; f.noValidate = true;
+    f.setAttribute('aria-labelledby', 'xl-rate-title');
+    f.innerHTML = `<h4 id="xl-rate-title">${esc(x.rate_h)}</h4><p id="xl-rate-help">${esc(x.rate_p)}</p>
+      <fieldset class="xl-stars" aria-describedby="xl-rate-help xl-rate-status"><legend class="xl-sr">${esc(x.rate_label)}</legend>
+        ${[1, 2, 3, 4, 5].map((n) => `<label class="xl-star"><input type="radio" name="stars" value="${n}" required aria-label="${esc(x.rate_star(n))}"><span aria-hidden="true">★</span></label>`).join('')}
+      </fieldset>
+      <div class="xl-f"><label for="xl-rate-note">${esc(x.rate_note)}</label><input id="xl-rate-note" name="note" type="text" maxlength="300" dir="auto"></div>
+      <button class="btn btn-p xl-rate-send" type="submit"><span class="d"></span><span>${esc(x.rate_send)}</span></button>
+      <p class="xl-rate-status" id="xl-rate-status" role="status" aria-live="polite" aria-atomic="true"></p>`;
+    into.append(f);
+    const radios = $$('input[name=stars]', f), note = f.elements.note, btn = $('.xl-rate-send', f), status = $('.xl-rate-status', f);
+    const value = () => ({ stars: Number(f.elements.stars.value), note: note.value.trim() });
+    const matches = () => { const v = value(); return sent && v.stars === sent.stars && v.note === sent.note; };
+    const update = () => {
+      const v = value();
+      radios.forEach((r) => r.closest('label').classList.toggle('lit', Number(r.value) <= v.stars));
+      btn.disabled = busy;
+      btn.setAttribute('aria-disabled', String(busy || !!matches()));
+      btn.lastElementChild.textContent = busy ? x.rate_sending : matches() ? x.rate_saved : sent ? x.rate_update : x.rate_send;
+    };
+    if (sent) {
+      radios.find((r) => Number(r.value) === sent.stars).checked = true;
+      note.value = sent.note;
+      status.textContent = x.rate_thanks;
+      f.classList.add('sent');
+    }
+    update();
+    const edit = () => {
+      status.textContent = matches() ? x.rate_thanks : '';
+      f.classList.toggle('sent', !!matches());
+      f.classList.remove('bad');
+      update();
+    };
+    f.addEventListener('input', edit);
+    f.addEventListener('change', edit);
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (busy || matches()) return;
+      const body = value();
+      if (!Number.isInteger(body.stars) || body.stars < 1 || body.stars > 5 || note.value.length > 300) {
+        status.textContent = body.stars ? x.rate_invalid : x.rate_pick;
+        f.classList.add('bad');
+        (body.stars ? note : radios[0]).focus({ preventScroll: true });
+        return;
+      }
+      const focused = D.activeElement;
+      busy = true; status.textContent = ''; f.classList.remove('bad', 'sent');
+      f.setAttribute('aria-busy', 'true');
+      radios.forEach((r) => { r.disabled = true; }); note.disabled = true; update();
+      let r;
+      try { r = await api('/api/rate', { token, body }); } catch { r = { http: 0 }; }
+      busy = false; f.setAttribute('aria-busy', 'false');
+      radios.forEach((radio) => { radio.disabled = false; }); note.disabled = false;
+      if (r.http === 200 && r.status === 'ok') {
+        sent = body;
+        const current = store.get();
+        if (current.token === token) store.set({ ...current, rating: sent });
+        status.textContent = x.rate_thanks; f.classList.add('sent');
+      } else {
+        status.textContent = r.http === 429 ? x.rate_toomany : r.http === 400 && r.status === 'invalid' ? x.rate_invalid : x.rate_unavailable;
+        f.classList.add('bad');
+      }
+      update();
+      if (f.isConnected && D.activeElement === D.body && f.contains(focused)) focused.focus({ preventScroll: true });
+    });
+  }
+
+  function conversationEnd(into = view()) {
+    into.innerHTML = '<div class="xl-finish"></div>';
+    const finish = $('.xl-finish', into);
+    ratingCard(finish);
+    const pm = D.createElement('div');
+    finish.append(pm);
+    handoff(L().done_h, L().done_p, pm);
+  }
+
   // ---------- 3. the conversation ----------
-  function invitationView(status) {
+  function invitationView(status, token = state.token) {
     if (status !== 'code_required' && status !== 'expired') return false;
-    Object.assign(state, { code: '', teamEntry: false, token: '', name: '', left: null, team: false, brief: false });
+    Object.assign(state, { code: '', teamEntry: false, token: status === 'expired' ? token : '', name: '', left: null, team: false, brief: false });
     $('.xl-left', modal).hidden = true;
     if (status === 'code_required') {
       store.clear();
@@ -590,6 +700,7 @@
         <h4 id="xl-expired-title" data-testid="expired-title">${esc(x.expired_h)}</h4>
         <p class="xl-code-contact" data-testid="code-contact-line">${esc(x.code_contact)}</p>
       </section>`;
+      ratingCard($('.xl-expired', view()));
       $('.xl-expired', view()).focus({ preventScroll: true });
     }
     return true;
@@ -599,12 +710,11 @@
     let r;
     try { r = await api('/api/session', { token }); } catch { r = { http: 0 }; }
     if (!modal) return;
-    if (invitationView(r.status)) return;
+    if (invitationView(r.status, token)) return;
     if (r.status === 'device') { notice(L().device_h, L().device_p); return; }
     if (r.http !== 200) { if (r.http === 401) store.clear(); start(); return; }
     Object.assign(state, { token, name: r.name, left: r.left, team: !!r.team, brief: !!r.brief || !!r.team });
     if (r.locked) { handoff(L().locked_h, L().locked_p); return; }
-    if (!state.team && state.left <= 0) { setLeft(); handoff(L().done_h, L().done_p); return; }
     chatView(r.history || []);
   }
 
@@ -618,6 +728,13 @@
     const log = $('.xl-log', view()), form = $('.xl-in', view()), ta = $('textarea', form);
     bubble(log, 'u-hi', x.intro(state.name));
     for (const m of history) bubble(log, m.role === 'user' ? 'me' : 'her', m.text);
+    if (!state.team && state.left <= 0) {
+      const card = D.createElement('div'); card.className = 'xl-end';
+      log.append(card); form.remove();
+      conversationEnd(card);
+      log.scrollTop = card.getBoundingClientRect().top - log.getBoundingClientRect().top;
+      return;
+    }
     const grow = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'; };
     ta.addEventListener('input', grow);
     ta.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } });
@@ -687,14 +804,14 @@
             const card = D.createElement('div'); card.className = 'xl-end';
             log.append(card);
             form.remove();
-            handoff(x.done_h, x.done_p, card);
+            conversationEnd(card);
             card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
           }, 600);
         }
       } else {
         her.remove();
         if (end && invitationView(end.error)) return;
-        if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p); return; }
+        if (end && end.error === 'limit') { state.left = 0; setLeft(); conversationEnd(); return; }
         if (end && end.error === 'locked') { handoff(x.locked_h, x.locked_p); return; }
         if (end && end.error === 'device') { notice(x.device_h, x.device_p); return; }
         if (end && end.error === 'region') { handoff(x.region_h, x.region_p, view(), { free: false }); return; }
