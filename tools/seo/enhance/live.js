@@ -39,6 +39,7 @@
       device_h: 'Please open this on the device you registered on.', device_p: 'Your consultation is tied to the browser you started it in.',
       team_link: 'NJO team? Continue', loading: 'One moment…',
       code: 'Invitation code', code_hint: 'Your NJO manager gives you this code.', code_none: 'No code yet? Ask your manager',
+      rate_q: 'How did USHA do?', rate_star: (n) => `${n} of 5`, rate_note: 'A line for her team (optional)', rate_send: 'Send', rate_thanks: 'Thank you. She reads every one, and takes the low ones personally.', rate_err: 'Couldn’t send. Please try again.',
       new_code: 'Have a new invitation code?', expired_h: 'Your invitation has ended.', expired_p: 'It was valid for 45 days. Your project manager can continue with you, or enter a new code.',
       err: {
         required: 'Please fill this in.', name_len: 'Use 2–60 letters.', name_chars: 'Letters only, please.', name_fake: 'Please enter your real name.',
@@ -76,6 +77,7 @@
       device_h: 'Продолжите на устройстве, где вы регистрировались.', device_p: 'Консультация привязана к браузеру, в котором вы её начали.',
       team_link: 'Команда NJO? Продолжить', loading: 'Секунду…',
       code: 'Код приглашения', code_hint: 'Код выдаёт ваш менеджер NJO.', code_none: 'Нет кода? Напишите менеджеру',
+      rate_q: 'Как вам USHA?', rate_star: (n) => `${n} из 5`, rate_note: 'Пара слов для её команды (необязательно)', rate_send: 'Отправить', rate_thanks: 'Спасибо. Она читает каждую оценку, а низкие принимает близко к сердцу.', rate_err: 'Не получилось отправить. Попробуйте ещё раз.',
       new_code: 'Есть новый код приглашения?', expired_h: 'Срок приглашения закончился.', expired_p: 'Оно действовало 45 дней. Менеджер проекта продолжит с вами, или введите новый код.',
       err: {
         required: 'Заполните, пожалуйста.', name_len: 'От 2 до 60 букв.', name_chars: 'Только буквы, пожалуйста.', name_fake: 'Укажите настоящее имя.',
@@ -113,6 +115,7 @@
       device_h: 'أكمل على الجهاز الذي سجلت منه.', device_p: 'استشارتك مرتبطة بالمتصفح الذي بدأتها فيه.',
       team_link: 'فريق NJO؟ تابع', loading: 'لحظة…',
       code: 'رمز الدعوة', code_hint: 'يعطيك مدير NJO هذا الرمز.', code_none: 'ليس لديك رمز؟ اطلبه من مديرك',
+      rate_q: 'كيف كانت USHA؟', rate_star: (n) => `${n} من ٥`, rate_note: 'كلمة لفريقها (اختياري)', rate_send: 'إرسال', rate_thanks: 'شكراً. تقرأ كل تقييم، وتأخذ المنخفض منها على محمل شخصي.', rate_err: 'تعذّر الإرسال. حاول مرة أخرى.',
       new_code: 'لديك رمز دعوة جديد؟', expired_h: 'انتهت مدة دعوتك.', expired_p: 'كانت صالحة لمدة ٤٥ يوماً. يمكن لمدير مشروعك أن يكمل معك، أو أدخل رمزاً جديداً.',
       err: {
         required: 'يرجى تعبئة هذا الحقل.', name_len: 'من حرفين إلى ٦٠ حرفاً.', name_chars: 'حروف فقط من فضلك.', name_fake: 'يرجى كتابة اسمك الحقيقي.',
@@ -494,11 +497,12 @@
   }
 
   // ---------- 2. returning visitors and the end of the five ----------
-  function handoff(title, text, into = view(), { contacts = true, free = true, team = false, again = false } = {}) {
+  function handoff(title, text, into = view(), { contacts = true, free = true, team = false, again = false, rate = false } = {}) {
     const x = L();
     into.innerHTML = `<div class="xl-pm">
       <div class="xl-pm-i" aria-hidden="true"><i></i><i></i><i></i></div>
       <h4>${esc(title)}</h4><p>${esc(text)}</p>
+      ${rate && state.token ? '<div class="xl-rate"></div>' : ''}
       ${contacts ? `<div class="xl-pm-b">
         <a class="btn btn-p" href="${PM_TG}" target="_blank" rel="noopener"><span class="d"></span><span>${esc(x.tg)}</span></a>
         <a class="btn xl-ghost" href="mailto:${PM_MAIL}"><span>${esc(x.mail)}</span></a>
@@ -510,6 +514,7 @@
     </div>`;
     if (team) $('.xl-team-go', into).addEventListener('click', () => formView());
     if (again && invite) $('.xl-again', into).addEventListener('click', newCode);
+    if (rate && state.token) rateCard($('.xl-rate', into));
     if (free) $('.xl-free', into).addEventListener('click', () => close());
     if (!contacts) return;
     $('.xl-copy', into).addEventListener('click', (e) => {
@@ -518,6 +523,45 @@
       (navigator.clipboard ? navigator.clipboard.writeText(PM_MAIL) : Promise.reject()).then(done, () => {
         const r = D.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
       });
+    });
+  }
+
+  // ---------- the rating at the end ----------
+  // 1 to 5 stars and an optional line, saved by the server into the Chats sheet.
+  // Once sent from this browser, it shows the thank-you instead of asking again.
+  function rateCard(box) {
+    const x = L();
+    if (store.get().rated) { box.innerHTML = `<p class="xl-rate-ok">${esc(x.rate_thanks)}</p>`; return; }
+    let stars = 0;
+    box.innerHTML = `<p class="xl-rate-q" id="xl-rate-q">${esc(x.rate_q)}</p>
+      <div class="xl-stars" role="radiogroup" aria-labelledby="xl-rate-q">${[1, 2, 3, 4, 5].map((n) => `<button type="button" role="radio" aria-checked="false" aria-label="${esc(x.rate_star(n))}" data-n="${n}">★</button>`).join('')}</div>
+      <div class="xl-rate-more" hidden><textarea rows="2" maxlength="300" dir="auto" placeholder="${esc(x.rate_note)}" aria-label="${esc(x.rate_note)}"></textarea>
+      <button type="button" class="btn btn-p xl-rate-send"><span class="d"></span><span>${esc(x.rate_send)}</span></button><em class="xl-e" aria-live="polite"></em></div>`;
+    const btns = $$('.xl-stars button', box), more = $('.xl-rate-more', box), send = $('.xl-rate-send', box);
+    const paint = (n) => btns.forEach((b) => b.classList.toggle('on', +b.dataset.n <= n));
+    btns.forEach((b) => {
+      b.addEventListener('mouseenter', () => paint(+b.dataset.n));
+      b.addEventListener('mouseleave', () => paint(stars));
+      b.addEventListener('click', () => {
+        stars = +b.dataset.n; paint(stars);
+        btns.forEach((o) => o.setAttribute('aria-checked', String(o === b)));
+        more.hidden = false;
+      });
+    });
+    send.addEventListener('click', async () => {
+      if (!stars || state.busy) return;
+      const err = $('.xl-e', more); err.textContent = '';
+      state.busy = true; send.disabled = true;
+      const note = $('textarea', more).value.trim().slice(0, 300);
+      let r; try { r = await api('/api/rate', { body: note ? { stars, note } : { stars }, token: state.token }); } catch { r = { http: 0 }; }
+      state.busy = false; send.disabled = false;
+      if (r.status === 'ok') {
+        store.set({ ...store.get(), rated: true });
+        box.innerHTML = `<p class="xl-rate-ok">${esc(x.rate_thanks)}</p>`;
+        chime('answer');
+        return;
+      }
+      err.textContent = r.http === 429 ? x.err.slow_down : r.http === 0 ? x.err.net : x.rate_err;
     });
   }
 
@@ -535,12 +579,12 @@
     try { r = await api('/api/session', { token }); } catch { r = { http: 0 }; }
     if (!modal) return;
     if (r.status === 'device') { notice(L().device_h, L().device_p); return; }
-    if (r.status === 'expired') { handoff(L().expired_h, L().expired_p, view(), { again: true }); return; }
+    if (r.status === 'expired') { state.token = token; handoff(L().expired_h, L().expired_p, view(), { again: true, rate: true }); return; }
     if (r.status === 'code_required') { store.clear(); formView(); return; }
     if (r.http !== 200) { if (r.http === 401) store.clear(); start(); return; }
     Object.assign(state, { token, name: r.name, left: r.left, team: !!r.team, brief: !!r.brief || !!r.team });
-    if (r.locked) { handoff(L().locked_h, L().locked_p); return; }
-    if (!state.team && state.left <= 0) { setLeft(); handoff(L().done_h, L().done_p, view(), { again: true }); return; }
+    if (r.locked) { handoff(L().locked_h, L().locked_p, view(), { rate: true }); return; }
+    if (!state.team && state.left <= 0) { setLeft(); handoff(L().done_h, L().done_p, view(), { again: true, rate: true }); return; }
     chatView(r.history || []);
   }
 
@@ -614,7 +658,7 @@
             if (!modal) return;
             const card = D.createElement('div'); card.className = 'xl-end';
             log.append(card); form.remove();
-            handoff(x.locked_h, x.locked_p, card);
+            handoff(x.locked_h, x.locked_p, card, { rate: true });
             card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
           }, 600);
         } else if (!state.team && state.left <= 0) {
@@ -623,16 +667,16 @@
             const card = D.createElement('div'); card.className = 'xl-end';
             log.append(card);
             form.remove();
-            handoff(x.done_h, x.done_p, card, { again: true });
+            handoff(x.done_h, x.done_p, card, { again: true, rate: true });
             card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
           }, 600);
         }
       } else {
         her.remove();
-        if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p, view(), { again: true }); return; }
-        if (end && end.error === 'expired') { handoff(x.expired_h, x.expired_p, view(), { again: true }); return; }
+        if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p, view(), { again: true, rate: true }); return; }
+        if (end && end.error === 'expired') { handoff(x.expired_h, x.expired_p, view(), { again: true, rate: true }); return; }
         if (end && end.error === 'code_required') { store.clear(); formView(); return; }
-        if (end && end.error === 'locked') { handoff(x.locked_h, x.locked_p); return; }
+        if (end && end.error === 'locked') { handoff(x.locked_h, x.locked_p, view(), { rate: true }); return; }
         if (end && end.error === 'device') { notice(x.device_h, x.device_p); return; }
         if (end && end.error === 'region') { handoff(x.region_h, x.region_p, view(), { free: false }); return; }
         if (end && end.status === 401) { store.clear(); start(); return; }
