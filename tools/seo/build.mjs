@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X, COMPARE_DECK } from './enhance/content.mjs';
 import { plansHTML, x3RailHTML, x3LiveHTML, x3SplitHTML, deckHTML } from './enhance/ui.mjs';
+import { storyHTML } from './enhance/story.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
@@ -363,8 +364,16 @@ for (const film of Object.values(MEDIA)) {
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8');
+const grain = fs.readFileSync(path.join(ENH, 'story-grain.png'));
+const grainURL = emit(`story-grain-${hash(grain)}.png`, grain);
+const storyCSS = fs.readFileSync(path.join(ENH, 'story.css'), 'utf8').replace('__STORY_GRAIN__', grainURL);
+const ENH_CSS = (fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8') + '\n' + storyCSS).replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const storyBuilders = fs.readFileSync(path.join(ENH, 'story.mjs'), 'utf8').replace(/^import .*;\n/gm, '').replace(/^export /gm, '');
+const storyJS = fs.readFileSync(path.join(ENH, 'story.js'), 'utf8').replace(/^\/\/[^\n]*\n/gm, '').replace(/\n+/g, '\n');
+if (Buffer.byteLength(storyJS) > 9 * 1024) throw new Error('Story controller exceeds 9 KiB');
+const compactStoryCSS = storyCSS.replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+if (Buffer.byteLength(compactStoryCSS) > 7 * 1024) throw new Error('Story CSS exceeds 7 KiB');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
@@ -504,7 +513,8 @@ function render(lang) {
   h = h.replace(/(?=<section class="ch" id="signal">)/, block('problem'));
   h = h.replace(/(?=<section class="ch sec" id="talk">)/, ['meet', 'numbers', 'mind', 'outcomes', 'how'].map(block).join(''));
   h = h.replace(/(<p class="sick rv"[^>]*>[^]*?<\/p>)/, '$1' + block('price'));
-  h = h.replace(/(?=<section class="ch sec" id="month">)/, '<!--d1:story-slot--><!-- Reserved for the separate NJO story brief. --><!--/d1:story-slot-->');
+  if (!h.includes('<!--xstory-->')) throw new Error('Bundle changed: #story marker not found');
+  h = h.replace(/<!--xstory-->[^]*?<!--\/xstory-->/, () => '<!--xstory-->' + storyHTML(XL[lang], lang) + '<!--/xstory-->');
   h = h.replace(/(?=<div class="tog pill rv" id="mtog">)/, block('rhythm'));
   h = h.replace(/<div class="guar glass rv">[^]*?<\/ul><\/div>\s*/, '');
   h = h.replace(/(?=<section class="ch sec" id="free">)/, block('trust'));
