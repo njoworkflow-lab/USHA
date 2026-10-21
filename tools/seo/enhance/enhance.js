@@ -14,6 +14,104 @@
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ---------- three invitations, all using the live chat's existing entry ----------
+  let whisper, livePill, hintTimer, hintRotation, hintLang;
+  let hintSeen = false, hintLine = 0;
+  try { hintSeen = sessionStorage.getItem('usha-live-hint') === '1'; } catch {}
+  const hintsReady = () => !H.classList.contains('locked') && !$('#intro') &&
+    !H.classList.contains('gaming') && !H.classList.contains('x-modal-on');
+  function rememberHint() {
+    hintSeen = true;
+    try { sessionStorage.setItem('usha-live-hint', '1'); } catch {}
+  }
+  function hideWhisper() {
+    if (whisper && !whisper.hidden) whisper.hidden = true;
+    clearTimeout(hintRotation);
+  }
+  function dismissHint() {
+    hideWhisper(); rememberHint();
+    // Dismissing with a keyboard keeps focus on the next useful action.
+    $('.x-live-main')?.focus({ preventScroll: true });
+  }
+  function openLive(e) {
+    const entry = $('.xl-open');
+    if (!entry || !hintsReady()) return;
+    // The existing chat remembers the active element when it opens.
+    e.currentTarget.focus({ preventScroll: true });
+    rememberHint(); hideWhisper(); entry.click();
+  }
+  function showWhisper() {
+    if (hintSeen || !whisper || !hintsReady() || !$('.xl-open') ||
+      scrollY > 80) return;
+    // A short viewport must never make the bubble cover the header or copy.
+    const top = $('.hero-t').getBoundingClientRect().top;
+    if (innerWidth <= 820 && top < 170) return;
+    rememberHint(); whisper.hidden = false;
+    let turns = 0;
+    const rotate = () => {
+      // Leave a focused button's accessible name stable.
+      if (whisper.hidden || whisper.contains(D.activeElement)) return;
+      hintLine = (hintLine + 1) % X().liveHints.lines.length;
+      $('.x-whisper-text', whisper).textContent = X().liveHints.lines[hintLine];
+      if (++turns < 2) hintRotation = setTimeout(rotate, 6000);
+    };
+    if (!reduce) hintRotation = setTimeout(rotate, 6000);
+  }
+  function hintsCheck() {
+    if (!livePill) return;
+    const ready = hintsReady();
+    const pastHero = scrollY >= innerHeight * .9;
+    const hidden = !ready || !pastHero;
+    if (livePill.hidden !== hidden) livePill.hidden = hidden;
+    if (!ready || scrollY > 80) hideWhisper();
+    if (ready && !hintSeen && !hintTimer) hintTimer = setTimeout(() => {
+      hintTimer = 0; showWhisper();
+    }, 2400);
+  }
+  function liveHintsUI() {
+    if (!window.USHA_LIVE?.api || !$('#hero .cta')) return;
+    const x = X().liveHints;
+    if (!x) return;
+    if (!$('.x-live-main')) {
+      const cta = $('#hero .cta');
+      const main = D.createElement('button');
+      main.type = 'button'; main.className = 'btn btn-p x-live-main';
+      main.innerHTML = '<span class="d" aria-hidden="true"></span><span></span>';
+      main.addEventListener('click', openLive);
+      cta.prepend(main); cta.classList.add('x-live-actions');
+      $('a[href="#free"]', cta)?.classList.replace('btn-p', 'btn-g');
+      $('a[href="#signal"]', cta)?.classList.add('x-see-work');
+      whisper = D.createElement('div'); whisper.className = 'x-whisper'; whisper.hidden = true;
+      whisper.setAttribute('translate', 'no');
+      whisper.innerHTML = '<button type="button" class="x-whisper-ask"><span class="x-whisper-text"></span><span aria-hidden="true">↗</span></button><button type="button" class="x-whisper-close">×</button>';
+      $('.hero-t').append(whisper);
+      $('.x-whisper-ask', whisper).addEventListener('click', openLive);
+      $('.x-whisper-close', whisper).addEventListener('click', dismissHint);
+      livePill = D.createElement('button'); livePill.type = 'button';
+      livePill.className = 'x-live-pill'; livePill.hidden = true;
+      livePill.innerHTML = '<span class="d" aria-hidden="true"></span><span></span><i aria-hidden="true">↗</i>';
+      livePill.addEventListener('click', openLive); D.body.append(livePill);
+      new MutationObserver((records) => {
+        if (records.some((r) => r.attributeName === 'lang')) liveHintsUI();
+        // The animation writes the same root class every frame. Ignore those
+        // writes; only a changed mode needs to update these controls.
+        else if (records.some((r) => r.oldValue !== H.className)) hintsCheck();
+      }).observe(H, { attributes: true, attributeOldValue: true, attributeFilter: ['class', 'lang'] });
+      // The wake overlay is removed after the greeting; no hint interrupts it.
+      new MutationObserver(hintsCheck).observe(D.body, { childList: true });
+      addEventListener('usha:noticed', showWhisper);
+      addEventListener('resize', hintsCheck, { passive: true });
+    }
+    if (hintLang !== lang()) {
+      hintLang = lang();
+      $('.x-live-main span:last-child').textContent = x.primary;
+      $('.x-live-pill span:nth-child(2)').textContent = x.pill;
+      $('.x-whisper-text', whisper).textContent = x.lines[hintLine];
+      $('.x-whisper-close', whisper).setAttribute('aria-label', x.dismiss);
+    }
+    hintsCheck();
+  }
+
   // in-view: .x-io → .x-in, and .rv created by this layer → .in. Checked on
   // scroll (not observed) because the bundle re-renders and swaps nodes.
   const REV = '.x-io:not(.x-in),.x-plans .xp-cards:not(.in)';
@@ -36,7 +134,7 @@
   }
   function onScroll() {
     cacheRects();
-    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck();
+    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck(); hintsCheck();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -51,7 +149,7 @@
     if (!t || !t.closest) return;
     // popup windows (plans, the live chat) sit above the eyes cursor: they always get the normal pointer
     const inStory = !t.closest('.x-modal') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
-    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button'));
+    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button,.x-live-pill'));
     const g = t.closest('.sec .glass');
     if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--px', e.clientX - r.left + 'px'); g.style.setProperty('--py', e.clientY - r.top + 'px'); }
   }, { passive: true });
@@ -464,7 +562,7 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
