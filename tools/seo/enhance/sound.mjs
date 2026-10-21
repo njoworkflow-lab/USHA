@@ -20,6 +20,12 @@ export function applySound(src) {
     ['li.gain.setTargetAtTime(.12,fe.currentTime,.15)', 'li.gain.setTargetAtTime(0,fe.currentTime,.15)'],
     // a fresh setting: an old "off" was about the engine hum, not the music
     ['var Lu="usha-sound"', 'var Lu="usha-music"'],
+    // the beat (sound.js sets __bB, __bG, __bF): the galaxy pushes outward, the glow
+    // and the light streams flare, a soft flash; the game tells the music to stop
+    ['Na.uniforms.uFlash.value=je?Math.max(0,1-Mt*2.4)*.55:0;let l=Xt.active;', 'Na.uniforms.uFlash.value=(je?Math.max(0,1-Mt*2.4)*.55:0)+(window.__bF||0);rr.strength=.55+(window.__bG||0);let l=Xt.active;l!==window.__game&&(window.__game=l,dispatchEvent(new Event(l?"usha:game-on":"usha:game-off")));'],
+    ['bt.u.uBurst.value=je&&Mt<1.6?Math.sin(Math.PI*hn(Mt/1.6))*.55:0', 'bt.u.uBurst.value=(je&&Mt<1.6?Math.sin(Math.PI*hn(Mt/1.6))*.55:0)+(window.__bB||0)'],
+    // the moment she wakes (the burst): the track starts 3 s later (sound.js)
+    ['Ae.holdStop(),Ae.wake(),', 'Ae.holdStop(),Ae.wake(),dispatchEvent(new Event("usha:wake")),'],
     // the header button switches the music, not the whole audio engine
     ['e?Ae.enable():Ae.disable(),ue("#snd").classList.toggle("on",e)', 'Ae.enable(),window.UshaSound&&UshaSound.set(e),ue("#snd").classList.toggle("on",e)'],
   ];
