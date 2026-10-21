@@ -736,3 +736,23 @@ html[dir=rtl] .xl-send i{transform:translate(2px,2px) rotate(-135deg)}
 }
 @media (prefers-reduced-motion:reduce){.xl-dot,.xl-read i,.xl-pm-i i{animation:none}}
 #gl,#cur,#bub,#holdBtn{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+
+/* "USHA is online" invitation in the first screen */
+.xl-hero{display:inline-flex;align-items:center;gap:12px;margin:30px 0 4px;padding:9px 18px 9px 14px;border-radius:999px;border:1px solid rgba(255,170,130,.38);background:linear-gradient(100deg,rgba(255,106,43,.16),rgba(255,255,255,.04) 55%);color:#F3EEE8;font:inherit;cursor:pointer;position:relative;overflow:hidden;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transform:translateY(10px);transition:opacity .9s var(--x-ease,ease) .9s,transform .9s var(--x-ease,ease) .9s,border-color .3s,background .3s;-webkit-tap-highlight-color:transparent}
+.xl-awake .xl-hero{opacity:1;transform:none}
+.xl-hero:hover{border-color:rgba(255,190,150,.75);background:linear-gradient(100deg,rgba(255,106,43,.28),rgba(255,255,255,.06) 55%)}
+.xl-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,220,200,.35) 50%,transparent 70%);transform:translateX(-120%);pointer-events:none}
+.xl-awake .xl-hero::after{animation:xlSweep 1.6s var(--x-ease,ease) 2.1s 1 both}
+@keyframes xlSweep{to{transform:translateX(120%)}}
+.xl-hero-dot{width:9px;height:9px;border-radius:50%;background:#FF6A2B;box-shadow:0 0 0 0 rgba(255,106,43,.6);animation:xlPulse 2.2s ease-out infinite;flex:none}
+@keyframes xlPulse{0%{box-shadow:0 0 0 0 rgba(255,106,43,.55)}70%{box-shadow:0 0 0 10px rgba(255,106,43,0)}100%{box-shadow:0 0 0 0 rgba(255,106,43,0)}}
+.xl-hero-k{font-family:var(--mono,ui-monospace,monospace);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,196,160,.95);white-space:nowrap}
+.xl-hero-b{font-weight:600;font-size:15px;white-space:nowrap;padding-inline-start:12px;border-inline-start:1px solid rgba(255,170,130,.3)}
+.xl-hero-b i{font-style:normal;display:inline-block;transition:transform .3s}
+.xl-hero:hover .xl-hero-b i{transform:translateX(4px)}
+html[dir=rtl] .xl-hero:hover .xl-hero-b i{transform:translateX(-4px)}
+html[dir=rtl] .xl-hero-k{letter-spacing:0}
+header a.xl-nav-live{position:relative;padding-inline-start:14px}
+header a.xl-nav-live::before{content:'';position:absolute;inset-inline-start:0;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#FF6A2B;animation:xlPulse 2.2s ease-out infinite}
+@media (max-width:600px){.xl-hero{gap:10px;margin:18px 0 2px;padding:8px 14px 8px 12px}.xl-hero-k{font-size:10px;letter-spacing:.1em}.xl-hero-b{font-size:14px;padding-inline-start:10px}}
+@media (prefers-reduced-motion:reduce){.xl-hero{transition:opacity .4s}.xl-hero-dot,header a.xl-nav-live::before{animation:none}.xl-awake .xl-hero::after{animation:none}}

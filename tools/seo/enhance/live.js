@@ -624,9 +624,36 @@
       <button type="button" class="btn btn-p xl-open"><span class="d"></span><span>${esc(x.cta_b)}</span></button>`;
     $('.xl-open', cta).addEventListener('click', open);
   }
-  const later = () => setTimeout(ctaUI, 60);
+  // ---------- the invitation in the first screen, right after she wakes ----------
+  const HX = {
+    en: { k: 'USHA is online', b: 'Talk to her now', a: '→' },
+    ru: { k: 'USHA на связи', b: 'Поговорить сейчас', a: '→' },
+    ar: { k: 'USHA متصلة الآن', b: 'تحدّث معها الآن', a: '←' },
+  };
+  function heroUI() {
+    const row = $('#hero .hero-t .cta'); if (!row) return;
+    const h = HX[H.lang] || HX.en;
+    let b = $('.xl-hero');
+    if (!b) {
+      b = D.createElement('button'); b.type = 'button'; b.className = 'xl-hero'; b.setAttribute('translate', 'no');
+      row.before(b);
+      b.addEventListener('click', open);
+    }
+    if (b.dataset.lang !== H.lang) {
+      b.dataset.lang = H.lang;
+      b.innerHTML = `<span class="xl-hero-dot" aria-hidden="true"></span><span class="xl-hero-k">${esc(h.k)}</span><span class="xl-hero-b">${esc(h.b)} <i aria-hidden="true">${h.a}</i></span>`;
+    }
+    const nav = $('header a[href="#talk"]'); if (nav) nav.classList.add('xl-nav-live');
+  }
+  // show it once USHA is awake (the page drops its "locked" class)
+  const wake = () => { if (!H.classList.contains('locked')) { H.classList.add('xl-awake'); return true; } return false; };
+  if (!wake()) { const mo = new MutationObserver(() => { if (wake()) mo.disconnect(); }); mo.observe(H, { attributes: true, attributeFilter: ['class'] }); }
+  addEventListener('hashchange', () => { if (location.hash === '#ask') { history.replaceState(null, '', location.pathname + location.search); open(); } });
+
+  const later = () => setTimeout(() => { ctaUI(); heroUI(); }, 60);
   new MutationObserver(later).observe(H, { attributes: true, attributeFilter: ['lang'] });
   const talk = $('#talk'); if (talk) new MutationObserver(() => { if (!$('.xl-cta')) later(); }).observe(talk, { childList: true, subtree: true });
   if (location.hash === '#ask') addEventListener('load', () => setTimeout(open, 400));
-  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', ctaUI); else ctaUI();
+  const boot = () => { ctaUI(); heroUI(); };
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
 })();
