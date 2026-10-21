@@ -134,7 +134,7 @@
   }
   function onScroll() {
     cacheRects();
-    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck(); hintsCheck();
+    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck(); hintsCheck(); x3Scroll();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -155,7 +155,7 @@
   }, { passive: true });
 
   // ---------- waking headlines: letters start thin and faint, wake bold when seen ----------
-  const WAKE = '.sec h2.big,.eng h3';
+  const WAKE = '.sec h2.big,.eng h3,.x3 h3.big';
   // checked on scroll rather than observed: the bundle can swap these nodes
   function wakeCheck() {
     $$('.x-wake:not(.x-lit)').forEach((h) => {
@@ -456,7 +456,7 @@
 
   // ---------- live parts must not be frozen by browser translation ----------
   function noTranslate() {
-    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
+    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans', '.x3-live', '.x3-split'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
   }
   // ---------- findings card: always leaves room above it for USHA ----------
   function fcardFit() {
@@ -562,7 +562,9 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function x3UI() { window.USHA_X3?.render(X().x3, X().x3Panels, lang()); }
+  function x3Scroll() { window.USHA_X3?.scroll(); }
+  function renderAll() { [x3UI, liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });

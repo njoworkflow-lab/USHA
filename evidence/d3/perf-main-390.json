@@ -1,0 +1,54 @@
+{
+ "id": "perf-main-390",
+ "ok": true,
+ "steps": [
+  {
+   "i": 0,
+   "do": "wake",
+   "ok": true
+  },
+  {
+   "i": 1,
+   "do": "eval",
+   "ok": true
+  },
+  {
+   "i": 2,
+   "do": "wait",
+   "ok": true
+  },
+  {
+   "i": 3,
+   "do": "fps",
+   "ok": true
+  },
+  {
+   "i": 4,
+   "do": "shot",
+   "ok": true
+  }
+ ],
+ "consoleErrors": [],
+ "failedRequests": [],
+ "pageErrors": [],
+ "evals": {
+  "scroll": "at #talk",
+  "fps": {
+   "fps": 9.1,
+   "framesOver50ms": 36,
+   "worstFrameMs": 150
+  }
+ },
+ "shots": [
+  "s.png"
+ ],
+ "page": {
+  "title": "USHA by NJO — business intelligence engine for brands and marketplace sellers",
+  "lang": "en",
+  "dir": "ltr",
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "htmlClass": "",
+  "horizontalScroll": false
+ }
+}
