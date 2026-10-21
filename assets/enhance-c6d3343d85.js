@@ -601,12 +601,15 @@ function findingChart(i, lang) {
       bot_h: 'This browser looks automated.', bot_p: 'The live consultation is for people. Please open usha.one in your usual browser.',
       device_h: 'Please open this on the device you registered on.', device_p: 'Your consultation is tied to the browser you started it in.',
       team_link: 'NJO team? Continue', loading: 'One moment…',
+      code: 'Invitation code', code_hint: 'Your NJO manager gives you this code.', code_none: 'No code yet? Ask your manager',
+      new_code: 'Have a new invitation code?', expired_h: 'Your invitation has ended.', expired_p: 'It was valid for 45 days. Your project manager can continue with you, or enter a new code.',
       err: {
         required: 'Please fill this in.', name_len: 'Use 2–60 letters.', name_chars: 'Letters only, please.', name_fake: 'Please enter your real name.',
         biz_len: 'Use 2–80 characters.', biz_chars: 'The name only, no links.', biz_fake: 'Please enter your real business name.',
         email_bad: 'This email doesn’t look right.', email_typo: 'Did you mean {s}?', email_temp: 'Temporary inboxes can’t be used. Please use your real email.', email_fake: 'Please use your real email.', email_domain: 'This email domain doesn’t receive mail.',
         phone_plus: 'For another country, start with + and the country code.', phone_mobile: 'Please enter a mobile number, not a landline.', phone_region: 'Numbers from this country can’t be used here.', phone_bad: 'This isn’t a valid number for the chosen country.', phone_fake: 'Please enter your real number.', phone_country: 'Choose a country code.',
         team_code_needed: 'Enter the team code.', team_code_bad: 'The team code isn’t right.',
+        code_needed: 'Enter your invitation code.', code_bad: 'This code isn’t valid or has already been used.',
         bot_check: 'Please complete the check above and try again.', slow_down: 'Too many tries. Please wait a little and try again.', busy: 'USHA is very busy right now. Please try again in a few minutes.',
         failed: 'Something went wrong on our side. Your question wasn’t counted. Please send it again.', cut: 'The answer was cut off. Your question wasn’t counted. Please send it again.', net: 'No connection. Please check your internet and try again.',
         too_long: 'Please keep it under 1,500 characters.', region: 'The live consultation isn’t open in your region yet.', private: 'Please use a normal browser window, not private mode.', device: 'Please continue on the device you registered on.',
@@ -635,12 +638,15 @@ function findingChart(i, lang) {
       bot_h: 'Похоже, браузер управляется автоматически.', bot_p: 'Живая консультация — для людей. Откройте usha.one в своём обычном браузере.',
       device_h: 'Продолжите на устройстве, где вы регистрировались.', device_p: 'Консультация привязана к браузеру, в котором вы её начали.',
       team_link: 'Команда NJO? Продолжить', loading: 'Секунду…',
+      code: 'Код приглашения', code_hint: 'Код выдаёт ваш менеджер NJO.', code_none: 'Нет кода? Напишите менеджеру',
+      new_code: 'Есть новый код приглашения?', expired_h: 'Срок приглашения закончился.', expired_p: 'Оно действовало 45 дней. Менеджер проекта продолжит с вами, или введите новый код.',
       err: {
         required: 'Заполните, пожалуйста.', name_len: 'От 2 до 60 букв.', name_chars: 'Только буквы, пожалуйста.', name_fake: 'Укажите настоящее имя.',
         biz_len: 'От 2 до 80 символов.', biz_chars: 'Только название, без ссылок.', biz_fake: 'Укажите настоящее название бизнеса.',
         email_bad: 'Похоже, в email ошибка.', email_typo: 'Может быть, {s}?', email_temp: 'Временные ящики не подходят. Укажите свой настоящий email.', email_fake: 'Укажите свой настоящий email.', email_domain: 'Этот почтовый домен не принимает письма.',
         phone_plus: 'Для другой страны начните с + и кода страны.', phone_mobile: 'Укажите мобильный номер, не городской.', phone_region: 'Номера этой страны здесь не принимаются.', phone_bad: 'Это не похоже на номер выбранной страны.', phone_fake: 'Укажите настоящий номер.', phone_country: 'Выберите код страны.',
         team_code_needed: 'Введите код команды.', team_code_bad: 'Неверный код команды.',
+        code_needed: 'Введите код приглашения.', code_bad: 'Код неверный или уже использован.',
         bot_check: 'Пройдите проверку выше и попробуйте снова.', slow_down: 'Слишком много попыток. Подождите немного.', busy: 'Сейчас у USHA очень много разговоров. Попробуйте через несколько минут.',
         failed: 'Что-то пошло не так на нашей стороне. Вопрос не засчитан, отправьте его ещё раз.', cut: 'Ответ оборвался. Вопрос не засчитан, отправьте его ещё раз.', net: 'Нет соединения. Проверьте интернет и попробуйте снова.',
         too_long: 'Не больше 1 500 символов, пожалуйста.', region: 'В вашем регионе живая консультация пока недоступна.', private: 'Откройте сайт в обычном окне, не в режиме инкогнито.', device: 'Продолжите на устройстве, где вы регистрировались.',
@@ -669,12 +675,15 @@ function findingChart(i, lang) {
       bot_h: 'يبدو أن هذا المتصفح آلي.', bot_p: 'الاستشارة المباشرة للأشخاص. افتح usha.one في متصفحك المعتاد.',
       device_h: 'أكمل على الجهاز الذي سجلت منه.', device_p: 'استشارتك مرتبطة بالمتصفح الذي بدأتها فيه.',
       team_link: 'فريق NJO؟ تابع', loading: 'لحظة…',
+      code: 'رمز الدعوة', code_hint: 'يعطيك مدير NJO هذا الرمز.', code_none: 'ليس لديك رمز؟ اطلبه من مديرك',
+      new_code: 'لديك رمز دعوة جديد؟', expired_h: 'انتهت مدة دعوتك.', expired_p: 'كانت صالحة لمدة ٤٥ يوماً. يمكن لمدير مشروعك أن يكمل معك، أو أدخل رمزاً جديداً.',
       err: {
         required: 'يرجى تعبئة هذا الحقل.', name_len: 'من حرفين إلى ٦٠ حرفاً.', name_chars: 'حروف فقط من فضلك.', name_fake: 'يرجى كتابة اسمك الحقيقي.',
         biz_len: 'من حرفين إلى ٨٠ حرفاً.', biz_chars: 'الاسم فقط بدون روابط.', biz_fake: 'يرجى كتابة اسم نشاطك الحقيقي.',
         email_bad: 'يبدو أن البريد غير صحيح.', email_typo: 'هل تقصد {s}؟', email_temp: 'لا يمكن استخدام بريد مؤقت. يرجى استخدام بريدك الحقيقي.', email_fake: 'يرجى استخدام بريدك الحقيقي.', email_domain: 'هذا النطاق لا يستقبل البريد.',
         phone_plus: 'لدولة أخرى ابدأ بـ + ورمز الدولة.', phone_mobile: 'يرجى إدخال رقم جوال وليس رقماً أرضياً.', phone_region: 'لا يمكن استخدام أرقام هذه الدولة هنا.', phone_bad: 'الرقم غير صحيح للدولة المختارة.', phone_fake: 'يرجى كتابة رقمك الحقيقي.', phone_country: 'اختر رمز الدولة.',
         team_code_needed: 'أدخل رمز الفريق.', team_code_bad: 'رمز الفريق غير صحيح.',
+        code_needed: 'أدخل رمز الدعوة.', code_bad: 'الرمز غير صحيح أو مستخدم من قبل.',
         bot_check: 'أكمل التحقق أعلاه ثم حاول مجدداً.', slow_down: 'محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.', busy: 'USHA مشغولة جداً الآن. حاول بعد دقائق.',
         failed: 'حدث خطأ من جهتنا ولم يُحتسب سؤالك. أرسله مرة أخرى.', cut: 'انقطعت الإجابة ولم يُحتسب سؤالك. أرسله مرة أخرى.', net: 'لا يوجد اتصال. تحقق من الإنترنت وحاول مجدداً.',
         too_long: 'أقل من ١٥٠٠ حرف من فضلك.', region: 'الاستشارة المباشرة غير متاحة في منطقتك حالياً.', private: 'استخدم نافذة عادية وليس التصفح الخاص.', device: 'أكمل على الجهاز الذي سجلت منه.',
@@ -837,6 +846,8 @@ function findingChart(i, lang) {
   const tsReset = () => { tsToken = ''; try { if (tsId != null && window.turnstile) window.turnstile.reset(tsId); } catch {} };
 
   // ---------- the window ----------
+  // invite: the server asks for an invitation code (GET /api/hello)
+  let invite = false;
   let modal = null, lastFocus = null, state = { token: '', name: '', left: null, team: false, brief: false, busy: false };
 
   function shell(inner) {
@@ -869,11 +880,12 @@ function findingChart(i, lang) {
     if (navigator.webdriver) { notice(x.bot_h, x.bot_p); return; }
     if (await privateWindow()) { notice(x.private_h, x.private_p); return; }
     if (!modal) return;
-    const saved = store.get();
-    if (saved.token) { resume(saved.token); return; }
     let hi = {};
     try { hi = await api('/api/hello'); } catch {}
     if (!modal) return;
+    invite = hi.invite === true;
+    const saved = store.get();
+    if (saved.token) { resume(saved.token); return; }
     if (hi.region === 'blocked') { handoff(x.region_h, x.region_p, view(), { free: false, team: true }); return; }
     formView();
   }
@@ -903,6 +915,7 @@ function findingChart(i, lang) {
     view().innerHTML = `<form class="xl-form" novalidate>
       <p class="xl-lead">${esc(x.p)}</p>
       <div class="xl-grid">
+        ${invite ? `<div class="xl-f xl-code" data-f="code"><label for="xl-code">${esc(x.code)}</label><input id="xl-code" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="7" placeholder="K7M-4QX" dir="ltr" required><small>${esc(x.code_hint)} <a href="${PM_TG}" target="_blank" rel="noopener">${esc(x.code_none)}</a></small><em class="xl-e" aria-live="polite"></em></div>` : ''}
         ${field('name', x.name, `<input id="xl-name" name="name" autocomplete="name" maxlength="60" required value="${esc(prefill.name || '')}">`)}
         ${field('business', x.business, `<input id="xl-business" name="business" autocomplete="organization" maxlength="80" required value="${esc(prefill.business || '')}">`)}
         ${field('email', x.email, `<input id="xl-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required dir="ltr" value="${esc(prefill.email || '')}">`)}
@@ -948,9 +961,15 @@ function findingChart(i, lang) {
     f.elements.country.addEventListener('change', () => { setPh(); if (f.elements.phone.value.trim()) live('phone'); });
     f.elements.email.addEventListener('blur', () => live('email'));
     $$('input,select', f).forEach((el) => el.addEventListener('input', () => showErr(f, el.name === 'country' ? 'phone' : el.name, '')));
+    // the code is typed as K7M4QX or k7m-4qx and shown as K7M-4QX
+    const code = f.elements.code;
+    if (code) code.addEventListener('input', () => {
+      const v = code.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+      code.value = v.length > 3 ? v.slice(0, 3) + '-' + v.slice(3) : v;
+    });
     f.addEventListener('submit', (e) => { e.preventDefault(); submit(f); });
     turnstile($('.xl-ts', f));
-    setTimeout(() => f.elements.name.focus({ preventScroll: true }), reduce ? 0 : 300);
+    setTimeout(() => (code || f.elements.name).focus({ preventScroll: true }), reduce ? 0 : 300);
   }
   function field(name, label, control) {
     return `<div class="xl-f" data-f="${name}"><label for="xl-${name}">${esc(label)}</label>${control}<em class="xl-e" aria-live="polite"></em></div>`;
@@ -972,6 +991,10 @@ function findingChart(i, lang) {
     const digits = v('phone').replace(/\D/g, '');
     if (v('phone') && (digits.length < 6 || digits.length > 15 || /[^\d\s\-()+]/.test(v('phone')))) errs.phone = 'phone_bad';
     else if (f.elements.country.value === 'XX' && v('phone') && !v('phone').startsWith('+')) errs.phone = 'phone_plus';
+    if (f.elements.code && !v('teamCode')) {
+      if (!v('code')) errs.code = 'code_needed';
+      else if (!/^[A-Z2-9]{3}-?[A-Z2-9]{3}$/.test(v('code'))) errs.code = 'code_bad';
+    }
     return errs;
   }
 
@@ -1000,6 +1023,14 @@ function findingChart(i, lang) {
       chatView([]);
       return;
     }
+    if (r.status === 'code_required' && f.elements.code) {
+      const why = r.http === 429 ? 'slow_down' : r.http === 503 ? 'busy' : f.elements.code.value.trim() ? 'code_bad' : 'code_needed';
+      showErr(f, 'code', esc(x.err[why]));
+      tsReset();
+      f.elements.code.focus();
+      return;
+    }
+    if (r.status === 'code_required') { invite = true; formView(Object.fromEntries(new FormData(f).entries())); return; }
     if (r.status === 'returning') { handoff(x.back_h(r.name), x.back_p); return; }
     if (r.status === 'used_here') { handoff(x.used_h, x.used_p); return; }
     if (r.status === 'region') { handoff(x.region_h, x.region_p, view(), { free: false }); return; }
@@ -1026,7 +1057,7 @@ function findingChart(i, lang) {
   }
 
   // ---------- 2. returning visitors and the end of the five ----------
-  function handoff(title, text, into = view(), { contacts = true, free = true, team = false } = {}) {
+  function handoff(title, text, into = view(), { contacts = true, free = true, team = false, again = false } = {}) {
     const x = L();
     into.innerHTML = `<div class="xl-pm">
       <div class="xl-pm-i" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1038,8 +1069,10 @@ function findingChart(i, lang) {
       <div class="xl-pm-m"><span dir="ltr">${PM_MAIL}</span><button type="button" class="xl-copy">${esc(x.copy)}</button></div>` : ''}
       ${free ? `<a class="xl-free" href="#free">${esc(x.free)} →</a>` : ''}
       ${team ? `<button type="button" class="xl-team-go">${esc(x.team_link)}</button>` : ''}
+      ${again && invite ? `<button type="button" class="xl-again">${esc(x.new_code)}</button>` : ''}
     </div>`;
     if (team) $('.xl-team-go', into).addEventListener('click', () => formView());
+    if (again && invite) $('.xl-again', into).addEventListener('click', newCode);
     if (free) $('.xl-free', into).addEventListener('click', () => close());
     if (!contacts) return;
     $('.xl-copy', into).addEventListener('click', (e) => {
@@ -1051,16 +1084,26 @@ function findingChart(i, lang) {
     });
   }
 
+  // a new invitation code starts a new consultation: forget the old session here
+  function newCode() {
+    store.clear();
+    Object.assign(state, { token: '', name: '', left: null, team: false, brief: false, busy: false });
+    const el = modal && $('.xl-left', modal); if (el) el.hidden = true;
+    formView();
+  }
+
   // ---------- 3. the conversation ----------
   async function resume(token) {
     let r;
     try { r = await api('/api/session', { token }); } catch { r = { http: 0 }; }
     if (!modal) return;
     if (r.status === 'device') { notice(L().device_h, L().device_p); return; }
+    if (r.status === 'expired') { handoff(L().expired_h, L().expired_p, view(), { again: true }); return; }
+    if (r.status === 'code_required') { store.clear(); formView(); return; }
     if (r.http !== 200) { if (r.http === 401) store.clear(); start(); return; }
     Object.assign(state, { token, name: r.name, left: r.left, team: !!r.team, brief: !!r.brief || !!r.team });
     if (r.locked) { handoff(L().locked_h, L().locked_p); return; }
-    if (!state.team && state.left <= 0) { setLeft(); handoff(L().done_h, L().done_p); return; }
+    if (!state.team && state.left <= 0) { setLeft(); handoff(L().done_h, L().done_p, view(), { again: true }); return; }
     chatView(r.history || []);
   }
 
@@ -1143,13 +1186,15 @@ function findingChart(i, lang) {
             const card = D.createElement('div'); card.className = 'xl-end';
             log.append(card);
             form.remove();
-            handoff(x.done_h, x.done_p, card);
+            handoff(x.done_h, x.done_p, card, { again: true });
             card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
           }, 600);
         }
       } else {
         her.remove();
-        if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p); return; }
+        if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p, view(), { again: true }); return; }
+        if (end && end.error === 'expired') { handoff(x.expired_h, x.expired_p, view(), { again: true }); return; }
+        if (end && end.error === 'code_required') { store.clear(); formView(); return; }
         if (end && end.error === 'locked') { handoff(x.locked_h, x.locked_p); return; }
         if (end && end.error === 'device') { notice(x.device_h, x.device_p); return; }
         if (end && end.error === 'region') { handoff(x.region_h, x.region_p, view(), { free: false }); return; }
