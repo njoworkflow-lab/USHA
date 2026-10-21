@@ -83,7 +83,12 @@ h1,h2,h3{font-family:var(--head)}
 #hey p{margin-top:22px;font-size:clamp(16px,1.4vw,20px);color:var(--ink2)}
 /* ---------- header ---------- */
 header{position:fixed;left:0;right:0;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:20px var(--g);gap:20px;transition:opacity .8s,transform .6s var(--ease)}
-html.locked header,html.gaming header{opacity:0;pointer-events:none}
+html.gaming header{opacity:0;pointer-events:none}
+/* Keep the intro logo at y=30–52; its controls get a separate row below it. */
+html.locked:not(.gaming) header{z-index:101;opacity:1;visibility:hidden;pointer-events:none}
+html.locked:not(.gaming) header .right{position:absolute;inset-block-start:68px;inset-inline-end:var(--g)}
+html.locked:not(.gaming) header .right>.btn{display:none}
+html.locked:not(.gaming) header .lang,html.locked:not(.gaming) header #snd{visibility:visible;pointer-events:auto}
 header.hide{transform:translateY(-110%)}
 .logo{height:22px;display:block}.logo svg{height:100%;width:auto;display:block}
 nav.mid{display:flex;gap:30px;font-size:14px;font-weight:500;color:var(--ink3)}
