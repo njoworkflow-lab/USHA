@@ -1189,9 +1189,9 @@ function findingChart(i, lang) {
   }
   // ---------- the invitation in the first screen, right after she wakes ----------
   const HX = {
-    en: { k: 'USHA is online', b: 'Talk to her now', a: '→' },
-    ru: { k: 'USHA на связи', b: 'Поговорить сейчас', a: '→' },
-    ar: { k: 'USHA متصلة الآن', b: 'تحدّث معها الآن', a: '←' },
+    en: { b: 'Talk to USHA now', k: 'Live', a: '→' },
+    ru: { b: 'Поговорить с USHA', k: 'Онлайн', a: '→' },
+    ar: { b: 'تحدّث مع USHA الآن', k: '', a: '←' },
   };
   function heroUI() {
     const row = $('#hero .hero-t .cta'); if (!row) return;
@@ -1204,7 +1204,7 @@ function findingChart(i, lang) {
     }
     if (b.dataset.lang !== H.lang) {
       b.dataset.lang = H.lang;
-      b.innerHTML = `<span class="xl-hero-dot" aria-hidden="true"></span><span class="xl-hero-k">${esc(h.k)}</span><span class="xl-hero-b">${esc(h.b)} <i aria-hidden="true">${h.a}</i></span>`;
+      b.innerHTML = `<span class="xl-hero-face" aria-hidden="true"><i></i><i></i></span><span class="xl-hero-b">${esc(h.b)}</span>${h.k ? `<span class="xl-hero-k"><span class="xl-hero-dot" aria-hidden="true"></span>${esc(h.k)}</span>` : ''}<span class="xl-hero-a" aria-hidden="true">${h.a}</span>`;
     }
     const nav = $('header a[href="#talk"]'); if (nav) nav.classList.add('xl-nav-live');
   }
