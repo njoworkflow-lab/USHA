@@ -81,6 +81,94 @@ function findingChart(i, lang) {
   return `<svg class="xf" viewBox="0 0 240 56" aria-hidden="true">${glow}<path d="M4 50 C40 50 60 44 90 42 S130 46 150 30 S178 4 190 10 S215 40 236 44" pathLength="1"/><circle cx="186" cy="8" r="3.5"/></svg>`;
 }
 
+// ---------- 03 Try her: pure, shared markup for the three bands ----------
+const x3Em = (s) => esc(s).replace(/\*([^*]+)\*/g, '<i>$1</i>');
+function x3RailHTML(x) {
+  return `<nav class="x3-rail" aria-label="${esc(x.rail)}">${x.rail.split(' · ').map((t, i) => `<a href="#${['x3-watch', 'x3-live', 'x3-split'][i]}">${esc(t)}</a>`).join('')}<span aria-hidden="true"></span></nav>`;
+}
+function x3LiveHTML(x) {
+  return `<i class="x3-corners" aria-hidden="true"></i><div class="x3-top"><span><i class="xl-dot" aria-hidden="true"></i>${esc(x.b2_k)}<i class="x3-meter" aria-hidden="true">${Array.from({length:9},(_,i)=>`<b style="--i:${i}"></b>`).join('')}</i></span><span>${esc(x.b2_k2)}</span></div>
+    <div class="x3-stage" aria-hidden="true"></div><div class="x3-satellites"><p class="x3-sat-k">${esc(x.b2_sat_k)}</p>${[1,2,3].map((n)=>`<button type="button" class="xl-open x3-sat" style="--i:${n}">${esc(x['b2_sat'+n])}</button>`).join('')}</div>
+    <div class="x3-invite"><h3 class="big" id="x3-live-title">${x3Em(x.b2_h)}</h3><p>${esc(x.b2_p)}</p><div class="x3-slot"><button type="button" class="btn btn-p xl-open x3-go"><span class="d"></span><span>${esc(x.b2_cta)}</span></button></div><p class="x3-steps">${esc(x.b2_steps)}</p><div class="x3-hint-slot"></div></div>`;
+}
+const x3Chart = (warm, summary, bars = false) => `<svg class="x3-chart" dir="ltr" viewBox="0 0 320 85" aria-hidden="true"><path class="x3-gridline" d="M0 20H320M0 45H320M0 70H320"/>${bars ? Array.from({length:24},(_,i)=>{const h=i<11?12+i*4:18+(i*13%38);return `<rect x="${i*13+2}" y="${75-h}" width="8" height="${h}" rx="2" fill="${i>=18?'#D4FF3A':i>10?'#FF5A1F':'#98776B'}"/>`;}).join('')+`<rect x="233" y="6" width="82" height="73" rx="5" fill="none" stroke="#D4FF3A"/>` : Array.from({length:warm?1:5},(_,i)=>`<path d="M0 ${30+i*8}C35 ${80-i*11} 65 ${2+i*4} 100 ${40+i*5}S160 ${80-i*8} 200 ${20+i*11}S270 ${62-i*9} 320 ${warm?12:65-i*8}" fill="none" stroke="${warm?'#FFB48A':['#5B7BA8','#E0565B','#4CAF7A','#78719C','#7E8A93'][i]}" stroke-width="2"/>`).join('')}</svg><span class="x3-sr">${esc(summary)}</span>`;
+function x3PanelHTML(p, side, x, lang, media, labels) {
+  const on = side === 'on', e=esc, L=labels, money=(v)=>lang==='ru'?`${Math.round(v*10).toLocaleString('ru-RU')} ₽`:`AED ${v}`;
+  const move=(s)=>`<div class="x3-move"><small>${e(x.p1_m)}</small><p>${e(s)}</p></div>`, note=(s)=>`<p class="x3-note">${e(s)}</p>`;
+  const shares=(names,values)=>`<div class="x3-shares">${names.map((s,i)=>`<div><span>${e(s)}</span><b dir="ltr">${p===3?(i===0?'▲':i===2?'▼':''):''}${values[i]}${p===4?'':'%'}</b><i style="--n:${values[i]}%"></i></div>`).join('')}</div>`;
+  let body='', title=L.panels[p-1];
+  if(p===1) body=on?`<p class="x3-path">${e(x.p1_tu)}</p><div class="x3-report">${[x.p1_w,x.p1_y,x.p1_m].map((t,i)=>`<div><h4>${e(t)}</h4>${i===0?'<strong dir="ltr">−23%</strong>':''}<p>${e([x.p1_a,x.p1_b,x.p1_c][i])}</p></div>`).join('')}</div>${move(x.p1_k)}${note(x.p1_f)}`:`<div class="x3-metrics">${['18,402 ▼23%','2,960 ▼11%','312 ▼9%','1.7%',money(118),'4.1%','4.3',money(2450)+' ▲14%'].map((v,i)=>`<div><small>${e(L.metrics[i])}</small><b dir="ltr">${e(v)}</b></div>`).join('')}</div>${x3Chart(false,L.chartSummary)}${note(x.p1_o)}`;
+  if(p===2) body=on?`<h4>${e(x.p2_a)}</h4>${x3Chart(true,L.chartSummary,true)}<div class="x3-hours" dir="ltr"><span>00:00</span><span>10:00</span><b>18:00–23:00</b></div><small class="x3-lime">${e(x.p2_here)}</small><p class="x3-verdict">${e(x.p2_v)}</p><p class="x3-note">${e(x.p2_b)}</p>${move(x.p2_k)}`:`<h4>${e(x.p2_t)}</h4><table class="x3-table"><thead><tr><th></th>${L.adsCols.map(s=>`<th>${e(s)}</th>`).join('')}</tr></thead><tbody>${[['Brand_Search_v3',610,'1.84','2.1%'],['Retarget_Q3',420,'2.37','0.9%'],['Promo_Gift',980,'2.91','0.7%'],['Video_Test2',440,'1.12','0.4%']].map((a,i)=>`<tr><td dir="ltr">${a[0]}</td><td dir="ltr">${lang==='ru'?a[1]*10:a[1]}</td><td dir="ltr">${lang==='ru'?(Number(a[2])*10).toFixed(1):a[2]}</td><td dir="ltr">${a[3]}</td><td>${e(i===2?L.limited:L.active)}</td></tr>`).join('')}</tbody></table><div class="x3-flat" aria-hidden="true"></div>${note(x.p2_o)}`;
+  if(p===3) body=on?`<h4 class="x3-verdict">${e(x.p3_v)}</h4>${shares(L.formats,[46,31,23])}<p class="x3-note">${e(x.p3_c)}</p>${move(x.p3_m)}`:`<div class="x3-metrics"><div><small>${e(L.followers)}</small><b dir="ltr">1,000</b></div><div><small>${e(L.reach)}</small><b dir="ltr">11 · 1.1%</b></div></div><p>${e(L.posts)} <b dir="ltr">8 → 12</b></p>${x3Chart(false,L.chartSummary)}<div class="x3-tiles" dir="ltr">${[4,7,3,9,2,5].map(n=>`<span>♡ ${n}</span>`).join('')}</div>${note(x.p3_o)}`;
+  if(p===4) body=on?`<p>${e(x.p4_a)}</p><h4>${e(x.p4_t)}</h4>${shares(x.p4_bars.split(' · '),[18,31,47])}${move(x.p4_v)}${note(x.p4_f)}`:`<h4>${e(x.p4_o)}</h4><div class="x3-alerts">${[0,1,2].map((n)=>`<p><i aria-hidden="true">!</i>${e(L.alert)}<small dir="ltr">02:${40+n*6}</small></p>`).join('')}</div><div class="x3-bubble"><small>${e(L.team)}</small><p>${e(x.p4_q)}</p></div>`;
+  if(p===5) body=on?`${shares(x.p5_th.split(' · '),[64,22,14])}${move(x.p5_v)}`:`<p class="x3-rating" dir="ltr">★ 4.3 <small>${e(L.reviewCount)}</small></p><div class="x3-reviews">${L.reviews.map((s,i)=>`<p><span dir="ltr">${'★'.repeat(i===1?2:5)}</span><span>${e(s)}</span><span class="x3-reply">${e(L.reply)} ↗</span></p>`).join('')}</div>`;
+  if(p===6) body=on?`<p class="x3-note">${e(x.p6_ex)}</p><h4 class="x3-verdict">${e(x.p6_h)}</h4><ol class="x3-week">${x.p6_days.split(' / ').map((s,i)=>`<li><b dir="ltr">0${i+1}</b><span>${e(s)}</span></li>`).join('')}</ol>`:`<div class="x3-month" dir="ltr">${Array.from({length:35},(_,i)=>`<span${[5,9,16,24].includes(i)?' class="x3-event"':''}>${i<31?i+1:''}${[12,26].includes(i)?'<i>×</i>':''}</span>`).join('')}</div>${note(x.p6_o)}`;
+  if(p===7) {
+    const film=media[on?'with':'without'];title=on?L.mediaOn:L.mediaOff;
+    body=`<video class="x3-v" data-film="${on?'with':'without'}" playsinline muted preload="none" style="--ar:${film.aspect}" aria-label="${e(on?x.p7_on:x.p7_off)}"></video><p class="x3-strip">${e(on?x.p7_on:x.p7_off)}</p><div class="x3-workflow">${(on?L.stepsOn:L.stepsOff).map(s=>`<span>${e(s)}</span>`).join('<i aria-hidden="true">→</i>')}</div><div class="x3-control-space"></div>`;
+  }
+  return `<figure class="x3-p x3-p${p}" data-panel="${p}"><figcaption class="x3-chrome"><i aria-hidden="true">${['▥','▤','▦','⌁','☆','▦','▷'][p-1]}</i><span>${e(title)}</span><b class="x3-example">${e(x.b3_ex)}</b></figcaption><div class="x3-body">${body}</div></figure>`;
+}
+function x3SplitHTML(x, lang, media, labels) {
+  const ctl=x.p7_ctl;
+  return `<div class="x3-heading"><p class="kick">${esc(x.b3_k)}</p><h3 class="big" id="x3-split-title">${x3Em(x.b3_h)}</h3><p class="lead">${esc(x.b3_p)}</p></div><div class="x3-labels"><span class="x3-label-on">● ${esc(x.b3_on)}</span><span class="x3-label-off">○ ${esc(x.b3_off)}</span></div>
+    <div class="x3-board" style="--d:${lang==='ar'?-1:1}"><div class="x3-lay x3-off" role="group" aria-label="${esc(x.b3_off)}">${[1,2,3,4,5,6,7].map(p=>x3PanelHTML(p,'off',x,lang,media,labels)).join('')}</div><div class="x3-clip"><div class="x3-clip-in"><div class="x3-lay x3-on" role="group" aria-label="${esc(x.b3_on)}">${[1,2,3,4,5,6,7].map(p=>x3PanelHTML(p,'on',x,lang,media,labels)).join('')}</div></div></div><div class="x3-lay x3-ui" role="group" aria-label="${esc(labels.panels[6])}">${[1,2,3,4,5,6].map(p=>`<div class="x3-p${p}" aria-hidden="true"></div>`).join('')}<div class="x3-p7 x3-media-ui"><div class="x3-controls"><button type="button" class="x3-play">${esc(ctl[0])}</button><button type="button" class="x3-sound" aria-pressed="false">${esc(ctl[2])}</button><span class="x3-now" role="status"></span><div class="x3-progress"><i></i></div><div class="x3-film-switch"><button type="button" data-x3-watch="0">${esc(ctl[5])}</button><button type="button" data-x3-watch="100">${esc(ctl[6])}</button></div></div></div></div><div class="x3-seam"><button type="button" class="x3-knob" role="slider" aria-label="${esc(x.b3_slider)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="${esc(x.b3_val.replace('{x}','50'))}"><span class="x3-face" aria-hidden="true"><i></i><i></i></span><span class="x3-chevrons" aria-hidden="true">‹ ›</span></button><span class="x3-drag">${esc(x.b3_drag)}</span></div></div>
+    <div class="x3-switch" role="group" aria-label="${esc(x.b3_slider)}"><button type="button" data-x3-value="0" aria-pressed="false">${esc(x.b3_off)}</button><button type="button" data-x3-value="100" aria-pressed="false">${esc(x.b3_on)}</button></div><p class="x3-disclaimer">${esc(x.b3_note)}</p><footer class="x3-end"><p>${esc(x.b3_end)}</p><a class="btn btn-g" href="#x3-live">${esc(x.b2_cta)} ↑</a></footer>`;
+}
+
+// ---------- updated decks, 30 slides: pre-rendered and shared with language switching ----------
+const DOT_GLYPHS = {
+  '0':['01110','10001','10011','10101','11001','10001','01110'],
+  '1':['00100','01100','00100','00100','00100','00100','01110'],
+  '2':['01110','10001','00001','00010','00100','01000','11111'],
+  '3':['11110','00001','00001','01110','00001','00001','11110'],
+  '4':['00010','00110','01010','10010','11111','00010','00010'],
+  '5':['11111','10000','10000','11110','00001','00001','11110'],
+  '6':['01110','10000','10000','11110','10001','10001','01110'],
+  '7':['11111','00001','00010','00100','01000','01000','01000'],
+  '8':['01110','10001','10001','01110','10001','10001','01110'],
+  '9':['01110','10001','10001','01111','00001','00001','01110'],
+  '+':['00000','00100','00100','11111','00100','00100','00000'],
+  '/':['00001','00010','00010','00100','01000','01000','10000'],
+  '%':['11001','11010','00010','00100','01000','01011','10011'],
+  ',':['000','000','000','000','000','010','100'],
+  ' ':['00','00','00','00','00','00','00'],
+};
+function dotNumber(value) {
+  let x = 0, dots = '';
+  for (const c of String(value)) {
+    const glyph = DOT_GLYPHS[c] || DOT_GLYPHS[' '];
+    glyph.forEach((row, y) => [...row].forEach((v, col) => { if (v === '1') dots += `<circle cx="${x + col * 4 + 2}" cy="${y * 4 + 2}" r="1.25"/>`; }));
+    x += (glyph[0].length + 1) * 4;
+  }
+  return `<svg viewBox="0 0 ${x - 4} 28" aria-hidden="true" focusable="false">${dots}</svg>`;
+}
+function deckHTML(x, lang) {
+  const d = x.deck, source = lang === 'ru' ? 'RU' : 'EN';
+  const ref = (...slides) => `<!-- ${source} deck, slides ${slides.join(', ')} -->`;
+  const title = (s) => `<h2>${esc(s)}</h2>`;
+  const section = (id, body, slides) => `<section class="sec dx-section" id="${id}" data-deck="${source}:${slides}"><div class="wrap">${ref(...slides.split(','))}${body}</div></section>`;
+  const cards = (items) => items.map(([h, p]) => `<article class="dx-card"><h3>${esc(h)}</h3><p>${esc(p)}</p></article>`).join('');
+  const p = d.problem, m = d.meet, mind = d.mind, h = d.how, trust = d.trust;
+  const numberGroups = d.numbers.groups.map(([label, figures]) => `<div class="dx-number-group"><h3>${esc(label)}</h3>${figures.map(([n,en,ru,suffix,label,slide]) => {
+    const display = (lang === 'ru' ? ru : en) + suffix;
+    return `${ref(slide)}<div class="dx-stat"><span class="dx-number" data-count="${n}" data-suffix="${esc(suffix)}" data-final="${esc(display)}"><span class="dx-dot" aria-hidden="true">${dotNumber(display)}</span><span class="dx-sr">${esc(display)}</span></span><p>${esc(label)}</p></div>`;
+  }).join('')}</div>`).join('');
+  return {
+    problem: section('deck-problem', `${title(p.title)}<div class="dx-algorithms">${cards(p.algorithms)}</div><div class="dx-foil">${ref(4)}<h3>${esc(p.same)}</h3><div class="dx-echo">${Array.from({length:4}, () => `<p>${esc(p.advice)}</p>`).join('')}</div><small>${esc(p.illustration)}</small></div>${ref(5)}<h3 class="dx-subhead">${esc(p.roads)}</h3><div class="dx-grid dx-three">${cards(p.roadItems)}</div>`, '3,4,5'),
+    meet: section('deck-meet', `${title(m.title)}<p class="dx-lead">${esc(m.intro)}</p><div class="dx-translate"><div class="dx-pair dx-labels"><span>${esc(m.raw)}</span><span>${esc(m.move)}</span></div>${m.pairs.map(([signal,move]) => `<div class="dx-pair"><bdi dir="auto">${esc(signal)}</bdi><p>${esc(move)}</p></div>`).join('')}<small>${esc(d.example)}</small></div>${ref(7)}<h3 class="dx-subhead">${esc(m.morning)}</h3><p class="dx-lead">${esc(m.daily)}</p>${ref(8)}<h3 class="dx-subhead">${esc(m.notices)}</h3><p class="dx-caption">${esc(d.example)}</p><div class="dx-grid dx-three">${cards(m.tiles)}</div>`, '6,7,8'),
+    numbers: section('deck-numbers', `${title(d.numbers.title)}<div class="dx-numbers">${numberGroups}</div>`, '7,9,11,12,13,19'),
+    mind: section('deck-mind', `${title(mind.title)}<div class="dx-grid dx-three"><article class="dx-card">${ref(9)}<h3>${esc(mind.experts)}</h3><p>${esc(mind.learn)}</p></article><article class="dx-card">${ref(10)}<h3>${esc(mind.copy)}</h3><p>${esc(mind.copyText)}</p></article><article class="dx-card">${ref(11)}<h3>${esc(mind.sim)}</h3><p>${esc(mind.simText)}</p></article></div><div class="dx-simulation">${ref(11)}<span class="dx-caption">${esc(d.example)}</span><div class="dx-grid dx-three">${[18,31,47].map((n,i)=>`<div class="dx-test${i===2?' dx-win':''}"><span>${esc(mind.testLabels[i])}</span><bdi>${esc(mind.testPrices[i])}</bdi><div class="dx-test-bar"><i style="--buyers:${n}"></i></div><b>${n}</b><small>${esc(mind.bought)}</small></div>`).join('')}</div><p>${esc(mind.winner)}</p></div>${ref(12)}<h3 class="dx-subhead">${esc(mind.skillsTitle)}</h3><ol class="dx-skills">${mind.skills.map(s=>`<li>${esc(s)}</li>`).join('')}</ol><p class="dx-lead">${esc(mind.powers)}</p><p class="dx-caption">${esc(mind.languages)}</p>`, '9,10,11,12'),
+    outcomes: section('deck-outcomes', `${title(d.outcomes.title)}<p class="dx-caption">${esc(d.example)}</p><div class="dx-outcomes">${d.outcomes.panels.map(([slide,h,without,withU])=>`${ref(slide,...(slide===14?[23]:slide===6?[24]:slide===8?[3]:slide===15?[5]:[]))}<article class="dx-outcome"><h3>${esc(h)}</h3><div><small>${esc(d.outcomes.without)}</small><p>${esc(without)}</p></div><div class="dx-with"><small>${esc(d.outcomes.with)}</small><p>${esc(withU)}</p></div></article>`).join('')}</div>`, '3,5,6,8,11,14,15,17,23,24'),
+    how: section('deck-how', `${title(h.title)}<ol class="dx-steps">${h.steps.map(([t,p],i)=>`<li><bdi>0${i+1}</bdi><h3>${esc(t)}</h3><p>${esc(p)}</p></li>`).join('')}</ol>${ref(14)}<div class="dx-brief"><h3>${esc(h.brief)}</h3><p>${esc(h.format)}</p></div>${ref(15)}<h3 class="dx-subhead">${esc(h.weekTitle)}</h3><p class="dx-caption">${esc(d.example)}</p><ol class="dx-week">${h.week.map(([day,line])=>`<li><b>${esc(day)}</b><p>${esc(line)}</p></li>`).join('')}</ol><p class="dx-equation">${esc(h.equation)}</p>${ref(16)}<h3 class="dx-subhead">${esc(h.ownersTitle)}</h3><p class="dx-caption">${esc(d.example)}</p><div class="dx-grid dx-three">${cards(h.owners)}</div>`, '13,14,15,16'),
+    price: `<div class="dx-price">${ref(17)}<h3>${esc(d.price.title)}</h3><p>${esc(d.price.basis)}</p></div>`,
+    rhythm: `<div class="dx-rhythm">${ref(21)}<h3>${esc(d.rhythm.title)}</h3><small>${esc(d.rhythm.days)}</small>${d.rhythm.rows.map(([name,kind])=>`<div class="dx-rhythm-row"><span>${esc(name)}</span><div aria-hidden="true">${Array.from({length:30},(_,i)=>`<i class="${(kind==='daily'||kind==='publish'&&i%2===0||kind==='report'&&(i===14||i===29))?'on':''}"></i>`).join('')}</div></div>`).join('')}</div>`,
+    trust: section('deck-trust', `${title(trust.title)}<p class="dx-lead">${esc(trust.intro)}</p><div class="dx-trust-grid"><div><ol class="dx-ladder">${trust.ladder.map((s,i)=>`<li style="--step:${i}"><bdi>0${i+1}</bdi><p>${esc(s)}</p></li>`).join('')}</ol><div class="dx-refund"><span aria-hidden="true">${dotNumber('100%')}</span><b>${esc(trust.refund)}</b></div><p class="dx-terms">${esc(trust.terms)}</p></div><div class="dx-data">${ref(26)}<h3>${esc(trust.data)}</h3><b class="dx-nda">${esc(trust.stamp)}</b><div class="dx-data-lists"><div><h4>${esc(trust.need)}</h4><ul>${trust.needs.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div><div><h4>${esc(trust.noNeed)}</h4><ul>${trust.noNeeds.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div></div><p>${esc(trust.messengers)}</p><p>${esc(trust.connect)}</p></div></div>${ref(23,25)}<div class="dx-promises"><b>${esc(trust.every)}</b><ul>${trust.promises.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div><p class="dx-terms">${esc(trust.results)}</p><footer class="dx-trust-footer"><p>${esc(trust.writing)}</p><a href="https://t.me/njo_manager" target="_blank" rel="noopener">${esc(trust.contact)} ↗</a></footer>`, '23,25,26'),
+    free: `${ref(27)}<p class="dx-test-lead">${esc(d.test)}</p>`,
+    footer: `${ref(30)}<p class="dx-tagline" lang="en" dir="ltr">Unified Strategy. Human Action.</p>`,
+  };
+}
+
 // USHA enhancement layer. Runs after the main bundle and only adds to the page,
 // in the site's own visual language: header light thread, cursor scope, glass
 // that follows the pointer, a light beam down USHA's comparison column, roles
@@ -96,6 +184,132 @@ function findingChart(i, lang) {
   const rtl = H.dir === 'rtl';
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Deck sections are present in static HTML. Repaint only on a language
+  // change; the accessible figures always contain their final values.
+  let deckLang, deckObserver;
+  function deckUI() {
+    if (deckLang === lang()) return;
+    deckLang = lang();
+    deckObserver?.disconnect();
+    const blocks = deckHTML(X(), lang());
+    $$('[data-deck-block]').forEach((slot) => { slot.innerHTML = blocks[slot.dataset.deckBlock] || ''; });
+    if (reduce || !('IntersectionObserver' in window)) return;
+    deckObserver = new IntersectionObserver((entries) => entries.forEach(({target, isIntersecting}) => {
+      if (!isIntersecting) return;
+      deckObserver.unobserve(target);
+      const start = performance.now(), total = +target.dataset.count;
+      const locale = lang() === 'ru' ? 'ru-RU' : 'en-US';
+      const tick = (now) => {
+        if (!target.isConnected) return;
+        const p = Math.min(1, (now - start) / 1100);
+        const n = Math.round(total * (1 - Math.pow(1 - p, 3)));
+        const text = p === 1 ? target.dataset.final : n.toLocaleString(locale) + target.dataset.suffix;
+        $('.dx-dot', target).innerHTML = dotNumber(text.replace(/\u00a0|\u202f/g, ' '));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }), {threshold: .5});
+    $$('.dx-number').forEach((el) => deckObserver.observe(el));
+  }
+
+  // ---------- three invitations, all using the live chat's existing entry ----------
+  let whisper, livePill, hintTimer, hintRotation, hintLang;
+  let hintSeen = false, hintLine = 0;
+  try { hintSeen = sessionStorage.getItem('usha-live-hint') === '1'; } catch {}
+  const hintsReady = () => !H.classList.contains('locked') && !$('#intro') &&
+    !H.classList.contains('gaming') && !H.classList.contains('x-modal-on');
+  function rememberHint() {
+    hintSeen = true;
+    try { sessionStorage.setItem('usha-live-hint', '1'); } catch {}
+  }
+  function hideWhisper() {
+    if (whisper && !whisper.hidden) whisper.hidden = true;
+    clearTimeout(hintRotation);
+  }
+  function dismissHint() {
+    hideWhisper(); rememberHint();
+    // Dismissing with a keyboard keeps focus on the next useful action.
+    $('.x-live-main')?.focus({ preventScroll: true });
+  }
+  function openLive(e) {
+    const entry = $('.xl-open');
+    if (!entry || !hintsReady()) return;
+    // The existing chat remembers the active element when it opens.
+    e.currentTarget.focus({ preventScroll: true });
+    rememberHint(); hideWhisper(); entry.click();
+  }
+  function showWhisper() {
+    if (hintSeen || !whisper || !hintsReady() || !$('.xl-open') ||
+      scrollY > 80) return;
+    // A short viewport must never make the bubble cover the header or copy.
+    const top = $('.hero-t').getBoundingClientRect().top;
+    if (innerWidth <= 820 && top < 170) return;
+    rememberHint(); whisper.hidden = false;
+    let turns = 0;
+    const rotate = () => {
+      // Leave a focused button's accessible name stable.
+      if (whisper.hidden || whisper.contains(D.activeElement)) return;
+      hintLine = (hintLine + 1) % X().liveHints.lines.length;
+      $('.x-whisper-text', whisper).textContent = X().liveHints.lines[hintLine];
+      if (++turns < 2) hintRotation = setTimeout(rotate, 6000);
+    };
+    if (!reduce) hintRotation = setTimeout(rotate, 6000);
+  }
+  function hintsCheck() {
+    if (!livePill) return;
+    const ready = hintsReady();
+    const pastHero = scrollY >= innerHeight * .9;
+    const hidden = !ready || !pastHero;
+    if (livePill.hidden !== hidden) livePill.hidden = hidden;
+    if (!ready || scrollY > 80) hideWhisper();
+    if (ready && !hintSeen && !hintTimer) hintTimer = setTimeout(() => {
+      hintTimer = 0; showWhisper();
+    }, 2400);
+  }
+  function liveHintsUI() {
+    if (!window.USHA_LIVE?.api || !$('#hero .cta')) return;
+    const x = X().liveHints;
+    if (!x) return;
+    if (!$('.x-live-main')) {
+      const cta = $('#hero .cta');
+      const main = D.createElement('button');
+      main.type = 'button'; main.className = 'btn btn-p x-live-main';
+      main.innerHTML = '<span class="d" aria-hidden="true"></span><span></span>';
+      main.addEventListener('click', openLive);
+      cta.prepend(main); cta.classList.add('x-live-actions');
+      $('a[href="#free"]', cta)?.classList.replace('btn-p', 'btn-g');
+      $('a[href="#signal"]', cta)?.classList.add('x-see-work');
+      whisper = D.createElement('div'); whisper.className = 'x-whisper'; whisper.hidden = true;
+      whisper.setAttribute('translate', 'no');
+      whisper.innerHTML = '<button type="button" class="x-whisper-ask"><span class="x-whisper-text"></span><span aria-hidden="true">↗</span></button><button type="button" class="x-whisper-close">×</button>';
+      $('.hero-t').append(whisper);
+      $('.x-whisper-ask', whisper).addEventListener('click', openLive);
+      $('.x-whisper-close', whisper).addEventListener('click', dismissHint);
+      livePill = D.createElement('button'); livePill.type = 'button';
+      livePill.className = 'x-live-pill'; livePill.hidden = true;
+      livePill.innerHTML = '<span class="d" aria-hidden="true"></span><span></span><i aria-hidden="true">↗</i>';
+      livePill.addEventListener('click', openLive); D.body.append(livePill);
+      new MutationObserver((records) => {
+        if (records.some((r) => r.attributeName === 'lang')) liveHintsUI();
+        // The animation writes the same root class every frame. Ignore those
+        // writes; only a changed mode needs to update these controls.
+        else if (records.some((r) => r.oldValue !== H.className)) hintsCheck();
+      }).observe(H, { attributes: true, attributeOldValue: true, attributeFilter: ['class', 'lang'] });
+      // The wake overlay is removed after the greeting; no hint interrupts it.
+      new MutationObserver(hintsCheck).observe(D.body, { childList: true });
+      addEventListener('usha:noticed', showWhisper);
+      addEventListener('resize', hintsCheck, { passive: true });
+    }
+    if (hintLang !== lang()) {
+      hintLang = lang();
+      $('.x-live-main span:last-child').textContent = x.primary;
+      $('.x-live-pill span:nth-child(2)').textContent = x.pill;
+      $('.x-whisper-text', whisper).textContent = x.lines[hintLine];
+      $('.x-whisper-close', whisper).setAttribute('aria-label', x.dismiss);
+    }
+    hintsCheck();
+  }
 
   // in-view: .x-io → .x-in, and .rv created by this layer → .in. Checked on
   // scroll (not observed) because the bundle re-renders and swaps nodes.
@@ -119,7 +333,7 @@ function findingChart(i, lang) {
   }
   function onScroll() {
     cacheRects();
-    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck();
+    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck(); hintsCheck(); x3Scroll();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -134,13 +348,13 @@ function findingChart(i, lang) {
     if (!t || !t.closest) return;
     // popup windows (plans, the live chat) sit above the eyes cursor: they always get the normal pointer
     const inStory = !t.closest('.x-modal') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
-    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button'));
+    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button,.x-live-pill'));
     const g = t.closest('.sec .glass');
     if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--px', e.clientX - r.left + 'px'); g.style.setProperty('--py', e.clientY - r.top + 'px'); }
   }, { passive: true });
 
   // ---------- waking headlines: letters start thin and faint, wake bold when seen ----------
-  const WAKE = '.sec h2.big,.eng h3';
+  const WAKE = '.sec h2.big,.eng h3,.x3 h3.big,#story h2';
   // checked on scroll rather than observed: the bundle can swap these nodes
   function wakeCheck() {
     $$('.x-wake:not(.x-lit)').forEach((h) => {
@@ -441,7 +655,7 @@ function findingChart(i, lang) {
 
   // ---------- live parts must not be frozen by browser translation ----------
   function noTranslate() {
-    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
+    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans', '.x3-live', '.x3-split'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
   }
   // ---------- findings card: always leaves room above it for USHA ----------
   function fcardFit() {
@@ -547,7 +761,9 @@ function findingChart(i, lang) {
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function x3UI() { window.USHA_X3?.render(X().x3, X().x3Panels, lang()); }
+  function x3Scroll() { window.USHA_X3?.scroll(); }
+  function renderAll() { [x3UI, deckUI, liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
@@ -559,6 +775,199 @@ function findingChart(i, lang) {
   addEventListener('resize', () => run(fcardFit));
   
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', renderAll); else renderAll();
+})();
+
+// Section 03. One transformed clip for the whole desk; no layout reads in a drag.
+(() => {
+  const D=document,H=D.documentElement,$=(s,r=D)=>r.querySelector(s),$$=(s,r=D)=>[...r.querySelectorAll(s)];
+  const media=window.USHA_X3_MEDIA, reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  const mp4=!!D.createElement('video').canPlayType('video/mp4; codecs="avc1.64001f,mp4a.40.2"');
+  const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
+  const saved={with:{time:0,heard:false},without:{time:0,heard:false}};
+  let x=innerWidth<=900?35:50,lang='',copy,labels,board,live,side,rail,knob,clip,p7,controls,abort,resize,observers=[];
+  let width=0,rects=[],dx=0,shift=0,raf=0,motion=0,gesture=null,teased=false,interacted=false,pingTimer;
+  let active='without',sound=false,manual=false,ended=false,near=false,visible=0,blocked=false,error=false,playGeneration=0,gameVisible=false,pausedByUser=false;
+  let chatObserver,chatChips;
+  const duck=(on)=>window.USHA_AUDIO?.duck?.('x3-video',on);
+  function preferences() {
+    const c=navigator.connection;
+    return {reducedMotion:reduced.matches,saveData:!!c?.saveData,network:c?.effectiveType||'4g'};
+  }
+  const previewAllowed=()=>{const p=preferences();return !p.reducedMotion&&!p.saveData&&p.network==='4g';};
+  function stopMotion(){cancelAnimationFrame(motion);motion=0;}
+  function input(){interacted=true;stopMotion();board?.classList.remove('x3-teasing');}
+  function set(v){input();x=clamp(Number(v)||0);write();}
+  function animate(v,ms=600,done){
+    stopMotion();const start=x,t=performance.now(),target=clamp(v);
+    if(reduced.matches){x=target;write();done?.();return;}
+    function frame(now){const k=clamp((now-t)/ms,0,1);x=start+(target-start)*(1-Math.pow(1-k,3));write();if(k<1)motion=requestAnimationFrame(frame);else{motion=0;done?.();}}
+    motion=requestAnimationFrame(frame);
+  }
+  function coverage(r){const seam=x/100*width;return clamp((seam-r.start)/r.width,0,1);}
+  function write(){
+    if(!board)return;
+    const direction=lang==='ar'?-1:1;
+    clip.style.transform=`translate3d(${(x-100)*direction}%,0,0)`;
+    $('.x3-clip-in',board).style.transform=`translate3d(${(100-x)*direction}%,0,0)`;
+    const px=(lang==='ar'?100-x:x)/100*width;
+    $('.x3-seam',board).style.transform=`translate3d(${px}px,0,0)`;
+    knob.style.setProperty('--x3-clamp',`${clamp(px,29,width-29)-px}px`);
+    knob.setAttribute('aria-valuenow',String(Math.round(x)));knob.setAttribute('aria-valuetext',copy.b3_val.replace('{x}',Math.round(x)));
+    $('.x3-label-on').style.opacity=String(Math.max(.4,x/100));$('.x3-label-off').style.opacity=String(Math.max(.4,1-x/100));
+    $$('[data-x3-value]').forEach(b=>b.setAttribute('aria-pressed',String(Math.abs(x-Number(b.dataset.x3Value))<.01)));
+    for(const r of rects)if(coverage(r)>.6&&!r.el.classList.contains('x3-won'))r.el.classList.add('x3-won');
+    const r=rects.find(r=>r.el.dataset.panel==='7');const next=r&&coverage(r)>=.5?'with':'without';
+    if(next!==active){const old=video();if(old){saved[active].time=old.currentTime;old.pause();}active=next;ended=false;error=false;syncMedia();}
+  }
+  function queueWrite(){if(!raf)raf=requestAnimationFrame(()=>{raf=0;write();});}
+  function measure(){
+    if(!board)return;
+    const br=board.getBoundingClientRect();width=br.width;board.style.setProperty('--x3-travel',`${Math.max(0,br.height-90)}px`);
+    // Read the untransformed grid, never the warm clipped layer.
+    rects=$$('.x3-off .x3-p',board).map((off,i)=>{const r=off.getBoundingClientRect();return {el:$$('.x3-on .x3-p',board)[i],start:lang==='ar'?br.right-r.right:r.left-br.left,width:r.width};});
+    const sr=side.getBoundingClientRect(),wr=$('#talk .wrap.talk').getBoundingClientRect();dx=wr.left+wr.width/2-(sr.left+sr.width/2-shift);
+    write();scroll();
+  }
+  function scroll(){
+    if(!live)return;
+    const r=live.getBoundingClientRect(),k=1-Math.pow(1-clamp((innerHeight-r.top)/(.85*innerHeight),0,1),3);
+    shift=innerWidth>900?k*dx:0;
+    side.style.transform=innerWidth>900?`translate3d(${shift.toFixed(2)}px,${(-k*9).toFixed(3)}vh,0)`:'';
+    live.classList.toggle('x3-arrived',k>.6);
+    rail?.style.setProperty('--x3-chapter',r.top>innerHeight*.6?'.3333':r.bottom>innerHeight*.3?'.6667':'1');
+  }
+  function pointerDown(e){
+    if(e.button!==0||e.target.closest('.x3-controls'))return;
+    input();const r=board.getBoundingClientRect();
+    gesture={id:e.pointerId,type:e.pointerType,startX:e.clientX,startY:e.clientY,from:x,rect:r,handle:!!e.target.closest('.x3-knob'),horizontal:false};
+    if(e.pointerType!=='touch'||gesture.handle){board.setPointerCapture(e.pointerId);if(e.pointerType!=='touch')animate((lang==='ar'?r.right-e.clientX:e.clientX-r.left)/r.width*100,260);}
+  }
+  function pointerMove(e){
+    const g=gesture;if(!g||g.id!==e.pointerId)return;
+    const mx=e.clientX-g.startX,my=e.clientY-g.startY;
+    if(g.type==='touch'&&!g.handle&&!g.horizontal){
+      if(Math.abs(my)>8&&Math.abs(my)>Math.abs(mx)){gesture=null;return;}
+      if(Math.abs(mx)<8||Math.abs(mx)<=1.5*Math.abs(my))return;
+      g.horizontal=true;board.setPointerCapture(e.pointerId);
+    }
+    stopMotion();
+    x=clamp(g.type==='touch'?g.from+mx/g.rect.width*100*(lang==='ar'?-1:1):(lang==='ar'?g.rect.right-e.clientX:e.clientX-g.rect.left)/g.rect.width*100);
+    knob.style.setProperty('--x3-look',`${Math.sign(mx)*2}px`);queueWrite();
+  }
+  function pointerEnd(e){if(gesture?.id!==e.pointerId)return;gesture=null;if(board.hasPointerCapture(e.pointerId))board.releasePointerCapture(e.pointerId);knob.style.setProperty('--x3-look','0px');}
+  function key(e){
+    let v=x,step=e.shiftKey?20:5;
+    if(e.key==='Home')v=0;else if(e.key==='End')v=100;
+    else if(e.key==='PageUp')v+=20;else if(e.key==='PageDown')v-=20;
+    else if(e.key==='ArrowRight')v+=step*(lang==='ar'?-1:1);else if(e.key==='ArrowLeft')v-=step*(lang==='ar'?-1:1);else return;
+    e.preventDefault();set(v);
+  }
+  function video(){return board&&$(`.x3-v[data-film="${active}"]`,board);}
+  function rendition(film){
+    const list=Object.entries(media[film].renditions).sort((a,b)=>Number(a[0])-Number(b[0]));
+    const format=(r)=>!mp4&&r.webm?r.webm:r;
+    if(innerWidth<=900)return format((list.find(([n])=>n==='480')||list[0])[1]);
+    if(innerWidth*devicePixelRatio>=1600&&!preferences().saveData&&media[film].renditions['1080'])return format(media[film].renditions['1080']);
+    return format((list.filter(([n])=>Number(n)<=720).pop()||list[0])[1]);
+  }
+  function load(v){
+    if(!v||v.getAttribute('src'))return;
+    const film=v.dataset.film;v.src=rendition(film).url;
+    v.addEventListener('loadedmetadata',()=>{v.style.setProperty('--ar',`${v.videoWidth}/${v.videoHeight}`);if(saved[film].restart){v.currentTime=0;saved[film].restart=false;}else if(saved[film].time)v.currentTime=Math.min(saved[film].time,v.duration||Infinity);},{once:true});
+  }
+  function posters(){if(near)$$('.x3-v',board).forEach(v=>{if(!v.poster)v.poster=media[v.dataset.film].poster;});}
+  function pauseAll(){++playGeneration;$$('.x3-v',board).forEach(v=>v.pause());duck(false);}
+  function updateControls(){
+    if(!controls)return;const v=video(),ctl=copy.p7_ctl,duration=v?.duration||media[active].duration||0;
+    const time=(n)=>`${Math.floor((n||0)/60)}:${String(Math.floor((n||0)%60)).padStart(2,'0')}`;
+    $('.x3-play',controls).textContent=ended?ctl[7]:manual&&!v?.paused?ctl[1]:ctl[0]+(preferences().saveData?` · ${(rendition(active).bytes/1e6).toFixed(1)} MB`:'');
+    const sb=$('.x3-sound',controls);sb.textContent=sound?ctl[3]:ctl[2];sb.setAttribute('aria-pressed',String(sound));
+    $('.x3-now',controls).textContent=error?labels.notSupported:`${ctl[4]} ${copy[active==='with'?'b3_on':'b3_off']} · ${time(v?.currentTime)} / ${time(Math.round(duration))}`;
+    $('.x3-progress i',controls).style.transform=`scaleX(${duration?(v?.currentTime||0)/duration:0})`;
+    $$('[data-x3-watch]',controls).forEach(b=>{b.textContent=ended&&Number(b.dataset.x3Watch)===(active==='with'?0:100)?ctl[8]:ctl[Number(b.dataset.x3Watch)===0?5:6];});
+  }
+  function syncMedia(){
+    if(!board)return;
+    posters();const v=video(),generation=++playGeneration;
+    $$('.x3-v',board).forEach(other=>{if(other!==v)other.pause();});
+    const allowed=!blocked&&!D.hidden&&visible>=.2&&!ended&&!error;
+    const play=allowed&&(manual||(visible>=.5&&!pausedByUser&&previewAllowed()));
+    if(!play){v?.pause();duck(false);updateControls();return;}
+    load(v);if(sound&&!saved[active].heard){saved[active].heard=true;saved[active].time=0;if(v.readyState)v.currentTime=0;else saved[active].restart=true;}v.muted=!sound;v.loop=!sound;duck(sound);
+    const promise=v.play();promise?.catch(()=>{if(generation!==playGeneration)return;manual=false;duck(false);updateControls();});updateControls();
+  }
+  function userPlay(){
+    input();const v=video();
+    if(manual&&!v.paused&&!ended){manual=false;sound=false;pausedByUser=true;pauseAll();updateControls();return;}
+    if(ended)v.currentTime=0;ended=false;error=false;pausedByUser=false;manual=true;sound=true;syncMedia();
+  }
+  function soundToggle(){
+    input();sound=!sound;ended=false;error=false;pausedByUser=false;
+    if(sound){manual=true;syncMedia();}
+    else {manual=false;pausedByUser=true;pauseAll();updateControls();}
+  }
+  function guard(){
+    const next=H.classList.contains('x-modal-on')||H.classList.contains('gaming')||gameVisible;
+    if(next!==blocked){blocked=next;if(next){manual=false;sound=false;}syncMedia();}
+  }
+  function chatUI(){
+    const chat=$('#chat'),chips=$('#ichips');if(!chat)return;chat.dataset.tag=copy.b1_tag;
+    let next=$('.x3-next');if(!next){next=D.createElement('a');next.className='x3-next';next.href='#x3-live';chat.after(next);}next.textContent=copy.b1_next;
+    const sync=()=>{
+      next.hidden=!$('.move',chat);
+      if(!$('.x3-cycle',chat)){const bar=D.createElement('span');bar.className='x3-cycle';bar.setAttribute('aria-hidden','true');bar.innerHTML='<i></i>';chat.append(bar);}
+    };
+    chatObserver?.disconnect();chatObserver=new MutationObserver(sync);chatObserver.observe(chat,{subtree:true,childList:true});sync();
+    if(chips!==chatChips){chatChips=chips;chips?.addEventListener('pointerdown',()=>chat.classList.add('x3-held'),{passive:true});chips?.addEventListener('click',()=>{const bar=$('.x3-cycle i',chat);if(bar){bar.style.animation='none';requestAnimationFrame(()=>bar.style.animation='');}});}
+    const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('x3-run',e.isIntersecting)),{threshold:0});io.observe(chat);observers.push(io);
+  }
+  function render(c,p,l){
+    if(!media||!c)return;
+    if(lang===l&&board?.isConnected){chatUI();return;}
+    pauseAllSafe();abort?.abort();resize?.disconnect();observers.forEach(o=>o.disconnect());observers=[];stopMotion();
+    const hint=$('#talk .hint');hint?.remove();
+    lang=l;copy=c;labels=p;live=$('#x3-live');const split=$('#x3-split');side=$('#talk .side');
+    if(!live||!split||!side)return;
+    if(live.dataset.lang!==l){live.innerHTML=x3LiveHTML(c);live.dataset.lang=l;}
+    if(split.dataset.lang!==l){split.innerHTML=x3SplitHTML(c,l,media,p);split.dataset.lang=l;}
+    if(hint)$('.x3-hint-slot',live).append(hint);
+    const watch=$('#talk .x3-watch');rail=$('.x3-rail');if(rail)rail.outerHTML=x3RailHTML(c);else $('.lead',watch)?.insertAdjacentHTML('afterend',x3RailHTML(c));rail=$('.x3-rail');
+    board=$('.x3-board',split);knob=$('.x3-knob',board);clip=$('.x3-clip',board);p7=$('.x3-off .x3-p7',board);controls=$('.x3-controls',board);active='without';visible=0;near=false;error=false;blocked=H.classList.contains('x-modal-on');
+    abort=new AbortController();const on=(el,event,fn,opts={})=>el.addEventListener(event,fn,{...opts,signal:abort.signal});
+    on(board,'pointerdown',pointerDown);on(board,'pointermove',pointerMove);on(board,'pointerup',pointerEnd);on(board,'pointercancel',pointerEnd);on(knob,'keydown',key);
+    $$('[data-x3-value],[data-x3-watch]').forEach(b=>on(b,'click',()=>{input();animate(Number(b.dataset.x3Value??b.dataset.x3Watch));}));
+    on($('.x3-play',controls),'click',userPlay);on($('.x3-sound',controls),'click',soundToggle);
+    // Capture pointerdown precedes the bundle's first pointerup/click sound enable.
+    on(controls,'pointerdown',e=>{if(e.target.closest('.x3-play,.x3-sound'))duck(true);},{capture:true});
+    on(controls,'keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.x3-play,.x3-sound'))duck(true);},{capture:true});
+    $$('.x3-v',board).forEach(v=>{
+      v.muted=!sound;
+      on(v,'timeupdate',updateControls);on(v,'play',()=>{if(v!==video()||blocked||D.hidden||visible<.2){v.pause();return;}$$('.x3-v',board).forEach(o=>{if(o!==v)o.pause();});updateControls();});
+      on(v,'pause',()=>{if(v===video()){duck(false);updateControls();}});
+      on(v,'ended',()=>{ended=true;manual=false;duck(false);updateControls();});
+      on(v,'error',()=>{if(v===video()){error=true;manual=false;duck(false);updateControls();}});
+    });
+    const loops=new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.target===live)e.target.classList.toggle('x3-run',e.intersectionRatio>.15);
+      else {board.classList.toggle('x3-vis',e.isIntersecting);if(e.isIntersecting&&!teased&&!interacted&&!reduced.matches){
+        // Tall desks can never have 35% of their own area on a phone: use
+        // 35% of the viewport's available desk area as the entry threshold.
+        const visibleHeight=e.intersectionRect.height;if(visibleHeight>=Math.min(board.offsetHeight,innerHeight)*.35){teased=true;const initial=x;board.classList.add('x3-teasing');animate(initial+18,700,()=>animate(initial-10,600,()=>animate(initial,500)));board.classList.add('x3-teasing');setTimeout(()=>board?.classList.remove('x3-teasing'),2400);}
+      }}
+    }),{threshold:[0,.01,.15,.35,.5]});loops.observe(live);loops.observe(board);observers.push(loops);
+    const post=new IntersectionObserver(es=>{near=es[0].isIntersecting;posters();},{rootMargin:'150% 0px'});post.observe(p7);observers.push(post);
+    const films=new IntersectionObserver(es=>{visible=es[0].intersectionRatio;if(visible<.2){manual=false;sound=false;}syncMedia();},{threshold:[0,.2,.5,1]});films.observe(p7);observers.push(films);
+    resize=new ResizeObserver(measure);resize.observe(board);resize.observe(live);measure();chatUI();
+    D.dispatchEvent(new CustomEvent('usha:x3render'));
+  }
+  function pauseAllSafe(){if(board){$$('.x3-v',board).forEach(v=>saved[v.dataset.film].time=v.currentTime);pauseAll();}}
+  function ping(){if(!live)return;clearTimeout(pingTimer);live.classList.remove('x3-ping');requestAnimationFrame(()=>live?.classList.add('x3-ping'));pingTimer=setTimeout(()=>live?.classList.remove('x3-ping'),1400);}
+  D.addEventListener('visibilitychange',()=>{if(D.hidden){manual=false;sound=false;pauseAllSafe();}else syncMedia();});
+  new MutationObserver(guard).observe(H,{attributes:true,attributeFilter:['class']});
+  const gameObserver=new IntersectionObserver(es=>{gameVisible=es[0].isIntersecting;guard();});
+  if($('#game'))gameObserver.observe($('#game'));
+  reduced.addEventListener('change',syncMedia);navigator.connection?.addEventListener('change',syncMedia);
+  window.USHA_X3={render,scroll,set,ping,state:()=>({x,active,sound,manual,visible,near,previewAllowed:previewAllowed(),preferences:preferences(),teased,interacted,playing:board?$$('.x3-v',board).filter(v=>!v.paused).length:0})};
 })();
 
 // Pure invitation helpers, shared by the browser bundle and the offline tests.
@@ -884,6 +1293,7 @@ function invitationCodeError(status, http) {
 
   function open() {
     if (modal) return;
+    window.USHA_AUDIO?.duck?.('live', true);
     lastFocus = D.activeElement;
     modal = D.createElement('div');
     modal.className = 'x-modal x-live';
@@ -914,6 +1324,7 @@ function invitationCodeError(status, http) {
   function notice(title, text) { handoff(title, text, view(), { contacts: false, free: false }); }
   function close() {
     if (!modal) return;
+    window.USHA_AUDIO?.duck?.('live', false);
     const m = modal; modal = null; tsId = null;
     state.code = ''; state.teamEntry = false;
     H.classList.remove('x-modal-on');
@@ -1303,6 +1714,16 @@ function invitationCodeError(status, http) {
   function ctaUI() {
     const chat = $('#chat'); if (!chat) return;
     const x = L();
+    const slot = $('#x3-live .x3-slot');
+    if (slot) {
+      const c = window.USHA_X?.[H.lang]?.x3;
+      if (!slot.querySelector('.xl-open') || slot.dataset.lang !== H.lang) {
+        slot.dataset.lang = H.lang;
+        slot.innerHTML = `<button type="button" class="btn btn-p xl-open x3-go"><span class="d"></span><span>${esc(c?.b2_cta || x.cta_b)}</span></button>`;
+      }
+      $$('#x3-live .xl-open').forEach(b => { if (!b.dataset.xlBound) { b.dataset.xlBound = '1'; b.addEventListener('click', open); } });
+      return;
+    }
     let cta = $('.xl-cta');
     if (!cta) {
       cta = D.createElement('div'); cta.className = 'xl-cta rv in'; cta.setAttribute('translate', 'no');
@@ -1315,8 +1736,106 @@ function invitationCodeError(status, http) {
     $('.xl-open', cta).addEventListener('click', open);
   }
   const later = () => setTimeout(ctaUI, 60);
+  D.addEventListener('usha:x3render', later);
   new MutationObserver(later).observe(H, { attributes: true, attributeFilter: ['lang'] });
-  const talk = $('#talk'); if (talk) new MutationObserver(() => { if (!$('.xl-cta')) later(); }).observe(talk, { childList: true, subtree: true });
-  if (location.hash === '#ask') addEventListener('load', () => setTimeout(open, 400));
+  const talk = $('#talk'); if (talk) new MutationObserver(() => { if (!$('#x3-live .x3-slot .xl-open') && !$('.xl-cta')) later(); }).observe(talk, { childList: true, subtree: true });
+  // A shared #ask link also works after same-page navigation. #x3-live
+  // remains a scroll target and never opens the gate by itself.
+  addEventListener('hashchange', () => { if (location.hash === '#ask') open(); });
+  if (location.hash === '#ask') {
+    if (D.readyState === 'complete') setTimeout(open, 400);
+    else addEventListener('load', () => setTimeout(open, 400), { once: true });
+  }
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', ctaUI); else ctaUI();
+})();
+
+const stEsc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const stText=s=>stEsc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\b(USHA|NJO)\b/g,'<bdi>$1</bdi>');
+function storyCaptions(x) {
+  const s=x.story;
+  return s.chapters.map((c,i)=>`<div class="st-copy"><span class="st-k">${stText(c.k)}</span><h3>${stText(c.t)}</h3><p>${stText(c.b)}</p>${i===1?`<small class="st-legend" dir="auto"><bdi>10 · 22 · 700+ · 55+ · 7</bdi><br>${stText(s.legend)}</small>`:''}${i===4?`<s class="st-books">${stText(s.books)}</s>`:''}${i===6?`<ul class="st-beliefs">${s.beliefs.map(b=>`<li>${stText(b)}</li>`).join('')}</ul>`:''}${i===7?`${s.meta?`<span class="st-stamp">${stText(s.meta)}</span><small class="st-legal">${stText(s.legal)}</small>`:''}<a class="st-cta" href="#talk">${stText(s.cta)} <span aria-hidden="true">↗</span></a>`:''}</div>`);
+}
+function storyHTML(x,lang) {
+  const s=x.story,caps=storyCaptions(x),sizes=[50,65,75,86,96,86,110,110];
+  const mini=(i)=>{
+    const look=i===2||i===3?'translate(0 9) scale(1 .8) rotate(12 53 45)':i===5?'translate(-13.25 -11.25) scale(1.25)':`translate(${lang==='ar'?-1.5:1.5} 0)`;
+    const eyes=i===6?'<path d="M40 47q4-8 8 0m10-2q4-8 8 0" style="stroke:#0b0a0f;stroke-width:3;fill:none"/>':`<use href="#st-eyes" transform="${look}"/>`;
+    return `<g${lang==='ar'?' transform="translate(100 0) scale(-1 1)"':''}><use href="#st-${i<5?'drop':'bean'}"/>${eyes}</g>`;
+  };
+  return `<a class="st-skip" href="#month">${stText(s.skip)} ↓</a>${USHA_DEFS}<div class="st-intro rv" data-st-lang="${lang}"><span class="st-k">${stText(s.kick)}</span><h2 id="st-h">${stText(s.h)}</h2><p>${stText(s.sub)}</p><small>${stText(s.note)}</small><i class="st-seed" aria-hidden="true"></i></div><div class="st-track"><div class="st-stage"><ol class="st-pages">${PAGES.map((page,i)=>`<li class="st-page" data-st-page="${i}" data-crop="${page.crop}" data-rest="${page.rest}" data-weight="${page.weight}"><svg class="st-scene" viewBox="${storyCrop(page.crop,lang==='ar'?-1:1)}" aria-hidden="true" focusable="false"><g class="st-art"${lang==='ar'?' transform="translate(1600 0) scale(-1 1)"':''}>${page.svg}<svg class="st-static" x="${page.point[0]-sizes[i]/2}" y="${page.point[1]-sizes[i]*.78}" width="${sizes[i]}" height="${sizes[i]*.84}" viewBox="0 0 100 84">${mini(i)}</svg></g></svg><div class="st-cap">${caps[i]}</div>${i<7?`<svg class="st-link" viewBox="0 0 358 72" preserveAspectRatio="none" aria-hidden="true"><path d="${i%2?'M340 0C340 45 18 27 18 72':'M18 0C18 45 340 27 340 72'}"/></svg>`:''}</li>`).join('')}</ol><div class="st-slot" aria-hidden="true"></div><nav class="st-nav" aria-label="${stText(s.kick).replace(/<[^>]+>/g,'')}">${s.chapters.map((c,i)=>`<button type="button" data-st-go="${i}" aria-label="${stEsc(s.chapterLabel.replace('{n}',i+1).replace('{title}',c.t.replace(/\*/g,'')))}"><bdi>0${i+1}</bdi></button>`).join('')}</nav><div class="st-lamp" aria-hidden="true"></div><div class="st-mini" aria-hidden="true"><div class="st-shadow"></div><svg viewBox="0 0 100 84"><g class="st-inner"><use class="st-df" href="#st-drop"/><use class="st-bf" href="#st-bean"/><g class="st-eyes"><use href="#st-eyes"/></g><path class="st-he" d="M40 47q4-8 8 0m10-2q4-8 8 0"/><path class="st-ce" d="M40 45q4 7 8 0m10-2q4 7 8 0"/></g></svg></div></div></div>`;
+}
+
+// Language-dependent view updates stay with the shared caption renderer.
+function paintStory(S,x) {
+  const s=x.story,put=(sel,value)=>S.querySelector(sel).innerHTML=value;
+  const caps=storyCaptions(x),intro=S.querySelector('.st-intro');
+  if(intro.dataset.stLang===document.documentElement.lang)return caps;
+  intro.dataset.stLang=document.documentElement.lang;
+  S.querySelectorAll('.st-cap').forEach((el,i)=>el.innerHTML=caps[i]);
+  put('.st-intro .st-k',stText(s.kick));put('#st-h',stText(s.h));put('.st-intro p',stText(s.sub));put('.st-intro small',stText(s.note));put('.st-skip',stText(s.skip)+' ↓');
+  S.querySelectorAll('[data-st-go]').forEach((b,i)=>b.setAttribute('aria-label',s.chapterLabel.replace('{n}',i+1).replace('{title}',s.chapters[i].t.replace(/\*/g,''))));
+  S.querySelector('.st-nav').setAttribute('aria-label',s.kick);return caps;
+}
+
+// View-owned finite actions and gaze loops. The controller supplies chapter state;
+// cancelling this view stops every Web Animation when it leaves the viewport.
+function storyView(S) {
+  const B=S.querySelector('.st-inner'),E=S.querySelector('.st-eyes use'),shadow=S.querySelector('.st-shadow');
+  const locks=[...S.querySelectorAll('.st-lock')],knots=[...S.querySelectorAll('.st-knot,.st-loose')];
+  let effects=[],hop=null,moving=false,chapter=-1;
+  const animate=(el,keys,opts)=>{const a=el.animate(keys,opts);effects.push(a);return a};
+  const cancel=()=>{effects.forEach(a=>a.cancel());effects=[];hop=null;moving=false};
+  return {cancel,
+    enter(k,dir) {cancel();chapter=k;E.setAttribute('transform',`translate(${dir*1.5} 0)`);
+      if(k===2)animate(S.querySelector('.st-question'),[{transform:'translateY(-4px)'},{transform:'translateY(4px)'}],{duration:4000,direction:'alternate',iterations:Infinity});
+      if(k===4)animate(E,[{transform:'translateX(-1.5px)'},{transform:'translateX(1.5px)'},{transform:'translateX(-1.5px)'}],{duration:2400,iterations:Infinity});
+      if(k===7)animate(B,[{transform:'scale(1.12,.86) rotate(-10deg)'},{transform:'translateY(-14px) rotate(10deg)',offset:.5},{transform:'scale(1)'}],{duration:520,iterations:2});
+    },
+    release(open) {locks.forEach(el=>el.style.transform=open?'translateY(-5px) rotate(20deg)':'none');knots.forEach((el,i)=>el.style.opacity=i?+open:+!open)},
+    pull() {animate(B,[{transform:'scale(1)'},{transform:'scale(1.15,.88)',offset:.5},{transform:'scale(1)'}],{duration:420,iterations:2})},
+    moving(on) {if(on===moving)return;moving=on;if(on)hop=animate(shadow,[{transform:'scaleX(1)'},{transform:'scaleX(.6)',offset:.5},{transform:'scaleX(1)'}],{duration:520,iterations:Infinity});
+      else {hop?.cancel();if(![3,5,7].includes(chapter))animate(B,[{transform:'scale(1.1,.9)'},{transform:'scale(1)'}],{duration:260,easing:'cubic-bezier(.34,1.56,.64,1)'})}
+    },
+  };
+}
+
+// Mirror the entire 1600-unit drawing plane and its crop together. Mirroring
+// around a cropped viewport's centre would show a different part of the art.
+function storyCrop(crop,dir) {
+  const [x,y,w,h]=crop.split(' ').map(Number);
+  return `${dir<0?1600-x-w:x} ${y} ${w} ${h}`;
+}
+function storyViewport(page,desktop,dir) {
+  page.firstElementChild.setAttribute('viewBox',desktop?'0 0 1600 900':storyCrop(page.dataset.crop,dir));
+  page.querySelector('.st-art').setAttribute('transform',dir<0?'translate(1600 0) scale(-1 1)':'');
+}
+
+(()=>{const S=document.querySelector('#story');if(!S)return;let raf=0;const $=s=>S.querySelector(s);
+const H=document.documentElement,T=$('.st-track'),PP=[...S.querySelectorAll('.st-page')],U=$('.st-mini'),L=$('.st-lamp'),C=$('.st-slot'),N=[...S.querySelectorAll('[data-st-go]')],mq=matchMedia('(prefers-reduced-motion: reduce)'),D=matchMedia('(min-width:900px) and (min-height:620px)'),QS=new URLSearchParams(location.search),cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),ease=v=>v<.5?4*v*v*v:1-(-2*v+2)**3/2,sm=v=>{v=cl(v);return v*v*(3-2*v)},WG=PP.map(p=>+p.dataset.weight),OS=WG.map((_,i)=>WG.slice(0,i).reduce((a,b)=>a+b,0)),SUM=WG.reduce((a,b)=>a+b,0),RS=PP.map(p=>+p.dataset.rest),LT=PP.map(p=>[...p.querySelectorAll('[data-lit]')]);
+let LV=false,DS=false,NE=false,dir=1,W=0,vh=0,vw=0,top=0,end=0,span=0,BY=0,PT=[],MP=[],CP=[],cam=0,TS=0,TM=0,chapter=-1,AW=false,RT=0,CT=0,FC=[];
+const A=window.__story={running:false,chapter:0,u:0,go};
+const uc=U.classList,sc=S.classList,V=storyView(S);U.style.cssText='width:56px;height:47.04px;transform-origin:0 0;transition:opacity .4s';let opened=false,tug=false,entered=0;
+function hold(on){window.__xHold=on;H.classList.toggle('x-story-on',on)}
+function stop(){V.cancel();cancelAnimationFrame(raf);raf=0;A.running=false;sc.remove('st-run');uc.remove('st-move');hold(false)}
+function mode(){stop();LV=!mq.matches&&QS.get('story')!=='still'&&!(navigator.deviceMemory<=2||navigator.hardwareConcurrency<=2);DS=LV&&D.matches;sc.toggle('st-live',LV);sc.toggle('st-desk',DS);dir=H.dir==='rtl'?-1:1;PP.forEach(p=>{storyViewport(p,DS,dir);p.style.transform='';p.firstElementChild.style.visibility='';p.classList.remove('st-on','st-visible')});U.style.opacity=LV?'1':'0';$('.st-cta').tabIndex=0;fit();}
+function fit(){clearTimeout(RT);vh=innerHeight;vw=innerWidth;W=Math.min(vh*16/9,vw*1.15);S.style.setProperty('--st-w',W+'px');sc.add('st-measuring');const sy=scrollY;BY=S.getBoundingClientRect().top+sy;end=BY+S.offsetHeight;top=T.getBoundingClientRect().top+sy;span=T.offsetHeight-vh;
+PT=PP.map(p=>{const path=p.querySelector('.st-line'),len=path.getTotalLength();return Array.from({length:64},(_,i)=>{const q=path.getPointAtLength(len*i/63);return{x:q.x,y:q.y}})});
+MP=PP.map((p,i)=>{const svg=p.querySelector('.st-scene'),r=svg.getBoundingClientRect(),[cx,cy,cw,ch]=p.dataset.crop.split(' ').map(Number),scale=Math.min(r.width/cw,r.height/ch),ox=(r.width-cw*scale)/2,oy=(r.height-ch*scale)/2;let pts=PT[i].filter(q=>q.x>=cx&&q.x<=cx+cw&&q.y>=cy&&q.y<=cy+ch);if(pts.length<2)pts=PT[i];if(i%2)pts=pts.slice().reverse();return{top:r.top+sy,bottom:r.bottom+sy,pts:pts.map(q=>({x:r.left+ox+(dir===1?q.x-cx:cx+cw-q.x)*scale,y:r.top+sy+oy+(q.y-cy)*scale}))}});if(!DS)MP.forEach((m,i)=>{if(i===7)return;const a=m.pts.at(-1),b=MP[i+1].pts[0],link=PP[i].lastElementChild,edge=a.x<vw/2?16:vw-16,h=b.y-a.y,bend=Math.max(20,MP[i+1].top-a.y-72),left=16;link.style.top=(a.y-(PP[i].getBoundingClientRect().top+sy))+'px';link.style.height=h+'px';link.setAttribute('viewBox',`0 0 ${vw-32} ${h}`);link.firstElementChild.setAttribute('d',`M${a.x-left} 0L${edge-left} ${bend}C${edge-left} ${bend+60} ${b.x-left} ${bend+12} ${b.x-left} ${bend+72}L${b.x-left} ${h}`);const path=link.firstElementChild,len=path.getTotalLength();m.link=Array.from({length:64},(_,j)=>{const q=path.getPointAtLength(len*j/63);return{x:q.x+left,y:q.y+a.y}})});sc.remove('st-measuring');cam=0;chapter=-1;TM=performance.now();if(NE)run();}
+function pt(i,u){const pts=PT[i],n=cl(u)*63,j=Math.min(62,Math.floor(n)),v=n-j;return{x:pts[j].x+(pts[j+1].x-pts[j].x)*v,y:pts[j].y+(pts[j+1].y-pts[j].y)*v}}
+function lang(){const x=window.USHA_X?.[H.lang];if(!x?.story)return;CP=paintStory(S,x);dir=H.dir==='rtl'?-1:1;chapter=-1;fit();}
+function go(k){if(document.fonts.status==='loading'){document.fonts.ready.then(()=>go(k));return}fit();k=cl(+k,0,7);if(DS)scrollTo({top:top+(OS[k]+WG[k]*.2)/SUM*span,behavior:mq.matches?'instant':'smooth'});else PP[k].scrollIntoView({block:'center',behavior:mq.matches?'instant':'smooth'});TM=performance.now();run()}
+function run(){if(!LV){hold(scrollY>=BY&&scrollY+vh<=end);return}if(!NE||raf)return;A.running=true;sc.add('st-run');TS=performance.now();raf=requestAnimationFrame(draw)}
+function draw(now){raf=0;try{const tick=performance.now(),sy=scrollY,dt=Math.min(.06,(now-TS)/1000);TS=now;let k=0,t=0,x=0,y=0,mv=now-TM<160,aim=cam;
+if(DS){const value=cl((sy-top)/span)*SUM;k=7;for(let i=0;i<8;i++)if(value<OS[i]+WG[i]){k=i;break}t=cl((value-OS[k])/WG[k]);if(k!==chapter)entered=now;aim=(k+(k<7?ease(cl((t-.4)/.6)):0))*W;cam+=(aim-cam)*(1-Math.exp(-7*dt));PP.forEach((p,i)=>{const vis=Math.abs(i-cam/W)<1.6;p.classList.toggle('st-visible',vis);p.firstElementChild.style.visibility=vis?'visible':'hidden';if(vis){p.style.transform=`translate3d(${(i*W-cam)*dir+(vw-W)/2}px,0,0)`;const off=cl((i*W-cam)*.08,-90,90);p.querySelectorAll('.st-back,.st-front').forEach(el=>el.style.transform=`translate3d(${off*(el.classList.contains('st-back')?-.45:.3)}px,0,0)`)}});const u=sm((t-.3)/.62),v=RS[k]+u*((k<7?1+RS[k+1]:.913)-RS[k]),i=k+(v>=1?1:0),a=pt(i,v>=1?v-1:v);if(k===0&&t<.3){const f=cl((now-entered)/650);a.x=560+(a.x-560)*sm(cl((f-.5)*2));a.y=350+210*sm(cl(f*2))}x=(a.x/1600*W+i*W-cam);x=dir===1?x+(vw-W)/2:vw-(x+(vw-W)/2);y=a.y/900*(W*9/16)+(vh-W*9/16)/2;hold(sy>=top&&sy<top+span);C.classList.toggle('st-fading',t>.58&&t<.82&&k<7);
+}else{const read=sy+vh*.58;for(let i=0;i<8;i++)if(read>=MP[i].top)k=i;const m=MP[k];t=cl((read-m.top)/(m.bottom-m.top));const n=t*(m.pts.length-1),j=Math.min(m.pts.length-2,Math.floor(n)),v=n-j;x=m.pts[j].x+(m.pts[j+1].x-m.pts[j].x)*v;y=m.pts[j].y+(m.pts[j+1].y-m.pts[j].y)*v;if(read>m.bottom&&k<7){const c=cl((read-m.bottom)/(MP[k+1].top-m.bottom))*63,j=Math.min(62,Math.floor(c)),v=c-j,a=m.link[j],b=m.link[j+1];x=a.x+(b.x-a.x)*v;y=a.y+(b.y-a.y)*v}y-=BY;hold(sy>=BY&&sy+vh<=end)}
+PP.at(-1).querySelector('a').tabIndex=DS&&k!==7?-1:0;PP[0].classList.toggle('st-open',k>0||t>.6);A.chapter=k;A.u=t;if(k!==chapter){V.enter(k,dir);entered=now;chapter=k;C.innerHTML=CP[k]||'';C.querySelectorAll('a').forEach(a=>a.tabIndex=-1);N.forEach((b,i)=>{if(i===k)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});PP.forEach((p,i)=>p.classList.toggle('st-on',i===k&&NE));}
+const open=k>3||k===3&&t>.5;if(open!==opened){opened=open;V.release(open)}if(k===3&&t>.3&&!tug){tug=true;V.pull()}if(k!==3||t<.2)tug=false;const born=k>5||k===5&&(AW?t>=.25:t>=.35);if(born!==AW){AW=born;uc.toggle('st-born',born);PP[5].classList.toggle('st-awake',born);if(k===5&&born){uc.add('st-waking','st-wow');setTimeout(()=>uc.remove('st-waking','st-wow'),1100)}}
+if(k===5){const f=sm((t-.25)/.1)*(1-sm((t-.6)/.35)),cx=DS?(dir===1?1060/1600*W+5*W-cam+(vw-W)/2:vw-(1060/1600*W+5*W-cam+(vw-W)/2)):vw/2,cy=DS?380/900*(W*9/16)+(vh-W*9/16)/2:MP[5].top-BY+165;x+=(cx-x)*f;y+=(cy-y)*f}const size=Math.max(16,([18,18+6*t,28,32,36,AW?56:36,56,56][k])*(DS?1:.75));if(!DS)x=cl(x,size/2+4,vw-size/2-4);U.style.transform=`translate3d(${x-size/2}px,${y-size*.78}px,0) scale(${size/56})`;U.style.opacity=k===7?1-sm((t-.8)/.2):1;L.style.transform=`translate3d(${x}px,${y}px,0) scale(${k===5&&AW?1.37:1})`;uc.toggle('st-move',mv);V.moving(mv);uc.toggle('st-worry',k===2||k===3);uc.toggle('st-happy',k===6);uc.toggle('st-closed',k===5&&!AW);
+LT.forEach((els,i)=>{if(Math.abs(i-k)<=1)els.forEach(el=>el.classList.toggle('on',i<k||i===k&&(AW&&k===5||+el.dataset.lit<=RS[k]+sm(t)*.45)))});
+if(QS.has('storydebug')){FC.push(performance.now()-tick);if(FC.length>2000)FC.shift();const a=FC.slice().sort((a,b)=>a-b);window.__storyStats={frames:a.length,p95:a[Math.floor((a.length-1)*.95)],max:a.at(-1)}}
+if(NE&&(k===0&&now-entered<700||mv||Math.abs(aim-cam)>.5||now-TM<220)){A.running=true;raf=requestAnimationFrame(draw)}else{A.running=false;sc.remove('st-run')}
+}catch(e){fail(e)}}
+function fail(e){stop();$('.st-cta').tabIndex=0;sc.remove('st-live','st-desk');PP.forEach(p=>{p.style.transform='';p.firstElementChild.style.visibility='';storyViewport(p,false,dir)});console.error('Notebook fallback:',e)}
+try{lang();mode();N.forEach((b,i)=>{b.onclick=()=>go(i);b.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const delta=(e.key==='ArrowRight'?dir:e.key==='ArrowLeft'?-dir:e.key==='ArrowDown'?1:-1);N[(i+delta+8)%8].focus()}});$('.st-skip').onclick=()=>{const month=document.querySelector('#month');month.tabIndex=-1;month.focus({preventScroll:true});stop()};addEventListener('scroll',()=>{TM=performance.now();run()},{passive:true});addEventListener('resize',()=>{clearTimeout(RT);RT=setTimeout(mode,150)});document.fonts.ready.then(fit);new ResizeObserver(()=>{clearTimeout(RT);RT=setTimeout(fit,150)}).observe(document.body);mq.addEventListener('change',mode);D.addEventListener('change',mode);new MutationObserver(()=>{clearTimeout(CT);CT=setTimeout(lang,150)}).observe(H,{attributes:true,attributeFilter:['lang','dir']});new IntersectionObserver(([e])=>{NE=e.isIntersecting;sc.toggle('st-near',NE);if(NE){chapter=-1;run()}else{stop();PP.forEach(p=>p.classList.remove('st-on'))}},{rootMargin:'200px'}).observe(S);
+}catch(e){fail(e)}
 })();

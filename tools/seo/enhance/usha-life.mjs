@@ -21,7 +21,40 @@ return function(){last=performance.now();a+=1;flip^=1;
  else if(s===3){face({eyeH:.42,happy:0,tilt:.85,droop:0,blush:1.3,tear:0,eyeW:1.15,tint:.9},3.4);let q=0;const sh=setInterval(()=>{Ge.tgt.lookX=q%2?.07:-.07;if(++q>7){clearInterval(sh);Ge.tgt.lookX=0}},60);Ge.tgt.stretch=1.08;setTimeout(()=>Ge.tgt.stretch=1,220);Ae.voice("grr");tn(flip?"angry1":"angry2",1.8);ut([30,20,30])}
  else{face({eyeH:.3,happy:0,tilt:-.8,droop:1.4,blush:.7,tear:1,eyeW:1,inner:.75},5);Ae.voice("sob");tn("cry",2.4);ut([15,60,15,60,15])}
  return!0}})();
-var Gp_=!1,Ua_=0,Un_=(()=>{return function(){const t=performance.now();if(t-Ua_<4e3||Um_s||de.exprT>0)return;Object.assign(Ge.tgt,{eyeW:1.22,eyeH:1.22,happy:.3});de.exprT=.7;Ge.tgt.stretch=1.07;setTimeout(()=>Ge.tgt.stretch=1,180);const r=Math.random();r<.35?Ae.voice("giggle"):r<.55&&Ae.voice("tap")}})();var Ul_=(()=>{const acts=[
+// Linger notices share the existing face and cursor tracking, without a new loop.
+var Un_=(()=>{const fine=matchMedia("(hover:hover) and (pointer:fine)"),reduce=matchMedia("(prefers-reduced-motion:reduce)"),p=new R;
+let next=0,since=0,last=-8e3,idle=performance.now(),px=-1e4,py=-1e4,overUI=!1;
+const reset=()=>{idle=performance.now();since=0};
+addEventListener("pointermove",e=>{if(e.pointerType==="mouse"){px=e.clientX;py=e.clientY;overUI=!!e.target.closest?.("a,button,input,textarea,select,header,.hero-t,.n-t,.s-t,.fcard,.x-modal")}}, {passive:!0});
+["pointerdown","keydown","wheel","scroll","touchmove"].forEach(n=>addEventListener(n,reset,{passive:!0}));
+document.addEventListener("pointerleave",()=>{px=-1e4;since=0});
+return function(){const t=performance.now();if(t<next)return;next=t+100;
+ if(!je||Mt<vn||Xt.active||document.hidden||document.documentElement.classList.contains("x-modal-on")||de.asleep||Um_s||Ge.group.scale.x<.05){since=0;idle=t;return}
+ let near=!1;
+ if(fine.matches){p.copy(Ge.group.position).project(cn);const x=(p.x+1)*innerWidth/2,y=(1-p.y)*innerHeight/2;
+ p.copy(Ge.group.position);p.y+=Ge.group.scale.x;p.project(cn);const r=Math.max(24,Math.abs((1-p.y)*innerHeight/2-y))+18;
+ near=!overUI&&cr&&Math.hypot(px-x,py-y)<r;
+ if(!near){since=0;return}if(!since)since=t;if(t-since<1200)return;
+ }else if(t-idle<9000)return;
+ if(t-last<8000||de.exprT>0)return;last=t;idle=t;since=t;
+ Object.assign(Ge.tgt,{eyeW:1.2,eyeH:1.25,happy:.55,blush:.5});de.exprT=1.1;
+ if(!reduce.matches){Ge.tgt.sq=.96;Ge.tgt.stretch=1.04;setTimeout(()=>{Ge.tgt.sq=1.025;Ge.tgt.stretch=.98},160);setTimeout(()=>{Ge.tgt.sq=1;Ge.tgt.stretch=1},340)}
+ if(Ae.on)Ae.voice("giggle");
+ dispatchEvent(new CustomEvent("usha:noticed",{detail:{touch:!fine.matches,reducedMotion:reduce.matches}}));
+}})();
+// Resolve tap coordinates now: the animation's mouse ray can be stale on touch.
+var Uguard_=(()=>{const ray=new Ui,point=new ve;let hitUntil=0,lastTap=0,tx=0,ty=0;
+function hit(e){if(!je||Xt.active||document.documentElement.classList.contains("x-modal-on")||!e.target.closest||e.target.closest("a,button,input,textarea,select,label,summary,header,.hero-t,.n-t,.s-t,.fcard,.x-modal"))return!1;
+ if(e.target!==Hl&&!e.target.closest("#hero,#noise,#signal"))return!1;
+ point.set(e.clientX/innerWidth*2-1,1-e.clientY/innerHeight*2);ray.setFromCamera(point,cn);return Ge.group.scale.x>.05&&ray.intersectObject(Ge.mesh,!1).length>0}
+addEventListener("pointerdown",e=>{if(hit(e)){hitUntil=performance.now()+650;Gn=!0}else hitUntil=0},{capture:!0,passive:!0});
+addEventListener("mousedown",e=>{if(hit(e))e.preventDefault()},{capture:!0});
+addEventListener("selectstart",e=>{if(e.target===Hl||performance.now()<hitUntil)e.preventDefault()},{capture:!0});
+addEventListener("dblclick",e=>{if(hit(e))e.preventDefault()},{capture:!0});
+addEventListener("contextmenu",e=>{if(hit(e))e.preventDefault()},{capture:!0});
+addEventListener("touchstart",e=>{if(e.touches.length!==1)return;const p=e.touches[0];if(!hit({target:e.target,clientX:p.clientX,clientY:p.clientY}))return;const t=performance.now();if(t-lastTap<350&&Math.hypot(p.clientX-tx,p.clientY-ty)<24)e.preventDefault();lastTap=t;tx=p.clientX;ty=p.clientY},{capture:!0,passive:!1});
+})();
+var Ul_=(()=>{const acts=[
  ()=>{Ge.tgt.sq=1.1;setTimeout(()=>{Ge.tgt.sq=.88;Ae.voice("sneeze");ut(20)},480);setTimeout(()=>Ge.tgt.sq=1,800);Object.assign(Ge.tgt,{eyeH:.15});de.exprT=.9;tn("sneeze",2)},
  ()=>{Ge.tgt.stretch=1.16;Object.assign(Ge.tgt,{eyeH:.2,happy:0});de.exprT=1.6;Ae.voice("yawn");setTimeout(()=>Ge.tgt.stretch=1,1100);tn("yawn",2.2)},
  ()=>{const t0=performance.now();(function f(){const k=(performance.now()-t0)/1600;if(k>=1){Ge.tgt.sq=1;Ge.tgt.stretch=1;return}const e=Math.sin(k*Math.PI);Ge.tgt.sq=1+Math.sin(k*Math.PI*6)*.06*e;Ge.tgt.stretch=1-Math.sin(k*Math.PI*6)*.04*e;requestAnimationFrame(f)})();Object.assign(Ge.tgt,{happy:1,blush:.6});de.exprT=1.8;Ae.voice("laugh");tn("dance",2.2)},
@@ -32,7 +65,17 @@ let lastAct=0;addEventListener("pointerdown",()=>lastAct=performance.now(),{pass
 const VOICES = `case"laugh":for(let t=0;t<7;t++)xt(e(1000,1250)-t*70,e(700,900)-t*50,.09,.08,"sine",t*.085,6);break;case"sigh":xt(560,300,.7,.07,"triangle");break;case"sad":xt(620,430,.45,.08,"sine",0,5),xt(520,320,.7,.07,"sine",.42,5);break;case"grr":xt(140,115,.42,.08,"sawtooth",0,28),xt(170,120,.3,.07,"sawtooth",.4,28);break;case"sob":for(let t=0;t<5;t++)xt(e(680,760),e(480,540),.16,.06,"sine",t*.2,12);break;case"sneeze":xt(420,900,.3,.05,"sine"),xt(2200,300,.14,.11,"square",.42);break;case"yawn":xt(280,520,.55,.06,"triangle",0,4),xt(520,230,.8,.06,"triangle",.5,4);break;case"hum":[659,587,523,587,659,659].forEach((t,n)=>xt(t,t,.17,.045,"triangle",n*.19,5));break;`;
 
 export function applyLife(src) {
+  // Temporary shared duck hook until the dedicated audio manager supplies it.
+  // Keep the first-click enable path quiet while a film or modal owns sound.
+  if (!src.includes('Dk_') && !src.includes('USHA_AUDIO')) {
+    const anchor = 'var Lu="usha-sound",';
+    if (!src.includes(anchor)) throw new Error('Bundle changed: sound duck anchor not found');
+    src = src.replace(anchor, 'var Lu="usha-sound";var Dk_=new Set;window.USHA_AUDIO={duck(reason,on){on?Dk_.add(reason):Dk_.delete(reason);if(fe&&ln){ln.gain.cancelScheduledValues(fe.currentTime);ln.gain.setTargetAtTime(yt&&!Dk_.size?.8:0,fe.currentTime,on?.04:.2)}}};var ');
+    src = src.replaceAll('ln.gain.setTargetAtTime(.8,', 'ln.gain.setTargetAtTime(Dk_.size?0:.8,').replaceAll('ln.gain.setTargetAtTime(yt?.8:0,', 'ln.gain.setTargetAtTime(yt&&!Dk_.size?.8:0,');
+  }
   const swaps = [
+    // Keep the scene clock current while the opaque notebook covers the canvas.
+    ['function Pu(){let i=Math.min(.25,y_.getDelta())', 'function Pu(){if(window.__xHold){y_.getDelta();requestAnimationFrame(Pu);return}let i=Math.min(.25,y_.getDelta())'],
     // new face controls on the character
     ['rim:.6,blush:0,eyeW:1,eyeH:1,happy:0}', 'rim:.6,blush:0,eyeW:1,eyeH:1,happy:0,tilt:0,droop:0,tear:0}'],
     ['e.quaternion.setFromRotationMatrix(this._m),e.position.copy(o)', 'e.quaternion.setFromRotationMatrix(this._m),e.rotateZ((t<this.p.lookX?-1:1)*this.p.tilt),e.position.copy(o)'],
@@ -44,8 +87,8 @@ export function applyLife(src) {
     ['case"secret":', VOICES + 'case"secret":'],
     // taps reach her even though the page sections sit above the canvas
     ['Hl.addEventListener("pointerdown",i=>{di=', 'addEventListener("pointerdown",i=>{if(i.target.closest&&i.target.closest("a,button,input,textarea,select,label,summary,header,.lang,.chips,.ov"))return;if(!Gn&&!(i.target===Hl||i.target.closest&&i.target.closest("#hero,#noise,#signal")))return;di='],
-    // she notices the cursor arriving
-    ['Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,', 'Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,Gn&&!Gp_&&Un_(),!Gn&&Gp_&&(Ua_=performance.now()),Gp_=Gn,'],
+    // One lightweight proximity check in the existing animation; no arrival jump.
+    ['Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,', 'Gn=je&&!l&&m>.05&&ar.intersectObject(Ge.mesh,!1).length>0,Un_(),'],
     // the four algorithms sit in one clean row under the headline (desktop)
     ['[[-4.1,-.25,0],[-1.35,-1.55,0],[1.35,-.25,0],[4.1,-1.55,0]]', '[[-4.3,-1.05,0],[-1.45,-1.05,0],[1.45,-1.05,0],[4.3,-1.05,0]]'],
     // their labels always stay on screen
@@ -77,6 +120,9 @@ export function applyLife(src) {
     if (j < 0) throw new Error(`USHA life: no end for ${start}`);
     src = src.slice(0, i) + body + src.slice(j);
   }
+  // Remove the older arrival and hover reactions so a linger produces one face.
+  src = src.replace('Gn&&!Gp_&&Un_(),!Gn&&Gp_&&(Ua_=performance.now()),Gp_=Gn,', '');
+  src = src.replace('Gn?(de.hoverT+=e,de.hoverT>1.2&&It-de.hoverSaid>25&&(de.hoverSaid=It,Ae.voice("purr"),tn("hover",1.8),yn({blush:.7,happy:.6},1.5))):de.hoverT=0,', '');
   // swaps that match both the original and an earlier applied version
   const live = [
     [/st:"talk",dim:(?:1|\.32|\.8)\}/, 'st:"talk",dim:.8}'],
