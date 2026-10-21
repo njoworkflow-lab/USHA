@@ -344,8 +344,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
