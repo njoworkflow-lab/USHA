@@ -5,8 +5,8 @@
 // each anchor is checked so a changed bundle stops the build.
 
 export const LIFE_BUB = {
-  en: { bored1: 'Okay, that’s enough.', bored2: 'I’m working, you know.', sad1: 'Why do you keep poking me?', sad2: 'I thought we were friends…', angry1: 'Stop it!', angry2: 'I’m reading your market here!', cry: 'I’m telling NJO…', forgive: 'Okay… I forgive you.', sneeze: 'Achoo! Market dust.', yawn: 'Long night of data.', dance: 'New finding! Happy dance.', hum: 'La-la… reading prices.' },
-  ru: { bored1: 'Ладно, хватит.', bored2: 'Я вообще-то работаю.', sad1: 'Зачем ты меня тыкаешь?', sad2: 'Я думала, мы друзья…', angry1: 'Прекрати!', angry2: 'Я тут твой рынок читаю!', cry: 'Я пожалуюсь NJO…', forgive: 'Ладно… прощаю.', sneeze: 'Апчхи! Рыночная пыль.', yawn: 'Длинная ночь данных.', dance: 'Новая находка! Танцую.', hum: 'Ля-ля… читаю цены.' },
+  en: { bored1: 'Okay, that’s enough.', bored2: 'I’m working, you know.', sad1: 'Why do you keep poking me?', sad2: 'I thought we were friends…', angry1: 'Stop it!', angry2: 'I’m reading your market here!', cry: 'I’m telling NJO…', forgive: 'Okay… I forgive you.', sneeze: 'Achoo! Market dust.', yawn: 'Long night of data.', dance: 'New finding! Happy dance.', hum: 'La-la… reading prices.', inv1: 'Psst… tap me. Let’s look at your business.', inv2: 'Got two minutes? Tap me, I’ll read your market.', inv3: 'Ask me about your sales. Just tap me.', inv4: 'I’m not just cute. Tap me and test me.', inv5: 'Scrolling fast? Tap me and just ask.' },
+  ru: { bored1: 'Ладно, хватит.', bored2: 'Я вообще-то работаю.', sad1: 'Зачем ты меня тыкаешь?', sad2: 'Я думала, мы друзья…', angry1: 'Прекрати!', angry2: 'Я тут твой рынок читаю!', cry: 'Я пожалуюсь NJO…', forgive: 'Ладно… прощаю.', sneeze: 'Апчхи! Рыночная пыль.', yawn: 'Длинная ночь данных.', dance: 'Новая находка! Танцую.', hum: 'Ля-ля… читаю цены.', inv1: 'Псс… нажмите на меня. Посмотрим ваш бизнес.', inv2: 'Есть две минуты? Нажмите, прочитаю ваш рынок.', inv3: 'Спросите меня о продажах. Просто нажмите.', inv4: 'Я не только милая. Нажмите и проверьте.', inv5: 'Листаете быстро? Нажмите и просто спросите.' },
 };
 
 const MOOD = `var Um_s=0,Um=(()=>{let a=0,last=0,stage=0,flip=0;
@@ -14,7 +14,7 @@ const face=(p,d)=>{Object.assign(Ge.tgt,p);de.exprT=d;Um_s=stage};
 setInterval(()=>{if(performance.now()-last<4500||a<=0)return;a=Math.max(0,a-1);
  if(stage>=2&&a<4){stage=0;face({tilt:0,droop:0,tear:0,tint:0,inner:1,eyeH:1,happy:1,blush:.6},1.8);tn("forgive",2.6);Ae.voice("happy");ut(10)}
  else if(stage===1&&a<4){stage=0;face({droop:0,eyeH:1,eyeW:1},.5)}},1100);
-return function(){last=performance.now();a+=1;flip^=1;
+return function(){if(window.__xlInvUntil>performance.now()){window.__xlInvUntil=0;dispatchEvent(new Event("usha:talk"));return!0}last=performance.now();a+=1;flip^=1;
  const s=a<5?0:a<8?1:a<11?2:a<14?3:4;if(s===0)return!1;stage=s;Ge.tgt.sq=.8;setTimeout(()=>Ge.tgt.sq=1,140);
  if(s===1){face({eyeH:.3,eyeW:1.12,happy:0,tilt:0,droop:.5,blush:0,tear:0},3.2);Ae.voice("sigh");tn(flip?"bored1":"bored2",1.8);ut(6)}
  else if(s===2){face({eyeH:.55,eyeW:.9,happy:0,tilt:-.75,droop:1.3,blush:0,tear:.35,inner:.7},3.6);Ae.voice("sad");tn(flip?"sad1":"sad2",2);ut([10,40,10])}
@@ -60,7 +60,28 @@ var Ul_=(()=>{const acts=[
  ()=>{const t0=performance.now();(function f(){const k=(performance.now()-t0)/1600;if(k>=1){Ge.tgt.sq=1;Ge.tgt.stretch=1;return}const e=Math.sin(k*Math.PI);Ge.tgt.sq=1+Math.sin(k*Math.PI*6)*.06*e;Ge.tgt.stretch=1-Math.sin(k*Math.PI*6)*.04*e;requestAnimationFrame(f)})();Object.assign(Ge.tgt,{happy:1,blush:.6});de.exprT=1.8;Ae.voice("laugh");tn("dance",2.2)},
  ()=>{Object.assign(Ge.tgt,{happy:.6,eyeH:.9});de.exprT=2;Ae.voice("hum");tn("hum",2.2)}];
 let lastAct=0;addEventListener("pointerdown",()=>lastAct=performance.now(),{passive:!0});
-(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},3e4+Math.random()*3e4)})()})();`;
+(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},3e4+Math.random()*3e4)})()})();
+// Invitations: now and then, while the visitor reads past the first screen, she hops and offers to talk.
+var Uinv_=(()=>{let t0=0;const coarse=matchMedia("(pointer:coarse)").matches,reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let n=0,last=0,lastMove=performance.now(),lastY=scrollY,lastT=performance.now(),fast=0;
+addEventListener("scroll",()=>{const t=performance.now(),dy=Math.abs(scrollY-lastY),dt=t-lastT;if(dt>16&&dy/dt>2.2)fast=t;lastY=scrollY;lastT=t;lastMove=t},{passive:!0});
+const hop=(k,max)=>{Ge.tgt.sq=.86;Ge.tgt.stretch=1.15;setTimeout(()=>{Ge.tgt.sq=1.06;Ge.tgt.stretch=.95},130);setTimeout(()=>{Ge.tgt.sq=1;Ge.tgt.stretch=1},270);if(k+1<max)setTimeout(()=>hop(k+1,max),340)};
+setInterval(()=>{try{const t=performance.now();
+ if(!t0){if(je&&!document.documentElement.classList.contains("locked"))t0=t;return}
+ if(n>=4||document.hidden||!je||Xt.active||Um_s||(!de.asleep&&de.exprT>0)||document.documentElement.classList.contains("x-modal-on")||Ge.group.scale.x<.05)return;
+ if(scrollY<innerHeight*.85||t-t0<25e3||(n&&t-last<75e3))return;
+ const still=t-lastMove,afterFast=fast&&t-fast<8e3&&still>1500;
+ if(!(afterFast||still>9e3))return;
+ last=t;n++;
+ const go=()=>{window.__xlInvUntil=performance.now()+7e3;
+ Object.assign(Ge.tgt,{happy:1,eyeW:1.15,eyeH:1.2,blush:.6});de.exprT=2.8;
+ if(!reduce)hop(0,coarse?3:4);
+ if(coarse&&!reduce){let q=0;const sh=setInterval(()=>{Ge.tgt.lookX=q%2?.08:-.08;if(++q>9){clearInterval(sh);Ge.tgt.lookX=0}},55)}
+ if(coarse)ut([15,40,15]);
+ if(Ae.on)Ae.voice("giggle");
+ tn(afterFast?"inv5":"inv"+(1+(n-1)%4),4.5)};
+ if(de.asleep&&typeof l_=="function"){l_();setTimeout(go,1100)}else go()
+}catch(e){}},1500)})();`;
 
 const VOICES = `case"laugh":for(let t=0;t<7;t++)xt(e(1000,1250)-t*70,e(700,900)-t*50,.09,.08,"sine",t*.085,6);break;case"sigh":xt(560,300,.7,.07,"triangle");break;case"sad":xt(620,430,.45,.08,"sine",0,5),xt(520,320,.7,.07,"sine",.42,5);break;case"grr":xt(140,115,.42,.08,"sawtooth",0,28),xt(170,120,.3,.07,"sawtooth",.4,28);break;case"sob":for(let t=0;t<5;t++)xt(e(680,760),e(480,540),.16,.06,"sine",t*.2,12);break;case"sneeze":xt(420,900,.3,.05,"sine"),xt(2200,300,.14,.11,"square",.42);break;case"yawn":xt(280,520,.55,.06,"triangle",0,4),xt(520,230,.8,.06,"triangle",.5,4);break;case"hum":[659,587,523,587,659,659].forEach((t,n)=>xt(t,t,.17,.045,"triangle",n*.19,5));break;`;
 
