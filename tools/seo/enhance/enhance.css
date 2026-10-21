@@ -771,9 +771,9 @@ header a.xl-nav-live::before{content:'';position:absolute;inset-inline-start:0;t
 @media (min-width:601px){#hero .hero-t h1{font-size:clamp(40px,min(5.7vw,9vh),104px)}#hero .hero-t .sub{margin-top:min(28px,3vh)}#hero .hero-t .cta{margin-top:min(32px,3.4vh)}}
 @media (max-width:600px){#hero .hero-t .cta .xl-hero{width:100%;min-height:56px}.xl-hero-b{font-size:16px;flex:1;text-align:start}#hero .hero-t .kick{display:none}#hero .hero-t p.sub{max-width:100%;box-sizing:border-box}html[dir=rtl] #hero .hero-t{left:var(--g)}}
 @media (prefers-reduced-motion:reduce){.xl-hero,.xl-hero::before,.xl-hero::after,.xl-hero-dot,.xl-hero-face i,header a.xl-nav-live::before{animation:none}}
-/* first-screen buttons: USHA Live on top, the two others below it at equal size */
+/* first-screen buttons: USHA Live on top, the two others below it; all three the same height and shape */
 #hero .hero-t .cta{display:inline-grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
-#hero .hero-t .cta>.xl-hero{grid-column:1/-1;width:100%;height:60px;min-height:60px;box-sizing:border-box;margin:0;padding-block:0}
+#hero .hero-t .cta>.xl-hero{grid-column:1/-1;width:100%;height:56px;min-height:56px;border-radius:999px;box-sizing:border-box;margin:0;padding-block:0}
 #hero .hero-t .cta>.xl-hero .xl-hero-b{flex:1;text-align:start}
-#hero .hero-t .cta>.btn{width:100%;height:52px;box-sizing:border-box;justify-content:center;padding-inline:22px;margin:0}
-@media (max-width:600px){#hero .hero-t .cta{display:grid;grid-template-columns:1fr;width:100%;gap:10px}#hero .hero-t .cta>.xl-hero{height:58px;min-height:58px}#hero .hero-t .cta>.btn{height:50px}}
+#hero .hero-t .cta>.btn{width:100%;height:56px;min-height:56px;border-radius:999px;box-sizing:border-box;justify-content:center;padding-inline:22px;margin:0}
+@media (max-width:600px){#hero .hero-t .cta{display:grid;grid-template-columns:1fr;width:100%;gap:10px}}
