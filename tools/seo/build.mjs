@@ -373,7 +373,7 @@ const storyJS = fs.readFileSync(path.join(ENH, 'story.js'), 'utf8').replace(/^\/
 if (Buffer.byteLength(storyJS) > 9 * 1024) throw new Error('Story controller exceeds 9 KiB');
 const compactStoryCSS = storyCSS.replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
 if (Buffer.byteLength(compactStoryCSS) > 7 * 1024) throw new Error('Story CSS exceeds 7 KiB');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'code.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
