@@ -14,132 +14,6 @@
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Deck sections are present in static HTML. Repaint only on a language
-  // change; the accessible figures always contain their final values.
-  let deckLang, deckObserver;
-  function deckUI() {
-    if (deckLang === lang()) return;
-    deckLang = lang();
-    deckObserver?.disconnect();
-    const blocks = deckHTML(X(), lang());
-    $$('[data-deck-block]').forEach((slot) => { slot.innerHTML = blocks[slot.dataset.deckBlock] || ''; });
-    if (reduce || !('IntersectionObserver' in window)) return;
-    deckObserver = new IntersectionObserver((entries) => entries.forEach(({target, isIntersecting}) => {
-      if (!isIntersecting) return;
-      deckObserver.unobserve(target);
-      const start = performance.now(), total = +target.dataset.count;
-      const locale = lang() === 'ru' ? 'ru-RU' : 'en-US';
-      const tick = (now) => {
-        if (!target.isConnected) return;
-        const p = Math.min(1, (now - start) / 1100);
-        const n = Math.round(total * (1 - Math.pow(1 - p, 3)));
-        const text = p === 1 ? target.dataset.final : n.toLocaleString(locale) + target.dataset.suffix;
-        $('.dx-dot', target).innerHTML = dotNumber(text.replace(/\u00a0|\u202f/g, ' '));
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }), {threshold: .5});
-    $$('.dx-number').forEach((el) => deckObserver.observe(el));
-  }
-
-  // ---------- three invitations, all using the live chat's existing entry ----------
-  let whisper, livePill, hintTimer, hintRotation, hintLang;
-  let hintSeen = false, hintLine = 0;
-  try { hintSeen = sessionStorage.getItem('usha-live-hint') === '1'; } catch {}
-  const hintsReady = () => !H.classList.contains('locked') && !$('#intro') &&
-    !H.classList.contains('gaming') && !H.classList.contains('x-modal-on');
-  function rememberHint() {
-    hintSeen = true;
-    try { sessionStorage.setItem('usha-live-hint', '1'); } catch {}
-  }
-  function hideWhisper() {
-    if (whisper && !whisper.hidden) whisper.hidden = true;
-    clearTimeout(hintRotation);
-  }
-  function dismissHint() {
-    hideWhisper(); rememberHint();
-    // Dismissing with a keyboard keeps focus on the next useful action.
-    $('.x-live-main')?.focus({ preventScroll: true });
-  }
-  function openLive(e) {
-    const entry = $('.xl-open');
-    if (!entry || !hintsReady()) return;
-    // The existing chat remembers the active element when it opens.
-    e.currentTarget.focus({ preventScroll: true });
-    rememberHint(); hideWhisper(); entry.click();
-  }
-  function showWhisper() {
-    if (hintSeen || !whisper || !hintsReady() || !$('.xl-open') ||
-      scrollY > 80) return;
-    // A short viewport must never make the bubble cover the header or copy.
-    const top = $('.hero-t').getBoundingClientRect().top;
-    if (innerWidth <= 820 && top < 170) return;
-    rememberHint(); whisper.hidden = false;
-    let turns = 0;
-    const rotate = () => {
-      // Leave a focused button's accessible name stable.
-      if (whisper.hidden || whisper.contains(D.activeElement)) return;
-      hintLine = (hintLine + 1) % X().liveHints.lines.length;
-      $('.x-whisper-text', whisper).textContent = X().liveHints.lines[hintLine];
-      if (++turns < 2) hintRotation = setTimeout(rotate, 6000);
-    };
-    if (!reduce) hintRotation = setTimeout(rotate, 6000);
-  }
-  function hintsCheck() {
-    if (!livePill) return;
-    const ready = hintsReady();
-    const pastHero = scrollY >= innerHeight * .9;
-    const hidden = !ready || !pastHero;
-    if (livePill.hidden !== hidden) livePill.hidden = hidden;
-    if (!ready || scrollY > 80) hideWhisper();
-    if (ready && !hintSeen && !hintTimer) hintTimer = setTimeout(() => {
-      hintTimer = 0; showWhisper();
-    }, 2400);
-  }
-  function liveHintsUI() {
-    if (!window.USHA_LIVE?.api || !$('#hero .cta')) return;
-    const x = X().liveHints;
-    if (!x) return;
-    if (!$('.x-live-main')) {
-      const cta = $('#hero .cta');
-      const main = D.createElement('button');
-      main.type = 'button'; main.className = 'btn btn-p x-live-main';
-      main.innerHTML = '<span class="d" aria-hidden="true"></span><span></span>';
-      main.addEventListener('click', openLive);
-      cta.prepend(main); cta.classList.add('x-live-actions');
-      $('a[href="#free"]', cta)?.classList.replace('btn-p', 'btn-g');
-      $('a[href="#signal"]', cta)?.classList.add('x-see-work');
-      whisper = D.createElement('div'); whisper.className = 'x-whisper'; whisper.hidden = true;
-      whisper.setAttribute('translate', 'no');
-      whisper.innerHTML = '<button type="button" class="x-whisper-ask"><span class="x-whisper-text"></span><span aria-hidden="true">↗</span></button><button type="button" class="x-whisper-close">×</button>';
-      $('.hero-t').append(whisper);
-      $('.x-whisper-ask', whisper).addEventListener('click', openLive);
-      $('.x-whisper-close', whisper).addEventListener('click', dismissHint);
-      livePill = D.createElement('button'); livePill.type = 'button';
-      livePill.className = 'x-live-pill'; livePill.hidden = true;
-      livePill.innerHTML = '<span class="d" aria-hidden="true"></span><span></span><i aria-hidden="true">↗</i>';
-      livePill.addEventListener('click', openLive); D.body.append(livePill);
-      new MutationObserver((records) => {
-        if (records.some((r) => r.attributeName === 'lang')) liveHintsUI();
-        // The animation writes the same root class every frame. Ignore those
-        // writes; only a changed mode needs to update these controls.
-        else if (records.some((r) => r.oldValue !== H.className)) hintsCheck();
-      }).observe(H, { attributes: true, attributeOldValue: true, attributeFilter: ['class', 'lang'] });
-      // The wake overlay is removed after the greeting; no hint interrupts it.
-      new MutationObserver(hintsCheck).observe(D.body, { childList: true });
-      addEventListener('usha:noticed', showWhisper);
-      addEventListener('resize', hintsCheck, { passive: true });
-    }
-    if (hintLang !== lang()) {
-      hintLang = lang();
-      $('.x-live-main span:last-child').textContent = x.primary;
-      $('.x-live-pill span:nth-child(2)').textContent = x.pill;
-      $('.x-whisper-text', whisper).textContent = x.lines[hintLine];
-      $('.x-whisper-close', whisper).setAttribute('aria-label', x.dismiss);
-    }
-    hintsCheck();
-  }
-
   // in-view: .x-io → .x-in, and .rv created by this layer → .in. Checked on
   // scroll (not observed) because the bundle re-renders and swaps nodes.
   const REV = '.x-io:not(.x-in),.x-plans .xp-cards:not(.in)';
@@ -162,7 +36,7 @@
   }
   function onScroll() {
     cacheRects();
-    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck(); hintsCheck(); x3Scroll();
+    wakeCheck(); revealCheck(); vsCheck(); deptScroll(); tilesCheck(); ctrlCheck();
     const y = scrollY, max = D.documentElement.scrollHeight - innerHeight;
     if (header) {
       header.classList.toggle('x-solid', y > 60 && !H.classList.contains('locked'));
@@ -177,13 +51,13 @@
     if (!t || !t.closest) return;
     // popup windows (plans, the live chat) sit above the eyes cursor: they always get the normal pointer
     const inStory = !t.closest('.x-modal') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
-    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button,.x-live-pill'));
+    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button'));
     const g = t.closest('.sec .glass');
     if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--px', e.clientX - r.left + 'px'); g.style.setProperty('--py', e.clientY - r.top + 'px'); }
   }, { passive: true });
 
   // ---------- waking headlines: letters start thin and faint, wake bold when seen ----------
-  const WAKE = '.sec h2.big,.eng h3,.x3 h3.big,#story h2';
+  const WAKE = '.sec h2.big,.eng h3';
   // checked on scroll rather than observed: the bundle can swap these nodes
   function wakeCheck() {
     $$('.x-wake:not(.x-lit)').forEach((h) => {
@@ -484,7 +358,7 @@
 
   // ---------- live parts must not be frozen by browser translation ----------
   function noTranslate() {
-    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans', '.x3-live', '.x3-split'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
+    ['.x-dept', '.fcard', '#chat', '#bub', '#tasks', '#toast', '.x-vs', '.ctrl', '#areas', '.x-plans'].forEach((q) => $$(q).forEach((e) => { e.setAttribute('translate', 'no'); e.classList.add('notranslate'); }));
   }
   // ---------- findings card: always leaves room above it for USHA ----------
   function fcardFit() {
@@ -590,9 +464,7 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function x3UI() { window.USHA_X3?.render(X().x3, X().x3Panels, lang()); }
-  function x3Scroll() { window.USHA_X3?.scroll(); }
-  function renderAll() { [x3UI, deckUI, liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });

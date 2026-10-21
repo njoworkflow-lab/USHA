@@ -287,7 +287,6 @@
 
   function open() {
     if (modal) return;
-    window.USHA_AUDIO?.duck?.('live', true);
     lastFocus = D.activeElement;
     modal = D.createElement('div');
     modal.className = 'x-modal x-live';
@@ -318,7 +317,6 @@
   function notice(title, text) { handoff(title, text, view(), { contacts: false, free: false }); }
   function close() {
     if (!modal) return;
-    window.USHA_AUDIO?.duck?.('live', false);
     const m = modal; modal = null; tsId = null;
     H.classList.remove('x-modal-on');
     if (reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
@@ -615,16 +613,6 @@
   function ctaUI() {
     const chat = $('#chat'); if (!chat) return;
     const x = L();
-    const slot = $('#x3-live .x3-slot');
-    if (slot) {
-      const c = window.USHA_X?.[H.lang]?.x3;
-      if (!slot.querySelector('.xl-open') || slot.dataset.lang !== H.lang) {
-        slot.dataset.lang = H.lang;
-        slot.innerHTML = `<button type="button" class="btn btn-p xl-open x3-go"><span class="d"></span><span>${esc(c?.b2_cta || x.cta_b)}</span></button>`;
-      }
-      $$('#x3-live .xl-open').forEach(b => { if (!b.dataset.xlBound) { b.dataset.xlBound = '1'; b.addEventListener('click', open); } });
-      return;
-    }
     let cta = $('.xl-cta');
     if (!cta) {
       cta = D.createElement('div'); cta.className = 'xl-cta rv in'; cta.setAttribute('translate', 'no');
@@ -637,15 +625,8 @@
     $('.xl-open', cta).addEventListener('click', open);
   }
   const later = () => setTimeout(ctaUI, 60);
-  D.addEventListener('usha:x3render', later);
   new MutationObserver(later).observe(H, { attributes: true, attributeFilter: ['lang'] });
-  const talk = $('#talk'); if (talk) new MutationObserver(() => { if (!$('#x3-live .x3-slot .xl-open') && !$('.xl-cta')) later(); }).observe(talk, { childList: true, subtree: true });
-  // A shared #ask link also works after same-page navigation. #x3-live
-  // remains a scroll target and never opens the gate by itself.
-  addEventListener('hashchange', () => { if (location.hash === '#ask') open(); });
-  if (location.hash === '#ask') {
-    if (D.readyState === 'complete') setTimeout(open, 400);
-    else addEventListener('load', () => setTimeout(open, 400), { once: true });
-  }
+  const talk = $('#talk'); if (talk) new MutationObserver(() => { if (!$('.xl-cta')) later(); }).observe(talk, { childList: true, subtree: true });
+  if (location.hash === '#ask') addEventListener('load', () => setTimeout(open, 400));
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', ctaUI); else ctaUI();
 })();

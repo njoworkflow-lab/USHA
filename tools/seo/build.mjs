@@ -20,9 +20,8 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X, COMPARE_DECK } from './enhance/content.mjs';
-import { plansHTML, x3RailHTML, x3LiveHTML, x3SplitHTML, deckHTML } from './enhance/ui.mjs';
-import { storyHTML } from './enhance/story.mjs';
+import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
+import { plansHTML } from './enhance/ui.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
@@ -79,7 +78,6 @@ let src = hydrate(fs.readFileSync(SRC_PATH, 'utf8'));
 // when a page uses that alphabet. hydrate() undoes this so the build can also
 // run on its own output.
 function hydrate(h) {
-  h = h.replace(/<!--d1:[\w-]+-->[^]*?<!--\/d1:[\w-]+-->/g, '');
   h = h.replace(/<!--enh-->[^]*?<!--\/enh-->\n?/, '');
   h = h.replace(/url\(\/assets\/fonts\/([\w.-]+\.woff2)\)/g, (_, f) =>
     `url(data:font/woff2;base64,${fs.readFileSync(path.join(ASSETS, 'fonts', f)).toString('base64')})`);
@@ -135,13 +133,13 @@ function grabAt(s, marker) {
 }
 
 const DICT = grab(src, 'var wl={');
-let PLANS = grab(src, ',ru=[');
-let COMPARE = COMPARE_DECK; // Updated EN/RU decks, slide 18.
+const PLANS = grab(src, ',ru=[');
+let COMPARE = grab(src, 'Al=[');
 let AREAS = grab(src, 'iu=[');
 let PRO_ONLY = grab(src, 'su=[');
 const PARTNERS = grab(src, 'ir=[');
 const FEED = ',Ms=[', CHATS = ',Tl=[', WEEK = ',Ta=[';
-const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'string' && typeof v[1] === 'string' && (/[\u0400-\u04FF₽]/.test(v[1]) || v[0] === v[1]);
+const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'string' && typeof v[1] === 'string' && (/[\u0400-\u04FF]/.test(v[1]) || v[0] === v[1]);
 
 // ---------- content updates from the decks (tools/seo/enhance/content.mjs) ----------
 // Applied to the bundle's own data so every language and the pre-rendered HTML
@@ -153,10 +151,9 @@ for (const l of ['en', 'ru']) Object.assign(DICT[l].bub, LIFE_BUB[l]);
 const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
-PLANS = patchPairs(PLANS, PAIR_PATCH);
 AREAS = patchPairs(patchPairs(AREAS, PAIR_PATCH), AREA_LABELS);
 for (const add of PRO_ONLY_ADD) if (!PRO_ONLY.some((x) => x[0] === add[0])) PRO_ONLY = [...PRO_ONLY, add];
-for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], [',ru=[', PLANS], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
+for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
   [FEED, patchPairs(grab(src, FEED), PAIR_PATCH)], [CHATS, patchPairs(grab(src, CHATS), PAIR_PATCH)], [WEEK, patchPairs(grab(src, WEEK), PAIR_PATCH)]]) {
   const { start, end } = grabAt(src, marker);
   src = src.slice(0, start) + JSON.stringify(value) + src.slice(end);
@@ -185,8 +182,6 @@ const pickX = (v, i) => isPair(v) ? v[i] : Array.isArray(v) ? v.map((x) => pickX
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, pickX(x, i)])) : v;
 const XL = { en: pickX(X, 0), ru: pickX(X, 1) };
 XL.ar = trAll(XL.en);
-// The game uses «Play» as «العب»; the film control uses «تشغيل».
-XL.ar.x3.p7_ctl[0] = AR['x3:Play'];
 const DATA = { PLANS, COMPARE, AREAS, PRO_ONLY };
 const data = (lang) => lang === 'ar' ? Object.fromEntries(Object.entries(DATA).map(([k, v]) => [k, trPairs(v)])) : DATA;
 
@@ -339,41 +334,18 @@ const TYPE_FACES = [['Unbounded', 'unbounded', '200 900'], ['Onest', 'onest', '1
 // /assets/* names carry a content hash, so they are cached forever (cache first);
 // pages are network first, so a new deploy shows at once and the cached copy
 // covers a flaky connection.
-fs.writeFileSync(path.join(ROOT, 'sw.js'), `const V='usha-v3';
+fs.writeFileSync(path.join(ROOT, 'sw.js'), `const V='usha-v2';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==location.origin)return;
- if(r.headers.has('range')||/\\.(mp4|webm)$/.test(u.pathname))return;
  if(u.pathname.startsWith('/assets/')||/\\.(png|jpg|svg|woff2|ttf)$/.test(u.pathname)){e.respondWith(caches.open(V).then(c=>c.match(r).then(m=>m||fetch(r).then(res=>{if(res.ok)c.put(r,res.clone());return res}))));return}
  if(r.mode==='navigate'){e.respondWith(fetch(r).then(res=>{const cp=res.clone();caches.open(V).then(c=>c.put(r,cp));return res}).catch(()=>caches.match(r)))}});
 `);
 
-// Section 03 media: content hashes make replacement safe for returning visitors.
-const MEDIA_DIR = path.join(ROOT, 'tools/seo/media');
-const MEDIA = JSON.parse(fs.readFileSync(path.join(MEDIA_DIR, 'media.json'), 'utf8'));
-for (const film of Object.values(MEDIA)) {
-  const asset = (file) => {
-    const buf = fs.readFileSync(path.join(MEDIA_DIR, file));
-    const ext = path.extname(file), name = path.basename(file, ext);
-    return { url: emit(`media/${name}-${hash(buf)}${ext}`, buf), bytes: buf.length };
-  };
-  film.poster = asset(film.poster).url;
-  for (const [quality, rendition] of Object.entries(film.renditions)) film.renditions[quality] = { ...asset(rendition.file), ...(rendition.webm ? { webm: asset(rendition.webm) } : {}) };
-  film.duration = film.trim || film.duration;
-}
-
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const grain = fs.readFileSync(path.join(ENH, 'story-grain.png'));
-const grainURL = emit(`story-grain-${hash(grain)}.png`, grain);
-const storyCSS = fs.readFileSync(path.join(ENH, 'story.css'), 'utf8').replace('__STORY_GRAIN__', grainURL);
-const ENH_CSS = (fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8') + '\n' + storyCSS).replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const storyBuilders = fs.readFileSync(path.join(ENH, 'story.mjs'), 'utf8').replace(/^import .*;\n/gm, '').replace(/^export /gm, '');
-const storyJS = fs.readFileSync(path.join(ENH, 'story.js'), 'utf8').replace(/^\/\/[^\n]*\n/gm, '').replace(/\n+/g, '\n');
-if (Buffer.byteLength(storyJS) > 9 * 1024) throw new Error('Story controller exceeds 9 KiB');
-const compactStoryCSS = storyCSS.replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-if (Buffer.byteLength(compactStoryCSS) > 7 * 1024) throw new Error('Story CSS exceeds 7 KiB');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'split.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + storyBuilders + '\n' + storyJS;
+const ENH_CSS = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8');
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
@@ -381,7 +353,7 @@ let ENH_URL;
 function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_X3_MEDIA=${JSON.stringify(MEDIA)};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {
@@ -480,52 +452,7 @@ function render(lang) {
   h = h.replace(/<!--xplans-->[^]*?<!--\/xplans-->/, '');
   h = h.replace(/(<div class="plans" id="plancards">[^]*?<\/div>)(?=\s*<p class="pnote)/, (m) => m + xplans);
   if (!h.includes('<!--xplans-->')) throw new Error('Bundle changed: #plancards not found');
-  // Strip only our marked inserts, then find the existing talk wrapper's
-  // matching close. Counting divs survives copy changes and nested chat markup.
-  const x3Hint = h.match(/<div class="hint[^>]*>[^]*?<\/div>/)?.[0] || '';
-  h = h.replace(/<!--x3(?:live|split|rail)-->[^]*?<!--\/x3(?:live|split|rail)-->/g, '');
-  const talk = h.match(/<section\b[^>]*id="talk"[^>]*>[^]*?<\/section>/);
-  if (!talk) throw new Error('Bundle changed: #talk anchor not found');
-  let t = talk[0];
-  const wrap = /<div class="wrap talk">/.exec(t);
-  if (!wrap || !t.includes('<div class="side"></div>')) throw new Error('Bundle changed: #talk anchor not found');
-  t = t.replace(/(<div class="side"><\/div>\s*<div)(?: class="x3-watch" id="x3-watch")?>/, '$1 class="x3-watch" id="x3-watch">');
-  const hint = t.match(/<div class="hint[^>]*>[^]*?<\/div>/)?.[0] || x3Hint;
-  t = t.replace(/<div class="hint[^>]*>[^]*?<\/div>/, '').replace(/^[ \t]+$/gm, '');
-  t = t.replace(/(<p class="lead" data-t="t_p">[^]*?<\/p>)/, (m) => m + `<!--x3rail-->${x3RailHTML(XL[lang].x3)}<!--/x3rail-->`);
-  let depth = 1, end = -1;
-  const tags = /<\/?div\b[^>]*>/g; tags.lastIndex = wrap.index + wrap[0].length;
-  for (let tag; (tag = tags.exec(t));) {
-    depth += tag[0].startsWith('</') ? -1 : 1;
-    if (!depth) { end = tag.index; break; }
-  }
-  if (end < 0) throw new Error('Bundle changed: #talk anchor not found');
-  const live = `<!--x3live--><div class="x3 x3-live" id="x3-live" role="group" aria-labelledby="x3-live-title" data-lang="${lang}">${x3LiveHTML(XL[lang].x3).replace('<div class="x3-hint-slot"></div>', `<div class="x3-hint-slot">${hint}</div>`)}</div><!--/x3live-->`;
-  const split = `<!--x3split--><div class="wrap x3 x3-split" id="x3-split" role="group" aria-labelledby="x3-split-title" data-lang="${lang}">${x3SplitHTML(XL[lang].x3, lang, MEDIA, XL[lang].x3Panels)}</div><!--/x3split-->`;
-  t = t.slice(0, end) + live + t.slice(end, end + 6) + split + t.slice(end + 6);
-  h = h.replace(talk[0], () => t);
   h = h.replace(/<\/body>/, () => enhBlock(lang) + '</body>');
-
-  // Updated-deck additions. Marked regions are removed by hydrate() so every
-  // build starts from the original layout, including on generated index.html.
-  const blocks = deckHTML(XL[lang], lang);
-  const block = (name) => `<!--d1:${name}--><div data-deck-block="${name}">${blocks[name]}</div><!--/d1:${name}-->`;
-  h = h.replace(/(?=<section class="ch" id="signal">)/, block('problem'));
-  h = h.replace(/(?=<section class="ch sec" id="talk">)/, ['meet', 'numbers', 'mind', 'outcomes', 'how'].map(block).join(''));
-  h = h.replace(/(<p class="sick rv"[^>]*>[^]*?<\/p>)/, '$1' + block('price'));
-  if (!h.includes('<!--xstory-->')) throw new Error('Bundle changed: #story marker not found');
-  h = h.replace(/<!--xstory-->[^]*?<!--\/xstory-->/, () => '<!--xstory-->' + storyHTML(XL[lang], lang) + '<!--/xstory-->');
-  h = h.replace(/(?=<div class="tog pill rv" id="mtog">)/, block('rhythm'));
-  h = h.replace(/<div class="guar glass rv">[^]*?<\/ul><\/div>\s*/, '');
-  h = h.replace(/(?=<section class="ch sec" id="free">)/, block('trust'));
-  h = h.replace(/(<div class="wrap free">\s*<div>)/, '$1' + block('free'));
-  h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a>)/, '$1' + block('footer'));
-  // EN/RU slide references for the existing authored sections. Illustrations
-  // retained from the old site are not client results or new scale claims.
-  const sources = { hero: '1,6', noise: '3; buyer seven-seconds line retained from site, not in decks', signal: '7,8; live cards are retained site illustrations', talk: 'unchanged; separate brief', why: '17,18', month: '21,22', plans: '22', control: '24; NJO team and partners retained from site, not in decks', free: '27,28; no-contract wording retained from site', faqs: '6,13,21,23,25,26,28' };
-  for (const [id, slides] of Object.entries(sources)) h = h.replace(new RegExp(`(<section[^>]* id="${id}"[^>]*>)`), `$1<!-- ${lang === 'ru' ? 'RU' : 'EN'} deck, slides ${slides} -->`);
-  // Collapse repeat-build section annotations before adding them next time.
-  h = h.replace(/(<!-- (?:EN|RU) deck, slides [^>]* -->)(?:<!-- (?:EN|RU) deck, slides [^>]* -->)+/g, '$1');
 
   // runtime-built blocks
   for (const [id, html] of Object.entries(containers(lang))) {
@@ -702,9 +629,7 @@ fs.writeFileSync(path.join(ROOT, 'llms.txt'), `# USHA by NJO
 
 > ${md(en.kicker)}. ${md(en.sub)} Built by NJO Business Solutions (since 2016) for brands and marketplace sellers in Russia, the GCC and Egypt. First week free.
 
-USHA is a business intelligence engine, not a chatbot or an agency. She works in the client's messenger 24/7. Every day, before 08:00, she reads 1,240 sources: marketplaces, competitors, reviews, search and ads. The English deck names Amazon, noon, Ozon and Wildberries; the Russian deck names Ozon, Wildberries and Yandex Market. She reports what changed and why, then does the work within an approved plan. Every output is checked against NJO's quality standards. Sources: updated decks, slides 3, 7, 13, 21 and 23.
-
-${md(XL.en.deck.trust.title)} ${md(XL.en.deck.trust.terms)} ${md(XL.en.deck.trust.stamp)}. Sources: slides 25–26. No refund period or sales outcome is promised here.
+USHA is a business intelligence engine, not a chatbot or an agency. She works in the client's messenger 24/7: every day she reads about 1,240 sources around the business (marketplaces such as Wildberries, Ozon and Yandex Market, competitors, reviews, search and ads), reports what changed and why, and then does the work: strategy, content, video, photo, design, promotions and ads within an approved plan. NJO's strategists and art directors check every output.
 
 ## Pages
 - [USHA — Russian (main)](${LANGS.ru.url}): ${LANGS.ru.description}
@@ -727,26 +652,20 @@ ${PLANS.map((p) => `- ${p.n}: ${p.t[0]} ${p.pts.map((x) => x[0]).join('; ')}.`).
 
 function fullText(lang) {
   const d = DICT[lang], i = LANGS[lang].idx, h2 = (k) => `## ${md(d[k])}`, { PLANS, COMPARE, AREAS, PRO_ONLY } = data(lang);
-  const blocks = deckHTML(XL[lang], lang);
-  const deckText = (name) => blocks[name].replace(/<svg\b[^]*?<\/svg>/g, '').replace(/<!--[^]*?-->/g, '')
-    .replace(/<h2>/g, '\n## ').replace(/<h3[^>]*>/g, '\n### ').replace(/<li[^>]*>/g, '\n- ')
-    .replace(/<\/(?:p|h2|h3|article|li|div)>/g, '\n').replace(/<[^>]+>/g, '')
-    .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\n{3,}/g, '\n\n').trim();
   return [
     `# ${md(d.kicker)}`, `**${md(d.h1)}** ${md(d.sub)}`, `- ${md(d.tr1)}\n- ${md(d.tr2)}\n- ${md(d.tr3)}`,
     h2('n_h'), md(d.n_p), [0, 1, 2, 3].map((n) => `- **${md(d['a' + n])}**: ${md(d[`a${n}d`])}`).join('\n'), `${md(d.n_e1)} ${md(d.n_e2)}`,
-    deckText('problem'), h2('s_h'), md(d.s_p), ...['meet', 'numbers', 'mind', 'outcomes', 'how'].map(deckText),
+    h2('s_h'), md(d.s_p),
     h2('w_h'), `| | ${md(d.w_c1)} | ${md(d.w_c2)} | ${md(d.w_c3)} | ${md(d.w_c4)} |\n|---|---|---|---|---|\n` + COMPARE.map((r) => `| ${r.map((c) => c[i]).join(' | ')} |`).join('\n'),
-    `**${md(d.w_7h)}** ${md(d.w_7p)} (${d.w_roles.join(', ')}). ${md(d.w_sick)}`, deckText('price'), deckText('rhythm'),
+    `**${md(d.w_7h)}** ${md(d.w_7p)} (${d.w_roles.join(', ')}). ${md(d.w_sick)}`,
     h2('m_h'), md(d.m_p), AREAS.map((a) => `- **${a.k[i]}**: ${a.t[i]} ${a.n.map((n) => `${n[0][i]}: Core ${n[1]}, Pro ${n[2]}`).join('; ')}.`).join('\n'), `- **${md(d.m_pro)}**: ${PRO_ONLY.map((x) => x[i]).join('; ')}.`,
     h2('p_h'), md(d.p_p), PLANS.map((p) => `### ${p.n}\n${p.t[i]}\n${p.pts.map((x) => `- ${x[i]}`).join('\n')}`).join('\n\n'), md(d.p_note),
     h2('c_h'), md(d.c_p), `- **${md(d.c_a)}**: ${md(d.c_at)}\n- **${md(d.c_y)}**: ${md(d.c_yt)}\n- **${md(d.c_n)}**: ${md(d.c_nt)}`,
     `### ${md(d.c_g)}\n${[1, 2, 3, 4].map((n) => `- ${md(d['c_g' + n])}`).join('\n')}`,
     `### ${md(d.c_e)}\n${md(d.c_ep)} NJO · New Journey Onward · ${md(d.c_since)} · ${md(d.c_mk)}. ${md(d.c_par)}: ${PARTNERS.join(', ')}.`,
-    deckText('trust'), deckText('free'), h2('fr_h'), md(d.fr_p), [1, 2, 3].map((n) => `${n}. ${md(d['fr_' + n])}`).join('\n'), `${md(d.fr_then)} ${md(d.bf_safe)}`,
+    h2('fr_h'), md(d.fr_p), [1, 2, 3].map((n) => `${n}. ${md(d['fr_' + n])}`).join('\n'), `${md(d.fr_then)} ${md(d.bf_safe)}`,
     h2('q_h'), d.faq.map(([q, a]) => `### ${md(q)}\n${md(a)}`).join('\n\n'),
     `## ${md(d.ft_contact)}\n- Telegram: ${CONTACT.telegram}\n- Email: ${CONTACT.email}\n- ${CONTACT.njo}`,
-    'Unified Strategy. Human Action.',
   ].join('\n\n');
 }
 fs.writeFileSync(path.join(ROOT, 'llms-full.txt'),
