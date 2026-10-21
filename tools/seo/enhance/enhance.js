@@ -14,6 +14,34 @@
   const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Deck sections are present in static HTML. Repaint only on a language
+  // change; the accessible figures always contain their final values.
+  let deckLang, deckObserver;
+  function deckUI() {
+    if (deckLang === lang()) return;
+    deckLang = lang();
+    deckObserver?.disconnect();
+    const blocks = deckHTML(X(), lang());
+    $$('[data-deck-block]').forEach((slot) => { slot.innerHTML = blocks[slot.dataset.deckBlock] || ''; });
+    if (reduce || !('IntersectionObserver' in window)) return;
+    deckObserver = new IntersectionObserver((entries) => entries.forEach(({target, isIntersecting}) => {
+      if (!isIntersecting) return;
+      deckObserver.unobserve(target);
+      const start = performance.now(), total = +target.dataset.count;
+      const locale = lang() === 'ru' ? 'ru-RU' : 'en-US';
+      const tick = (now) => {
+        if (!target.isConnected) return;
+        const p = Math.min(1, (now - start) / 1100);
+        const n = Math.round(total * (1 - Math.pow(1 - p, 3)));
+        const text = p === 1 ? target.dataset.final : n.toLocaleString(locale) + target.dataset.suffix;
+        $('.dx-dot', target).innerHTML = dotNumber(text.replace(/\u00a0|\u202f/g, ' '));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }), {threshold: .5});
+    $$('.dx-number').forEach((el) => deckObserver.observe(el));
+  }
+
   // ---------- three invitations, all using the live chat's existing entry ----------
   let whisper, livePill, hintTimer, hintRotation, hintLang;
   let hintSeen = false, hintLine = 0;
@@ -562,7 +590,7 @@
 
   // ---------- render; again after the bundle re-renders ----------
   const run = (fn) => { try { fn(); } catch (e) { console.warn('[usha-x]', e); } };
-  function renderAll() { [liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
+  function renderAll() { [deckUI, liveHintsUI, wakeUI, compareUI, rolesUI, decorateAreas, legendUI, ctrlUI, guarUI, freeUI, faqUI, smallUI, noTranslate, fcardFit, findingsUI, plansUI].forEach(run); watch(); onScroll(); }
   const timers = new Map();
   const later = (fn) => { clearTimeout(timers.get(fn)); timers.set(fn, setTimeout(() => run(fn), 40)); };
   new MutationObserver(() => later(renderAll)).observe(H, { attributes: true, attributeFilter: ['lang'] });
