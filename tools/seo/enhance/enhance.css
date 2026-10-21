@@ -746,7 +746,7 @@ html[dir=rtl] .xl-send i{transform:translate(2px,2px) rotate(-135deg)}
  transition:transform .3s var(--x-ease,ease),box-shadow .35s;-webkit-tap-highlight-color:transparent}
 @keyframes xlFlow{from{background-position:0 0,0 0,0% 0}to{background-position:0 0,0 0,100% 0}}
 @keyframes xlWave{0%{--xl-w:-30%}100%{--xl-w:130%}}
-.xl-hero::before{content:'';position:absolute;inset:-3px;border-radius:inherit;padding:2px;background:conic-gradient(from var(--xl-a),rgba(255,255,255,0) 0deg,#fff 40deg,#FFC4A0 80deg,rgba(255,255,255,0) 140deg,rgba(255,255,255,0) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:xlSpin 3.2s linear infinite;z-index:-1;opacity:.9;pointer-events:none}
+.xl-hero::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:2px;background:conic-gradient(from var(--xl-a),rgba(255,255,255,0) 0deg,#fff 40deg,#FFC4A0 80deg,rgba(255,255,255,0) 140deg,rgba(255,255,255,0) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:xlSpin 3.2s linear infinite;z-index:-1;opacity:.9;pointer-events:none}
 .xl-hero::after{content:'';position:absolute;inset:-14px;border-radius:inherit;background:radial-gradient(closest-side,rgba(255,106,43,.45),rgba(255,106,43,0));z-index:-2;animation:xlBreath 2.6s ease-in-out infinite;pointer-events:none}
 @keyframes xlSpin{to{--xl-a:360deg}}
 @keyframes xlBreath{0%,100%{opacity:.45;transform:scale(.96)}50%{opacity:.9;transform:scale(1.03)}}
