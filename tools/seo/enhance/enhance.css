@@ -679,6 +679,16 @@ html[dir=rtl] .xl-pr select{background-position:calc(100% - 16px) 50%,calc(100% 
 .xl-go small{flex:1 1 220px;font-size:12px;color:var(--ink3);line-height:1.4}
 .xl-go .btn[disabled]{opacity:.6;cursor:progress}
 
+.xl-code{width:100%;max-width:480px;max-height:100%;margin:auto;align-content:start;gap:18px}
+.xl-code h4{margin:0;font:700 clamp(24px,3vw,30px)/1.2 var(--head);letter-spacing:-.03em;color:var(--ink);text-wrap:balance}
+html[lang=ar] .xl-code h4{letter-spacing:0}
+.xl-code .xl-f input{height:56px;font:500 24px var(--mono);letter-spacing:.12em;text-align:center}
+.xl-code .xl-go .btn{width:100%;min-height:52px;justify-content:center}
+.xl-code .xl-e{margin:0;line-height:1.5}
+.xl-code-contact,.xl-pm .xl-code-contact{margin:0;color:var(--ink3);font-size:13px;line-height:1.55}
+.xl-code .xl-team-open{min-height:44px;padding:10px 0;text-align:start}
+.xl-expired{max-height:100%;overflow:auto}
+
 .xl-chat{flex:1;min-height:0;display:flex;flex-direction:column}
 .xl-log{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:18px 28px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
 .xl-m{max-width:88%;font-size:15px;line-height:1.55;color:var(--ink);overflow-wrap:anywhere}
@@ -793,3 +803,5 @@ html[lang=ar] .dx-section h2,html[lang=ar] .dx-section h3{line-height:1.6}html[l
 @media(max-width:1000px){.dx-algorithms{grid-template-columns:repeat(3,minmax(0,1fr))}.dx-dot{height:44px}.dx-three{grid-template-columns:1fr}.dx-week{grid-template-columns:1fr}.dx-week li{display:grid;grid-template-columns:80px 1fr;gap:16px}.dx-week p{margin:0}.dx-skills{grid-template-columns:repeat(3,minmax(0,1fr))}.dx-echo{grid-template-columns:repeat(2,minmax(0,1fr))}.dx-trust-grid{gap:32px}.dx-rhythm-row{grid-template-columns:180px minmax(0,1fr)}}
 @media(max-width:650px){.dx-section{padding-block:56px}.dx-section h2{font-size:28px}.dx-section .dx-lead{font-size:16px}.dx-algorithms,.dx-outcomes,.dx-numbers,.dx-steps,.dx-trust-grid{grid-template-columns:1fr}.dx-number-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px;padding-inline-start:20px}.dx-number-group h3{grid-column:1/-1}.dx-stat{margin:0}.dx-dot{height:35px}.dx-stat p{font-size:13px}.dx-number-group+.dx-number-group{margin-top:20px}.dx-pair{grid-template-columns:1fr;gap:10px}.dx-labels{display:none}.dx-translate{padding:18px}.dx-pair bdi{font-size:18px}.dx-card,.dx-outcome,.dx-simulation{padding:20px}.dx-skills{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}.dx-skills li{font-size:13px;gap:8px}.dx-echo{gap:8px}.dx-echo p{font-size:12px;padding:8px}.dx-data-lists{gap:16px}.dx-promises ul{grid-template-columns:1fr 1fr}.dx-refund>span{height:64px}.dx-rhythm{padding:20px}.dx-rhythm-row{grid-template-columns:1fr;gap:10px}.dx-rhythm-row>div{gap:3px}.dx-week li{grid-template-columns:64px 1fr}.dx-ladder li{margin-inline-start:calc(var(--step)*10px)}}
 @media(prefers-reduced-motion:reduce){.dx-section *{scroll-behavior:auto!important}}
+
+.xl-expired:focus{outline:none}

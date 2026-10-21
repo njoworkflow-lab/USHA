@@ -1,6 +1,6 @@
 // "Ask USHA live": a real conversation with USHA from the "Try her" section.
-// A short form first (who you are, your business, your market), then up to
-// five questions answered by the USHA server. The NJO team (their company
+// An invitation code, a short form (who you are, your business, your market),
+// then a brief and four questions answered by the USHA server. The NJO team (their company
 // email plus the team code) has no limit. Someone who registered before is
 // greeted and passed to their project manager. The server address and the
 // Turnstile key come from window.USHA_LIVE (tools/seo/build.mjs); without
@@ -21,6 +21,11 @@
       k: 'USHA · live', h: 'Your business. <b>Her answer.</b>', p: 'Tell her who she is talking to. Then brief her and ask up to 4 questions. Your project manager follows up on these details, so please use real ones.',
       name: 'Your name', email: 'Work email', phone: 'Mobile number', country: 'Country code', business: 'Business name', size: 'Business size', industry: 'Industry', market: 'Main market', team: 'Team code',
       team_hint: 'For the NJO team: unlimited testing.', team_open: 'Have a team code?',
+      code_h: 'Enter your invitation code', code_label: 'Invitation code', code_submit: 'Continue',
+      code_error: 'This code can’t be used. Check it or ask your NJO contact.',
+      code_toomany: 'Too many tries. Please wait a little and try again.',
+      code_unavailable: 'We can’t check your code right now. Please try again in a moment.',
+      code_contact: 'Don’t have a code? Ask your NJO contact.', expired_h: 'Your invitation has ended.',
       sizes: {"solo": "Just me / under 5", "2-10": "2–10 people", "11-50": "11–50 people", "51-200": "51–200 people", "201-500": "201–500 people", "501-1000": "501–1,000 people", "1001-5000": "1,001–5,000 people", "5000+": "5,000+ people"},
       industries: [["FMCG & food", {"fmcg-sweets": "Sweets, chocolate & dates", "fmcg-snacks": "Food & snacks", "fmcg-drinks": "Drinks", "fmcg-dairy": "Dairy", "fmcg-household": "Household & cleaning", "fmcg-personal": "Personal care"}], ["Beauty & lifestyle", {"beauty": "Beauty & cosmetics", "perfume": "Perfume & oud", "fashion": "Fashion, footwear & accessories", "jewelry": "Jewellery & watches", "kids": "Kids & toys", "home": "Home & furniture", "electronics": "Electronics & gadgets", "pharma": "Pharmacy & health products", "pets": "Pet products", "sports": "Sports & outdoor"}], ["Retail & e-commerce", {"marketplace-sellers": "Marketplace seller (WB, Ozon, noon, Amazon)", "ecommerce": "E-commerce brand (own store)", "grocery": "Grocery & supermarkets", "retail-chain": "Retail chain", "distribution": "Distribution & wholesale"}], ["Food service & hospitality", {"cafes-restaurants": "Café or restaurant", "bakery": "Bakery, patisserie, sweets shop", "cloud-kitchen": "Cloud kitchen & delivery", "hospitality": "Hotels & tourism"}], ["Property & auto", {"real-estate": "Real estate developer", "real-estate-broker": "Real estate brokerage", "auto-dealers": "Auto dealer", "auto-services": "Auto services & parts"}], ["Services & B2B", {"clinics": "Clinics & medical centres", "education": "Education & training", "fitness": "Gyms & fitness", "salons": "Salons & spas", "events": "Events & weddings", "services": "Agency / professional services", "tech": "Tech, SaaS & apps", "manufacturing": "Manufacturing & B2B"}], ["—", {"other": "Other"}]], other_cc: 'Other (+ code)',
       markets: { uae: 'UAE', ksa: 'Saudi Arabia', egypt: 'Egypt', russia: 'Russia', kuwait: 'Kuwait', qatar: 'Qatar', bahrain: 'Bahrain', oman: 'Oman', other: 'Other' },
@@ -55,6 +60,11 @@
       k: 'USHA · вживую', h: 'Ваш бизнес. <b>Её ответ.</b>', p: 'Расскажите, с кем она говорит. Потом дайте ей бриф и задайте до 4 вопросов. Менеджер проекта свяжется с вами по этим данным, поэтому укажите настоящие.',
       name: 'Ваше имя', email: 'Рабочий email', phone: 'Мобильный номер', country: 'Код страны', business: 'Название бизнеса', size: 'Размер бизнеса', industry: 'Сфера', market: 'Основной рынок', team: 'Код команды',
       team_hint: 'Для команды NJO: безлимитный тест.', team_open: 'Есть код команды?',
+      code_h: 'Введите код приглашения', code_label: 'Код приглашения', code_submit: 'Продолжить',
+      code_error: 'Этот код не подходит. Проверьте его или обратитесь к вашему контакту в NJO.',
+      code_toomany: 'Слишком много попыток. Подождите немного и попробуйте снова.',
+      code_unavailable: 'Сейчас не получается проверить код. Попробуйте чуть позже.',
+      code_contact: 'Нет кода? Обратитесь к вашему контакту в NJO.', expired_h: 'Срок вашего приглашения закончился.',
       sizes: {"solo": "Только я / до 5", "2-10": "2–10 человек", "11-50": "11–50 человек", "51-200": "51–200 человек", "201-500": "201–500 человек", "501-1000": "501–1 000 человек", "1001-5000": "1 001–5 000 человек", "5000+": "5 000+ человек"},
       industries: [["FMCG и продукты", {"fmcg-sweets": "Сладости, шоколад, финики", "fmcg-snacks": "Продукты и снеки", "fmcg-drinks": "Напитки", "fmcg-dairy": "Молочная продукция", "fmcg-household": "Бытовая химия и товары для дома", "fmcg-personal": "Средства личной гигиены"}], ["Красота и lifestyle", {"beauty": "Косметика и уход", "perfume": "Парфюмерия", "fashion": "Одежда, обувь, аксессуары", "jewelry": "Ювелирные изделия и часы", "kids": "Детские товары и игрушки", "home": "Дом и мебель", "electronics": "Электроника и гаджеты", "pharma": "Аптека и товары для здоровья", "pets": "Товары для животных", "sports": "Спорт и отдых"}], ["Ритейл и e-commerce", {"marketplace-sellers": "Селлер на маркетплейсах (WB, Ozon, Яндекс Маркет)", "ecommerce": "Бренд со своим интернет-магазином", "grocery": "Продуктовые магазины и супермаркеты", "retail-chain": "Розничная сеть", "distribution": "Дистрибуция и опт"}], ["Общепит и гостеприимство", {"cafes-restaurants": "Кафе или ресторан", "bakery": "Пекарня, кондитерская", "cloud-kitchen": "Дарк-китчен и доставка", "hospitality": "Отели и туризм"}], ["Недвижимость и авто", {"real-estate": "Застройщик", "real-estate-broker": "Агентство недвижимости", "auto-dealers": "Автодилер", "auto-services": "Автосервис и запчасти"}], ["Услуги и B2B", {"clinics": "Клиники и медцентры", "education": "Образование и обучение", "fitness": "Фитнес-клубы", "salons": "Салоны красоты и спа", "events": "Мероприятия и свадьбы", "services": "Агентство / профессиональные услуги", "tech": "IT, SaaS и приложения", "manufacturing": "Производство и B2B"}], ["—", {"other": "Другое"}]], other_cc: 'Другая (+ код)',
       markets: { uae: 'ОАЭ', ksa: 'Саудовская Аравия', egypt: 'Египет', russia: 'Россия', kuwait: 'Кувейт', qatar: 'Катар', bahrain: 'Бахрейн', oman: 'Оман', other: 'Другое' },
@@ -89,6 +99,11 @@
       k: 'USHA · مباشر', h: 'نشاطك. <b>وإجابتها.</b>', p: 'عرّفها بمن تتحدث معه، ثم اكتب لها الـbrief واسأل حتى ٤ أسئلة. مدير المشروع سيتواصل معك على هذه البيانات، فاكتب بياناتك الحقيقية.',
       name: 'اسمك', email: 'البريد الإلكتروني للعمل', phone: 'رقم الجوال', country: 'رمز الدولة', business: 'اسم النشاط التجاري', size: 'حجم النشاط', industry: 'القطاع', market: 'السوق الرئيسي', team: 'رمز الفريق',
       team_hint: 'لفريق NJO: تجربة بلا حدود.', team_open: 'لديك رمز الفريق؟',
+      code_h: 'أدخل رمز دعوتك', code_label: 'رمز الدعوة', code_submit: 'متابعة',
+      code_error: 'لا يمكن استخدام هذا الرمز. راجعه أو اسأل جهة اتصالك في NJO.',
+      code_toomany: 'محاولات كثيرة. يرجى الانتظار قليلاً ثم المحاولة مجدداً.',
+      code_unavailable: 'لا يمكننا التحقق من رمزك الآن. يرجى المحاولة بعد قليل.',
+      code_contact: 'ليس لديك رمز؟ اسأل جهة اتصالك في NJO.', expired_h: 'انتهت مدة دعوتك.',
       sizes: {"solo": "أنا فقط / أقل من ٥", "2-10": "٢–١٠ أشخاص", "11-50": "١١–٥٠ شخصاً", "51-200": "٥١–٢٠٠ شخص", "201-500": "٢٠١–٥٠٠ شخص", "501-1000": "٥٠١–١٠٠٠ شخص", "1001-5000": "١٠٠١–٥٠٠٠ شخص", "5000+": "أكثر من ٥٠٠٠ شخص"},
       industries: [["السلع الاستهلاكية والأغذية", {"fmcg-sweets": "حلويات وشوكولاتة وتمور", "fmcg-snacks": "أغذية وسناكس", "fmcg-drinks": "مشروبات", "fmcg-dairy": "ألبان", "fmcg-household": "منظفات ومنتجات منزلية", "fmcg-personal": "عناية شخصية"}], ["التجميل ونمط الحياة", {"beauty": "تجميل ومستحضرات", "perfume": "عطور وعود", "fashion": "أزياء وأحذية وإكسسوارات", "jewelry": "مجوهرات وساعات", "kids": "منتجات أطفال وألعاب", "home": "منزل وأثاث", "electronics": "إلكترونيات وأجهزة", "pharma": "صيدلية ومنتجات صحية", "pets": "منتجات الحيوانات الأليفة", "sports": "رياضة وأنشطة خارجية"}], ["التجزئة والتجارة الإلكترونية", {"marketplace-sellers": "بائع على المتاجر الإلكترونية (نون، أمازون…)", "ecommerce": "علامة تجارية بمتجر إلكتروني خاص", "grocery": "بقالات وسوبرماركت", "retail-chain": "سلسلة متاجر", "distribution": "توزيع وجملة"}], ["المطاعم والضيافة", {"cafes-restaurants": "مقهى أو مطعم", "bakery": "مخبز أو محل حلويات", "cloud-kitchen": "مطبخ سحابي وتوصيل", "hospitality": "فنادق وسياحة"}], ["العقارات والسيارات", {"real-estate": "مطور عقاري", "real-estate-broker": "وساطة عقارية", "auto-dealers": "وكيل سيارات", "auto-services": "خدمات وقطع غيار السيارات"}], ["الخدمات والأعمال", {"clinics": "عيادات ومراكز طبية", "education": "تعليم وتدريب", "fitness": "نوادٍ رياضية", "salons": "صالونات وسبا", "events": "فعاليات وأعراس", "services": "وكالة / خدمات مهنية", "tech": "تقنية وتطبيقات", "manufacturing": "تصنيع وB2B"}], ["—", {"other": "أخرى"}]], other_cc: 'أخرى (+ الرمز)',
       markets: { uae: 'الإمارات', ksa: 'السعودية', egypt: 'مصر', russia: 'روسيا', kuwait: 'الكويت', qatar: 'قطر', bahrain: 'البحرين', oman: 'عُمان', other: 'أخرى' },
@@ -274,7 +289,7 @@
   const tsReset = () => { tsToken = ''; try { if (tsId != null && window.turnstile) window.turnstile.reset(tsId); } catch {} };
 
   // ---------- the window ----------
-  let modal = null, lastFocus = null, state = { token: '', name: '', left: null, team: false, brief: false, busy: false };
+  let modal = null, lastFocus = null, state = { token: '', name: '', left: null, team: false, brief: false, busy: false, code: '', teamEntry: false };
 
   function shell(inner) {
     const x = L();
@@ -313,13 +328,14 @@
     try { hi = await api('/api/hello'); } catch {}
     if (!modal) return;
     if (hi.region === 'blocked') { handoff(x.region_h, x.region_p, view(), { free: false, team: true }); return; }
-    formView();
+    codeView();
   }
   function notice(title, text) { handoff(title, text, view(), { contacts: false, free: false }); }
   function close() {
     if (!modal) return;
     window.USHA_AUDIO?.duck?.('live', false);
     const m = modal; modal = null; tsId = null;
+    state.code = ''; state.teamEntry = false;
     H.classList.remove('x-modal-on');
     if (reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
     if (lastFocus && lastFocus.focus) lastFocus.focus();
@@ -334,8 +350,75 @@
     el.classList.toggle('low', !state.team && state.left <= 1);
   }
 
-  // ---------- 1. the form ----------
-  function formView(prefill = {}) {
+  // ---------- 1. the invitation, then the existing registration form ----------
+  function codeView(error = '', prefill = {}) {
+    const x = L();
+    state.code = ''; state.teamEntry = false;
+    $('.xl-left', modal).hidden = true;
+    view().innerHTML = `<form class="xl-form xl-code" data-testid="code-step" aria-labelledby="xl-code-title" novalidate>
+      <h4 id="xl-code-title" data-testid="code-title">${esc(x.code_h)}</h4>
+      <div class="xl-f"><label for="xl-code" data-testid="code-label">${esc(x.code_label)}</label>
+        <input id="xl-code" name="code" data-testid="code-input" type="text" dir="ltr" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABC-234" aria-describedby="xl-code-contact" required>
+      </div>
+      <div class="xl-ts" data-testid="code-check"></div>
+      <div aria-live="polite" aria-atomic="true">
+        <p id="xl-code-error" class="xl-e" data-testid="code-error" hidden>${esc(x.code_error)}</p>
+        <p id="xl-code-toomany" class="xl-e" data-testid="code-toomany" hidden>${esc(x.code_toomany)}</p>
+        <p id="xl-code-unavailable" class="xl-e" data-testid="code-unavailable" hidden>${esc(x.code_unavailable)}</p>
+        <p id="xl-code-bot-error" class="xl-e" data-testid="code-bot-error" hidden>${esc(x.err.bot_check)}</p>
+      </div>
+      <div class="xl-go"><button class="btn btn-p" type="submit" data-testid="code-submit"><span class="d"></span><span>${esc(x.code_submit)}</span></button></div>
+      <p id="xl-code-contact" class="xl-code-contact" data-testid="code-contact-line">${esc(x.code_contact)}</p>
+      <button type="button" class="xl-team-open" data-testid="code-team-link">${esc(x.team_open)}</button>
+    </form>`;
+    const f = $('form', view()), input = f.elements.code, btn = $('[type=submit]', f), teamBtn = $('.xl-team-open', f);
+    let typedCode = '', checking = false;
+    const show = (kind) => {
+      for (const k of ['error', 'toomany', 'unavailable', 'bot-error']) $(`#xl-code-${k}`, f).hidden = k !== kind;
+      input.setAttribute('aria-invalid', kind === 'error' ? 'true' : 'false');
+      input.setAttribute('aria-describedby', (kind ? `xl-code-${kind} ` : '') + 'xl-code-contact');
+      $('.xl-f', f).classList.toggle('bad', kind === 'error');
+    };
+    show(error);
+    input.addEventListener('input', () => {
+      typedCode = input.value;
+      const start = input.selectionStart ?? input.value.length;
+      const before = input.value.slice(0, start).replace(/[\s-]/g, '').length;
+      const caret = before + (before > 3 || (before === 3 && start > 3) ? 1 : 0);
+      input.value = formatInvitationCode(input.value);
+      input.setSelectionRange(caret, caret);
+      show('');
+    });
+    teamBtn.addEventListener('click', () => formView(prefill, { team: true }));
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (checking) return;
+      // Keep the input as typed for both requests; only its display is formatted.
+      const code = typedCode || input.value;
+      if (!validInvitationCode(code)) { show('error'); input.focus(); return; }
+      checking = true; btn.disabled = true; input.disabled = true; teamBtn.disabled = true;
+      f.setAttribute('aria-busy', 'true'); btn.lastElementChild.textContent = x.checking; show('');
+      let r;
+      try {
+        const dev = await device();
+        r = await api('/api/code/check', { body: { code, deviceId: dev.id, turnstile: tsToken } });
+      } catch { r = { http: 0 }; }
+      checking = false; btn.disabled = false; input.disabled = false; teamBtn.disabled = false;
+      f.setAttribute('aria-busy', 'false'); btn.lastElementChild.textContent = x.code_submit;
+      if (!modal || !f.isConnected) return;
+      tsReset();
+      if (r.http === 200 && r.status === 'ok') { state.code = code; formView(prefill); return; }
+      const kind = invitationCodeError(r.status, r.http);
+      show(kind === 'bot_check' ? 'bot-error' : kind);
+      input.focus({ preventScroll: true });
+    });
+    turnstile($('.xl-ts', f));
+    setTimeout(() => { if (f.isConnected) input.focus({ preventScroll: true }); }, reduce ? 0 : 300);
+  }
+
+  function formView(prefill = {}, { team: teamEntry = false } = {}) {
+    if (!state.code && !teamEntry) { codeView('', prefill); return; }
+    state.teamEntry = teamEntry;
     const x = L();
     const opt = (o, sel) => `<option value="">${esc(x.pick)}</option>` + Object.entries(o).map(([k, v]) => `<option value="${k}"${k === sel ? ' selected' : ''}>${esc(v)}</option>`).join('');
     const defCC = prefill.country || (H.lang === 'ru' ? 'RU' : 'AE');
@@ -363,6 +446,7 @@
     // the team code is optional: a small link opens it
     const team = $('.xl-team', f), teamBtn = $('.xl-team-open', f);
     teamBtn.addEventListener('click', () => { team.hidden = false; teamBtn.hidden = true; f.elements.teamCode.focus(); });
+    if (teamEntry) { team.hidden = false; teamBtn.hidden = true; }
     const setPh = () => { f.elements.phone.placeholder = ccSample(f.elements.country.value); };
     f.elements.market.addEventListener('change', () => { const c = MARKET_CC[f.elements.market.value]; if (c && !f.elements.phone.value.trim()) { f.elements.country.value = c; setPh(); } });
     // the phone and email are checked by the server as soon as the visitor leaves the field
@@ -389,7 +473,7 @@
     $$('input,select', f).forEach((el) => el.addEventListener('input', () => showErr(f, el.name === 'country' ? 'phone' : el.name, '')));
     f.addEventListener('submit', (e) => { e.preventDefault(); submit(f); });
     turnstile($('.xl-ts', f));
-    setTimeout(() => f.elements.name.focus({ preventScroll: true }), reduce ? 0 : 300);
+    setTimeout(() => { if (f.isConnected) f.elements[teamEntry ? 'teamCode' : 'name'].focus({ preventScroll: true }); }, reduce ? 0 : 300);
   }
   function field(name, label, control) {
     return `<div class="xl-f" data-f="${name}"><label for="xl-${name}">${esc(label)}</label>${control}<em class="xl-e" aria-live="polite"></em></div>`;
@@ -406,6 +490,7 @@
   function precheck(f) {
     const v = (n) => (f.elements[n].value || '').trim(), errs = {};
     for (const n of ['name', 'business', 'email', 'phone', 'size', 'industry', 'market']) if (!v(n)) errs[n] = 'required';
+    if (state.teamEntry && !v('teamCode')) errs.teamCode = 'team_code_needed';
     if (v('name') && !/^[\p{L}\p{M}][\p{L}\p{M}' .\-]{1,59}$/u.test(v('name'))) errs.name = /\d/.test(v('name')) ? 'name_chars' : 'name_fake';
     if (v('email') && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v('email'))) errs.email = 'email_bad';
     const digits = v('phone').replace(/\D/g, '');
@@ -427,18 +512,20 @@
     }
     const data = Object.fromEntries(new FormData(f).entries());
     const dev = await device();
-    Object.assign(data, { lang: H.lang in T ? H.lang : 'en', turnstile: tsToken, deviceId: dev.id, fp: dev.fp, private: false });
+    Object.assign(data, { code: state.code, lang: H.lang in T ? H.lang : 'en', turnstile: tsToken, deviceId: dev.id, fp: dev.fp, private: false });
     state.busy = true; btn.disabled = true; btn.lastElementChild.textContent = x.checking;
     let r;
     try { r = await api('/api/register', { body: data }); } catch { r = { http: 0 }; }
     state.busy = false; btn.disabled = false; btn.lastElementChild.textContent = x.start;
-    if (!modal) return;
+    if (!modal || !f.isConnected) return;
     if (r.status === 'ok' && r.token) {
       Object.assign(state, { token: r.token, name: r.name, left: r.left, team: !!r.team, brief: !!r.team });
+      state.code = '';
       store.set({ token: r.token });
       chatView([]);
       return;
     }
+    if (r.status === 'code_required') { codeView(invitationCodeError(r.status, r.http), data); return; }
     if (r.status === 'returning') { handoff(x.back_h(r.name), x.back_p); return; }
     if (r.status === 'used_here') { handoff(x.used_h, x.used_p); return; }
     if (r.status === 'region') { handoff(x.region_h, x.region_p, view(), { free: false }); return; }
@@ -464,7 +551,7 @@
     tsReset();
   }
 
-  // ---------- 2. returning visitors and the end of the five ----------
+  // ---------- 2. returning visitors and the end of the four questions ----------
   function handoff(title, text, into = view(), { contacts = true, free = true, team = false } = {}) {
     const x = L();
     into.innerHTML = `<div class="xl-pm">
@@ -478,7 +565,7 @@
       ${free ? `<a class="xl-free" href="#free">${esc(x.free)} →</a>` : ''}
       ${team ? `<button type="button" class="xl-team-go">${esc(x.team_link)}</button>` : ''}
     </div>`;
-    if (team) $('.xl-team-go', into).addEventListener('click', () => formView());
+    if (team) $('.xl-team-go', into).addEventListener('click', () => formView({}, { team: true }));
     if (free) $('.xl-free', into).addEventListener('click', () => close());
     if (!contacts) return;
     $('.xl-copy', into).addEventListener('click', (e) => {
@@ -491,10 +578,30 @@
   }
 
   // ---------- 3. the conversation ----------
+  function invitationView(status) {
+    if (status !== 'code_required' && status !== 'expired') return false;
+    Object.assign(state, { code: '', teamEntry: false, token: '', name: '', left: null, team: false, brief: false });
+    $('.xl-left', modal).hidden = true;
+    if (status === 'code_required') {
+      store.clear();
+      codeView();
+    } else {
+      const x = L();
+      view().innerHTML = `<section class="xl-pm xl-expired" data-testid="expired-screen" tabindex="-1" aria-labelledby="xl-expired-title">
+        <div class="xl-pm-i" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h4 id="xl-expired-title" data-testid="expired-title">${esc(x.expired_h)}</h4>
+        <p class="xl-code-contact" data-testid="code-contact-line">${esc(x.code_contact)}</p>
+      </section>`;
+      $('.xl-expired', view()).focus({ preventScroll: true });
+    }
+    return true;
+  }
+
   async function resume(token) {
     let r;
     try { r = await api('/api/session', { token }); } catch { r = { http: 0 }; }
     if (!modal) return;
+    if (invitationView(r.status)) return;
     if (r.status === 'device') { notice(L().device_h, L().device_p); return; }
     if (r.http !== 200) { if (r.http === 401) store.clear(); start(); return; }
     Object.assign(state, { token, name: r.name, left: r.left, team: !!r.team, brief: !!r.brief || !!r.team });
@@ -588,6 +695,7 @@
         }
       } else {
         her.remove();
+        if (end && invitationView(end.error)) return;
         if (end && end.error === 'limit') { state.left = 0; setLeft(); handoff(x.done_h, x.done_p); return; }
         if (end && end.error === 'locked') { handoff(x.locked_h, x.locked_p); return; }
         if (end && end.error === 'device') { notice(x.device_h, x.device_p); return; }
