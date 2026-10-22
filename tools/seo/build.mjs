@@ -23,6 +23,7 @@ import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
+import { applySound } from './enhance/sound.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -212,6 +213,8 @@ if (!src.includes('us:e?.42:.66,ch:.25') && !src.includes('us:e?.6:.66,ch:e?.1:.
 
 // USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
 src = applyLife(src);
+// the soundtrack replaces the engine hum (enhance/sound.mjs, player in sound.js)
+src = applySound(src);
 src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
 
 // The Arabic page runs its own copy of the bundle: English slot → Arabic.
@@ -345,7 +348,17 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
 const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+// USHA's story (point 9): loaded only when someone opens it from the cover
+const STORY_DIR = path.join(ENH, 'story');
+const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
+const STORY_TEXT = (() => { const w = {}; new Function('window', fs.readFileSync(path.join(STORY_DIR, 'text.js'), 'utf8'))(w); return w.USHA_STORY_TEXT; })();
+let STORY_CFG;
+function storyCfg() {
+  if (STORY_CFG) return STORY_CFG;
+  const font = (f, n) => { const b = fs.readFileSync(path.join(STORY_DIR, 'fonts', f)); return emit(`fonts/${n}-${hash(b)}.woff2`, b); };
+  return (STORY_CFG = { src: emit(`story-${hash(STORY_JS)}.js`, STORY_JS), fonts: { cav: font('caveat-latin.woff2', 'caveat-latin'), cavc: font('caveat-cyrillic.woff2', 'caveat-cyrillic'), ar: font('aref-ruqaa-arabic.woff2', 'aref-ruqaa-arabic') } });
+}
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.
 const LIVE = { api: process.env.USHA_LIVE_API ?? 'https://usha-live.jalal-619.workers.dev', turnstile: process.env.USHA_TURNSTILE_KEY ?? '0x4AAAAAAFV8QXgRZWV8DR2s' };
@@ -353,7 +366,8 @@ let ENH_URL;
 function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  const story = { ...storyCfg(), cover: Object.fromEntries(Object.keys(xs).map((l) => [l, STORY_TEXT[l].cover])) };
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {

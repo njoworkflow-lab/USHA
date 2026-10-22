@@ -225,12 +225,13 @@
   }
 
   // ---------- her sounds ----------
-  // Small synthesized chimes: opening, asking you something, answering. They
-  // follow the site's sound switch: silent only if the visitor turned sound off.
+  // Small synthesized chimes: opening, asking you something, answering. In the
+  // live chat they are the only sounds (the music fades out): full level with
+  // sound on, half level with sound off.
   let ac = null;
-  const soundOn = () => { try { return localStorage.getItem('usha-sound') !== 'off'; } catch { return true; } };
+  const soundOn = () => { try { return localStorage.getItem('usha-music') !== 'off'; } catch { return true; } };
   function chime(kind) {
-    if (!soundOn()) return;
+    const level = soundOn() ? 1 : 0.5;
     try {
       ac ||= new (window.AudioContext || window.webkitAudioContext)();
       if (ac.state === 'suspended') ac.resume();
@@ -239,7 +240,7 @@
       notes.forEach((f, i) => {
         const o = ac.createOscillator(), o2 = ac.createOscillator(), g = ac.createGain();
         o.type = 'sine'; o2.type = 'triangle'; o.frequency.value = f; o2.frequency.value = f * 2;
-        const t = t0 + i * step, peak = kind === 'send' ? 0.03 : 0.07, len = kind === 'send' ? 0.12 : 0.55;
+        const t = t0 + i * step, peak = (kind === 'send' ? 0.03 : 0.07) * level, len = kind === 'send' ? 0.12 : 0.55;
         g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
         const g2 = ac.createGain(); g2.gain.value = 0.18;
         o.connect(g); o2.connect(g2); g2.connect(g); g.connect(ac.destination);

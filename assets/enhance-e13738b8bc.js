@@ -788,12 +788,13 @@ function findingChart(i, lang) {
   }
 
   // ---------- her sounds ----------
-  // Small synthesized chimes: opening, asking you something, answering. They
-  // follow the site's sound switch: silent only if the visitor turned sound off.
+  // Small synthesized chimes: opening, asking you something, answering. In the
+  // live chat they are the only sounds (the music fades out): full level with
+  // sound on, half level with sound off.
   let ac = null;
-  const soundOn = () => { try { return localStorage.getItem('usha-sound') !== 'off'; } catch { return true; } };
+  const soundOn = () => { try { return localStorage.getItem('usha-music') !== 'off'; } catch { return true; } };
   function chime(kind) {
-    if (!soundOn()) return;
+    const level = soundOn() ? 1 : 0.5;
     try {
       ac ||= new (window.AudioContext || window.webkitAudioContext)();
       if (ac.state === 'suspended') ac.resume();
@@ -802,7 +803,7 @@ function findingChart(i, lang) {
       notes.forEach((f, i) => {
         const o = ac.createOscillator(), o2 = ac.createOscillator(), g = ac.createGain();
         o.type = 'sine'; o2.type = 'triangle'; o.frequency.value = f; o2.frequency.value = f * 2;
-        const t = t0 + i * step, peak = kind === 'send' ? 0.03 : 0.07, len = kind === 'send' ? 0.12 : 0.55;
+        const t = t0 + i * step, peak = (kind === 'send' ? 0.03 : 0.07) * level, len = kind === 'send' ? 0.12 : 0.55;
         g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
         const g2 = ac.createGain(); g2.gain.value = 0.18;
         o.connect(g); o2.connect(g2); g2.connect(g); g.connect(ac.destination);
@@ -1265,6 +1266,280 @@ function findingChart(i, lang) {
   if (location.hash === '#ask') addEventListener('load', () => setTimeout(open, 400));
   const boot = () => { ctaUI(); heroUI(); };
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+
+// The soundtrack player (points 13 and 15; bundle hooks in sound.mjs).
+// It starts only after a user gesture, loads the file only once sound is on,
+// pauses while the tab is hidden, fades out for the live chat and for anything
+// that sends "usha:quiet" (resumed by "usha:resume") and while the game runs.
+// While it plays, the galaxy pulses and the glow breathes with the beat.
+(() => {
+  const D = document, H = D.documentElement, KEY = 'usha-music';
+  const VOL = 0.65, FX_MUTED = 0.4; // effects bus runs at .8; half of it is .4
+  const pref = () => { try { return localStorage.getItem(KEY) !== 'off'; } catch { return true; } };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let on = pref(), el = null, gain = null, pz = 0, armed = false, lastT = -1;
+  // ready: the music may sound. New visitors: 3 s after the wake-up burst. Already awake: the first tap.
+  let ready = false, waking = false, started = false;
+  const quiet = new Set();
+  window.__fxL = on ? 0 : FX_MUTED;
+
+  const audio = () => window.__ushaAudio || null;
+  function ensure() {
+    if (el) return true;
+    const A = audio(); if (!A) return false;
+    el = new Audio();
+    el.loop = true; el.preload = 'none';
+    el.src = el.canPlayType('audio/webm; codecs="opus"') ? '/audio/usha-track.webm' : '/audio/usha-track.m4a';
+    const src = A.ac.createMediaElementSource(el);
+    gain = A.ac.createGain(); gain.gain.value = 0;
+    src.connect(gain); gain.connect(A.ac.destination);
+    return true;
+  }
+  const live = () => H.classList.contains('x-modal-on');
+  const target = () => (ready && on && !quiet.size && !live() && !D.hidden ? VOL : 0);
+
+  // site effects: silent in music mode and in the live chat, half when muted
+  function fx() {
+    const A = audio(); if (!A) return;
+    const lvl = live() ? 0 : on ? 0 : FX_MUTED;
+    window.__fxL = lvl;
+    A.fx.gain.setTargetAtTime(lvl, A.ac.currentTime, 0.15);
+  }
+  function apply() {
+    fx();
+    const A = audio(); if (!A || !armed) return;
+    const t = target();
+    if (t === lastT) return; // the page changes classes often; act only on a real change
+    lastT = t;
+    if (!t && !el) return;
+    if (!ensure()) return;
+    const g = gain.gain, now = A.ac.currentTime;
+    g.cancelScheduledValues(now); g.setValueAtTime(g.value, now);
+    clearTimeout(pz);
+    if (t) {
+      if (A.ac.state === 'suspended') A.ac.resume();
+      // the very first start is sharp and from the top of the track; later returns fade in
+      const sharp = !started; started = true;
+      if (sharp) { try { el.currentTime = 0; } catch {} }
+      if (el.paused) el.play().catch(() => {});
+      g.linearRampToValueAtTime(t, now + (sharp ? 0.06 : 1.2));
+      pulse();
+    } else {
+      g.linearRampToValueAtTime(0, now + 0.8);
+      pz = setTimeout(() => { if (!target()) el.pause(); }, 1000);
+    }
+  }
+
+  window.UshaSound = {
+    set(v) { on = !!v; armed = true; if (!waking) ready = true; lastT = -1; apply(); },
+    get on() { return on; },
+    // read-only status, for checks
+    get playing() { return !!el && !el.paused; },
+    get level() { return gain ? +gain.gain.value.toFixed(2) : 0; },
+  };
+  // the first gesture anywhere (after the bundle has created its audio context)
+  // unlock the player inside the gesture (silently), so it may start later on its own
+  const unlock = () => { if (!ensure() || started) return; const p = el.play(); if (p) p.then(() => { if (!started) el.pause(); }).catch(() => {}); };
+  const first = () => setTimeout(() => {
+    if (!audio() || armed) return;
+    armed = true; unlock();
+    if (!waking && !H.classList.contains('locked')) ready = true;
+    apply();
+    ['pointerup', 'keydown', 'touchend'].forEach((e) => removeEventListener(e, first, true));
+  }, 0);
+  ['pointerup', 'keydown', 'touchend'].forEach((e) => addEventListener(e, first, true));
+  D.addEventListener('visibilitychange', apply);
+  new MutationObserver(apply).observe(H, { attributes: true, attributeFilter: ['class'] });
+  addEventListener('usha:quiet', () => { quiet.add('ext'); apply(); });
+  addEventListener('usha:resume', () => { quiet.delete('ext'); apply(); });
+  addEventListener('usha:wake', () => {
+    if (ready || waking) return;
+    waking = true;
+    setTimeout(() => { waking = false; ready = true; lastT = -1; apply(); }, 3000);
+  });
+  // the game has its own sound world (point 14): the music stops while it runs
+  addEventListener('usha:game-on', () => { quiet.add('game'); apply(); });
+  addEventListener('usha:game-off', () => { quiet.delete('game'); apply(); });
+
+  // ---------- the visualizer: the galaxy and the light play the track ----------
+  // The track was analysed once (tools/audio/analyse-track.py): bass, mid and
+  // high levels, section loudness, and every kick, snare and hi-hat. The scene
+  // follows that timeline at the music's exact playback time:
+  //   kick   the galaxy pulses outward, every star grows and brightens, the glow flares
+  //   snare  the galaxy draws in and warms (a heartbeat)
+  //   hi-hat / highs   shimmer: the stars' turbulence quickens
+  //   bass   the light beams brighten along their lanes
+  //   section loudness  scales everything: a calm intro, strong drops; the glow breathes
+  // Only existing shader values change, so it costs no extra drawing. Off when
+  // the music is silent and under reduced motion.
+  let map = null, raf = 0;
+  const OUTS = ['__bB', '__bH', '__bC', '__bS', '__bG', '__bF'];
+  const zero = () => OUTS.forEach((k) => { window[k] = 0; });
+  zero();
+  function loadMap() {
+    if (map) return;
+    map = { loading: true };
+    fetch('/audio/usha-track.map.json').then((r) => r.json()).then((d) => {
+      const raw = atob(d.env), env = new Uint8Array(raw.length);
+      for (let i = 0; i < raw.length; i++) env[i] = raw.charCodeAt(i);
+      const hits = (a) => ({ t: a.filter((_, i) => i % 2 === 0), s: a.filter((_, i) => i % 2 === 1).map((v) => v / 99), i: 0 });
+      map = { fps: d.fps, n: d.frames, env, kick: hits(d.kick), snare: hits(d.snare), hat: hits(d.hat) };
+    }).catch(() => { map = null; });
+  }
+  // the newest hit at or before t, decayed; a 25 ms rise so it lands with the sound
+  function hitEnv(h, t, tau) {
+    if (h.i >= h.t.length || (h.i > 0 && h.t[h.i - 1] > t)) { // seek: find the position again
+      let lo = 0, hi = h.t.length; while (lo < hi) { const m = (lo + hi) >> 1; if (h.t[m] <= t) lo = m + 1; else hi = m; } h.i = lo;
+    }
+    while (h.i < h.t.length && h.t[h.i] <= t) h.i++;
+    let v = 0;
+    for (let k = h.i - 1; k >= 0 && k >= h.i - 3; k--) {
+      const dt = t - h.t[k]; if (dt > tau * 5) break;
+      v = Math.max(v, h.s[k] * Math.exp(-dt / tau));
+    }
+    if (h.i < h.t.length) { const ahead = h.t[h.i] - t; if (ahead < 25) v = Math.max(v, h.s[h.i] * (1 - ahead / 25)); }
+    return Math.min(1, v * 1.4);
+  }
+  function envAt(t, ch) {
+    const f = Math.max(0, Math.min(map.n - 1.001, (t / 1000) * map.fps)), i = f | 0, k = f - i;
+    return (map.env[i * 4 + ch] * (1 - k) + map.env[(i + 1) * 4 + ch] * k) / 255;
+  }
+  function pulse() {
+    loadMap();
+    if (reduce || raf) return;
+    raf = requestAnimationFrame(loop);
+  }
+  function loop() {
+    raf = 0;
+    if (!target() || !el || !map || map.loading) {
+      zero();
+      if (target() && map && map.loading) raf = requestAnimationFrame(loop);
+      return;
+    }
+    const A = audio();
+    const lat = A ? ((A.ac.outputLatency || 0) + (A.ac.baseLatency || 0)) * 1000 : 0;
+    const t = el.currentTime * 1000 - lat;
+    const bass = envAt(t, 0), high = envAt(t, 2), energy = envAt(t, 3);
+    const kick = hitEnv(map.kick, t, 170), snare = hitEnv(map.snare, t, 230), hat = hitEnv(map.hat, t, 70);
+    const S = 0.35 + 0.65 * energy;                        // calm intro, strong drops
+    // strengths tuned on rendered frames: a clear pulse, the text stays readable
+    window.__bB = (kick * 0.03 + bass * 0.005) * S;        // outward pulse
+    window.__bH = snare * 0.1 * S;                         // draw in and warm
+    window.__bC = (high * 0.06 + hat * 0.08) * S;          // shimmer
+    window.__bS = (kick * 0.42 + snare * 0.15) * S + bass * 0.06; // stars swell, light beams flare
+    window.__bG = kick * 0.25 * S + energy * 0.1 + snare * 0.07;  // the glow breathes and flares
+    window.__bF = energy > 0.55 ? kick * 0.02 * energy : 0;       // a soft flash on strong hits
+    raf = requestAnimationFrame(loop);
+  }
+})();
+
+// USHA's story: the cover on the page (point 9). A dark card in the site's own
+// style, right after the engineers block, with a torn piece of her sketchbook
+// and one eye peeking through it. A click loads the story (story bundle, built
+// from this folder) and opens it in a popup. Config: window.USHA_STORY.
+(() => {
+  const D = document, H = D.documentElement;
+  const CFG = window.USHA_STORY || {};
+  if (!CFG.src || !CFG.cover) return;
+  const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const F = CFG.fonts || {};
+
+  const CSS = `
+@font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cav}) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF}
+@font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cavc}) format('woff2');unicode-range:U+0400-045F}
+@font-face{font-family:'USHA Ruqaa';font-weight:400 700;font-display:swap;src:url(${F.ar}) format('woff2');unicode-range:U+0600-06FF,U+FB50-FDFF,U+FE70-FEFF}
+.x-story{margin:96px 0 0;padding-top:56px;border-top:1px solid var(--line)}
+.xs-card{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:48px;width:100%;padding:44px 48px;border-radius:28px;border:1px solid var(--line);background:radial-gradient(600px 300px at 85% 40%,rgba(255,90,31,.10),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));cursor:pointer;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
+.xs-card:hover{border-color:rgba(255,180,138,.45);transform:translateY(-3px)}
+.xs-card:focus-visible{outline:2px solid var(--ember);outline-offset:4px}
+.xs-t .kick{color:var(--ink3)}
+.xs-t h3{margin:16px 0 14px;font-family:var(--head);font-weight:800;font-size:clamp(30px,3.2vw,52px);line-height:1.02;letter-spacing:-.045em;color:var(--ink)}
+.xs-t h3 i{font-style:normal;background:linear-gradient(100deg,#FFD2B8 0%,#FF8A4C 45%,#FF5A1F 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.05em}
+html[lang=ar] .xs-t h3{line-height:1.3;letter-spacing:0}
+.xs-t p{margin:0 0 26px;max-width:460px;color:var(--ink3);font-size:16px;line-height:1.6}
+.xs-b{display:inline-flex;align-items:center;gap:12px;padding:14px 22px;border-radius:999px;background:var(--ember);color:#fff;font:600 15px var(--body);box-shadow:0 10px 30px rgba(255,90,31,.3);transition:gap .3s}
+.xs-card:hover .xs-b{gap:18px}
+.xs-b svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html[dir=rtl] .xs-b svg{transform:scaleX(-1)}
+.xs-art{position:relative;justify-self:center;width:min(100%,440px)}
+.xs-art svg{display:block;width:100%;height:auto;overflow:visible}
+.xs-paper{transform-origin:50% 60%;transform:rotate(-4deg);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.xs-card:hover .xs-paper{transform:rotate(-1deg) translateY(-6px)}
+.xs-eye{transform-box:fill-box;transform-origin:center;animation:xs-blink 4.2s infinite}
+@keyframes xs-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.xs-look{transition:transform .3s ease-out}
+.xs-pg{animation:xs-peck 2.6s steps(1) infinite}
+@keyframes xs-peck{0%{transform:translate(0,0)}30%{transform:translate(3px,2px)}60%{transform:translate(0,0)}80%{transform:translate(-2px,0)}}
+.xs-note{font-family:'USHA Hand',cursive;font-weight:700}
+html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
+.xs-card.wait .xs-b{opacity:.7}
+@media (max-width:900px){.xs-card{grid-template-columns:1fr;gap:28px;padding:30px 24px}.xs-art{order:-1;width:min(100%,360px)}}
+@media (prefers-reduced-motion:reduce){.xs-eye,.xs-pg{animation:none}.xs-card,.xs-paper{transition:none}}
+`;
+  // the torn page: the cup from chapter one, the pigeon, and a hole she looks through
+  const art = (c) => `<svg viewBox="0 0 440 320" aria-hidden="true">
+<defs><filter id="xs-pen" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>
+<filter id="xs-sh"><feGaussianBlur stdDeviation="14"/></filter>
+<clipPath id="xs-hole"><path d="M262 120 C276 96 330 92 344 118 C358 144 334 176 300 176 C270 176 250 146 262 120 Z"/></clipPath></defs>
+<g class="xs-paper">
+  <path d="M40 40 L392 22 L404 290 L52 300 Z" fill="#000" opacity=".55" filter="url(#xs-sh)" transform="translate(10 16)"/>
+  <path d="M34 34 L120 30 L128 22 L170 28 L250 20 L300 26 L396 16 L392 70 L402 120 L396 190 L404 296 L300 300 L240 292 L180 302 L50 298 L44 230 L36 160 L42 100 Z" fill="#EFE6D6"/>
+  <path d="M262 120 C276 96 330 92 344 118 C358 144 334 176 300 176 C270 176 250 146 262 120 Z" fill="#0b0a0d"/>
+  <g clip-path="url(#xs-hole)"><ellipse cx="300" cy="140" rx="40" ry="34" fill="#FFB48A"/><g class="xs-look"><ellipse class="xs-eye" cx="304" cy="138" rx="9" ry="13" fill="#1B1410"/><circle cx="307" cy="133" r="3" fill="#fff" opacity=".8"/></g></g>
+  <g fill="none" stroke="#2A2420" stroke-linecap="round" filter="url(#xs-pen)">
+    <path d="M262 120 C276 96 330 92 344 118 C358 144 334 176 300 176 C270 176 250 146 262 120 Z" stroke-width="2.4"/>
+    <circle cx="140" cy="168" r="84" stroke-width="3"/><circle cx="140" cy="168" r="62" stroke-width="2"/>
+    <path d="M110 150 q12 -8 24 0 M150 148 q12 -8 24 0 M126 196 q16 8 30 0" stroke-width="2.4"/>
+    <path d="M34 34 L120 30 L128 22 L170 28 L250 20 L300 26 L396 16 L392 70 L402 120 L396 190 L404 296 L300 300 L240 292 L180 302 L50 298 L44 230 L36 160 L42 100 Z" stroke-width="2" opacity=".5"/>
+  </g>
+  <g transform="translate(330 262)"><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 Z" fill="#9AA2AE"/><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 L-22 0" fill="none" stroke="#2A2420" stroke-width="2"/><g class="xs-pg"><circle cx="18" cy="-30" r="8" fill="#A9B1BC" stroke="#2A2420" stroke-width="2"/><circle cx="21" cy="-32" r="2" fill="#2A2420"/><path d="M25 -29 l7 2 l-7 2" fill="#E0A73A"/></g></g>
+  <text x="70" y="64" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2" fill="#8C6E58">03:07</text>
+</g>
+<g class="xs-note" fill="#FF5A1F" font-size="21"><text x="${H.dir === 'rtl' ? 300 : 210}" y="236" text-anchor="${H.dir === 'rtl' ? 'end' : 'start'}"${H.dir === 'rtl' ? ' direction="rtl"' : ''}>${esc(c.note)}</text></g>
+<path d="M300 214 C310 196 306 186 302 180" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/><path d="M296 186 l6 -8 l5 9" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/>
+</svg>`;
+
+  let loading = null;
+  function load() {
+    if (window.UshaStory) return Promise.resolve();
+    if (loading) return loading;
+    loading = new Promise((ok, no) => { const s = D.createElement('script'); s.src = CFG.src; s.onload = ok; s.onerror = () => { loading = null; no(); }; D.head.appendChild(s); });
+    return loading;
+  }
+  const lang = () => (CFG.cover[H.lang] ? H.lang : Object.keys(CFG.cover)[0]);
+
+  function mount() {
+    const eng = D.querySelector('#control .eng');
+    if (!eng) return;
+    let el = D.querySelector('.x-story');
+    const L = lang(), c = CFG.cover[L];
+    if (el && el.dataset.lang === L && el.previousElementSibling === eng) return;
+    if (!D.getElementById('xs-css')) { const s = D.createElement('style'); s.id = 'xs-css'; s.textContent = CSS; D.head.appendChild(s); }
+    if (!el) { el = D.createElement('section'); el.className = 'x-story'; el.setAttribute('translate', 'no'); }
+    if (el.previousElementSibling !== eng) eng.after(el);
+    el.dataset.lang = L;
+    el.innerHTML = `<button type="button" class="xs-card" aria-label="${esc(c.b)}: ${esc(c.h.replace(/<[^>]+>/g, ''))}"><div class="xs-t"><span class="kick">${esc(c.k)}</span><h3>${c.h}</h3><p>${esc(c.p)}</p><span class="xs-b">${esc(c.b)}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><div class="xs-art">${art(c)}</div></button>`;
+    const b = el.querySelector('.xs-card');
+    b.addEventListener('pointerenter', () => load().catch(() => {}), { once: true });
+    b.addEventListener('focus', () => load().catch(() => {}), { once: true });
+    b.addEventListener('click', () => {
+      b.classList.add('wait');
+      load().then(() => { b.classList.remove('wait'); window.UshaStory.open(L); }).catch(() => b.classList.remove('wait'));
+    });
+    // her eye follows the pointer over the card
+    if (!reduce) b.addEventListener('pointermove', (e) => {
+      const g = b.querySelector('.xs-look'), r = b.querySelector('.xs-art svg').getBoundingClientRect();
+      const fx = r.left + r.width * 300 / 440, fy = r.top + r.height * 140 / 320, dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1;
+      g.style.transform = `translate(${(dx / d * 9).toFixed(1)}px,${(dy / d * 6).toFixed(1)}px)`;
+    });
+  }
+  // the page is rendered by the main bundle and can re-render: check now, on language change, and once in a while
+  const later = () => setTimeout(mount, 60);
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', later); else later();
+  new MutationObserver(later).observe(H, { attributes: true, attributeFilter: ['lang'] });
+  setInterval(mount, 2000);
 })();
 
 // Section 03 "Try her": one wide, centred stage in the galaxy, under USHA
