@@ -137,6 +137,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-cta{font-size:15px!important;padding:13px 22px}
   .ns-bar{width:100%;max-width:560px;gap:8px}
   .ns-ct{display:none}
+  .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
   .ns-scene .ns-n,.ns-scene [marker-end]{display:none}
   .ns-mn{display:block}
   .ns-nav button,.ns-mu{width:44px;height:44px}
@@ -289,7 +290,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 </div>`;
     D.body.appendChild(root);
     const q = (s) => root.querySelector(s);
-    q('.ns-x').addEventListener('click', close);
+    q('.ns-x').addEventListener('click', () => close());
     q('.ns-prev').addEventListener('click', () => go(cur - 1));
     q('.ns-next').addEventListener('click', () => go(cur + 1));
     root.querySelectorAll('.ns-dot').forEach((b) => b.addEventListener('click', () => go(+b.dataset.i)));
@@ -351,7 +352,8 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 <div class="ns-p">${c.p.map((p, i) => `<p style="--i:${i}">${esc(p)}</p>`).join('')}</div>
 <ul class="ns-mn">${(c.n || []).map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
 <div class="ns-sig">${meSvg}<span>${esc(T.ui.sign)}</span></div>${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
-    if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { close(); setTimeout(() => dispatchEvent(new CustomEvent('usha:talk')), 380); });
+    // open the live chat first, so the soundtrack doesn't swell back in between
+    if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { dispatchEvent(new CustomEvent('usha:talk')); close(true); });
     q('.ns-text').scrollTop = 0;
     seen.add(cur);
     root.querySelectorAll('.ns-dot').forEach((b, i) => { b.classList.toggle('seen', seen.has(i)); if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
@@ -384,7 +386,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     D.addEventListener('visibilitychange', onVis);
     root.querySelector('.ns-next').focus({ preventScroll: true });
   }
-  function close() {
+  function close(toChat) {
     if (!root) return;
     const r = root; root = null;
     clearInterval(render.c);
@@ -394,7 +396,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     Hh.classList.remove('ns-on');
     dispatchEvent(new CustomEvent('usha:resume'));
     setTimeout(() => r.remove(), 460);
-    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    if (!toChat && lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   window.UshaStory = { open, close, go: (i) => go(i), get open_() { return !!root; }, get chapter() { return cur; }, get music() { return Tune.on; } };
 })();

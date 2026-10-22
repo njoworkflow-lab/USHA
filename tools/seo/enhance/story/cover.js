@@ -43,7 +43,7 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
 @media (prefers-reduced-motion:reduce){.xs-eye,.xs-pg{animation:none}.xs-card,.xs-paper{transition:none}}
 `;
   // the torn page: the cup from chapter one, the pigeon, and a hole she looks through
-  const art = (c) => `<svg viewBox="0 0 440 320" aria-hidden="true">
+  const art = (c) => `<svg viewBox="0 0 440 372" aria-hidden="true">
 <defs><filter id="xs-pen" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>
 <filter id="xs-sh"><feGaussianBlur stdDeviation="14"/></filter>
 <clipPath id="xs-hole"><path d="M262 120 C276 96 330 92 344 118 C358 144 334 176 300 176 C270 176 250 146 262 120 Z"/></clipPath></defs>
@@ -61,8 +61,8 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
   <g transform="translate(330 262)"><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 Z" fill="#9AA2AE"/><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 L-22 0" fill="none" stroke="#2A2420" stroke-width="2"/><g class="xs-pg"><circle cx="18" cy="-30" r="8" fill="#A9B1BC" stroke="#2A2420" stroke-width="2"/><circle cx="21" cy="-32" r="2" fill="#2A2420"/><path d="M25 -29 l7 2 l-7 2" fill="#E0A73A"/></g></g>
   <text x="70" y="64" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2" fill="#8C6E58">03:07</text>
 </g>
-<g class="xs-note" fill="#FF5A1F" font-size="21"><text x="${H.dir === 'rtl' ? 300 : 210}" y="236" text-anchor="${H.dir === 'rtl' ? 'end' : 'start'}"${H.dir === 'rtl' ? ' direction="rtl"' : ''}>${esc(c.note)}</text></g>
-<path d="M300 214 C310 196 306 186 302 180" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/><path d="M296 186 l6 -8 l5 9" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/>
+<g class="xs-note" fill="#FF5A1F" font-size="22"><text x="220" y="352" text-anchor="middle"${H.dir === 'rtl' ? ' direction="rtl"' : ''}>${esc(c.note)}</text></g>
+<path d="M330 330 C372 318 384 250 352 196" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/><path d="M344 206 l7 -11 l8 11" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
   let loading = null;
@@ -95,7 +95,7 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
     // her eye follows the pointer over the card
     if (!reduce) b.addEventListener('pointermove', (e) => {
       const g = b.querySelector('.xs-look'), r = b.querySelector('.xs-art svg').getBoundingClientRect();
-      const fx = r.left + r.width * 300 / 440, fy = r.top + r.height * 140 / 320, dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1;
+      const fx = r.left + r.width * 300 / 440, fy = r.top + r.height * 140 / 372, dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1;
       g.style.transform = `translate(${(dx / d * 9).toFixed(1)}px,${(dy / d * 6).toFixed(1)}px)`;
     });
   }
