@@ -6,7 +6,14 @@
 (() => {
   const D = document;
   const PAD = 0.05, FX = 0.11, MUTED = 0.5; // the pad sits far below the tones
-  const audio = () => window.__ushaAudio || null;
+  // the site's shared audio engine; with music off it may not exist yet, so the game makes its own
+  let own = null;
+  const audio = () => {
+    if (window.__ushaAudio) return window.__ushaAudio;
+    if (!own) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; try { own = { ac: new AC() }; } catch { return null; } }
+    if (own.ac.state === 'suspended') own.ac.resume().catch(() => {});
+    return own;
+  };
   const isOn = () => !window.UshaSound || window.UshaSound.on;
   let out = null, padBus = null, pad = null, inGame = false, chordT = 0;
 
