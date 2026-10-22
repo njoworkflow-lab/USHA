@@ -99,6 +99,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-mn{display:none;margin:4px 0 0;padding:0;list-style:none;font:700 19px/1.2 var(--hand);color:var(--ember)}
 .ns-mn li{margin:0 0 6px;padding-inline-start:20px;position:relative}
 .ns-mn li::before{content:'↳';position:absolute;inset-inline-start:0;color:#8C6E58}
+.ns[dir=rtl] .ns-mn li::before{content:'↲'}
 .ns-cta{align-self:flex-start;margin-top:1.8cqw;padding:1.1cqw 2.2cqw;border:0;border-radius:999px;background:var(--ember);color:#fff!important;font:600 1.4cqw var(--body,'Onest',sans-serif)!important;box-shadow:0 10px 30px rgba(255,90,31,.35);transition:transform .2s}
 .ns-cta:hover{transform:translateY(-2px)}
 .ns-bar{display:flex;align-items:center;gap:14px;width:min(1200px,calc(100vw - 48px),calc((100vh - 128px) * 1.7391))}
@@ -305,7 +306,6 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
       go(cur + ((dx < 0) !== isRtl() ? 1 : -1));
     }, { passive: true });
-    root.addEventListener('keydown', onKey);
     // on the last page her eyes follow you
     root.addEventListener('pointermove', (e) => {
       const g = root.querySelector('.ns-look'); if (!g || reduce) return;
@@ -315,6 +315,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     });
   }
   function onKey(e) {
+    if (!root) return;
     if (e.key === 'Escape') { e.preventDefault(); close(); return; }
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); go(cur + ((e.key === 'ArrowRight') !== isRtl() ? 1 : -1)); return; }
     if (e.key === 'Tab') { // keep focus inside
@@ -384,6 +385,8 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     let pref = true; try { pref = localStorage.getItem('usha-music') !== 'off'; } catch {}
     setMusic(pref);
     D.addEventListener('visibilitychange', onVis);
+    // keys work wherever the focus is while the story is open
+    D.addEventListener('keydown', onKey, true);
     root.querySelector('.ns-next').focus({ preventScroll: true });
   }
   function close(toChat) {
@@ -392,6 +395,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     clearInterval(render.c);
     Tune.stop();
     D.removeEventListener('visibilitychange', onVis);
+    D.removeEventListener('keydown', onKey, true);
     r.classList.remove('in');
     Hh.classList.remove('ns-on');
     dispatchEvent(new CustomEvent('usha:resume'));
