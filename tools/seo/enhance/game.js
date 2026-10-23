@@ -1,4 +1,6 @@
 function au({scene:i,cam:e,U:t,SND:n,haptic:s,T:r,onBreak:o,onSecret:a,onExit:l}){
+// her voice stays; game-sound.js (point 14) adds a soft accent under it
+const gsfx=k=>{n.voice(k);const g=window.UshaGameSound;g&&g.fx(k)};
 // USHA's game: five levels in the noise. Replaces the bundle's one-round game
 // (tools/seo/enhance/game.js, swapped in by the build). Everything is drawn as
 // glowing points, like the rest of the site. Uses the bundle's three.js names:
@@ -82,20 +84,20 @@ function setup(){
 function start(){
  Object.assign(w,{active:!0,paused:!1,lv:0,lives:3,done:!1,secretOn:!1,secretGot:!1,score:0});
  for(const k in hinted)delete hinted[k];
- pts.visible=!0;joyBuild();joyShow(!0);setup();n.voice("wee");s([10,30,10])}
+ pts.visible=!0;joyBuild();joyShow(!0);setup();gsfx("wee");s([10,30,10])}
 function stop(){w.active=!1;pts.visible=!1;joyShow(!1);joy.on=!1;toastEl&&toastEl.classList.remove("on")}
 function face(p){Object.assign(t.tgt,p)}
 function dash(){
  if(!w.active||w.paused)return;
- if(w.phase==="over"){w.lives=3;w.score=w.lvScore;setup();n.voice("wake");face({tear:0,droop:0,tilt:0});return}
- L.dash=.38;w.still=0;t.tgt.sq=.8;t.tgt.stretch=1.25;setTimeout(()=>{t.tgt.sq=1;t.tgt.stretch=1},220);n.voice("surprise");s(12)}
+ if(w.phase==="over"){w.lives=3;w.score=w.lvScore;setup();gsfx("wake");face({tear:0,droop:0,tilt:0});return}
+ L.dash=.38;w.still=0;t.tgt.sq=.8;t.tgt.stretch=1.25;setTimeout(()=>{t.tgt.sq=1;t.tgt.stretch=1},220);gsfx("surprise");s(12)}
 addEventListener("keydown",k=>{if(!w.active)return;keys[k.code]=1;w.still=0;
  if(k.code==="Space"){k.preventDefault();dash()}
  if(k.code==="Escape")w.paused?resume():pause();
  /Arrow/.test(k.code)&&k.preventDefault()});
 addEventListener("keyup",k=>{keys[k.code]=0});
-function pause(){w.paused=!0;o(!0);n.voice("sleep")}
-function resume(){w.paused=!1;o(!1);n.voice("wake")}
+function pause(){w.paused=!0;o(!0);gsfx("sleep")}
+function resume(){w.paused=!1;o(!1);gsfx("wake")}
 const ray=new Ui,plane=new qt(new R(0,0,1),0),hitP=new R;
 function steer(p){ray.setFromCamera(p,e);ray.ray.intersectPlane(plane,hitP)&&(L.tx=hitP.x,L.ty=hitP.y,L.steer=!0,w.still=0)}
 function hurt(fx,fy){
@@ -103,7 +105,7 @@ function hurt(fx,fy){
  w.lives--;w.inv=1.8;w.hurt=1;
  const d=dist(L.x,L.y,fx,fy)||1;L.vx+=(L.x-fx)/d*9;L.vy+=(L.y-fy)/d*9;
  face({sq:.7,tear:.9,droop:.8,happy:0});setTimeout(()=>t.tgt.sq=1,200);
- n.voice(w.lives>0?"sad":"sob");s([30,40,30]);
+ gsfx(w.lives>0?"sad":"sob");s([30,40,30]);
  if(w.lives<=0){saveBest();w.phase="over";face({tear:1,droop:1.3,tilt:-.7,eyeH:.35});toast(tx("g_over","Dash to try again."),99)}
  else toast(tx("g_hit","Ouch!"),1.4);
  hud()}
@@ -112,9 +114,9 @@ function levelDone(){
  return w.sig>=c.sig&&w.burst>=c.cl&&w.house&&(!c.boss||(boss&&boss.hp<=0))}
 function clearLevel(){
  const bonus=200+w.lives*50+w.lv*40;w.score+=bonus;
- w.phase="clear";w.pt=2.6;w.dance=2;n.voice("laugh");s([10,30,10,30]);
+ w.phase="clear";w.pt=2.6;w.dance=2;gsfx("laugh");s([10,30,10,30]);
  face({happy:1,blush:1,tear:0,droop:0,tilt:0});
- if(LVc.ty===4&&!w.done){w.done=!0;w.pt=4;toast(tx("g_done","You beat the noise."),3.8);n.voice("happy")}
+ if(LVc.ty===4&&!w.done){w.done=!0;w.pt=4;toast(tx("g_done","You beat the noise."),3.8);gsfx("happy")}
  else toast(tx("g_clear","Level clear!")+" +"+bonus,2.4);
  w.lv++;saveBest();w.lv--;hud()}
 // ---------- drawing ----------
@@ -156,6 +158,8 @@ function update(dt,time,ptr,moved){
  let threat=99,tx0=0,ty0=0;
  for(const d of devs)if(!d.dead){const q=dist(L.x,L.y,d.x,d.y);if(q<threat){threat=q;tx0=d.x;ty0=d.y}}
  if(boss&&boss.hp>0){const q=dist(L.x,L.y,boss.x,boss.y)-1.1;if(q<threat){threat=q;tx0=boss.x;ty0=boss.y}}
+ // read-only: what is around her, for the ambience in game-sound.js
+ window.__gsnd={ty:c.ty,phase:w.phase,threat,boss:boss&&boss.hp>0?boss.hp/boss.max:0,dash:L.dash>0,wind:winds.some(wd=>Math.abs(L.y-wd.y)<wd.h/2),lives:w.lives,paused:w.paused};
  const scared=threat<1.9&&w.phase==="play"&&w.shield<=0;
  if(w.phase!=="over"){
   t.tgt.lookX=scared?clamp((tx0-L.x)*.25,-.6,.6):clamp(L.vx*.12,-.6,.6);
@@ -166,7 +170,7 @@ function update(dt,time,ptr,moved){
   t.tgt.tear=Math.max(0,(t.tgt.tear||0)-dt*.6);t.tgt.droop=Math.max(0,(t.tgt.droop||0)-dt*.8);
   t.tgt.blush=w.phase==="clear"?1:Math.max(0,t.tgt.blush-dt*.5);
  }
- if(play&&w.still>6&&w.yawn<=0){w.yawn=1.4;n.voice("yawn");w.still=0}
+ if(play&&w.still>6&&w.yawn<=0){w.yawn=1.4;gsfx("yawn");w.still=0}
  w.yawn=Math.max(0,w.yawn-dt);
  // ----- camera follows -----
  e.position.x+=(L.x*.75-e.position.x)*(1-Math.pow(.03,dt));e.position.y+=(L.y*.75-e.position.y)*(1-Math.pow(.03,dt));e.position.z=12;e.lookAt(e.position.x,e.position.y,0);e.updateMatrixWorld();
@@ -179,7 +183,7 @@ function update(dt,time,ptr,moved){
  for(const g of sigs){
   if(play&&!g.got){g.x+=g.vx*dt;g.y+=g.vy*dt;if(Math.abs(g.x)>W*.9)g.vx*=-1;if(Math.abs(g.y)>Hh*.85)g.vy*=-1}
   const yy=g.y+Math.sin(time*1.6+g.ph)*.15;
-  if(!g.got&&play&&dist(L.x,L.y,g.x,yy)<.6){g.got=1;w.sig++;n.voice("collect");s(8);t.tgt.happy=1;addScore(10,1);w.combo>2&&toast("×"+w.combo,.8)}
+  if(!g.got&&play&&dist(L.x,L.y,g.x,yy)<.6){g.got=1;w.sig++;gsfx("collect");s(8);t.tgt.happy=1;addScore(10,1);w.combo>2&&toast("×"+w.combo,.8)}
   if(g.got)g.fade=Math.min(1,g.fade+dt*2);
   const v=vis(g.x,yy),f=.8+.2*Math.sin(time*5+g.ph);
   P(g.x,yy+g.fade*.8,0,1,.45+g.fade*.4,.18,(44+g.fade*40)*f,(1-g.fade)*1.2*v);
@@ -190,9 +194,9 @@ function update(dt,time,ptr,moved){
   if(play&&!q.burst){q.x+=q.vx*dt;q.y+=q.vy*dt;if(Math.abs(q.x)>W*.85)q.vx*=-1;if(Math.abs(q.y)>Hh*.78)q.vy*=-1}
   const d=dist(L.x,L.y,q.x,q.y);
   if(!q.burst&&play&&d<q.r+.38){
-   if(L.dash>0||sp>5.2){q.burst=.001;w.burst++;n.voice("pop");s([15,20,15]);addScore(25,1);
+   if(L.dash>0||sp>5.2){q.burst=.001;w.burst++;gsfx("pop");s([15,20,15]);addScore(25,1);
     for(const p of q.p){const m=Math.hypot(p.ox,p.oy,p.oz)||1,v=rnd(3,9);p.vx=p.ox/m*v+L.vx*.3;p.vy=p.oy/m*v+L.vy*.3;p.vz=p.oz/m*v}}
-   else{L.vx+=(L.x-q.x)/(d||1)*6;L.vy+=(L.y-q.y)/(d||1)*6;n.voice("hm");s(6);if(!hinted.dash){hinted.dash=1;toast(tx("g_hint","Dash into the noise to burst it."),3)}}}
+   else{L.vx+=(L.x-q.x)/(d||1)*6;L.vy+=(L.y-q.y)/(d||1)*6;gsfx("hm");s(6);if(!hinted.dash){hinted.dash=1;toast(tx("g_hint","Dash into the noise to burst it."),3)}}}
   q.burst&&(q.burst+=dt);
   const v=vis(q.x,q.y);
   for(const p of q.p){let x,y,z,al;
@@ -211,8 +215,8 @@ function update(dt,time,ptr,moved){
    for(const o2 of devs)if(o2!==d&&!o2.dead){const dd=dist(d.x,d.y,o2.x,o2.y);if(dd<.8&&dd>0){d.vx+=(d.x-o2.x)/dd*dt*6;d.vy+=(d.y-o2.y)/dd*dt*6}}
    d.x+=d.vx*dt;d.y+=d.vy*dt;d.x=clamp(d.x,-W,W);d.y=clamp(d.y,-Hh,Hh);
    if(q<.55){
-    if(w.shield>0){d.dead=.001;n.voice("pop");s([20,10,20]);addScore(50)}
-    else if(L.dash>0){d.stun=1.6;d.vx=(d.x-L.x)/q*7;d.vy=(d.y-L.y)/q*7;n.voice("tap");s(10)}
+    if(w.shield>0){d.dead=.001;gsfx("pop");s([20,10,20]);addScore(50)}
+    else if(L.dash>0){d.stun=1.6;d.vx=(d.x-L.x)/q*7;d.vy=(d.y-L.y)/q*7;gsfx("tap");s(10)}
     else hurt(d.x,d.y)}
   }
   const v=Math.max(vis(d.x,d.y),.22),j=Math.sin(time*18+d.ph)*.02,stn=d.stun>0;
@@ -235,8 +239,8 @@ function update(dt,time,ptr,moved){
  for(const pw of powers){
   if(pw.got)continue;pw.ph+=dt;
   if(play&&dist(L.x,L.y,pw.x,pw.y)<.6){pw.got=1;
-   if(pw.k==="shield"){w.shield=7;toast(tx("g_shield","Shield!"),2.4);n.voice("found");s([10,20,10])}
-   else{w.lives=Math.min(3,w.lives+1);toast(tx("g_heart","+1 life"),1.6);n.voice("happy")}hud();continue}
+   if(pw.k==="shield"){w.shield=7;toast(tx("g_shield","Shield!"),2.4);gsfx("found");s([10,20,10])}
+   else{w.lives=Math.min(3,w.lives+1);toast(tx("g_heart","+1 life"),1.6);gsfx("happy")}hud();continue}
   const v=Math.max(vis(pw.x,pw.y),.3);
   if(pw.k==="shield")for(let k=0;k<18;k++){const A=k/18*6.28+pw.ph*2;P(pw.x+Math.cos(A)*.34,pw.y+Math.sin(A)*.34,0,.55,.85,1,13,v)}
   else for(let k=0;k<16;k++){const A=k/16*6.28,hx=16*Math.pow(Math.sin(A),3)/60,hy=(13*Math.cos(A)-5*Math.cos(2*A)-2*Math.cos(3*A)-Math.cos(4*A))/60;P(pw.x+hx*1.4,pw.y+hy*1.4,0,1,.4,.55,13,v)}
@@ -254,8 +258,8 @@ function update(dt,time,ptr,moved){
    const ring=(Math.sin(time*1.3)+1)/2,open=ring>.62,q=dist(L.x,L.y,B.x,B.y);
    B.open=open;
    if(q<1.25){
-    if(open&&(L.dash>0||w.shield>0)&&B.hit<=0){B.hp--;B.hit=.8;addScore(100);B.flash=.4;w.anger=1.2;n.voice("grr");s([30,20,30]);toast(tx("g_kinghit","Direct hit!"),1.2);L.vx=(L.x-B.x)/q*10;L.vy=(L.y-B.y)/q*10;hud();
-     if(B.hp<=0){devs.forEach(d=>d.dead||(d.dead=.001));orbs=[];n.voice("pop")}}
+    if(open&&(L.dash>0||w.shield>0)&&B.hit<=0){B.hp--;B.hit=.8;addScore(100);B.flash=.4;w.anger=1.2;gsfx("grr");s([30,20,30]);toast(tx("g_kinghit","Direct hit!"),1.2);L.vx=(L.x-B.x)/q*10;L.vy=(L.y-B.y)/q*10;hud();
+     if(B.hp<=0){devs.forEach(d=>d.dead||(d.dead=.001));orbs=[];gsfx("pop")}}
     else if(B.hit<=0){L.vx+=(L.x-B.x)/(q||1)*7;L.vy+=(L.y-B.y)/(q||1)*7;hurt(B.x,B.y)}}
    B.hit=Math.max(0,B.hit-dt);
   }
@@ -274,7 +278,7 @@ function update(dt,time,ptr,moved){
  // ----- engineers' house -----
  if(house){
   const q=dist(L.x,L.y,house.x,house.y);
-  if(!w.house&&play&&q<.8){w.house=!0;n.voice("found");s([10,40,10]);toast(tx("g_house","You found the engineers’ house."),2.6);hud()}
+  if(!w.house&&play&&q<.8){w.house=!0;gsfx("found");s([10,40,10]);toast(tx("g_house","You found the engineers’ house."),2.6);hud()}
   const v=c.dark?clamp(1.3-q/6,.18,1):1;
   for(let k=0;k<200;k++){const u=k/200*5;let gx,gy;
    u<1?(gx=-1+u*2,gy=-1):u<2?(gx=1,gy=-1+(u-1)*1.2):u<3?(gx=1-(u-2),gy=.2+(u-2)*.9):u<4?(gx=-(u-3),gy=1.1-(u-3)*.9):(gx=-1,gy=.2-(u-4)*1.2);
@@ -283,9 +287,9 @@ function update(dt,time,ptr,moved){
  // ----- level flow -----
  if(play&&levelDone())clearLevel();
  // the secret, for those who wait after the last level
- if(w.done&&!w.secretGot&&w.still>3&&!w.secretOn&&w.phase==="clear"){w.secretOn=!0;sec={x:L.x-2,y:L.y-1.2};n.voice("hm")}
+ if(w.done&&!w.secretGot&&w.still>3&&!w.secretOn&&w.phase==="clear"){w.secretOn=!0;sec={x:L.x-2,y:L.y-1.2};gsfx("hm")}
  if(w.secretOn&&!w.secretGot){sec.x+=(L.x+1.6-sec.x)*dt*.25;sec.y+=(L.y+1-sec.y)*dt*.25;
-  if(dist(L.x,L.y,sec.x,sec.y)<.5){w.secretGot=!0;n.voice("secret");s([20,50,20,50,40]);a()}
+  if(dist(L.x,L.y,sec.x,sec.y)<.5){w.secretGot=!0;gsfx("secret");s([20,50,20,50,40]);a()}
   for(let k=0;k<8;k++)P(sec.x+Math.cos(time+k)*.05,sec.y+Math.sin(time*1.3+k)*.05,0,.83,1,.23,30-k*3,.5)}
  for(let k=Z;k<N;k++)alp[k]=0;
  geo.attributes.position.needsUpdate=geo.attributes.c.needsUpdate=geo.attributes.s.needsUpdate=geo.attributes.a.needsUpdate=!0;

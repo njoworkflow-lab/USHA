@@ -348,7 +348,7 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
 const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -357,7 +357,7 @@ let STORY_CFG;
 function storyCfg() {
   if (STORY_CFG) return STORY_CFG;
   const font = (f, n) => { const b = fs.readFileSync(path.join(STORY_DIR, 'fonts', f)); return emit(`fonts/${n}-${hash(b)}.woff2`, b); };
-  return (STORY_CFG = { src: emit(`story-${hash(STORY_JS)}.js`, STORY_JS), fonts: { cav: font('caveat-latin.woff2', 'caveat-latin'), cavc: font('caveat-cyrillic.woff2', 'caveat-cyrillic'), ar: font('aref-ruqaa-arabic.woff2', 'aref-ruqaa-arabic') } });
+  return (STORY_CFG = { src: emit(`story-${hash(STORY_JS)}.js`, STORY_JS), fonts: { cav: font('caveat-latin.woff2', 'caveat-latin'), cavc: font('caveat-cyrillic.woff2', 'caveat-cyrillic'), ar: font('marhey-arabic.woff2', 'marhey-arabic') } });
 }
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.

@@ -102,17 +102,22 @@ ${lab}
       const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
       return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
     };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, '#E3C9A0', '#B99B7A', '#CDB08A') : '');
+    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
+    const dates = A.lang() !== 'ru';
+    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
+    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
+    // his first ad: a tower of 3,000 orders beside the 1,000 cartons he actually had
+    const L = A.lang(), num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : L === 'ru' ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
     let stack = '';
-    // the viral campaign: a pyramid of pallets
-    const rows = [[0, 4], [1, 3], [2, 2], [3, 1]];
-    const items = [];
-    rows.forEach(([lv, n]) => { for (let i = 0; i < n; i++) items.push([4 + i + lv * 0.5, 1, lv * 0.82]); });
-    items.sort((p, q) => p[2] - q[2] || (p[0] + p[1]) - (q[0] + q[1])).forEach(([x, y, z]) => { stack += pallet(x, y, z); });
+    for (let i = 0; i < 22; i++) stack += box(5.6 + (i % 3) * 0.03, 1 + ((i * 7) % 4) * 0.02, i * 0.16, 1.1, 0.8, 0.12, '#FFFFFF', '#E9E4DA', '#F4F0E8');
+    [[3.2, 1, 0], [3.2, 2.05, 0], [3.25, 1.5, 0.82]].forEach(([x, y, z]) => { stack += pallet(x, y, z); });
+    const ordersAt = iso(6.15, 1.4, 22 * 0.16 + 0.3), cartonsAt = iso(3.7, 1.6, 1.9);
+    stack += `<text x="${ordersAt[0]}" y="${ordersAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${E}" text-anchor="middle">${num(3000)}</text>`;
+    stack += `<text x="${cartonsAt[0]}" y="${cartonsAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${G}" text-anchor="middle">${num(1000)}</text>`;
     let floor = '';
     for (let i = -2; i <= 10; i++) { const a = iso(i, -2, 0), b = iso(i, 9, 0), cc = iso(-2, i, 0), d = iso(9, i, 0); floor += `<path d="M${pt(a)} L${pt(b)} M${pt(cc)} L${pt(d)}"/>`; }
     const door = [iso(-2, 1, 0), iso(-2, 1, 4), iso(-2, 5, 4), iso(-2, 5, 0)];
-    const lbl = iso(5.5, 1, 3.6);
+    const lbl = iso(6.15, 1.4, 22 * 0.16 + 0.9);
     return A.base(`
 <defs><linearGradient id="ns-c-dawn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC690" stop-opacity=".9"/><stop offset="1" stop-color="#FFC690" stop-opacity="0"/></linearGradient></defs>
 <rect width="760" height="690" fill="#D9D2C6" opacity=".5"/>
@@ -124,7 +129,6 @@ ${A.ink(`<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])
 <g fill="none" stroke="${G}" stroke-width="1" opacity=".4">${[1, 2, 3].map((z) => `<path d="M${pt(iso(-2, 1, 3.4 + z * .15))} L${pt(iso(-2, 5, 3.4 + z * .15))}"/>`).join('')}</g>
 <g transform="translate(${iso(-2, 3, 4.6)[0]} ${iso(-2, 3, 4.6)[1]})"><rect x="-30" y="-16" width="60" height="28" rx="4" fill="#2A2420"/><text y="5" font-family="ui-monospace,monospace" font-size="15" fill="#FF8A4C" text-anchor="middle">06:00</text></g>
 ${stack}
-<text x="${lbl[0]}" y="${lbl[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="15" fill="${E}" text-anchor="middle">VIRAL!!</text>
 <!-- the unit of truth, front and centre -->
 ${pallet(1.2, 6.6, 0, 0)}
 <!-- him: hard hat, vest, clipboard -->
@@ -180,7 +184,7 @@ ${pin(130, 398)}
     const pan = [[20, 70], [392, 70], [20, 382], [392, 382]], PW = 348, PH = 296;
     const frame = pan.map(([x, y]) => `<rect x="${x}" y="${y}" width="${PW}" height="${PH}" fill="#FBF7EF"/>`).join('');
     const client = (x, y, mood) => `<g transform="translate(${x} ${y})"><path d="M-40 90 C-40 30 40 30 40 90 Z" fill="#9DB7D6"/><circle r="30" fill="#E7C2A3"/>${A.ink(`<path d="M-40 90 C-40 30 40 30 40 90"/><circle r="30"/><path d="M-14 -4 v4 M14 -4 v4"/>${mood === 'ok' ? '<path d="M-12 12 q12 10 24 0"/>' : mood === 'meh' ? '<path d="M-10 14 h20"/>' : '<ellipse cx="0" cy="14" rx="6" ry="8"/>'}`, 2.4)}</g>`;
-    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g' })}</g>`;
+    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g', keep: 1 })}</g>`;
     return A.base(`
 <rect width="760" height="690" fill="#D9CDB8" opacity=".4"/>
 ${frame}
@@ -201,6 +205,6 @@ ${A.me(462, 600, 2)}${client(662, 552, 'ok')}
     + A.sp([60, 520, 110, 60], 'a-bob', `<g fill="${E}"><path d="M80 540 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M130 530 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M150 560 c-4 -6 -12 -2 -8 4 l8 7 l8 -7 c4 -6 -4 -10 -8 -4 Z"/></g>`, null, '--d:.8s;--a:-8px')
     // the client, leaving the panel at speed
     + A.sp([250, 480, 120, 150], 'a-drift', `<g transform="translate(300 540) rotate(14)"><path d="M-30 60 C-30 14 30 14 30 60 Z" fill="#9DB7D6"/><circle r="24" fill="#E7C2A3"/>${A.ink('<path d="M-30 60 C-30 14 30 14 30 60"/><circle r="24"/><ellipse cx="0" cy="10" rx="5" ry="7"/><path d="M-12 60 l-16 30 M12 60 l20 26"/>', 2.4)}</g>`, null, '--d:.4s;--x:16px')
-    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20 })}`).join(''));
+    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20, keep: 1 })}`).join(''));
   };
 })();
