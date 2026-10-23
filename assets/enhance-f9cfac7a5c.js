@@ -1338,7 +1338,7 @@ function findingChart(i, lang) {
     src.connect(gain); gain.connect(A.ac.destination);
     return true;
   }
-  const live = () => H.classList.contains('x-modal-on');
+  const live = () => H.classList.contains('x-modal-on') && !H.classList.contains('t3-modal-on');
   const target = () => (ready && on && !quiet.size && !live() && !D.hidden ? VOL : 0);
 
   // site effects: silent in music mode and in the live chat, half when muted; open in the game
