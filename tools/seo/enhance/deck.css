@@ -182,17 +182,17 @@ html[dir=rtl] .x-lad .x-st::after{left:auto;right:0}
 @media (prefers-reduced-motion:reduce){.x-zr.x-in .x-stamp{animation:none}.x-lad .x-st{transition:none}}
 
 /* ---------- 07 · NJO in numbers ---------- */
-.x-njo{margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.x-njo{margin-top:30px;padding-top:24px;border-top:1px solid var(--line);container-type:inline-size}
 .x-njo-p{font:700 clamp(18px,1.5vw,22px)/1.3 var(--head)!important;letter-spacing:-.03em;color:var(--ink)!important;max-width:30ch}
-.x-njo-n{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,auto));justify-content:space-between;gap:14px}
-.x-njo-n li{display:flex;flex-direction:column;gap:6px;opacity:0;transform:translateY(14px);transition:opacity .8s,transform .8s var(--x-ease,ease);transition-delay:calc(var(--i)*110ms)}
+.x-njo-n{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 12px}
+.x-njo-n li{min-width:0;display:flex;flex-direction:column;gap:8px;opacity:0;transform:translateY(14px);transition:opacity .8s,transform .8s var(--x-ease,ease);transition-delay:calc(var(--i)*110ms)}
 .x-njo.x-in .x-njo-n li{opacity:1;transform:none}
-.x-njo-n b{font:800 clamp(34px,3.4vw,54px)/.9 var(--head);letter-spacing:-.05em;--dot:4.5px}
+.x-njo-n b{align-self:flex-start;white-space:nowrap;font:800 min(48px,6.1cqw)/.9 var(--head);letter-spacing:-.04em;--dot:4px}
 .x-njo-n li:nth-child(3) b{background-image:radial-gradient(circle at 50% 50%,var(--ember-t,#FF6A2B) 0 46%,transparent 52%)}
 .x-njo-n span{font:500 10.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
 .x-njo-s{margin-top:16px;font-size:14px!important;color:var(--ink3)!important}
 html[lang=ar] .x-njo-n span{font-family:var(--body);font-size:12.5px;letter-spacing:0;text-transform:none}
-@media (max-width:600px){.x-njo-n{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:20px}}
+@container (max-width:560px){.x-njo-n{grid-template-columns:repeat(3,minmax(0,1fr))}.x-njo-n b{font-size:min(46px,9.6cqw)}}
 
 /* ---------- Russian page: the Meta note ---------- */
 .x-ast::after{content:'*';color:var(--peach)}
