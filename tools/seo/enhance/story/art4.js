@@ -102,7 +102,10 @@ ${lab}
       const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
       return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
     };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, '#E3C9A0', '#B99B7A', '#CDB08A') : '');
+    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
+    const dates = A.lang() !== 'ru';
+    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
+    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
     let stack = '';
     // the viral campaign: a pyramid of pallets
     const rows = [[0, 4], [1, 3], [2, 2], [3, 1]];
@@ -180,7 +183,7 @@ ${pin(130, 398)}
     const pan = [[20, 70], [392, 70], [20, 382], [392, 382]], PW = 348, PH = 296;
     const frame = pan.map(([x, y]) => `<rect x="${x}" y="${y}" width="${PW}" height="${PH}" fill="#FBF7EF"/>`).join('');
     const client = (x, y, mood) => `<g transform="translate(${x} ${y})"><path d="M-40 90 C-40 30 40 30 40 90 Z" fill="#9DB7D6"/><circle r="30" fill="#E7C2A3"/>${A.ink(`<path d="M-40 90 C-40 30 40 30 40 90"/><circle r="30"/><path d="M-14 -4 v4 M14 -4 v4"/>${mood === 'ok' ? '<path d="M-12 12 q12 10 24 0"/>' : mood === 'meh' ? '<path d="M-10 14 h20"/>' : '<ellipse cx="0" cy="14" rx="6" ry="8"/>'}`, 2.4)}</g>`;
-    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g' })}</g>`;
+    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g', keep: 1 })}</g>`;
     return A.base(`
 <rect width="760" height="690" fill="#D9CDB8" opacity=".4"/>
 ${frame}
@@ -201,6 +204,6 @@ ${A.me(462, 600, 2)}${client(662, 552, 'ok')}
     + A.sp([60, 520, 110, 60], 'a-bob', `<g fill="${E}"><path d="M80 540 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M130 530 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M150 560 c-4 -6 -12 -2 -8 4 l8 7 l8 -7 c4 -6 -4 -10 -8 -4 Z"/></g>`, null, '--d:.8s;--a:-8px')
     // the client, leaving the panel at speed
     + A.sp([250, 480, 120, 150], 'a-drift', `<g transform="translate(300 540) rotate(14)"><path d="M-30 60 C-30 14 30 14 30 60 Z" fill="#9DB7D6"/><circle r="24" fill="#E7C2A3"/>${A.ink('<path d="M-30 60 C-30 14 30 14 30 60"/><circle r="24"/><ellipse cx="0" cy="10" rx="5" ry="7"/><path d="M-12 60 l-16 30 M12 60 l20 26"/>', 2.4)}</g>`, null, '--d:.4s;--x:16px')
-    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20 })}`).join(''));
+    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20, keep: 1 })}`).join(''));
   };
 })();

@@ -30,6 +30,11 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-l:first-child{position:relative;height:auto}
 .ns-sp{position:absolute;overflow:visible;will-change:transform;animation-duration:var(--d,6s);animation-delay:var(--dl,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .ns-n,.ns-hand{font-family:var(--hand)}
+.ns-js .ns-sp{animation:none!important}
+.ns-cap{display:none;position:absolute;inset-inline-start:10px;bottom:10px;max-width:calc(100% - 20px);align-items:center;gap:8px;padding:7px 12px 7px 8px;background:#FBF7EF;border-radius:10px;box-shadow:0 6px 18px rgba(42,36,32,.25);transform:rotate(-1.2deg);font:700 18px/1.15 var(--hand);color:var(--ember);transition:opacity .35s;pointer-events:none}
+.ns[dir=rtl] .ns-cap{transform:rotate(1.2deg)}
+.ns-cap svg{flex:none;width:26px;height:22px}
+.ns-cap.out{opacity:0}
 .a-sway{animation-name:ns-sway;animation-direction:alternate}
 .a-drift{animation-name:ns-drift;animation-direction:alternate}
 .a-bob{animation-name:ns-bob;animation-direction:alternate}
@@ -94,11 +99,6 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-p p{margin:0 0 1cqw;font:italic 400 1.5cqw/1.45 'Literata',Georgia,serif;opacity:0;transform:translateY(6px);animation:ns-up .6s ease forwards;animation-delay:calc(.35s + var(--i) * .18s)}
 .ns[dir=rtl] .ns-p p{font:400 1.55cqw/1.7 var(--body)}
 @keyframes ns-up{to{opacity:1;transform:none}}
-.ns-sig{display:flex;align-items:center;gap:.8cqw;margin-top:1.2cqw;font:700 1.9cqw var(--hand);color:var(--ember)}
-.ns-sig svg{width:3.6cqw;height:3cqw}
-.ns-mn{display:none;margin:4px 0 0;padding:0;list-style:none;font:700 19px/1.2 var(--hand);color:var(--ember)}
-.ns-mn li{margin:0 0 6px;padding-inline-start:20px;position:relative}
-.ns-mn li::before{content:'↳';position:absolute;inset-inline-start:0;color:#8C6E58}
 .ns-cta{align-self:flex-start;margin-top:1.8cqw;padding:1.1cqw 2.2cqw;border:0;border-radius:999px;background:var(--ember);color:#fff!important;font:600 1.4cqw var(--body,'Onest',sans-serif)!important;box-shadow:0 10px 30px rgba(255,90,31,.35);transition:transform .2s}
 .ns-cta:hover{transform:translateY(-2px)}
 .ns-bar{display:flex;align-items:center;gap:14px;width:min(1200px,calc(100vw - 48px),calc((100vh - 128px) * 1.7391))}
@@ -133,12 +133,12 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-h{font-size:32px;margin-top:8px}.ns[dir=rtl] .ns-h{font-size:28px}
   .ns-u{width:150px;height:12px;margin:6px 0 12px}
   .ns-p p{font-size:16px;margin-bottom:9px}.ns[dir=rtl] .ns-p p{font-size:16px}
-  .ns-sig{font-size:20px;gap:8px}.ns-sig svg{width:34px;height:28px}
   .ns-cta{font-size:15px!important;padding:13px 22px}
   .ns-bar{width:100%;max-width:560px;gap:8px}
   .ns-ct{display:none}
-  .ns-scene .ns-n,.ns-scene [marker-end]{display:none}
-  .ns-mn{display:block}
+  .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
+  .ns-scene .ns-n:not(.ns-keep),.ns-scene [marker-end]{display:none}
+  .ns-cap{display:flex}
   .ns-nav button,.ns-mu{width:44px;height:44px}
   .ns-x{top:10px}
 }
@@ -264,6 +264,57 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     };
   })();
 
+  // ---------- motion ----------
+  // Every moving layer runs on the Web Animations API. The values come from the
+  // layer's own settings (--d duration, --dl delay, --a amount, --x/--y distance
+  // in scene units) and distances scale with the drawing, so a pigeon walks the
+  // same stretch of table on a phone as on a big screen. (Safari on the Mac does
+  // not apply CSS variables inside keyframes, so CSS alone is not enough.)
+  const can = typeof Element !== 'undefined' && !!Element.prototype.animate;
+  const TF = (s) => ({ transform: s });
+  const MOTION = {
+    sway: (v) => [[TF(`rotate(${-v.a(3)}deg)`), TF(`rotate(${v.a(3)}deg)`)], 1],
+    swing: (v) => [[TF(`rotate(${-v.a(3)}deg) translateX(${-v.x(0)}px)`), TF(`rotate(${v.a(3)}deg) translateX(${v.x(0)}px)`)], 1],
+    drift: (v) => [[TF('translate(0px,0px)'), TF(`translate(${v.x(6)}px,${v.y(0)}px)`)], 1],
+    bob: (v) => [[TF('translateY(0px)'), TF(`translateY(${v.px(-4)}px)`)], 1],
+    breathe: (v) => [[TF('scale(1)'), TF(`scale(${v.a(1.02)})`)], 1],
+    talk: () => [[TF('scaleY(1)'), TF('scaleY(.3)')], 1],
+    flick: () => [[{ opacity: 1 }, { opacity: 0.12 }], 1],
+    pulse: (v) => [[{ opacity: 0.55, transform: 'scale(.96)' }, { opacity: 1, transform: `scale(${v.a(1.04)})` }], 1],
+    glow: () => [[{ opacity: 0.08, offset: 0 }, { opacity: 0.08, offset: 0.35 }, { opacity: 1, offset: 0.65 }, { opacity: 1, offset: 1 }], 1],
+    scurry: (v) => [[TF('translate(0px,0px) rotate(-3deg)'), TF(`translate(${v.x(-10)}px,-2px) rotate(3deg)`)], 1],
+    spin: () => [[TF('rotate(0deg)'), TF('rotate(360deg)')], 0, 'linear'],
+    ripple: () => [[{ transform: 'scale(.88)', opacity: 0 }, { opacity: 0.8, offset: 0.3 }, { transform: 'scale(1.16)', opacity: 0 }], 0, 'ease-out'],
+    steam: () => [[{ opacity: 0, transform: 'translateY(30px)' }, { opacity: 1, offset: 0.4 }, { opacity: 0, transform: 'translateY(-60px)' }], 0],
+    peck: () => [[{ transform: 'translate(0px,0px)', easing: 'steps(1,end)' }, { transform: 'translate(3px,1px)', offset: 0.25, easing: 'steps(1,end)' }, { transform: 'translate(0px,0px)', offset: 0.5, easing: 'steps(1,end)' }, { transform: 'translate(-2px,0px)', offset: 0.75, easing: 'steps(1,end)' }, { transform: 'translate(0px,0px)' }], 0, 'linear'],
+    hop: () => [[TF('translateY(0px)'), { transform: 'translateY(-14px)', offset: 0.2 }, { transform: 'translateY(0px)', offset: 0.4 }, { transform: 'translateY(-4px)', offset: 0.47 }, { transform: 'translateY(0px)', offset: 0.55 }, TF('translateY(0px)')], 0],
+    slide: (v) => [[{ transform: 'translate(0px,0px)', opacity: 1 }, { transform: `translate(${v.x(0)}px,${v.y(0)}px)`, opacity: 1, offset: 0.7 }, { transform: `translate(${v.x(0)}px,${v.y(0)}px)`, opacity: 0, offset: 0.85 }, { transform: 'translate(0px,0px)', opacity: 0, offset: 0.86 }, { transform: 'translate(0px,0px)', opacity: 1 }], 0],
+    // walkers go there and come back, turning round, instead of vanishing into nothing
+    walk: (v) => [[TF('translateX(0px) scaleX(1)'), { transform: `translateX(${v.x(200)}px) scaleX(1)`, offset: 0.46 }, { transform: `translateX(${v.x(200)}px) scaleX(-1)`, offset: 0.5 }, { transform: 'translateX(0px) scaleX(-1)', offset: 0.96 }, TF('translateX(0px) scaleX(1)')], 0, 'linear'],
+    fall: (v) => [[{ transform: 'translateY(0px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: `translateY(${v.y(200)}px)`, opacity: 0 }], 0, 'linear'],
+    tick: () => [[TF('rotate(0deg)'), { transform: 'rotate(50deg)', offset: 0.2 }, { transform: 'rotate(50deg)', offset: 0.4 }, { transform: 'rotate(-35deg)', offset: 0.6 }, { transform: 'rotate(-35deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    scribble: () => [[TF('translate(0px,0px)'), { transform: 'translate(-6px,2px)', offset: 0.25 }, { transform: 'translate(0px,0px)', offset: 0.5 }, { transform: 'translate(-6px,-2px)', offset: 0.75 }, TF('translate(0px,0px)')], 0, 'linear'],
+  };
+  function runMotion(scene) {
+    if (!can) return;
+    const k = scene.getBoundingClientRect().width / 760 || 1; // scene units → pixels
+    scene.querySelectorAll('.ns-sp').forEach((el) => {
+      el.getAnimations().forEach((a) => a.cancel());
+      const name = [...el.classList].find((c) => c.startsWith('a-')), m = name && MOTION[name.slice(2)];
+      if (!m) return;
+      const cs = el.style, get = (p) => cs.getPropertyValue(p).trim();
+      const v = {
+        a: (d) => { const n = parseFloat(get('--a')); return isNaN(n) ? d : n; },
+        px: (d) => { const n = parseFloat(get('--a')); return (isNaN(n) ? d : n) * k; },
+        x: (d) => { const n = parseFloat(get('--x')); return (isNaN(n) ? d : n) * k; },
+        y: (d) => { const n = parseFloat(get('--y')); return (isNaN(n) ? d : n) * k; },
+      };
+      const [frames, alt, easing] = m(v);
+      const d = (parseFloat(get('--d')) || 6) * 1000 * (reduce ? 1.6 : 1), dl = (parseFloat(get('--dl')) || 0) * 1000;
+      try { el.animate(frames, { duration: d, delay: dl, iterations: Infinity, direction: alt ? 'alternate' : 'normal', easing: easing || 'ease-in-out' }); } catch {}
+    });
+  }
+
   // ---------- the popup ----------
   let root = null, cur = 0, L = 'en', T = null, lastFocus = null, seen = new Set(), musicOn = true;
   const N = () => T.ch.length;
@@ -277,6 +328,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     root.setAttribute('aria-label', T.cover.h.replace(/<[^>]+>/g, ''));
     root.setAttribute('translate', 'no');
     root.dir = isRtl() ? 'rtl' : 'ltr'; root.lang = L;
+    if (can) root.classList.add('ns-js');
     const dots = T.ch.map((c, i) => `<button type="button" class="ns-dot" data-i="${i}" style="inset-inline-start:${(i / (N() - 1) * 100).toFixed(3)}%" aria-label="${esc(T.ui.chapter)} ${i + 1}: ${esc(c.k)}"></button>`).join('');
     root.innerHTML = `${ART.defs}
 <button type="button" class="ns-x" aria-label="${esc(T.ui.close)}">${ICON.close}</button>
@@ -289,7 +341,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 </div>`;
     D.body.appendChild(root);
     const q = (s) => root.querySelector(s);
-    q('.ns-x').addEventListener('click', close);
+    q('.ns-x').addEventListener('click', () => close());
     q('.ns-prev').addEventListener('click', () => go(cur - 1));
     q('.ns-next').addEventListener('click', () => go(cur + 1));
     root.querySelectorAll('.ns-dot').forEach((b) => b.addEventListener('click', () => go(+b.dataset.i)));
@@ -304,7 +356,6 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
       go(cur + ((dx < 0) !== isRtl() ? 1 : -1));
     }, { passive: true });
-    root.addEventListener('keydown', onKey);
     // on the last page her eyes follow you
     root.addEventListener('pointermove', (e) => {
       const g = root.querySelector('.ns-look'); if (!g || reduce) return;
@@ -314,6 +365,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     });
   }
   function onKey(e) {
+    if (!root) return;
     if (e.key === 'Escape') { e.preventDefault(); close(); return; }
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); go(cur + ((e.key === 'ArrowRight') !== isRtl() ? 1 : -1)); return; }
     if (e.key === 'Tab') { // keep focus inside
@@ -335,6 +387,16 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     ART.setLang(L);
     const scene = q('.ns-scene'), tx = q('.ns-tx');
     scene.innerHTML = (ART.by[c.id] || (() => ''))(c);
+    runMotion(scene);
+    // on phones her notes stay on the drawing: one at a time, in a small handwritten caption
+    clearInterval(render.n);
+    const notes = scene.querySelector('.ns-n:not(.ns-keep)') ? c.n || [] : [];
+    if (notes.length) {
+      scene.insertAdjacentHTML('beforeend', `<div class="ns-cap" aria-hidden="true">${meSvg}<span></span></div>`);
+      const cap = scene.querySelector('.ns-cap'), span = cap.querySelector('span');
+      let ni = 0; span.textContent = notes[0];
+      render.n = setInterval(() => { cap.classList.add('out'); setTimeout(() => { ni = (ni + 1) % notes.length; span.textContent = notes[ni]; cap.classList.remove('out'); }, 350); }, 3600);
+    }
     // lines draw themselves in; then her notes and arrows appear one by one
     scene.querySelectorAll('.dr path,.dr ellipse,.dr circle,.dr rect,.dr line,.dr polyline,.dr polygon').forEach((p) => p.setAttribute('pathLength', '1'));
     scene.querySelectorAll('.ns-n,[marker-end]').forEach((n, i) => { n.style.setProperty('--i', i); if (n.tagName === 'path') n.classList.add('ns-ar'); });
@@ -349,9 +411,9 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 <h3 class="ns-h">${esc(c.h)}</h3>
 <svg class="ns-u" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 10 C60 2 120 16 196 6"/></svg>
 <div class="ns-p">${c.p.map((p, i) => `<p style="--i:${i}">${esc(p)}</p>`).join('')}</div>
-<ul class="ns-mn">${(c.n || []).map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
-<div class="ns-sig">${meSvg}<span>${esc(T.ui.sign)}</span></div>${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
-    if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { close(); setTimeout(() => dispatchEvent(new CustomEvent('usha:talk')), 380); });
+${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
+    // open the live chat first, so the soundtrack doesn't swell back in between
+    if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { dispatchEvent(new CustomEvent('usha:talk')); close(true); });
     q('.ns-text').scrollTop = 0;
     seen.add(cur);
     root.querySelectorAll('.ns-dot').forEach((b, i) => { b.classList.toggle('seen', seen.has(i)); if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
@@ -369,6 +431,8 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     const dir = i > cur ? 1 : -1; cur = i; render(dir);
   }
   function onVis() { Tune.pause(D.hidden); }
+  let rsz = 0;
+  function onResize() { clearTimeout(rsz); rsz = setTimeout(() => { if (root) runMotion(root.querySelector('.ns-scene')); }, 200); }
 
   function open(lang) {
     if (root) return;
@@ -382,19 +446,24 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     let pref = true; try { pref = localStorage.getItem('usha-music') !== 'off'; } catch {}
     setMusic(pref);
     D.addEventListener('visibilitychange', onVis);
+    // keys work wherever the focus is while the story is open
+    D.addEventListener('keydown', onKey, true);
+    addEventListener('resize', onResize);
     root.querySelector('.ns-next').focus({ preventScroll: true });
   }
-  function close() {
+  function close(toChat) {
     if (!root) return;
     const r = root; root = null;
-    clearInterval(render.c);
+    clearInterval(render.c); clearInterval(render.n);
     Tune.stop();
     D.removeEventListener('visibilitychange', onVis);
+    D.removeEventListener('keydown', onKey, true);
+    removeEventListener('resize', onResize);
     r.classList.remove('in');
     Hh.classList.remove('ns-on');
     dispatchEvent(new CustomEvent('usha:resume'));
     setTimeout(() => r.remove(), 460);
-    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    if (!toChat && lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   window.UshaStory = { open, close, go: (i) => go(i), get open_() { return !!root; }, get chapter() { return cur; }, get music() { return Tune.on; } };
 })();

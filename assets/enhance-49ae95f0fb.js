@@ -132,8 +132,8 @@ function findingChart(i, lang) {
   if (fine) addEventListener('pointermove', (e) => {
     const t = e.target;
     if (!t || !t.closest) return;
-    // popup windows (plans, the live chat) sit above the eyes cursor: they always get the normal pointer
-    const inStory = !t.closest('.x-modal') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
+    // popup windows (plans, the live chat, USHA's story) sit above the eyes cursor: they always get the normal pointer
+    const inStory = !t.closest('.x-modal,.ns') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
     H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button'));
     const g = t.closest('.sec .glass');
     if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--px', e.clientX - r.left + 'px'); g.style.setProperty('--py', e.clientY - r.top + 'px'); }
@@ -1299,10 +1299,11 @@ function findingChart(i, lang) {
   const live = () => H.classList.contains('x-modal-on');
   const target = () => (ready && on && !quiet.size && !live() && !D.hidden ? VOL : 0);
 
-  // site effects: silent in music mode and in the live chat, half when muted
+  // site effects: silent in music mode and in the live chat, half when muted; open in the game
   function fx() {
     const A = audio(); if (!A) return;
-    const lvl = live() ? 0 : on ? 0 : FX_MUTED;
+    // in the game her voice and the game's effects are the sound, so the bus opens (full, or half when muted)
+    const lvl = live() ? 0 : quiet.has('game') ? (on ? 0.8 : FX_MUTED) : on ? 0 : FX_MUTED;
     window.__fxL = lvl;
     A.fx.gain.setTargetAtTime(lvl, A.ac.currentTime, 0.15);
   }
@@ -1434,6 +1435,166 @@ function findingChart(i, lang) {
   }
 })();
 
+// The game's sound world (point 14). USHA keeps her own voice in the game; this
+// adds what is around her. While the game runs the soundtrack is out (sound.js)
+// and this plays a very low ambient bed, generated live, whose mood follows the
+// level (morning scan, price war, ad storm, dark feed, the Noise King), plus
+// soft sounds for her surroundings: a shiver when imps get close, a whoosh in
+// the ad winds and on a dash, the King's slow heartbeat, a small chime when a
+// level clears, and a soft accent under her voice. game.js shares what is
+// around her in window.__gsnd (read-only) and calls UshaGameSound.fx(name).
+// Sound ON: bed + effects. Sound OFF: no bed, effects at 50%, like the site.
+(() => {
+  const D = document;
+  const BED = 0.06, FX = 0.1, MUTED = 0.5;
+  // the site's shared audio engine; with music off it may not exist yet, so the game makes its own
+  let own = null;
+  const audio = () => {
+    if (window.__ushaAudio) return window.__ushaAudio;
+    if (!own) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; try { own = { ac: new AC() }; } catch { return null; } }
+    if (own.ac.state === 'suspended') own.ac.resume().catch(() => {});
+    return own;
+  };
+  const isOn = () => !window.UshaSound || window.UshaSound.on;
+  const hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
+  let ac = null, out = null, bedBus = null, bed = null, noiseBuf = null, inGame = false, tick = 0;
+
+  function setup() {
+    const A = audio(); if (!A) return false;
+    if (ac === A.ac && out) return true;
+    ac = A.ac;
+    out = ac.createGain(); out.gain.value = 0;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3600;
+    out.connect(lp); lp.connect(ac.destination);
+    bedBus = ac.createGain(); bedBus.gain.value = 0; bedBus.connect(out);
+    const n = ac.sampleRate * 2; noiseBuf = ac.createBuffer(1, n, ac.sampleRate);
+    const d = noiseBuf.getChannelData(0); for (let k = 0; k < n; k++) d[k] = Math.random() * 2 - 1;
+    return true;
+  }
+
+  // ---------- the bed: one mood per level type ----------
+  // chord (MIDI, low and open), filter, how fast it breathes, how much air
+  const MOODS = [
+    { ch: [45, 52, 57, 64], f: 620, lfo: 0.06, air: 0.025 },  // morning scan: calm A minor
+    { ch: [43, 50, 55, 62], f: 700, lfo: 0.22, air: 0.02 },   // price war: G, breathing faster
+    { ch: [41, 48, 57, 60], f: 560, lfo: 0.1, air: 0.07 },    // ad storm: F, more wind
+    { ch: [40, 47, 52, 55], f: 380, lfo: 0.05, air: 0.02 },   // the dark feed: low E minor, closed
+    { ch: [38, 45, 50, 53], f: 440, lfo: 0.14, air: 0.03 },   // the Noise King: D minor, a drone
+  ];
+  let moodNow = -1;
+  function startBed() {
+    if (bed || !setup()) return;
+    const t = ac.currentTime, lp = ac.createBiquadFilter(), lfo = ac.createOscillator(), lg = ac.createGain();
+    lp.type = 'lowpass'; lp.frequency.value = 560; lp.Q.value = 0.4;
+    lfo.frequency.value = 0.06; lg.gain.value = 160; lfo.connect(lg); lg.connect(lp.frequency); lfo.start(t);
+    const voices = [];
+    for (let i = 0; i < 4; i++) for (const cents of [-5, 5]) {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = i ? 'sine' : 'triangle'; o.frequency.value = hz(MOODS[0].ch[i]); o.detune.value = cents;
+      g.gain.value = 0.22 / (i + 1); o.connect(g); g.connect(lp); o.start(t);
+      voices.push({ o, i });
+    }
+    const ns = ac.createBufferSource(), bp = ac.createBiquadFilter(), air = ac.createGain();
+    ns.buffer = noiseBuf; ns.loop = true; bp.type = 'bandpass'; bp.frequency.value = 900; bp.Q.value = 0.6; air.gain.value = 0.025;
+    ns.connect(bp); bp.connect(air); air.connect(bedBus); ns.start(t);
+    lp.connect(bedBus);
+    bed = { voices, lp, lfo, air, ns };
+    moodNow = -1;
+  }
+  function mood(i) {
+    if (!bed || i === moodNow) return;
+    moodNow = i;
+    const m = MOODS[i] || MOODS[0], t = ac.currentTime;
+    bed.voices.forEach(({ o, i: v }) => o.frequency.setTargetAtTime(hz(m.ch[v]), t, 1.4));
+    bed.lp.frequency.setTargetAtTime(m.f, t, 1.2);
+    bed.lfo.frequency.setTargetAtTime(m.lfo, t, 1);
+    bed.air.gain.setTargetAtTime(m.air, t, 1.2);
+  }
+  function stopBed() {
+    if (!bed) return;
+    const b = bed; bed = null;
+    setTimeout(() => { [...b.voices.map((v) => v.o), b.lfo, b.ns].forEach((x) => { try { x.stop(); } catch {} }); }, 2600);
+  }
+
+  // ---------- small sounds ----------
+  function tone(f, { at = 0, dur = 0.35, vol = 1, to = 0, type = 'sine' } = {}) {
+    if (!setup()) return;
+    const t = ac.currentTime + at, o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(FX * vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(out); o.start(t); o.stop(t + dur + 0.05);
+  }
+  // filtered noise: wind, whoosh, shiver
+  function air({ at = 0, dur = 0.5, vol = 1, from = 600, to = 1800, q = 1.2 } = {}) {
+    if (!setup()) return;
+    const t = ac.currentTime + at, s = ac.createBufferSource(), bp = ac.createBiquadFilter(), g = ac.createGain();
+    s.buffer = noiseBuf; bp.type = 'bandpass'; bp.Q.value = q;
+    bp.frequency.setValueAtTime(from, t); bp.frequency.exponentialRampToValueAtTime(to, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(FX * 0.6 * vol, t + dur * 0.3); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(bp); bp.connect(g); g.connect(out); s.start(t, Math.random()); s.stop(t + dur + 0.05);
+  }
+  const PENTA = [69, 72, 74, 76, 79, 81, 84];
+  let run = 0, runT = 0;
+  // a soft accent under her voice, never instead of it
+  const ACCENT = {
+    collect() { const now = performance.now(); run = now - runT < 900 ? Math.min(run + 1, PENTA.length - 1) : 0; runT = now; tone(hz(PENTA[run] + 12), { dur: 0.25, vol: 0.45 }); },
+    pop() { air({ dur: 0.18, vol: 0.5, from: 2400, to: 800, q: 2 }); },
+    found() { tone(hz(81), { dur: 0.6, vol: 0.4 }); tone(hz(88), { at: 0.08, dur: 0.7, vol: 0.3 }); },
+    secret() { [76, 79, 84, 88, 91].forEach((m, i) => tone(hz(m), { at: i * 0.09, dur: 0.8, vol: 0.35 })); },
+    laugh() { [72, 76, 79, 84].forEach((m, i) => tone(hz(m), { at: 0.1 + i * 0.11, dur: 0.7, vol: 0.4 })); }, // level clear
+    wake() { air({ dur: 1.2, vol: 0.6, from: 300, to: 1400 }); tone(hz(57), { dur: 1.3, vol: 0.3, to: hz(69) }); },
+    grr() { tone(90, { dur: 0.35, vol: 0.7, to: 55 }); },
+    sad() { tone(hz(52), { dur: 0.8, vol: 0.35, to: hz(45) }); },
+    sob() { tone(hz(45), { dur: 1.4, vol: 0.4, to: hz(38) }); air({ at: 0.2, dur: 1.2, vol: 0.4, from: 900, to: 300 }); },
+  };
+
+  // ---------- what is around her, checked ten times a second ----------
+  let lastShiver = 0, lastWind = 0, lastBeat = 0, wasDash = false, lastPhase = '';
+  function around() {
+    const g = window.__gsnd; if (!g || !inGame || D.hidden || g.paused) return;
+    const now = performance.now();
+    mood(g.ty);
+    // imps close: a quiet shiver, closer = more often and a little louder
+    if (g.phase === 'play' && g.threat < 2.6 && now - lastShiver > 500 + g.threat * 500) {
+      lastShiver = now; const k = 1 - g.threat / 2.6;
+      air({ dur: 0.35, vol: 0.25 + k * 0.5, from: 3000, to: 4200, q: 6 });
+    }
+    // in an ad wind lane: a soft gust
+    if (g.wind && now - lastWind > 900) { lastWind = now; air({ dur: 1, vol: 0.7, from: 400, to: 900, q: 0.8 }); }
+    // a dash: a short whoosh
+    if (g.dash && !wasDash) air({ dur: 0.4, vol: 0.8, from: 500, to: 2600, q: 0.9 });
+    wasDash = g.dash;
+    // the Noise King: a low, slow heartbeat that quickens as he weakens
+    if (g.boss > 0 && now - lastBeat > 600 + g.boss * 700) { lastBeat = now; tone(62, { dur: 0.22, vol: 0.9, to: 48 }); tone(58, { at: 0.18, dur: 0.22, vol: 0.6, to: 46 }); }
+    lastPhase = g.phase;
+  }
+
+  // ---------- levels ----------
+  function apply() {
+    if (!setup()) return;
+    const t = ac.currentTime, on = isOn(), live = inGame && !D.hidden;
+    out.gain.setTargetAtTime(live ? (on ? 1 : MUTED) : 0, t, 0.25);
+    bedBus.gain.setTargetAtTime(live && on ? BED : 0, t, live && on ? 1.5 : 0.5);
+    if (live && on) startBed(); else if (!inGame || !on) stopBed();
+    clearInterval(tick); if (live) tick = setInterval(around, 100);
+  }
+
+  window.UshaGameSound = {
+    fx(name) { if (!inGame || D.hidden) return; const f = ACCENT[name]; if (f) try { f(); } catch {} },
+    // read-only status, for checks
+    get bed() { return !!bed; },
+    get mood() { return moodNow; },
+    get level() { return out ? +out.gain.value.toFixed(2) : 0; },
+  };
+  addEventListener('usha:game-on', () => { inGame = true; apply(); });
+  addEventListener('usha:game-off', () => { inGame = false; apply(); });
+  D.addEventListener('visibilitychange', () => { if (inGame) apply(); });
+  // the header sound switch changes UshaSound.on; follow it while the game runs
+  let lastOn = null;
+  setInterval(() => { const o = isOn(); if (o !== lastOn) { lastOn = o; if (inGame) apply(); } }, 400);
+})();
+
 // USHA's story: the cover on the page (point 9). A dark card in the site's own
 // style, right after the engineers block, with a torn piece of her sketchbook
 // and one eye peeking through it. A click loads the story (story bundle, built
@@ -1479,7 +1640,7 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
 @media (prefers-reduced-motion:reduce){.xs-eye,.xs-pg{animation:none}.xs-card,.xs-paper{transition:none}}
 `;
   // the torn page: the cup from chapter one, the pigeon, and a hole she looks through
-  const art = (c) => `<svg viewBox="0 0 440 320" aria-hidden="true">
+  const art = (c) => `<svg viewBox="0 0 440 372" aria-hidden="true">
 <defs><filter id="xs-pen" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>
 <filter id="xs-sh"><feGaussianBlur stdDeviation="14"/></filter>
 <clipPath id="xs-hole"><path d="M262 120 C276 96 330 92 344 118 C358 144 334 176 300 176 C270 176 250 146 262 120 Z"/></clipPath></defs>
@@ -1497,8 +1658,8 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
   <g transform="translate(330 262)"><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 Z" fill="#9AA2AE"/><path d="M-22 -4 C-26 -20 -12 -30 4 -26 C18 -22 26 -10 22 0 L-22 0" fill="none" stroke="#2A2420" stroke-width="2"/><g class="xs-pg"><circle cx="18" cy="-30" r="8" fill="#A9B1BC" stroke="#2A2420" stroke-width="2"/><circle cx="21" cy="-32" r="2" fill="#2A2420"/><path d="M25 -29 l7 2 l-7 2" fill="#E0A73A"/></g></g>
   <text x="70" y="64" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2" fill="#8C6E58">03:07</text>
 </g>
-<g class="xs-note" fill="#FF5A1F" font-size="21"><text x="${H.dir === 'rtl' ? 300 : 210}" y="236" text-anchor="${H.dir === 'rtl' ? 'end' : 'start'}"${H.dir === 'rtl' ? ' direction="rtl"' : ''}>${esc(c.note)}</text></g>
-<path d="M300 214 C310 196 306 186 302 180" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/><path d="M296 186 l6 -8 l5 9" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/>
+<g class="xs-note" fill="#FF5A1F" font-size="22"><text x="220" y="352" text-anchor="middle"${H.dir === 'rtl' ? ' direction="rtl"' : ''}>${esc(c.note)}</text></g>
+<path d="M330 330 C372 318 384 250 352 196" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round"/><path d="M344 206 l7 -11 l8 11" fill="none" stroke="#FF5A1F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
   let loading = null;
@@ -1531,7 +1692,7 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
     // her eye follows the pointer over the card
     if (!reduce) b.addEventListener('pointermove', (e) => {
       const g = b.querySelector('.xs-look'), r = b.querySelector('.xs-art svg').getBoundingClientRect();
-      const fx = r.left + r.width * 300 / 440, fy = r.top + r.height * 140 / 320, dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1;
+      const fx = r.left + r.width * 300 / 440, fy = r.top + r.height * 140 / 372, dx = e.clientX - fx, dy = e.clientY - fy, d = Math.hypot(dx, dy) || 1;
       g.style.transform = `translate(${(dx / d * 9).toFixed(1)}px,${(dy / d * 6).toFixed(1)}px)`;
     });
   }
