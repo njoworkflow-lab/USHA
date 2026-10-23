@@ -357,7 +357,7 @@ html[dir=rtl] .sc-dr i b{transform-origin:100% 50%}
 .sc-you{position:absolute;top:11px;inset-inline-start:11px;padding:2px 7px;border-radius:99px;font-size:9.5px;font-weight:700;color:#fff;background:var(--ember-t);white-space:nowrap}
 .sc-adt{position:absolute;top:11px;inset-inline-start:11px;padding:1px 6px;border-radius:4px;font-size:9.5px;color:#77727E;background:rgba(255,255,255,.92)}
 @container (max-width:620px){.sc-find,.sc .hide-m{display:none}.sc-main{grid-template-columns:minmax(0,1fr)}.sc-rail{display:none}}
-@container (max-width:440px){.sc-row2.web .sc-t th:first-child,.sc-row2.web .sc-t th:nth-child(3){width:auto!important}.sc-t.sad th:first-child{width:44%!important}.sc .hide-s{display:none}.sc-t.ads th:first-child{width:42%}.sc-t td,.sc-t th{padding-inline:8px}.sc-bell,.sc-me{display:none}}
+@container (max-width:440px){.sc-row2.web .sc-t th:first-child,.sc-row2.web .sc-t th:nth-child(3){width:auto!important}.sc-t.sad th:first-child{width:36%!important}.sc .hide-s{display:none}.sc-t.ads th:first-child{width:42%}.sc-t td,.sc-t th{padding-inline:8px}.sc-bell,.sc-me{display:none}}
 
 /* ---------- new screens ---------- */
 .sc-meta{--acc:#0866FF;--acc-soft:#E7F0FF;--brand:linear-gradient(135deg,#0866FF,#00C6FF 60%,#25F4EE)}
