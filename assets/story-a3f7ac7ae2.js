@@ -1227,7 +1227,7 @@ ${lab}
     };
     // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
     const dates = A.lang() !== 'ru';
-    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(.55)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2.4" stroke-linecap="round"/></g>`; };
+    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
     const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
     let stack = '';
     // the viral campaign: a pyramid of pallets
@@ -1783,7 +1783,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-bar{width:100%;max-width:560px;gap:8px}
   .ns-ct{display:none}
   .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
-  .ns-scene .ns-n{display:none}
+  .ns-scene .ns-n,.ns-scene [marker-end]{display:none}
   .ns-cap{display:flex}
   .ns-nav button,.ns-mu{width:44px;height:44px}
   .ns-x{top:10px}
