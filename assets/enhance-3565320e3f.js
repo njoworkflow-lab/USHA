@@ -2416,8 +2416,8 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
   function cardsHTML() {
     const t = tx(), x = t.live, c = t.cards;
     return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
-      <article class="t3-card k-live"><div class="t3-tex" aria-hidden="true"></div><div class="t3-lv-glow" aria-hidden="true"></div><div class="t3-lv-top"><span class="t3-onair"><i aria-hidden="true"></i>${esc(x.k)}</span><span class="t3-wave" aria-hidden="true">${'<i></i>'.repeat(9)}</span></div>
-        <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div>
+      <article class="t3-card k-live"><div class="t3-tex" aria-hidden="true"></div><div class="t3-lv-glow" aria-hidden="true"></div><div class="t3-lv-head"><div class="t3-lv-top"><span class="t3-onair"><i aria-hidden="true"></i>${esc(x.k)}</span><span class="t3-wave" aria-hidden="true">${'<i></i>'.repeat(9)}</span></div>
+        <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div></div>
         <h3>${x.h}</h3><p>${esc(x.p)}</p>
         <button type="button" class="t3-go"><span class="t3-go-ring" aria-hidden="true"></span><span class="d" aria-hidden="true"></span><span>${x.b}</span><span class="t3-go-a" aria-hidden="true">${rtl() ? '←' : '→'}</span></button></article>
       <article class="t3-card k-ff"><div class="t3-tex" aria-hidden="true"></div><div class="t3-art"><span class="t3-90" aria-hidden="true"><span dir="ltr">+90</span><small>${esc(bare(t.days))}</small></span>${ART_FF}</div><h3>${c.ff[0]}</h3><p>${c.ff[1]}</p><button type="button" class="t3-cta" data-open="ff"><span>${c.ff[2]}</span></button></article>`;
