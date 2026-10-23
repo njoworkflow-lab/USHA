@@ -118,6 +118,14 @@
       cards: {
         sc: ['Scenarios', 'Pick a business and watch how she thinks: a finding, a reason, a move.', 'Open scenarios →'],
         ff: ['Fast-forward 90 days', 'See your business 90 days from now: without USHA, and with her.', 'Fast-forward →'],
+        mo: ['A month <i>with her</i>', 'Every day she reads, every week she publishes, every month she reports and plans.', 'See her month →'],
+      },
+      mo: {
+        sub: 'What happens every day, every week and every month. Switch the plan to compare.',
+        rows: [['Every day', 'She reads your market'], ['Every week', 'Posts and stories go out'], ['Every month', 'A brief with actions, a report and next month’s plan']],
+        vol: { core: ['16 posts', '32 stories', 'brief monthly'], pro: ['20 posts', '40 stories', 'brief every 2 weeks'] },
+        day: 'Day', eq: '<b>10 minutes</b> of yours. <b>A week</b> of a department’s work.', note: 'Example: a confectionery brand launching a gift box',
+        you: 'Your part: approve what matters. Strategy, budget, promotion terms.',
       },
       close: 'Close', ffSub: 'Same brand, same 90 days (1 Jul – 28 Sep 2026). Drag the line to compare.', grip: 'Drag left or right',
       screens: [['Marketplace sales', 'Orders, stock, gross sales'], ['Marketplace ads', 'Spend, ROAS, campaigns'], ['Social ads', 'Meta and TikTok: CPA, purchases'], ['Social media', 'Reach, saves, followers'], ['SEO', 'Clicks, queries, pages'], ['Website sales', 'Sessions, conversion, revenue'], ['Customer service', 'Inbox, replies, leads'], ['Stock', 'Cover, reorders, dead stock'], ['Market and competitors', 'Prices, share of search, gaps'], ['Reviews', 'Rating and replies'], ['Search position', 'The main query on noon'], ['Content', 'Two videos side by side']],
@@ -196,6 +204,14 @@
       cards: {
         sc: ['Сценарии', 'Выберите нишу и посмотрите, как думает USHA: что нашла, почему и что делать дальше.', 'Смотреть сценарии →'],
         ff: ['Перемотать на 90 дней вперёд', 'Ваш бизнес через 90 дней: без USHA и с ней.', 'Перемотать →'],
+        mo: ['Месяц <i>с ней</i>', 'Каждый день она читает рынок, каждую неделю публикует, каждый месяц отчитывается и планирует.', 'Её месяц →'],
+      },
+      mo: {
+        sub: 'Что происходит каждый день, каждую неделю и каждый месяц. Переключите тариф, чтобы сравнить.',
+        rows: [['Каждый день', 'Читает ваш рынок'], ['Каждую неделю', 'Выходят публикации и сторис'], ['Каждый месяц', 'Сводка с действиями, отчёт и план на следующий месяц']],
+        vol: { core: ['16 публикаций', '32 сторис', 'сводка раз в месяц'], pro: ['20 публикаций', '40 сторис', 'сводка раз в 2 недели'] },
+        day: 'День', eq: '<b>10 минут</b> вашего времени. <b>Неделя</b> работы целого отдела.', note: 'Пример: кондитерский бренд запускает подарочный набор',
+        you: 'Ваша часть — утвердить важное: стратегию, бюджет и условия акций.',
       },
       close: 'Закрыть', ffSub: 'Тот же бренд и те же 90 дней: с 1 июля по 28 сентября 2026 года. Сдвиньте линию, чтобы сравнить.', grip: 'Сдвиньте влево или вправо',
       screens: [['Продажи на маркетплейсе', 'Заказы, остатки, сумма заказов'], ['Реклама на маркетплейсе', 'Расход, ДРР, кампании'], ['Таргет и контекст', 'VK Реклама и Директ: стоимость заказа'], ['Соцсети', 'Охват, сохранения, подписчики'], ['SEO', 'Клики, запросы, страницы'], ['Продажи на сайте', 'Визиты, конверсия, выручка'], ['Сервис и CRM', 'Обращения, скорость ответа, заявки'], ['Склад', 'Оборачиваемость, дозаказ, неликвид'], ['Рынок и конкуренты', 'Цены, доля поиска, свободные ниши'], ['Отзывы и рейтинг', 'Рейтинг и ответы на отзывы'], ['Позиция в выдаче', 'Главный запрос на WB'], ['Контент', 'Два ролика для сравнения']],
@@ -274,6 +290,14 @@
       cards: {
         sc: ['سيناريوهات حقيقية', 'اختر مجال نشاطك وشاهد كيف تحلّل ' + iso('USHA') + ': ماذا اكتشفت، ولماذا، وما الخطوة التالية.', 'شاهد السيناريوهات ←'],
         ff: ['نتائج ٩٠ يوم', 'هكذا سيبدو نشاطك بعد 90 يومًا: بدون ' + iso('USHA') + ' ومعها.', 'اعرض النتائج ←'],
+        mo: ['شهر <i>معها</i>', 'كل يوم تقرأ السوق، وكل أسبوع تنشر، وكل شهر تقدّم تقريرها وخطتها.', 'شاهد شهرها ←'],
+      },
+      mo: {
+        sub: 'ما يحدث كل يوم وكل أسبوع وكل شهر. بدّل الباقة للمقارنة.',
+        rows: [['كل يوم', 'تقرأ سوقك'], ['كل أسبوع', 'تُنشر المنشورات والستوري'], ['كل شهر', 'ملخّص بالخطوات، وتقرير، وخطة الشهر التالي']],
+        vol: { core: ['16 منشورًا', '32 ستوري', 'ملخّص كل شهر'], pro: ['20 منشورًا', '40 ستوري', 'ملخّص كل أسبوعين'] },
+        day: 'اليوم', eq: '<b>10 دقائق</b> من وقتك، مقابل <b>أسبوع</b> من عمل قسم كامل.', note: 'مثال: علامة حلويات تطلق علبة هدايا جديدة',
+        you: 'دورك: أن توافق على ما يهمّ، أي الاستراتيجية والميزانية وشروط العروض.',
       },
       close: 'إغلاق', ffSub: 'العلامة التجارية نفسها والفترة نفسها: من 1 يوليو إلى 28 سبتمبر 2026. اسحب الخط للمقارنة.', grip: 'اسحب يمينًا أو يسارًا',
       screens: [['مبيعات المنصّة', 'الطلبات والمخزون وإجمالي المبيعات'], ['إعلانات المنصّة', 'الإنفاق والعائد والحملات'], ['إعلانات السوشيال ميديا', iso('Meta') + ' و' + iso('TikTok') + ': تكلفة الشراء والمشتريات'], ['حسابات السوشيال ميديا', 'الوصول والحفظ والمتابعون'], ['الظهور في البحث', 'النقرات وكلمات البحث والصفحات'], ['مبيعات الموقع', 'الزيارات ومعدل التحويل والإيرادات'], ['خدمة العملاء', 'الرسائل وسرعة الرد والعملاء المحتملون'], ['المخزون', 'مدة التغطية وإعادة الطلب والراكد'], ['السوق والمنافسون', 'الأسعار وحصة البحث والفرص'], ['التقييمات', 'متوسط التقييم والردود'], ['الترتيب في البحث', 'كلمة البحث الرئيسية على ' + iso('noon')], ['المحتوى', 'فيديوهان للمقارنة']],
@@ -827,7 +851,7 @@
     const m = modals[kind]; if (!m) return;
     const t = tx(), c = t.cards[kind];
     $('h3', m).innerHTML = c[0];
-    $('.t3-mtt p', m).textContent = kind === 'ff' ? bare(t.ffSub) : ($('#talk .lead') || {}).textContent || c[1];
+    $('.t3-mtt p', m).textContent = kind === 'ff' ? bare(t.ffSub) : kind === 'mo' ? t.mo.sub : ($('#talk .lead') || {}).textContent || c[1];
     $('.t3-mx', m).setAttribute('aria-label', t.close);
   }
   const focusables = (m) => $$('button, [href], input, select, textarea, video[controls], [tabindex]:not([tabindex="-1"])', m).filter((e) => !e.disabled && e.offsetParent !== null && !e.closest('[inert],.ghost'));
@@ -836,6 +860,7 @@
     const m = modal(kind);
     labelM(kind);
     if (kind === 'ff') fillFF(m);
+    if (kind === 'mo') fillMO(m);
     lastFocus = opener || D.activeElement; keepY = scrollY;
     m.hidden = false; openK = kind;
     H.classList.add('x-modal-on', 't3-modal-on');
@@ -869,6 +894,27 @@
   const talk = () => dispatchEvent(new Event('usha:talk'));
   const ART_FF = `<svg class="t3-art-ff" viewBox="0 0 220 120" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="t3ffc"><rect class="rv" x="0" y="0" width="220" height="120"/></clipPath><linearGradient id="t3ffg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB547" stop-opacity=".35"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></linearGradient></defs><path class="g" d="M10 30H210M10 60H210M10 90H210"/><path class="a" d="M10 82 L40 80 L70 84 L100 81 L130 85 L160 83 L190 86 L210 84"/><g clip-path="url(#t3ffc)"><path class="ar" d="M10 82 L40 76 L70 70 L100 60 L130 50 L160 40 L190 30 L210 22 L210 112 L10 112Z"/><path class="b" d="M10 82 L40 76 L70 70 L100 60 L130 50 L160 40 L190 30 L210 22"/></g><line class="sw" x1="0" y1="8" x2="0" y2="112"/></svg>`;
   const artSc = () => { const a = tx().scArt; return `<div class="t3-art art-sc" aria-hidden="true"><div class="sa-chips">${a.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div><div class="sa-q">${esc(a.q)}</div><div class="sa-a"><span class="t3-face"><i></i><i></i></span><span>${esc(a.a)}</span></div></div>`; };
+  // a month with her: the 30-day rhythm (deck slide 21). Post days spread evenly; the brief is monthly in Core, every two weeks in Pro.
+  const MO = { core: { posts: 16, brief: [30] }, pro: { posts: 20, brief: [15, 30] } };
+  const postDays = (n) => Array.from({ length: n }, (_, k) => Math.round(((k + 0.5) * 30) / n));
+  const artMo = () => {
+    const p = postDays(16), cell = (i, k) => `<i style="--d:${i}">${k}</i>`;
+    return `<div class="t3-art art-mo" aria-hidden="true"><div class="mo-r r1">${Array.from({ length: 30 }, (_, i) => cell(i, '')).join('')}</div><div class="mo-r r2">${Array.from({ length: 30 }, (_, i) => p.includes(i + 1) ? cell(i, '') : '<s></s>').join('')}</div><div class="mo-r r3">${Array.from({ length: 30 }, (_, i) => i === 29 ? cell(i, '') : '<s></s>').join('')}</div><span class="mo-sweep"></span></div>`;
+  };
+  function fillMO(m, plan) {
+    const t = tx().mo, body = $('.t3-mbody', m), k = plan || body.dataset.plan || 'pro';
+    body.dataset.plan = k;
+    const P = MO[k], posts = postDays(P.posts), v = t.vol[k];
+    const head = `<div class="mo-days" aria-hidden="true"><span></span>${Array.from({ length: 30 }, (_, i) => `<b>${[1, 7, 14, 21, 30].includes(i + 1) ? i + 1 : ''}</b>`).join('')}</div>`;
+    const row = (r, cells, cls) => `<div class="mo-row ${cls}"><div class="mo-lab"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div><div class="mo-cells">${cells}</div></div>`;
+    const dots = Array.from({ length: 30 }, (_, i) => `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>`).join('');
+    const sq = Array.from({ length: 30 }, (_, i) => posts.includes(i + 1) ? `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>` : '<s></s>').join('');
+    const dm = Array.from({ length: 30 }, (_, i) => P.brief.includes(i + 1) ? `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>` : '<s></s>').join('');
+    body.innerHTML = `<div class="t3-mo"><div class="mo-top"><div class="mo-tog" role="group">${['core', 'pro'].map((q) => `<button type="button" data-p="${q}" aria-pressed="${q === k}">${q === 'core' ? 'Core' : 'Pro'}</button>`).join('')}</div><p class="mo-vol"><span dir="auto">${v.map(esc).join('</span><span dir="auto">')}</span></p></div>
+      <div class="mo-strip">${head}${row(t.rows[0], dots, 'd')}${row(t.rows[1], sq, 'w')}${row(t.rows[2], dm, 'm')}</div>
+      <div class="mo-eq"><p>${t.eq}</p><small>${esc(t.note)}</small></div><p class="mo-you">${esc(t.you)}</p></div>`;
+    $$('.mo-tog button', body).forEach((b) => b.addEventListener('click', () => { if (b.dataset.p !== body.dataset.plan) { fillMO(m, b.dataset.p); $(`.mo-tog button[data-p="${b.dataset.p}"]`, body).focus({ preventScroll: true }); } }));
+  }
   function cardsHTML() {
     const t = tx(), x = t.live, c = t.cards;
     return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
@@ -876,6 +922,7 @@
         <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div></div>
         <h3>${x.h}</h3><p>${esc(x.p)}</p>
         <button type="button" class="t3-go"><span class="t3-go-ring" aria-hidden="true"></span><span class="d" aria-hidden="true"></span><span>${x.b}</span><span class="t3-go-a" aria-hidden="true">${rtl() ? '←' : '→'}</span></button></article>
+      <article class="t3-card k-mo"><div class="t3-tex" aria-hidden="true"></div>${artMo()}<h3>${c.mo[0]}</h3><p>${c.mo[1]}</p><button type="button" class="t3-cta" data-open="mo"><span>${c.mo[2]}</span></button></article>
       <article class="t3-card k-ff"><div class="t3-tex" aria-hidden="true"></div><div class="t3-art"><span class="t3-90" aria-hidden="true"><span dir="ltr">+90</span><small>${esc(bare(t.days))}</small></span>${ART_FF}</div><h3>${c.ff[0]}</h3><p>${c.ff[1]}</p><button type="button" class="t3-cta" data-open="ff"><span>${c.ff[2]}</span></button></article>`;
   }
   let root = null;
@@ -909,6 +956,7 @@
       const n = H.lang in T ? H.lang : 'en'; if (n === L) return;
       L = n; root.innerHTML = cardsHTML(); wireCards(); labelM('sc');
       if (modals.ff) { labelM('ff'); if (openK === 'ff') fillFF(modals.ff); }
+      if (modals.mo) { labelM('mo'); if (openK === 'mo') fillMO(modals.mo); }
     }).observe(H, { attributes: true, attributeFilter: ['lang'] });
   }
   // the number check (tools/seo/check-try.mjs) renders the screens without a page

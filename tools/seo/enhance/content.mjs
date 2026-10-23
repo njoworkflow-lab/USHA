@@ -26,6 +26,13 @@ export const DICT_PATCH = {
     g_h5: 'Dash into the King when his ring glows open. Avoid his noise orbs.',
     g_shield: 'Shield on: dash through the imps!', g_heart: '+1 life', g_kinghit: 'Direct hit!',
     g_done: 'You beat the noise. She’s proud of you.',
+    // deck pass 2 (owner-approved plan): plain words, weekly rules, NDA, two FAQs
+    kicker: 'USHA by NJO · Your marketing director',
+    n_p: 'They decide who sees you, who finds you, what you pay and who buys. Their rules change every week, and nobody shows them to you.',
+    s_p: 'An algorithm is the hidden rulebook inside every app, marketplace and ad. Nobody can read them all, so most owners guess. Every morning before 08:00 she reads them for you and turns them into plain moves.',
+    bf_safe: 'No payment and no service contract for the free week. Only an NDA, to protect your data.',
+    faq1: ['Do I need to install anything or give access?', 'No. She works in your messenger: no app, no API, no access to your systems. Connections only if you want them, and you can switch them off at any time.'],
+    faqAdd: ['What if it doesn’t work for me?', 'She re-checks your case first, then an NJO expert works on it by hand, then our senior team takes it over. Still not right? You get your money back, on the terms in your contract.'],
   },
   ru: {
     w_7h: 'Один движок <i>вместо целого отдела.</i>',
@@ -47,6 +54,12 @@ export const DICT_PATCH = {
     g_h5: 'Бейте Короля рывком, когда его кольцо открыто. Уворачивайтесь от шаров шума.',
     g_shield: 'Щит включён: рывком сквозь бесов!', g_heart: '+1 жизнь', g_kinghit: 'Прямое попадание!',
     g_done: 'Вы победили шум. Она вами гордится.',
+    kicker: 'USHA by NJO · Ваш директор по маркетингу',
+    n_p: 'Они решают, кто вас видит, кто находит, сколько вы платите и кто покупает. Их правила меняются каждую неделю, и вам их никто не показывает.',
+    s_p: 'Алгоритм — это скрытые правила внутри каждого приложения, маркетплейса и рекламного кабинета. Прочитать их все человек не может, поэтому большинство гадает. Каждое утро до 08:00 она читает их за вас и превращает в понятные шаги.',
+    bf_safe: 'Без оплаты и без договора на услуги. Только NDA, чтобы защитить ваши данные.',
+    faq1: ['Нужно что-то устанавливать или давать доступы?', 'Нет. Она работает в вашем мессенджере: без приложения, без API и без доступа к вашим системам. Подключения — только по вашему желанию, и отключить их можно в любой момент.'],
+    faqAdd: ['А если мне не подойдёт?', 'Сначала она перепроверит ваш случай, затем его вручную разберёт эксперт NJO, потом дело возьмёт старшая команда. Всё ещё не то? Вернём деньги на условиях договора.'],
   },
 };
 
@@ -95,6 +108,9 @@ export const PAIR_PATCH = {
   'Videos without a shoot, product photo shoots from your real products, designs in one style.': ['Videos without a shoot, from idea and script to the finished clip, plus editing of your footage. Photo shoots from your real products. Everything in one visual style.', 'Видео без съёмки — от идеи и сценария до готового ролика, монтаж ваших исходников. Фотосессии ваших реальных товаров. Всё в одном визуальном стиле.'],
   'Promotions, ads within your budget, bloggers and UGC creators.': ['Offer, mechanics, copy and designs for each promotion. Ads within the budget you approve. Bloggers and UGC creators found, briefed and coordinated.', 'Предложение, механика, тексты и макеты для каждой акции. Реклама в рамках утверждённого бюджета. Подбор, задания и сопровождение блогеров и UGC-креаторов.'],
   'Customer replies, Mon–Fri 10:00–18:00': ['Customer replies, Mon–Fri 10:00–18:00', 'Ответы покупателям, пн–пт 10:00–18:00'],
+  // Enterprise: the decks count 12 skill areas, so no "eight areas" here
+  'All eight areas, configured around your company.': ['Everything in Pro, configured around your company.', 'Всё, что в Pro, настроено под вашу компанию.'],
+  'All eight areas': ['Everything in Pro', 'Всё, что в Pro'],
 };
 // Counter labels in the monthly cards only (the chat demo reuses some words).
 export const AREA_LABELS = {
@@ -188,5 +204,73 @@ export const X = {
     capOne: ['engine. Every role’s work, one memory.', 'движок. Вся работа отдела, одна память.'],
     her: ['One engine · one memory', 'Один движок · одна память'],
     foot: ['Ready in one week. Works 24/7. Never leaves with your project history.', 'Готова за неделю. Работает 24/7. Не уходит с историей вашего проекта.'],
+    cost: ['<b>7–12×</b> cheaper than a marketing team', '<b>В 7–12 раз</b> дешевле отдела маркетинга'],
+  },
+  // ---------- deck pass 2: how she knows, zero risk, NJO in numbers ----------
+  // Numbers are plain numbers (formatted per language at render time).
+  // Sources: client decks (EN/RU, Oct 2026) and the usha-brain repository.
+  deck: {
+    tr: { says: ['The algorithm says', 'Что говорит алгоритм'], hear: ['You hear from USHA', 'Что вы слышите от USHA'] },
+    mind: {
+      k: ['02 · How she knows', '02 · Откуда она знает'],
+      h: ['Other AI learned from books. <i>She learned from the market.</i>', 'Обычные нейросети учились по книгам. <i>USHA — у рынка.</i>'],
+      p: ['Five numbers explain why her answer isn’t the one everyone else gets.', 'Пять цифр объясняют, почему её ответ — не тот, что получают все.'],
+      scroll: ['Scroll: 1,240 signals become one move', 'Листайте: 1 240 сигналов становятся одним ходом'],
+      st: [
+        { n: 1240, l: ['sources a day', 'источников в день'], d: ['Marketplaces, competitors, reviews, search and ads, read before 08:00.', 'Маркетплейсы, конкуренты, отзывы, поиск и реклама — прочитано до 08:00.'] },
+        { n: 200, s: '+', l: ['experts taught her', 'экспертов её учили'], d: ['Sellers, media buyers, founders, pharma sales directors, restaurant owners. Real cases with real money: what failed and what finally worked.', 'Селлеры, медиабайеры, основатели брендов, директора фармпродаж, рестораторы. Реальные кейсы с реальными деньгами: что провалилось и что в итоге сработало.'],
+          tags: [['Marketplace sellers', 'Селлеры'], ['Media buyers', 'Медиабайеры'], ['Brand founders', 'Основатели брендов'], ['Pharma sales directors', 'Директора фармпродаж'], ['Restaurant owners', 'Рестораторы'], ['Factory export managers', 'Экспортёры заводов'], ['Retail chain managers', 'Управляющие сетями'], ['Content creators', 'Авторы контента']] },
+        { n: 160, s: '+', l: ['buyer types', 'типов покупателей'], d: ['A living copy of your market. Each digital buyer has a city, a budget, habits and a memory.', 'Живая копия вашего рынка. У каждого цифрового покупателя есть город, бюджет, привычки и память.'],
+          tags: [['Mother, 34 · Riyadh · shops on noon', 'Мама, 34 · Москва · покупает на Ozon'], ['Student, 21 · Dubai · lives on TikTok', 'Студентка, 21 · Казань · живёт в VK'], ['Manager, 45 · Cairo · compares prices', 'Менеджер, 45 · Новосибирск · сравнивает цены']] },
+        { n: 1300, l: ['tests in client work', 'проверок в работе с клиентами'], d: ['Before you spend: your price, offer or launch is tried on them first, and a critic attacks every idea.', 'До ваших трат: цена, акция или запуск сначала проходят через них, а критик атакует каждую идею.'],
+          bars: [{ t: ['Price A', 'Цена A'], v: 18 }, { t: ['Price B', 'Цена B'], v: 31 }, { t: ['Bundle C', 'Набор C'], v: 47 }], barsK: ['Example · bought, out of 100 digital buyers', 'Пример · купили, из 100 цифровых покупателей'] },
+        { n: 1, l: ['move', 'ход'], d: ['One clear answer, with the reason and the numbers. You decide.', 'Один понятный шаг — с причиной и цифрами. Решаете вы.'], say: ['Option C. Shall I launch it today?', 'Вариант C. Запускаю сегодня?'] },
+      ],
+      endK: ['Inside her mind', 'Внутри её ума'],
+      endH: ['One mind. <i>12 skill areas.</i>', 'Один ум. <i>12 направлений.</i>'],
+      endP: ['Arabic, English, Russian. A whole marketing department, and more.', 'Русский, английский, арабский. Целый отдел маркетинга — и даже больше.'],
+      areas: [['Buyer panel', 'Панель покупателей'], ['Competitor watch', 'Конкуренты'], ['Marketplaces', 'Маркетплейсы'], ['Social media', 'Соцсети'], ['Advertising', 'Реклама'], ['Pricing & offers', 'Цены и акции'], ['Brand', 'Бренд'], ['Retail & sales', 'Розница и продажи'], ['Launch & growth', 'Запуск и рост'], ['Data & forecasts', 'Данные и прогнозы'], ['Customers', 'Клиенты'], ['Crisis & reputation', 'Кризис и репутация']],
+      brainK: ['Her knowledge base, counted', 'Её база знаний, по счёту'],
+      brain: [
+        { n: 135, l: ['expert laws', 'экспертных законов'] },
+        { n: 40, l: ['contrarian insights', 'неочевидных истин'] },
+        { n: 17, l: ['playbooks', 'плейбуков'] },
+        { n: 4, l: ['markets', 'рынка'] },
+        { n: 8, l: ['industries she knows', 'отраслей'] },
+        { n: 10, l: ['marketplace guides', 'гидов по площадкам'] },
+      ],
+    },
+    zr: {
+      k: ['Zero risk', 'Без риска'],
+      h: ['AI sells answers. <i>We answer for ours.</i>', 'Нейросети продают ответы. <i>Мы отвечаем за свои.</i>'],
+      p: ['Bought the top plan of an AI tool and nothing worked? There is nobody to call. Behind every answer USHA gives, there are real people at NJO.', 'Купили максимальный тариф нейросети, а ничего не работает? Позвонить некому. За каждым ответом USHA стоят живые люди из NJO.'],
+      steps: [
+        ['USHA re-checks your case and fixes the plan.', 'USHA перепроверяет ваш случай и правит план.'],
+        ['An NJO expert works on your case by hand.', 'Эксперт NJO разбирает ваш случай вручную.'],
+        ['Our senior team takes it over.', 'Дело берёт старшая команда.'],
+        ['Still not right? <b>Money back.</b>', 'Всё ещё не то? <b>Вернём деньги.</b>'],
+      ],
+      step: ['Step', 'Шаг'],
+      fine: ['on contract terms', 'на условиях договора'],
+      ndaT: ['An NDA before day one.', 'NDA — до первого дня.'],
+      ndaP: ['Your numbers, plans and customers are a commercial secret. We sign before you share anything, and we answer for every piece of data. In writing, not in words.', 'Ваши цифры, планы и клиенты — коммерческая тайна. Подписываем NDA до того, как вы чем-то поделитесь, и отвечаем за каждый байт данных. Письменно, а не на словах.'],
+      stamp: ['NDA · SIGNED BEFORE DAY ONE · ', 'NDA · ПОДПИСАНО ДО ПЕРВОГО ДНЯ · '],
+      instT: ['Nothing to install.', 'Ничего не нужно устанавливать.'],
+      instP: ['She works in WhatsApp, the messenger you already use. Want her to update your site or ads directly? You choose what she can touch, and switch it off any time.', 'Она работает в Telegram или WhatsApp — там, где вы уже общаетесь. Хотите, чтобы она сама обновляла сайт или рекламу? Доступ даёте вы — и отключаете в любой момент.'],
+      no: [['App', 'Приложение'], ['API', 'API'], ['Access to your systems', 'Доступ к вашим системам']],
+    },
+    njo: {
+      promise: ['USHA gives the answer. <i>NJO stands behind it, with its name.</i>', 'USHA даёт ответ. <i>NJO отвечает за него своим именем.</i>'],
+      nums: [
+        { n: 10, l: ['years in the market', 'лет на рынке'] },
+        { n: 22, l: ['countries', 'страны'] },
+        { n: 700, s: '+', l: ['projects', 'проектов'] },
+        { n: 55, s: '+', l: ['industries', 'отраслей'] },
+        { n: 7, l: ['branches', 'филиалов'] },
+      ],
+      sub: ['From a face cream to an entire factory.', 'От крема для лица до целого завода.'],
+    },
+    // Russian page only: the Meta note, worded as in the Russian deck
+    meta: ['', '* Meta Platforms Inc. признана экстремистской организацией, её деятельность запрещена на территории РФ.'],
   },
 };

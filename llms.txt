@@ -1,6 +1,6 @@
 # USHA by NJO
 
-> USHA by NJO · Business intelligence engine. Every day she reads your marketplaces, competitors and buyers, tells you what changed and why, and does the work that follows. Built by NJO Business Solutions (since 2016) for brands and marketplace sellers in Russia, the GCC and Egypt. First week free.
+> USHA by NJO · Your marketing director. Every day she reads your marketplaces, competitors and buyers, tells you what changed and why, and does the work that follows. Built by NJO Business Solutions (since 2016) for brands and marketplace sellers in Russia, the GCC and Egypt. First week free.
 
 USHA is a business intelligence engine, not a chatbot or an agency. She works in the client's messenger 24/7: every day she reads about 1,240 sources around the business (marketplaces such as Wildberries, Ozon and Yandex Market, competitors, reviews, search and ads), reports what changed and why, and then does the work: strategy, content, video, photo, design, promotions and ads within an approved plan. NJO's strategists and art directors check every output.
 
@@ -18,7 +18,7 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 ## Plans
 - USHA Core: The engine for one brand, one marketplace, one ad platform. Up to 5 competitors tracked; 1 marketplace; Up to 16 posts · 32 stories; Up to 4 videos · 1 photo shoot; 1 ad platform · 1 promotion.
 - USHA Pro: More reach and output, plus customer replies and stock intelligence. Up to 10 competitors tracked; Up to 3 marketplaces; Up to 20 posts · 40 stories; Packaging design · customer replies; 2 ad platforms · 2 promotions.
-- USHA Enterprise: All eight areas, configured around your company. All eight areas; Operations and stock; Dashboards, websites, automations; Scope agreed individually.
+- USHA Enterprise: Everything in Pro, configured around your company. Everything in Pro; Operations and stock; Dashboards, websites, automations; Scope agreed individually.
 - “Up to” is a monthly maximum; your exact plan is agreed at the start. Advertising budgets, creator fees and products for collaborations are paid separately.
 
 ## Contact

@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
+import { mindHTML, zeroHTML, njoHTML, metaHTML } from './enhance/deck-ui.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
@@ -134,7 +135,7 @@ function grabAt(s, marker) {
 }
 
 const DICT = grab(src, 'var wl={');
-const PLANS = grab(src, ',ru=[');
+let PLANS = grab(src, ',ru=[');
 let COMPARE = grab(src, 'Al=[');
 let AREAS = grab(src, 'iu=[');
 let PRO_ONLY = grab(src, 'su=[');
@@ -146,15 +147,20 @@ const isPair = (v) => Array.isArray(v) && v.length >= 2 && typeof v[0] === 'stri
 // Applied to the bundle's own data so every language and the pre-rendered HTML
 // carry them. Re-running is harmless: patched strings no longer match the keys.
 for (const l of ['en', 'ru']) for (const [k, v] of Object.entries(DICT_PATCH[l])) {
-  if (k === 'faq3') DICT[l].faq[3] = v; else DICT[l][k] = v;
+  // FAQ entries are matched by question so re-running the build never duplicates them
+  if (k === 'faq3') { const at = DICT[l].faq.findIndex((q) => q[0] === v[0]); DICT[l].faq[at >= 0 ? at : 3] = v; }
+  else if (k === 'faq1') DICT[l].faq[1] = v;
+  else if (k === 'faqAdd') { if (!DICT[l].faq.some((q) => q[0] === v[0])) DICT[l].faq.splice(3, 0, v); }
+  else DICT[l][k] = v;
 }
 for (const l of ['en', 'ru']) Object.assign(DICT[l].bub, LIFE_BUB[l]);
 const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
+PLANS = patchPairs(PLANS, PAIR_PATCH);
 AREAS = patchPairs(patchPairs(AREAS, PAIR_PATCH), AREA_LABELS);
 for (const add of PRO_ONLY_ADD) if (!PRO_ONLY.some((x) => x[0] === add[0])) PRO_ONLY = [...PRO_ONLY, add];
-for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
+for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], [',ru=[', PLANS], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
   [FEED, patchPairs(grab(src, FEED), PAIR_PATCH)], [CHATS, patchPairs(grab(src, CHATS), PAIR_PATCH)], [WEEK, patchPairs(grab(src, WEEK), PAIR_PATCH)]]) {
   const { start, end } = grabAt(src, marker);
   src = src.slice(0, start) + JSON.stringify(value) + src.slice(end);
@@ -347,8 +353,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css', 'deck.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'deck-ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'deck.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -466,6 +472,17 @@ function render(lang) {
   h = h.replace(/<!--xplans-->[^]*?<!--\/xplans-->/, '');
   h = h.replace(/(<div class="plans" id="plancards">[^]*?<\/div>)(?=\s*<p class="pnote)/, (m) => m + xplans);
   if (!h.includes('<!--xplans-->')) throw new Error('Bundle changed: #plancards not found');
+
+  // deck pass 2, pre-rendered for crawlers (deck.js takes it over): the numbers
+  // after section 02, zero risk inside the NJO guarantees, NJO in numbers, the Meta note
+  const xd = XL[lang].deck;
+  h = h.replace(/<!--xdeck:[a-z]+-->[^]*?<!--\/xdeck-->\n?/g, '');
+  const mark = (k, html) => `<!--xdeck:${k}-->${html}<!--/xdeck-->`;
+  const put = (re, k, html, what) => { const n = h.replace(re, (m) => m + mark(k, html)); if (n === h) throw new Error(`Bundle changed: ${what} not found`); h = n; };
+  put(/<section class="ch" id="signal">[^]*?<\/section>\n?/, 'mind', mindHTML(xd, lang) + '\n', '#signal');
+  put(/<div class="guar glass rv">[^]*?<\/ul>/, 'zero', zeroHTML(xd, lang), '.guar');
+  put(/<div class="facts">[^]*?<\/div>/, 'njo', njoHTML(xd, lang), '.eng .facts');
+  if (lang === 'ru') put(/<div class="partners rv">[^]*?<!--\/seo:track--><\/div><\/div>/, 'meta', metaHTML(xd), '.partners');
   h = h.replace(/<\/body>/, () => enhBlock(lang) + '</body>');
 
   // runtime-built blocks

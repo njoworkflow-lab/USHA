@@ -155,9 +155,9 @@
       $('.x-d1', st).append(text);
     }
     const d1 = $('.x-d1', st);
-    $$('.x-count,.x-cap,.x-bar,.x-dk', d1).forEach((e) => e.remove());
+    $$('.x-count,.x-cap,.x-bar,.x-dk,.x-cost', d1).forEach((e) => e.remove());
     d1.insertAdjacentHTML('afterbegin', `<span class="x-dk">${esc(x.kick)}</span>`);
-    d1.insertAdjacentHTML('beforeend', `<div class="x-count" aria-live="polite">8</div><div class="x-cap">${esc(x.capMany)}</div><div class="x-bar"><i></i></div>`);
+    d1.insertAdjacentHTML('beforeend', `<div class="x-count" aria-live="polite">8</div><div class="x-cap">${esc(x.capMany)}</div><div class="x-bar"><i></i></div>${x.cost ? `<div class="x-cost">${x.cost}</div>` : ''}`);
     $('.x-roles', st).innerHTML = roles.map((r, i) => `<li><span class="n">0${i + 1}</span><span class="r">${esc(r)}</span><span class="t">${esc(x.tags[i] || '')}</span></li>`).join('');
     $('.x-her', st).innerHTML = `<div class="hd"><div class="x-orb"><b></b><b></b></div><div><strong>USHA</strong><span>${esc(x.her)}</span></div></div>
       <ul class="x-tasks">${x.tags.map((t) => `<li><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3"/></svg>${esc(t)}</li>`).join('')}</ul>
@@ -301,7 +301,7 @@
   function guarUI() {
     const g = $('.guar'); if (!g) return;
     g.classList.add('x-guar');
-    $$('li', g).forEach((li, i) => { li.style.setProperty('--i', i); li.dataset.n = '0' + (i + 1); });
+    $$(':scope > ul > li', g).forEach((li, i) => { li.style.setProperty('--i', i); li.dataset.n = '0' + (i + 1); });
     $('.x-seal', g)?.remove();
     const ring = X().guarRing || '';
     const logo = $('header .logo svg');

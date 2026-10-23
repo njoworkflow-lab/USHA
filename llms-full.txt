@@ -4,7 +4,7 @@ Source: https://usha.one/en/ (English), https://usha.one/ (Russian) and https://
 
 ---
 
-# USHA by NJO · Business intelligence engine
+# USHA by NJO · Your marketing director
 
 **The algorithm that understands algorithms.** Every day she reads your marketplaces, competitors and buyers, tells you what changed and why, and does the work that follows.
 
@@ -14,7 +14,7 @@ Source: https://usha.one/en/ (English), https://usha.one/ (Russian) and https://
 
 ## Four algorithms decide your sales. Nobody on your team watches them.
 
-They decide who sees you, who finds you, what you pay and who buys. Their rules change every month.
+They decide who sees you, who finds you, what you pay and who buys. Their rules change every week, and nobody shows them to you.
 
 - **The feed**: Decides who sees your post: a thousand people or ten.
 - **The search**: Decides if your product is on page 1 or page 9.
@@ -25,7 +25,7 @@ Posting more won’t beat them. Reading them will. That’s her job.
 
 ## She reads everything. You get only what matters.
 
-Every day USHA reads 1,240 sources around your business: marketplaces, competitors, reviews, search and ads. When something moves, you get the finding and her next move.
+An algorithm is the hidden rulebook inside every app, marketplace and ad. Nobody can read them all, so most owners guess. Every morning before 08:00 she reads them for you and turns them into plain moves.
 
 ## Everyone has the same AI. She uses it differently.
 
@@ -73,8 +73,8 @@ More reach and output, plus customer replies and stock intelligence.
 - 2 ad platforms · 2 promotions
 
 ### USHA Enterprise
-All eight areas, configured around your company.
-- All eight areas
+Everything in Pro, configured around your company.
+- Everything in Pro
 - Operations and stock
 - Dashboards, websites, automations
 - Scope agreed individually
@@ -106,18 +106,21 @@ USHA calibrates to your business: products, market, competitors and channels. At
 2. Four ready posts for your brand
 3. Your own USHA chat, ready to take tasks
 
-Then you decide. If you continue, she starts the agreed plan the following week. No payment and no contract for the free week.
+Then you decide. If you continue, she starts the agreed plan the following week. No payment and no service contract for the free week. Only an NDA, to protect your data.
 
 ## Before you decide.
 
 ### Is USHA a chatbot?
 No. You talk to her in one chat, but she works on her own every day: she reads your market, plans, produces and publishes within the plan you approve.
 
-### Do I need to learn a new platform?
-No. She works in your messenger. You approve the decisions that matter; she does the rest and reports every month.
+### Do I need to install anything or give access?
+No. She works in your messenger: no app, no API, no access to your systems. Connections only if you want them, and you can switch them off at any time.
 
 ### Who checks the quality?
 NJO’s strategists and art directors set her standards, and every output is checked against them before it reaches you.
+
+### What if it doesn’t work for me?
+She re-checks your case first, then an NJO expert works on it by hand, then our senior team takes it over. Still not right? You get your money back, on the terms in your contract.
 
 ### Which markets and platforms?
 The GCC, Egypt and Russia. Amazon, noon, Namshi, Google, Instagram, Facebook, TikTok, Snapchat, YouTube, X, LinkedIn and others.
@@ -135,7 +138,7 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 
 ---
 
-# USHA by NJO · Движок бизнес-аналитики
+# USHA by NJO · Ваш директор по маркетингу
 
 **Алгоритм, который понимает алгоритмы.** Каждый день она читает ваши маркетплейсы, конкурентов и покупателей, говорит, что изменилось и почему, и делает работу, которая из этого следует.
 
@@ -145,7 +148,7 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 
 ## Ваши продажи решают четыре алгоритма. Никто в команде за ними не следит.
 
-Они решают, кто вас видит, кто находит, сколько вы платите и кто покупает. Их правила меняются каждый месяц.
+Они решают, кто вас видит, кто находит, сколько вы платите и кто покупает. Их правила меняются каждую неделю, и вам их никто не показывает.
 
 - **Лента**: Решает, кто увидит ваш пост: тысяча человек или десять.
 - **Поиск**: Решает, где ваш товар: на первой странице или на девятой.
@@ -156,7 +159,7 @@ You decide. If you continue, she starts the agreed plan the following week. If n
 
 ## Она читает всё. Вы получаете только важное.
 
-Каждый день USHA читает 1 240 источников вокруг вашего бизнеса: маркетплейсы, конкурентов, отзывы, поиск и рекламу. Когда что-то меняется, вы получаете находку и её следующий ход.
+Алгоритм — это скрытые правила внутри каждого приложения, маркетплейса и рекламного кабинета. Прочитать их все человек не может, поэтому большинство гадает. Каждое утро до 08:00 она читает их за вас и превращает в понятные шаги.
 
 ## У всех одинаковый ИИ. Она использует его иначе.
 
@@ -204,8 +207,8 @@ Core запускает весь движок для одного бренда. 
 - 2 рекламные площадки · 2 акции
 
 ### USHA Enterprise
-Все восемь направлений, настроенных под вашу компанию.
-- Все восемь направлений
+Всё, что в Pro, настроено под вашу компанию.
+- Всё, что в Pro
 - Операционные процессы и остатки
 - Панели, сайты, автоматизации
 - Объём согласуется индивидуально
@@ -237,18 +240,21 @@ USHA настраивается под ваш бизнес: товары, рын
 2. Четыре готовых поста для вашего бренда
 3. Собственный чат с USHA, готовый принимать задачи
 
-Дальше решаете вы. Если продолжаете, она начинает работать по согласованному плану со следующей недели. Без оплаты и без договора на бесплатную неделю.
+Дальше решаете вы. Если продолжаете, она начинает работать по согласованному плану со следующей недели. Без оплаты и без договора на услуги. Только NDA, чтобы защитить ваши данные.
 
 ## Прежде чем решить.
 
 ### USHA — это чат-бот?
 Нет. Вы общаетесь с ней в одном чате, но она работает сама каждый день: читает ваш рынок, планирует, создаёт и публикует в рамках утверждённого вами плана.
 
-### Нужно осваивать новую платформу?
-Нет. Она работает в вашем мессенджере. Вы утверждаете важные решения, остальное делает она и отчитывается каждый месяц.
+### Нужно что-то устанавливать или давать доступы?
+Нет. Она работает в вашем мессенджере: без приложения, без API и без доступа к вашим системам. Подключения — только по вашему желанию, и отключить их можно в любой момент.
 
 ### Кто проверяет качество?
 Стратеги и арт-директора NJO задают её стандарты, и каждый результат проверяется по ним, прежде чем попасть к вам.
+
+### А если мне не подойдёт?
+Сначала она перепроверит ваш случай, затем его вручную разберёт эксперт NJO, потом дело возьмёт старшая команда. Всё ещё не то? Вернём деньги на условиях договора.
 
 ### Какие рынки и площадки?
 Россия, страны Залива и Египет. Wildberries, Ozon, Яндекс Маркет, ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и другие.
@@ -266,7 +272,7 @@ USHA настраивается под ваш бизнес: товары, рын
 
 ---
 
-# USHA by NJO · محرّك ذكاء الأعمال
+# USHA by NJO · مديرة تسويقك
 
 **الخوارزمية التي تفهم الخوارزميات.** كل يوم تقرأ ما يجري في منصات البيع ولدى منافسيك وعملائك، ثم تخبرك بما تغيّر ولماذا، وتتولّى العمل الذي يترتّب على ذلك.
 
@@ -276,7 +282,7 @@ USHA настраивается под ваш бизнес: товары, рын
 
 ## أربع خوارزميات تحدّد مبيعاتك، ولا أحد في فريقك يراقبها.
 
-هي التي تقرّر من يراك، ومن يجدك، وكم تدفع، ومن يشتري منك. وقواعدها تتغيّر كل شهر.
+هي التي تقرّر من يراك، ومن يجدك، وكم تدفع، ومن يشتري منك. وقواعدها تتغيّر كل أسبوع، ولا أحد يطلعك عليها.
 
 - **المنشورات**: يقرّر من يرى منشورك: ألف شخص أم عشرة.
 - **البحث**: يقرّر إن كان منتجك في الصفحة 1 أم في الصفحة 9.
@@ -287,7 +293,7 @@ USHA настраивается под ваш бизнес: товары, рын
 
 ## تقرأ كل شيء. ويصلك ما يهمّك فقط.
 
-USHA تقرأ كل يوم 1,240 مصدرًا مرتبطًا بنشاطك التجاري: منصات البيع، والمنافسين، والتقييمات، ونتائج البحث، والإعلانات. وحين يتغيّر شيء، يصلك ما رصدته وخطوتها التالية.
+الخوارزمية هي القواعد الخفية داخل كل تطبيق ومنصة بيع وإعلان. لا يستطيع أحد قراءتها كلها، لذلك يلجأ معظم أصحاب الأعمال إلى التخمين. كل صباح قبل الساعة 08:00 تقرؤها نيابةً عنك وتحوّلها إلى خطوات واضحة.
 
 ## الذكاء الاصطناعي نفسه متاح للجميع، لكن هي تستخدمه بطريقة مختلفة.
 
@@ -335,8 +341,8 @@ USHA تقرأ كل يوم 1,240 مصدرًا مرتبطًا بنشاطك الت�
 - منصتان إعلانيتان · عرضان ترويجيان
 
 ### USHA Enterprise
-المجالات الثمانية كلها، مفصّلة على مقاس شركتك.
-- المجالات الثمانية كلها
+كل ما في ⁦Pro⁩، مُهيّأ حسب شركتك.
+- كل ما في Pro
 - العمليات والمخزون
 - لوحات بيانات، مواقع إلكترونية، أتمتة
 - نطاق العمل يُحدَّد بالاتفاق
@@ -368,18 +374,21 @@ USHA من تطوير NJO: استراتيجيون بمنهجيات صُقلت ع�
 2. أربعة منشورات جاهزة لعلامتك التجارية
 3. محادثتك الخاصة مع USHA، جاهزة لاستلام المهام
 
-بعدها القرار لك. وإن قرّرت الاستمرار، تبدأ الخطة المتّفق عليها في الأسبوع التالي. الأسبوع المجاني بلا دفع ولا عقد.
+بعدها القرار لك. وإن قرّرت الاستمرار، تبدأ الخطة المتّفق عليها في الأسبوع التالي. الأسبوع المجاني بلا دفع ولا عقد خدمات، فقط اتفاقية عدم إفصاح (⁦NDA⁩) لحماية بياناتك.
 
 ## قبل أن تقرّر.
 
 ### هل USHA روبوت محادثة؟
 لا. تتحدث معها في محادثة واحدة، لكنها تعمل من تلقاء نفسها كل يوم: تقرأ سوقك، وتخطّط، وتُنتج، وتنشر ضمن الخطة التي تعتمدها.
 
-### هل أحتاج إلى تعلّم منصة جديدة؟
-لا. تعمل في تطبيق المراسلة الذي تستخدمه. أنت تعتمد القرارات المهمة، وهي تتولّى الباقي وترفع لك تقريرًا كل شهر.
+### هل أحتاج إلى تثبيت شيء أو منح صلاحيات؟
+لا. تعمل في تطبيق المراسلة لديك: بلا تطبيق جديد، ولا ربط برمجي (⁦API⁩)، ولا وصول إلى أنظمتك. والربط فقط إن أردت، ويمكنك إيقافه في أي وقت.
 
 ### من يراقب الجودة؟
 يضع الاستراتيجيون والمديرون الفنيون في NJO معاييرها، ويُراجَع كل عمل على أساسها قبل أن يصل إليك.
+
+### ماذا لو لم تنجح معي؟
+تعيد دراسة حالتك أولًا، ثم يتولّاها خبير من ⁦NJO⁩ بنفسه، ثم يتسلّمها فريقنا الأقدم. وإن بقيت النتيجة غير مُرضية، نُعيد إليك أموالك وفق شروط عقدك.
 
 ### ما الأسواق والمنصات التي تغطيها؟
 دول الخليج ومصر وروسيا. ومن المنصات: Amazon، noon، Namshi، Google، Instagram، Facebook، TikTok، Snapchat، YouTube، X، LinkedIn، وغيرها.

@@ -81,6 +81,65 @@ function findingChart(i, lang) {
   return `<svg class="xf" viewBox="0 0 240 56" aria-hidden="true">${glow}<path d="M4 50 C40 50 60 44 90 42 S130 46 150 30 S178 4 190 10 S215 40 236 44" pathLength="1"/><circle cx="186" cy="8" r="3.5"/></svg>`;
 }
 
+// Deck pass 2: HTML for "How she knows" (the numbers), "Zero risk" inside the
+// NJO guarantees, NJO in numbers and the Russian Meta note. Pure functions:
+// build.mjs pre-renders them for crawlers, deck.js re-renders on language
+// change (the build inlines this file without the export keywords).
+// x is the language's deck copy (content.mjs X.deck, Arabic from ar.json).
+
+function deckNum(n, lang) {
+  const s = String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return s;
+}
+const dEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const dIso = (s) => `<span dir="ltr">${s}</span>`;
+
+// the five numbers, then her mind: 12 skill areas and the knowledge base, counted
+function mindHTML(x, lang) {
+  const m = x.mind;
+  const steps = m.st.map((s, i) => {
+    const extra = s.tags ? `<ul class="xm-tags">${s.tags.map((t) => `<li>${dEsc(t)}</li>`).join('')}</ul>`
+      : s.bars ? `<div class="xm-bars" aria-label="${dEsc(s.barsK)}">${s.bars.map((b, k) => `<div class="xm-bar${k === 2 ? ' win' : ''}" style="--v:${b.v}"><span>${dEsc(b.t)}</span><i></i><b dir="ltr">${b.v}</b></div>`).join('')}<small>${dEsc(s.barsK)}</small></div>`
+      : s.say ? `<div class="xm-say"><span class="xm-face" aria-hidden="true"><i></i><i></i></span><span>${dEsc(s.say)}</span></div>` : '';
+    return `<li class="xm-st" data-i="${i}"><div class="xm-n" aria-hidden="true">${dIso(deckNum(s.n, lang) + (s.s ? `<em>${s.s}</em>` : ''))}</div><div class="xm-t"><h3><span class="xm-sr">${deckNum(s.n, lang)}${s.s || ''} </span>${dEsc(s.l)}</h3><p>${dEsc(s.d)}</p>${extra}</div></li>`;
+  }).join('');
+  const ring = m.areas.join(' · ') + ' · ';
+  const brain = m.brain.map((b, i) => `<li style="--k:${i}"><span class="xm-sat"><b dir="ltr">${deckNum(b.n, lang)}</b><span>${dEsc(b.l)}</span></span></li>`).join('');
+  return `<section class="ch sec x-mind" id="mind" aria-labelledby="xm-h"><div class="xm-track"><div class="xm-stick">
+<canvas class="xm-cv" aria-hidden="true"></canvas>
+<div class="xm-head x-io"><div class="kick">${dEsc(m.k)}</div><h2 id="xm-h">${m.h}</h2><p class="lead">${dEsc(m.p)}</p></div>
+<ol class="xm-steps">${steps}</ol>
+<div class="xm-end"><div class="xm-endt x-io"><div class="kick">${dEsc(m.endK)}</div><h3>${m.endH}</h3><p>${dEsc(m.endP)}</p><ul class="xm-areas">${m.areas.map((a) => `<li>${dEsc(a)}</li>`).join('')}</ul><div class="xm-bk">${dEsc(m.brainK)}</div></div>
+<div class="xm-orbit" aria-hidden="false"><svg class="xm-ring" viewBox="0 0 520 520" aria-hidden="true"><defs><path id="xm-rp" d="M260,260 m-214,0 a214,214 0 1,1 428,0 a214,214 0 1,1 -428,0"/></defs><text${lang === 'ar' ? ' text-anchor="middle"' : ''}><textPath href="#xm-rp"${lang === 'ar' ? ' startOffset="50%"' : ' textLength="1336" lengthAdjust="spacing"'}>${dEsc(ring)}</textPath></text></svg><span class="xm-orb" aria-hidden="true"><i></i><i></i></span><ul class="xm-brain">${brain}</ul></div></div>
+<div class="xm-hint" aria-hidden="true"><span>${dEsc(m.scroll)}</span><i></i></div>
+</div></div></section>`;
+}
+
+// inside the NJO guarantees: the ladder to money back, the NDA seal, nothing to install
+function zeroHTML(x, lang) {
+  const z = x.zr;
+  const msgs = lang === 'ru' ? ['tg', 'wa'] : ['wa'];
+  const ICON = {
+    wa: '<svg viewBox="0 0 24 24" aria-label="WhatsApp" role="img"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2Zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.5-6c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg>',
+    tg: '<svg viewBox="0 0 24 24" aria-label="Telegram" role="img"><path d="M21.4 3.6 2.9 10.8c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.8.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8L22.6 5c.3-1.3-.5-1.9-1.2-1.4ZM8.9 13.4l9.3-5.9c.5-.3.9-.1.5.2l-7.8 7-.3 3.3-1.7-4.6Z"/></svg>',
+  };
+  const steps = z.steps.map((s, i) => `<li class="x-st${i === 3 ? ' x-money' : ''}" style="--i:${i}"><span class="x-stn"><small>${dEsc(z.step)}</small><b dir="ltr">0${i + 1}</b></span><span class="x-stt">${s}${i === 3 ? `<small class="x-fine">${dEsc(z.fine)}</small>` : ''}</span></li>`).join('');
+  return `<div class="x-zr x-io"><div class="x-zr-h"><div class="kick">${dEsc(z.k)}</div><h3>${z.h}</h3><p>${dEsc(z.p)}</p></div>
+<ol class="x-lad">${steps}</ol>
+<div class="x-zr-c"><div class="x-nda"><div class="x-stamp" aria-hidden="true"><svg viewBox="0 0 160 160"><defs><path id="xzr-s" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs><text><textPath href="#xzr-s" textLength="384" lengthAdjust="spacing">${dEsc(z.stamp)}</textPath></text></svg><b>NDA</b></div><div><h4>${dEsc(z.ndaT)}</h4><p>${dEsc(z.ndaP)}</p></div></div>
+<div class="x-inst"><div class="x-msg">${msgs.map((k) => ICON[k]).join('')}</div><div><h4>${dEsc(z.instT)}</h4><p>${dEsc(z.instP)}</p><ul class="x-no">${z.no.map((t) => `<li>${dEsc(t)}</li>`).join('')}</ul></div></div></div></div>`;
+}
+
+// NJO in numbers, under the engineers' line
+function njoHTML(x, lang) {
+  const j = x.njo;
+  return `<div class="x-njo x-io"><p class="x-njo-p">${j.promise}</p><ul class="x-njo-n">${j.nums.map((n, i) => `<li style="--i:${i}"><b dir="ltr">${deckNum(n.n, lang)}${n.s ? `<em>${n.s}</em>` : ''}</b><span>${dEsc(n.l)}</span></li>`).join('')}</ul><p class="x-njo-s">${dEsc(j.sub)}</p></div>`;
+}
+
+function metaHTML(x) {
+  return x.meta ? `<p class="x-meta">${dEsc(x.meta)}</p>` : '';
+}
+
 // USHA enhancement layer. Runs after the main bundle and only adds to the page,
 // in the site's own visual language: header light thread, cursor scope, glass
 // that follows the pointer, a light beam down USHA's comparison column, roles
@@ -238,9 +297,9 @@ function findingChart(i, lang) {
       $('.x-d1', st).append(text);
     }
     const d1 = $('.x-d1', st);
-    $$('.x-count,.x-cap,.x-bar,.x-dk', d1).forEach((e) => e.remove());
+    $$('.x-count,.x-cap,.x-bar,.x-dk,.x-cost', d1).forEach((e) => e.remove());
     d1.insertAdjacentHTML('afterbegin', `<span class="x-dk">${esc(x.kick)}</span>`);
-    d1.insertAdjacentHTML('beforeend', `<div class="x-count" aria-live="polite">8</div><div class="x-cap">${esc(x.capMany)}</div><div class="x-bar"><i></i></div>`);
+    d1.insertAdjacentHTML('beforeend', `<div class="x-count" aria-live="polite">8</div><div class="x-cap">${esc(x.capMany)}</div><div class="x-bar"><i></i></div>${x.cost ? `<div class="x-cost">${x.cost}</div>` : ''}`);
     $('.x-roles', st).innerHTML = roles.map((r, i) => `<li><span class="n">0${i + 1}</span><span class="r">${esc(r)}</span><span class="t">${esc(x.tags[i] || '')}</span></li>`).join('');
     $('.x-her', st).innerHTML = `<div class="hd"><div class="x-orb"><b></b><b></b></div><div><strong>USHA</strong><span>${esc(x.her)}</span></div></div>
       <ul class="x-tasks">${x.tags.map((t) => `<li><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3"/></svg>${esc(t)}</li>`).join('')}</ul>
@@ -384,7 +443,7 @@ function findingChart(i, lang) {
   function guarUI() {
     const g = $('.guar'); if (!g) return;
     g.classList.add('x-guar');
-    $$('li', g).forEach((li, i) => { li.style.setProperty('--i', i); li.dataset.n = '0' + (i + 1); });
+    $$(':scope > ul > li', g).forEach((li, i) => { li.style.setProperty('--i', i); li.dataset.n = '0' + (i + 1); });
     $('.x-seal', g)?.remove();
     const ring = X().guarRing || '';
     const logo = $('header .logo svg');
@@ -1793,6 +1852,14 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       cards: {
         sc: ['Scenarios', 'Pick a business and watch how she thinks: a finding, a reason, a move.', 'Open scenarios →'],
         ff: ['Fast-forward 90 days', 'See your business 90 days from now: without USHA, and with her.', 'Fast-forward →'],
+        mo: ['A month <i>with her</i>', 'Every day she reads, every week she publishes, every month she reports and plans.', 'See her month →'],
+      },
+      mo: {
+        sub: 'What happens every day, every week and every month. Switch the plan to compare.',
+        rows: [['Every day', 'She reads your market'], ['Every week', 'Posts and stories go out'], ['Every month', 'A brief with actions, a report and next month’s plan']],
+        vol: { core: ['16 posts', '32 stories', 'brief monthly'], pro: ['20 posts', '40 stories', 'brief every 2 weeks'] },
+        day: 'Day', eq: '<b>10 minutes</b> of yours. <b>A week</b> of a department’s work.', note: 'Example: a confectionery brand launching a gift box',
+        you: 'Your part: approve what matters. Strategy, budget, promotion terms.',
       },
       close: 'Close', ffSub: 'Same brand, same 90 days (1 Jul – 28 Sep 2026). Drag the line to compare.', grip: 'Drag left or right',
       screens: [['Marketplace sales', 'Orders, stock, gross sales'], ['Marketplace ads', 'Spend, ROAS, campaigns'], ['Social ads', 'Meta and TikTok: CPA, purchases'], ['Social media', 'Reach, saves, followers'], ['SEO', 'Clicks, queries, pages'], ['Website sales', 'Sessions, conversion, revenue'], ['Customer service', 'Inbox, replies, leads'], ['Stock', 'Cover, reorders, dead stock'], ['Market and competitors', 'Prices, share of search, gaps'], ['Reviews', 'Rating and replies'], ['Search position', 'The main query on noon'], ['Content', 'Two videos side by side']],
@@ -1871,6 +1938,14 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       cards: {
         sc: ['Сценарии', 'Выберите нишу и посмотрите, как думает USHA: что нашла, почему и что делать дальше.', 'Смотреть сценарии →'],
         ff: ['Перемотать на 90 дней вперёд', 'Ваш бизнес через 90 дней: без USHA и с ней.', 'Перемотать →'],
+        mo: ['Месяц <i>с ней</i>', 'Каждый день она читает рынок, каждую неделю публикует, каждый месяц отчитывается и планирует.', 'Её месяц →'],
+      },
+      mo: {
+        sub: 'Что происходит каждый день, каждую неделю и каждый месяц. Переключите тариф, чтобы сравнить.',
+        rows: [['Каждый день', 'Читает ваш рынок'], ['Каждую неделю', 'Выходят публикации и сторис'], ['Каждый месяц', 'Сводка с действиями, отчёт и план на следующий месяц']],
+        vol: { core: ['16 публикаций', '32 сторис', 'сводка раз в месяц'], pro: ['20 публикаций', '40 сторис', 'сводка раз в 2 недели'] },
+        day: 'День', eq: '<b>10 минут</b> вашего времени. <b>Неделя</b> работы целого отдела.', note: 'Пример: кондитерский бренд запускает подарочный набор',
+        you: 'Ваша часть — утвердить важное: стратегию, бюджет и условия акций.',
       },
       close: 'Закрыть', ffSub: 'Тот же бренд и те же 90 дней: с 1 июля по 28 сентября 2026 года. Сдвиньте линию, чтобы сравнить.', grip: 'Сдвиньте влево или вправо',
       screens: [['Продажи на маркетплейсе', 'Заказы, остатки, сумма заказов'], ['Реклама на маркетплейсе', 'Расход, ДРР, кампании'], ['Таргет и контекст', 'VK Реклама и Директ: стоимость заказа'], ['Соцсети', 'Охват, сохранения, подписчики'], ['SEO', 'Клики, запросы, страницы'], ['Продажи на сайте', 'Визиты, конверсия, выручка'], ['Сервис и CRM', 'Обращения, скорость ответа, заявки'], ['Склад', 'Оборачиваемость, дозаказ, неликвид'], ['Рынок и конкуренты', 'Цены, доля поиска, свободные ниши'], ['Отзывы и рейтинг', 'Рейтинг и ответы на отзывы'], ['Позиция в выдаче', 'Главный запрос на WB'], ['Контент', 'Два ролика для сравнения']],
@@ -1949,6 +2024,14 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       cards: {
         sc: ['سيناريوهات حقيقية', 'اختر مجال نشاطك وشاهد كيف تحلّل ' + iso('USHA') + ': ماذا اكتشفت، ولماذا، وما الخطوة التالية.', 'شاهد السيناريوهات ←'],
         ff: ['نتائج ٩٠ يوم', 'هكذا سيبدو نشاطك بعد 90 يومًا: بدون ' + iso('USHA') + ' ومعها.', 'اعرض النتائج ←'],
+        mo: ['شهر <i>معها</i>', 'كل يوم تقرأ السوق، وكل أسبوع تنشر، وكل شهر تقدّم تقريرها وخطتها.', 'شاهد شهرها ←'],
+      },
+      mo: {
+        sub: 'ما يحدث كل يوم وكل أسبوع وكل شهر. بدّل الباقة للمقارنة.',
+        rows: [['كل يوم', 'تقرأ سوقك'], ['كل أسبوع', 'تُنشر المنشورات والستوري'], ['كل شهر', 'ملخّص بالخطوات، وتقرير، وخطة الشهر التالي']],
+        vol: { core: ['16 منشورًا', '32 ستوري', 'ملخّص كل شهر'], pro: ['20 منشورًا', '40 ستوري', 'ملخّص كل أسبوعين'] },
+        day: 'اليوم', eq: '<b>10 دقائق</b> من وقتك، مقابل <b>أسبوع</b> من عمل قسم كامل.', note: 'مثال: علامة حلويات تطلق علبة هدايا جديدة',
+        you: 'دورك: أن توافق على ما يهمّ، أي الاستراتيجية والميزانية وشروط العروض.',
       },
       close: 'إغلاق', ffSub: 'العلامة التجارية نفسها والفترة نفسها: من 1 يوليو إلى 28 سبتمبر 2026. اسحب الخط للمقارنة.', grip: 'اسحب يمينًا أو يسارًا',
       screens: [['مبيعات المنصّة', 'الطلبات والمخزون وإجمالي المبيعات'], ['إعلانات المنصّة', 'الإنفاق والعائد والحملات'], ['إعلانات السوشيال ميديا', iso('Meta') + ' و' + iso('TikTok') + ': تكلفة الشراء والمشتريات'], ['حسابات السوشيال ميديا', 'الوصول والحفظ والمتابعون'], ['الظهور في البحث', 'النقرات وكلمات البحث والصفحات'], ['مبيعات الموقع', 'الزيارات ومعدل التحويل والإيرادات'], ['خدمة العملاء', 'الرسائل وسرعة الرد والعملاء المحتملون'], ['المخزون', 'مدة التغطية وإعادة الطلب والراكد'], ['السوق والمنافسون', 'الأسعار وحصة البحث والفرص'], ['التقييمات', 'متوسط التقييم والردود'], ['الترتيب في البحث', 'كلمة البحث الرئيسية على ' + iso('noon')], ['المحتوى', 'فيديوهان للمقارنة']],
@@ -2502,7 +2585,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     const m = modals[kind]; if (!m) return;
     const t = tx(), c = t.cards[kind];
     $('h3', m).innerHTML = c[0];
-    $('.t3-mtt p', m).textContent = kind === 'ff' ? bare(t.ffSub) : ($('#talk .lead') || {}).textContent || c[1];
+    $('.t3-mtt p', m).textContent = kind === 'ff' ? bare(t.ffSub) : kind === 'mo' ? t.mo.sub : ($('#talk .lead') || {}).textContent || c[1];
     $('.t3-mx', m).setAttribute('aria-label', t.close);
   }
   const focusables = (m) => $$('button, [href], input, select, textarea, video[controls], [tabindex]:not([tabindex="-1"])', m).filter((e) => !e.disabled && e.offsetParent !== null && !e.closest('[inert],.ghost'));
@@ -2511,6 +2594,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     const m = modal(kind);
     labelM(kind);
     if (kind === 'ff') fillFF(m);
+    if (kind === 'mo') fillMO(m);
     lastFocus = opener || D.activeElement; keepY = scrollY;
     m.hidden = false; openK = kind;
     H.classList.add('x-modal-on', 't3-modal-on');
@@ -2544,6 +2628,27 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const talk = () => dispatchEvent(new Event('usha:talk'));
   const ART_FF = `<svg class="t3-art-ff" viewBox="0 0 220 120" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="t3ffc"><rect class="rv" x="0" y="0" width="220" height="120"/></clipPath><linearGradient id="t3ffg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB547" stop-opacity=".35"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></linearGradient></defs><path class="g" d="M10 30H210M10 60H210M10 90H210"/><path class="a" d="M10 82 L40 80 L70 84 L100 81 L130 85 L160 83 L190 86 L210 84"/><g clip-path="url(#t3ffc)"><path class="ar" d="M10 82 L40 76 L70 70 L100 60 L130 50 L160 40 L190 30 L210 22 L210 112 L10 112Z"/><path class="b" d="M10 82 L40 76 L70 70 L100 60 L130 50 L160 40 L190 30 L210 22"/></g><line class="sw" x1="0" y1="8" x2="0" y2="112"/></svg>`;
   const artSc = () => { const a = tx().scArt; return `<div class="t3-art art-sc" aria-hidden="true"><div class="sa-chips">${a.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div><div class="sa-q">${esc(a.q)}</div><div class="sa-a"><span class="t3-face"><i></i><i></i></span><span>${esc(a.a)}</span></div></div>`; };
+  // a month with her: the 30-day rhythm (deck slide 21). Post days spread evenly; the brief is monthly in Core, every two weeks in Pro.
+  const MO = { core: { posts: 16, brief: [30] }, pro: { posts: 20, brief: [15, 30] } };
+  const postDays = (n) => Array.from({ length: n }, (_, k) => Math.round(((k + 0.5) * 30) / n));
+  const artMo = () => {
+    const p = postDays(16), cell = (i, k) => `<i style="--d:${i}">${k}</i>`;
+    return `<div class="t3-art art-mo" aria-hidden="true"><div class="mo-r r1">${Array.from({ length: 30 }, (_, i) => cell(i, '')).join('')}</div><div class="mo-r r2">${Array.from({ length: 30 }, (_, i) => p.includes(i + 1) ? cell(i, '') : '<s></s>').join('')}</div><div class="mo-r r3">${Array.from({ length: 30 }, (_, i) => i === 29 ? cell(i, '') : '<s></s>').join('')}</div><span class="mo-sweep"></span></div>`;
+  };
+  function fillMO(m, plan) {
+    const t = tx().mo, body = $('.t3-mbody', m), k = plan || body.dataset.plan || 'pro';
+    body.dataset.plan = k;
+    const P = MO[k], posts = postDays(P.posts), v = t.vol[k];
+    const head = `<div class="mo-days" aria-hidden="true"><span></span>${Array.from({ length: 30 }, (_, i) => `<b>${[1, 7, 14, 21, 30].includes(i + 1) ? i + 1 : ''}</b>`).join('')}</div>`;
+    const row = (r, cells, cls) => `<div class="mo-row ${cls}"><div class="mo-lab"><b>${esc(r[0])}</b><span>${esc(r[1])}</span></div><div class="mo-cells">${cells}</div></div>`;
+    const dots = Array.from({ length: 30 }, (_, i) => `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>`).join('');
+    const sq = Array.from({ length: 30 }, (_, i) => posts.includes(i + 1) ? `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>` : '<s></s>').join('');
+    const dm = Array.from({ length: 30 }, (_, i) => P.brief.includes(i + 1) ? `<i style="--d:${i}" title="${esc(t.day)} ${i + 1}"></i>` : '<s></s>').join('');
+    body.innerHTML = `<div class="t3-mo"><div class="mo-top"><div class="mo-tog" role="group">${['core', 'pro'].map((q) => `<button type="button" data-p="${q}" aria-pressed="${q === k}">${q === 'core' ? 'Core' : 'Pro'}</button>`).join('')}</div><p class="mo-vol"><span dir="auto">${v.map(esc).join('</span><span dir="auto">')}</span></p></div>
+      <div class="mo-strip">${head}${row(t.rows[0], dots, 'd')}${row(t.rows[1], sq, 'w')}${row(t.rows[2], dm, 'm')}</div>
+      <div class="mo-eq"><p>${t.eq}</p><small>${esc(t.note)}</small></div><p class="mo-you">${esc(t.you)}</p></div>`;
+    $$('.mo-tog button', body).forEach((b) => b.addEventListener('click', () => { if (b.dataset.p !== body.dataset.plan) { fillMO(m, b.dataset.p); $(`.mo-tog button[data-p="${b.dataset.p}"]`, body).focus({ preventScroll: true }); } }));
+  }
   function cardsHTML() {
     const t = tx(), x = t.live, c = t.cards;
     return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
@@ -2551,6 +2656,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
         <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div></div>
         <h3>${x.h}</h3><p>${esc(x.p)}</p>
         <button type="button" class="t3-go"><span class="t3-go-ring" aria-hidden="true"></span><span class="d" aria-hidden="true"></span><span>${x.b}</span><span class="t3-go-a" aria-hidden="true">${rtl() ? '←' : '→'}</span></button></article>
+      <article class="t3-card k-mo"><div class="t3-tex" aria-hidden="true"></div>${artMo()}<h3>${c.mo[0]}</h3><p>${c.mo[1]}</p><button type="button" class="t3-cta" data-open="mo"><span>${c.mo[2]}</span></button></article>
       <article class="t3-card k-ff"><div class="t3-tex" aria-hidden="true"></div><div class="t3-art"><span class="t3-90" aria-hidden="true"><span dir="ltr">+90</span><small>${esc(bare(t.days))}</small></span>${ART_FF}</div><h3>${c.ff[0]}</h3><p>${c.ff[1]}</p><button type="button" class="t3-cta" data-open="ff"><span>${c.ff[2]}</span></button></article>`;
   }
   let root = null;
@@ -2584,9 +2690,314 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       const n = H.lang in T ? H.lang : 'en'; if (n === L) return;
       L = n; root.innerHTML = cardsHTML(); wireCards(); labelM('sc');
       if (modals.ff) { labelM('ff'); if (openK === 'ff') fillFF(modals.ff); }
+      if (modals.mo) { labelM('mo'); if (openK === 'mo') fillMO(modals.mo); }
     }).observe(H, { attributes: true, attributeFilter: ['lang'] });
   }
   // the number check (tools/seo/check-try.mjs) renders the screens without a page
   if (W.__t3test) { W.__t3 = { N, T, P, derive, facts, setLang: (l) => { L = l; }, screen: (i, v) => renderScreen(i, v), notes: notesHTML, diff: diffHTML, range, keys: SCREENS.map((s) => s[0]), stkFacts, cover }; return; }
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', build); else build();
+})();
+
+// Deck pass 2 (runs after the main bundle, like enhance.js).
+// · "How she knows": a pinned scene after section 02. The galaxy's dust forms
+//   each number as a dot-matrix numeral (1,240 → 200+ → 160+ → 1,300 → 1), with
+//   a shape for what it means (a cloud of sources, orbits of experts, a network
+//   of buyers, flickering tests, one bright point), then becomes a ring around
+//   her: 12 skill areas, and her knowledge base, counted. Phones and reduced
+//   motion get a static stack.
+// · Translator labels on the live findings, Zero risk inside the guarantees,
+//   NJO in numbers, the Russian Meta note.
+// deck-ui.mjs is inlined above by the build (mindHTML, zeroHTML, njoHTML, metaHTML, deckNum).
+(() => {
+  const D = document, H = D.documentElement;
+  const $ = (s, r = D) => r.querySelector(s), $$ = (s, r = D) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const XS = window.USHA_X || {};
+  const lang = () => (H.lang in XS ? H.lang : Object.keys(XS)[0]);
+  const XD = () => (XS[lang()] || {}).deck;
+  const rtl = () => H.dir === 'rtl';
+
+  // ---------- blocks: pre-rendered by the build, re-rendered on a language switch ----------
+  function swap(sel, html, place) {
+    const old = $(sel);
+    if (old && old.dataset.l === lang()) return old;
+    const tpl = D.createElement('template'); tpl.innerHTML = html.trim();
+    const el = tpl.content.firstElementChild; el.dataset.l = lang();
+    if (old) old.replaceWith(el); else if (!place(el)) return null;
+    return el;
+  }
+  function blocks() {
+    const x = XD(); if (!x) return;
+    const L = lang();
+    const m = swap('#mind', mindHTML(x, L), (el) => { const s = $('#signal'); if (!s) return false; s.after(el); return true; });
+    if (m) scene.setup(m);
+    swap('.guar .x-zr', zeroHTML(x, L), (el) => { const u = $('.guar > ul'); if (!u) return false; u.after(el); return true; });
+    swap('.eng .x-njo', njoHTML(x, L), (el) => { const f = $('.eng .facts'); if (!f) return false; f.after(el); return true; });
+    const meta = $('.x-meta');
+    if (x.meta) swap('.x-meta', metaHTML(x), (el) => { const p = $('#control .partners'); if (!p) return false; p.after(el); return true; });
+    else if (meta) meta.remove();
+    labels(); metaMark(); reveal();
+  }
+
+  // ---------- live findings: what the algorithm says, what you hear ----------
+  function labels() {
+    const x = XD(); if (!x) return;
+    $$('#fbody .fitem').forEach((f) => {
+      $$('.x-trl', f).forEach((e) => e.remove());
+      const k = $('.fk', f), h = $('h3', f);
+      if (k) k.insertAdjacentHTML('beforebegin', `<span class="x-trl x-says">${x.tr.says}</span>`);
+      if (h) h.insertAdjacentHTML('beforebegin', `<span class="x-trl x-hear">${x.tr.hear}</span>`);
+    });
+  }
+  // ---------- Russian page: Meta carries the asterisk of the legal note ----------
+  function metaMark() {
+    const ru = lang() === 'ru';
+    $$('#track span').forEach((s) => s.classList.toggle('x-ast', ru && s.textContent.trim() === 'Meta'));
+  }
+  // ---------- reveal on scroll (the layer's own .x-io → .x-in) ----------
+  function reveal() {
+    $$('.x-zr:not(.x-in),.x-njo:not(.x-in),.xm-head:not(.x-in),.x-mind:not(.xm-live) .xm-st:not(.x-in),.x-mind:not(.xm-live) .xm-endt:not(.x-in),.x-mind:not(.xm-live) .xm-orbit:not(.x-in)').forEach((el) => {
+      const r = el.getBoundingClientRect(); if (r.top < innerHeight * 0.85 && r.bottom > 0) el.classList.add('x-in');
+    });
+  }
+
+  // ---------- the numbers scene ----------
+  const scene = (() => {
+    let el = null, cv = null, cx = null, live = false, raf = 0, io = null, ready = false;
+    let W = 0, Hh = 0, dpr = 1, N = 0;
+    let P = null; // current positions
+    let ST = []; // per stage: { t: Float32Array targets, k: Uint8Array kind (0 ink numeral, 1 ember numeral, 2 dust) , ... }
+    let seed = null, nodes = [], links = [], one = [0, 0], ringC = [0, 0], ringR = 200, region = null;
+    let prog = 0, progT = 0, active = -1, t0 = performance.now();
+    const B = 6; // beats: five numbers, then her mind
+
+    function rnd(i) { const s = Math.sin(i * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); }
+    function setup(m) {
+      el = m; cv = $('.xm-cv', m);
+      live = innerWidth >= 900 && !reduce && !!(cv && cv.getContext);
+      const was = m.classList.contains('xm-live');
+      m.classList.toggle('xm-live', live);
+      // the section's height changed: let the page (and USHA's scene) re-measure its sections
+      if (was !== live) setTimeout(() => dispatchEvent(new Event('resize')), 0);
+      stop();
+      active = -1;
+      if (!live) { $$('.xm-st', m).forEach((s) => s.classList.add('on')); return; }
+      cx = cv.getContext('2d');
+      const go = () => { layout(); ready = true; tick(); };
+      if (D.fonts && D.fonts.load) Promise.all([D.fonts.load('800 100px Unbounded'), D.fonts.ready]).then(go, go); else go();
+      io?.disconnect();
+      io = new IntersectionObserver((e) => { if (e[0].isIntersecting) start(); else stop(); }, { rootMargin: '100px 0px' });
+      io.observe(m);
+    }
+    function start() { if (!raf && ready && live) raf = requestAnimationFrame(frame); }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+    // dot-matrix numeral: render the text, keep the cells that are ink
+    function sample(txt, suf, box) {
+      const c = D.createElement('canvas'), g = c.getContext('2d');
+      const font = (s) => `800 ${s}px Unbounded, ${getComputedStyle(H).getPropertyValue('--head') || 'sans-serif'}`;
+      g.font = font(100);
+      const w100 = g.measureText(txt + (suf || '')).width || 1;
+      let fs = Math.min(box.w / w100 * 100, box.h * 1.15);
+      fs = Math.max(60, fs);
+      g.font = font(fs);
+      const wMain = g.measureText(txt).width, wAll = g.measureText(txt + (suf || '')).width;
+      c.width = Math.ceil(wAll + 8); c.height = Math.ceil(fs * 1.05);
+      g.font = font(fs); g.textBaseline = 'alphabetic'; g.fillStyle = '#fff';
+      const base = Math.round(fs * 0.86);
+      g.fillText(txt, 4, base);
+      const data = g.getImageData(0, 0, c.width, c.height).data;
+      const step = Math.max(6, fs / 13);
+      const pts = [];
+      for (let y = step / 2; y < c.height; y += step) for (let x = step / 2; x < c.width; x += step) {
+        if (data[(Math.floor(y) * c.width + Math.floor(x)) * 4 + 3] > 140) pts.push([x, y, 0]);
+      }
+      if (suf) {
+        g.clearRect(0, 0, c.width, c.height); g.fillText(suf, 4 + wMain, base);
+        const d2 = g.getImageData(0, 0, c.width, c.height).data;
+        for (let y = step / 2; y < c.height; y += step) for (let x = step / 2; x < c.width; x += step) {
+          if (d2[(Math.floor(y) * c.width + Math.floor(x)) * 4 + 3] > 140) pts.push([x, y, 1]);
+        }
+      }
+      // place: vertically centred in the box, aligned to the reading start
+      const ox = rtl() ? box.x + box.w - wAll - 4 : box.x, oy = box.y + (box.h - fs * 0.9) / 2;
+      return { pts: pts.map(([x, y, k]) => [ox + x, oy + y - fs * 0.12, k]), r: Math.max(1.6, step * 0.32), left: ox, right: ox + wAll + 4, mid: oy + fs * 0.45 };
+    }
+
+    function layout() {
+      const st = $('.xm-stick', el); if (!st) return;
+      const r = st.getBoundingClientRect();
+      dpr = Math.min(1.6, devicePixelRatio || 1);
+      W = r.width; Hh = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
+      cv.style.width = W + 'px'; cv.style.height = Hh + 'px';
+      const head = $('.xm-head', el).getBoundingClientRect();
+      const top = Math.min(head.bottom - r.top + 24, Hh * 0.42);
+      const bw = Math.min(W * 0.5, 760);
+      region = { x: rtl() ? W - W * 0.05 - bw : W * 0.05, y: top, w: bw, h: Math.max(220, Hh - top - 110) };
+      const numBox = { x: region.x, y: region.y, w: region.w, h: Math.min(region.h * 0.62, 330) };
+      numBox.y = region.y + (region.h - numBox.h) / 2 - 10;
+      const x = XD();
+      const L = lang();
+      N = 1500;
+      if (!seed) { seed = new Float32Array(N * 4); for (let i = 0; i < N * 4; i++) seed[i] = rnd(i + 1); }
+      P = P && P.length === N * 2 ? P : new Float32Array(N * 2);
+      ST = x.mind.st.map((s) => sample(deckNum(s.n, L), s.s || '', numBox));
+      ST.push({ pts: [], r: 2 });
+      // ring centre: the orbit in the last beat
+      const ob = $('.xm-orbit', el).getBoundingClientRect();
+      ringC = [ob.left - r.left + ob.width / 2, ob.top - r.top + ob.height / 2]; ringR = Math.min(ob.width, ob.height) * 0.41;
+      const s4 = ST[4]; one = [rtl() ? s4.left - 80 : s4.right + 80, s4.mid];
+      // a stable random order per stage, so each numeral re-assembles from everywhere
+      ST.forEach((s, si) => {
+        const order = Array.from({ length: N }, (_, i) => i).sort((a, b) => rnd(a * 7 + si * 131) - rnd(b * 7 + si * 131));
+        s.map = new Int32Array(N).fill(-1);
+        s.pts.slice(0, N).forEach((p, j) => { s.map[order[j]] = j; });
+      });
+      // buyers network: 160 nodes, each linked to its two nearest
+      nodes = [];
+      for (let i = 0; i < N && nodes.length < 160; i++) if (ST[2].map[i] < 0) nodes.push(i);
+      links = [];
+      const np = nodes.map((i) => dust(2, i, 0));
+      np.forEach((a, k) => {
+        const d = np.map((b, j) => [j === k ? 1e9 : (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2, j]).sort((p, q) => p[0] - q[0]);
+        links.push([k, d[0][1]], [k, d[1][1]]);
+      });
+      if (!P.__init) { for (let i = 0; i < N; i++) { P[i * 2] = W * seed[i * 4]; P[i * 2 + 1] = Hh * seed[i * 4 + 1]; } P.__init = 1; }
+    }
+
+    // where the dust sits for a stage (not part of the numeral)
+    function dust(s, i, t) {
+      const a = seed[i * 4], b = seed[i * 4 + 1], c = seed[i * 4 + 2], d = seed[i * 4 + 3];
+      const R = region, cx0 = R.x + R.w / 2, cy0 = R.y + R.h / 2;
+      if (s === 0) { // a wide cloud of sources, drifting toward the numeral
+        const x = R.x - R.w * 0.1 + a * R.w * 1.2, y = R.y - R.h * 0.08 + b * R.h * 1.16;
+        return [x + Math.sin(t * 0.45 + c * 9) * 16, y + Math.cos(t * 0.38 + d * 9) * 12, 0.28 + c * 0.35];
+      }
+      if (s === 1) { // three orbits of experts around the number
+        const ring = Math.floor(a * 3), rx = R.w * (0.42 + ring * 0.09), ry = R.h * (0.3 + ring * 0.08);
+        const th = b * Math.PI * 2 + t * (0.12 + ring * 0.05) * (ring % 2 ? -1 : 1);
+        const j = (c - 0.5) * 10;
+        return [cx0 + Math.cos(th) * (rx + j), cy0 + Math.sin(th) * (ry + j), 0.3 + d * 0.5];
+      }
+      if (s === 2) { // a living market: nodes that float
+        const x = R.x + a * R.w, y = R.y + b * R.h;
+        return [x + Math.sin(t * 0.5 + c * 7) * 6, y + Math.cos(t * 0.45 + d * 7) * 6, 0.35 + c * 0.4];
+      }
+      if (s === 3) { // tests: a field of quick flashes
+        const x = R.x + a * R.w, y = R.y + b * R.h;
+        const f = Math.sin(t * (5 + c * 9) + d * 40);
+        return [x, y, f > 0.82 ? 1 : 0.1];
+      }
+      if (s === 4) { // everything gathers into one bright point
+        const th = a * Math.PI * 2 + t * (1.2 + b), rr = 3 + Math.pow(c, 3) * 26;
+        return [one[0] + Math.cos(th) * rr, one[1] + Math.sin(th) * rr, 0.55 + d * 0.45];
+      }
+      // her mind: a ring of dust around her
+      const th = a * Math.PI * 2 + t * 0.06, rr = ringR + (b - 0.5) * 34 * (0.4 + c);
+      return [ringC[0] + Math.cos(th) * rr, ringC[1] + Math.sin(th) * rr * 0.98, 0.25 + d * 0.5];
+    }
+    // a particle's place, colour and size in a stage
+    const out = [0, 0, 0, 0, 0];
+    function at(s, i, t) {
+      const S = ST[s], j = S.map[i];
+      if (j >= 0) {
+        const p = S.pts[j];
+        out[0] = p[0] + Math.sin(t * 1.3 + seed[i * 4] * 30) * 0.6; out[1] = p[1] + Math.cos(t * 1.1 + seed[i * 4 + 1] * 30) * 0.6;
+        out[2] = 0.95; out[3] = p[2] || (s === 4 ? 1 : 0); out[4] = S.r;
+      } else {
+        const d = dust(s, i, t);
+        out[0] = d[0]; out[1] = d[1]; out[2] = d[2]; out[3] = s === 4 || (s === 3 && d[2] > 0.9 && seed[i * 4 + 2] > 0.6) ? 1 : 0; out[4] = s === 4 ? 1.5 : 1.15;
+      }
+      return out;
+    }
+    const ease = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x));
+
+    function progress() {
+      const r = $('.xm-track', el).getBoundingClientRect();
+      const span = r.height - innerHeight;
+      return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+    }
+    function setActive(k) {
+      if (k === active) return;
+      active = k;
+      $$('.xm-st', el).forEach((s, i) => s.classList.toggle('on', i === k));
+      el.classList.toggle('xm-at-end', k >= B - 1);
+      el.style.setProperty('--beat', k);
+      const dots = $('.xm-hint i', el); if (dots) dots.style.setProperty('--p', (k / (B - 1)).toFixed(3));
+    }
+
+    let last = performance.now();
+    const stat = { ms: 0, n: 0 };
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(250, now - last); last = now;
+      progT = progress();
+      prog += (progT - prog) * (1 - Math.pow(0.86, dt / 16.7));
+      if (Math.abs(progT - prog) < 0.0004) prog = progT;
+      const t = (now - t0) / 1000;
+      const sf = prog * (B - 1), a = Math.min(B - 1, Math.floor(sf)), f = sf - a, b = Math.min(B - 1, a + 1);
+      const mf = Math.min(1, Math.max(0, (f - 0.42) / 0.5));
+      const sT = progT * (B - 1);
+      setActive(Math.min(B - 1, Math.floor(sT + 0.3)));
+      const c0 = performance.now(); draw(a, b, mf, t); stat.ms += performance.now() - c0; stat.n++;
+    }
+    function tick() { if (!live || !ready) return; const sf = progress() * (B - 1); prog = progress(); const a = Math.floor(sf); setActive(Math.round(sf)); draw(a, Math.min(B - 1, a + 1), 0, 0); }
+
+    const INK = '#F3EEE8', EMB = '#FF6A2B', PEACH = '#FFB48A';
+    function draw(a, b, mf, t) {
+      const g = cx; g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, Hh);
+      // buyers' network, strongest in its own beat
+      const wNet = a === 2 ? 1 - ease(mf) : b === 2 ? ease(mf) : 0;
+      if (wNet > 0.02) {
+        g.globalAlpha = 0.16 * wNet; g.strokeStyle = PEACH; g.lineWidth = 0.7; g.beginPath();
+        links.forEach(([p, q]) => { const A = P.subarray(nodes[p] * 2), Bq = P.subarray(nodes[q] * 2); g.moveTo(A[0], A[1]); g.lineTo(Bq[0], Bq[1]); });
+        g.stroke();
+      }
+      // the bright point of "1 move"
+      const wOne = a === 4 ? 1 - ease(mf) : b === 4 ? ease(mf) : 0;
+      if (wOne > 0.02) {
+        const gr = g.createRadialGradient(one[0], one[1], 0, one[0], one[1], 90);
+        gr.addColorStop(0, 'rgba(255,140,80,.55)'); gr.addColorStop(1, 'rgba(255,90,31,0)');
+        g.globalAlpha = wOne; g.fillStyle = gr; g.fillRect(one[0] - 90, one[1] - 90, 180, 180);
+      }
+      const inkA = [], embA = [];
+      for (let i = 0; i < N; i++) {
+        const e = ease((mf * 1.35 - seed[i * 4 + 3] * 0.35));
+        const A = at(a, i, t), ax = A[0], ay = A[1], aa = A[2], ak = A[3], ar = A[4];
+        const Bv = at(b, i, t);
+        const x = ax + (Bv[0] - ax) * e, y = ay + (Bv[1] - ay) * e, al = aa + (Bv[2] - aa) * e, k = e < 0.5 ? ak : Bv[3], rr = ar + (Bv[4] - ar) * e;
+        P[i * 2] = x; P[i * 2 + 1] = y;
+        (k ? embA : inkA).push(x, y, al, rr);
+      }
+      paint(g, inkA, INK); paint(g, embA, EMB);
+      g.globalAlpha = 1;
+    }
+    function paint(g, arr, col) {
+      g.fillStyle = col;
+      for (let i = 0; i < arr.length; i += 4) {
+        const r = arr[i + 3];
+        g.globalAlpha = arr[i + 2];
+        if (r > 1.8) { g.beginPath(); g.arc(arr[i], arr[i + 1], r, 0, 6.2832); g.fill(); }
+        else g.fillRect(arr[i] - r / 2, arr[i + 1] - r / 2, r, r);
+      }
+    }
+    let rT = 0, vw = innerWidth, vh = innerHeight;
+    addEventListener('resize', () => {
+      if (innerWidth === vw && innerHeight === vh) return;
+      vw = innerWidth; vh = innerHeight;
+      clearTimeout(rT); rT = setTimeout(() => { if (el) setup(el); }, 200);
+    });
+    return { setup, perf: () => ({ live, raf: !!raf, N, draws: stat.n, avgMs: stat.n ? +(stat.ms / stat.n).toFixed(2) : 0 }) };
+  })();
+  window.__xmind = scene;
+
+  // ---------- go ----------
+  const run = () => { try { blocks(); } catch (e) { console.warn('[usha-deck]', e); } };
+  let lt = 0;
+  new MutationObserver(() => { clearTimeout(lt); lt = setTimeout(run, 60); }).observe(H, { attributes: true, attributeFilter: ['lang'] });
+  const watch = (s, fn) => { const e = $(s); if (e) new MutationObserver(() => setTimeout(fn, 30)).observe(e, { childList: true }); };
+  addEventListener('scroll', () => reveal(), { passive: true });
+  const boot = () => { run(); watch('#fbody', labels); watch('#track', metaMark); };
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
 })();
