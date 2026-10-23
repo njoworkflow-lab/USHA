@@ -16,10 +16,10 @@
   const CSS = `
 @font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cav}) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+20AC,U+2122,U+2212}
 @font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cavc}) format('woff2');unicode-range:U+0400-045F,U+0490-0491,U+2116}
-@font-face{font-family:'USHA Ruqaa';font-weight:400 700;font-display:swap;src:url(${F.ar}) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:'USHA Arabic Hand';font-weight:300 700;font-display:swap;src:url(${F.ar}) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+08A0-08FF,U+FB50-FDFF,U+FE70-FEFF}
 html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns{--hand:'USHA Hand',cursive;--ink:#F3EEE8;--ember:#FF5A1F;--g:#2A2420;position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px 24px 18px;background:radial-gradient(1100px 700px at 30% 0,#22140d 0,#0b0a0d 60%) #0b0a0d;color:var(--ink);opacity:0;transition:opacity .45s ease;font:400 16px var(--body,'Onest',system-ui,sans-serif);-webkit-tap-highlight-color:transparent}
-.ns[dir=rtl]{--hand:'USHA Ruqaa','USHA Hand',serif}
+.ns[dir=rtl]{--hand:'USHA Arabic Hand','USHA Hand',serif}
 .ns.in{opacity:1}
 .ns *{box-sizing:border-box}
 .ns button{font:inherit;color:inherit;cursor:pointer}
@@ -30,7 +30,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-l:first-child{position:relative;height:auto}
 .ns-sp{position:absolute;overflow:visible;will-change:transform;animation-duration:var(--d,6s);animation-delay:var(--dl,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .ns-n,.ns-hand{font-family:var(--hand)}
-.ns-js .ns-sp{animation:none!important}
+.ns-sp.ns-wa{animation:none!important}
 .ns-cap{display:none;position:absolute;inset-inline-start:10px;bottom:10px;max-width:calc(100% - 20px);align-items:center;gap:8px;padding:7px 12px 7px 8px;background:#FBF7EF;border-radius:10px;box-shadow:0 6px 18px rgba(42,36,32,.25);transform:rotate(-1.2deg);font:700 18px/1.15 var(--hand);color:var(--ember);transition:opacity .35s;pointer-events:none}
 .ns[dir=rtl] .ns-cap{transform:rotate(1.2deg)}
 .ns-cap svg{flex:none;width:26px;height:22px}
@@ -97,6 +97,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-u{display:block;width:16cqw;height:1.4cqw;margin:.6cqw 0 1.6cqw;overflow:visible}
 .ns-u path{fill:none;stroke:var(--ember);stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ns-draw .9s .5s ease forwards}
 .ns-p p{margin:0 0 1cqw;font:italic 400 1.5cqw/1.45 'Literata',Georgia,serif;opacity:0;transform:translateY(6px);animation:ns-up .6s ease forwards;animation-delay:calc(.35s + var(--i) * .18s)}
+.ns-p p.ns-hl{color:var(--ember)!important;font-weight:700!important;font-style:normal!important}
 .ns[dir=rtl] .ns-p p{font:400 1.55cqw/1.7 var(--body)}
 @keyframes ns-up{to{opacity:1;transform:none}}
 .ns-cta{align-self:flex-start;margin-top:1.8cqw;padding:1.1cqw 2.2cqw;border:0;border-radius:999px;background:var(--ember);color:#fff!important;font:600 1.4cqw var(--body,'Onest',sans-serif)!important;box-shadow:0 10px 30px rgba(255,90,31,.35);transition:transform .2s}
@@ -295,6 +296,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     tick: () => [[TF('rotate(0deg)'), { transform: 'rotate(50deg)', offset: 0.2 }, { transform: 'rotate(50deg)', offset: 0.4 }, { transform: 'rotate(-35deg)', offset: 0.6 }, { transform: 'rotate(-35deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
     scribble: () => [[TF('translate(0px,0px)'), { transform: 'translate(-6px,2px)', offset: 0.25 }, { transform: 'translate(0px,0px)', offset: 0.5 }, { transform: 'translate(-6px,-2px)', offset: 0.75 }, TF('translate(0px,0px)')], 0, 'linear'],
   };
+  const AMP = 1.6; // movements read clearly at a glance
   function runMotion(scene) {
     if (!can) return;
     const k = scene.getBoundingClientRect().width / 760 || 1; // scene units → pixels
@@ -302,16 +304,18 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
       el.getAnimations().forEach((a) => a.cancel());
       const name = [...el.classList].find((c) => c.startsWith('a-')), m = name && MOTION[name.slice(2)];
       if (!m) return;
-      const cs = el.style, get = (p) => cs.getPropertyValue(p).trim();
+      const cs = el.style, get = (p) => cs.getPropertyValue(p).trim(), trip = /^(walk|fall|slide)$/.test(name.slice(2));
       const v = {
-        a: (d) => { const n = parseFloat(get('--a')); return isNaN(n) ? d : n; },
-        px: (d) => { const n = parseFloat(get('--a')); return (isNaN(n) ? d : n) * k; },
-        x: (d) => { const n = parseFloat(get('--x')); return (isNaN(n) ? d : n) * k; },
-        y: (d) => { const n = parseFloat(get('--y')); return (isNaN(n) ? d : n) * k; },
+        // amounts: angles grow, scales grow away from 1; distances of walks and falls stay true to the drawing
+        a: (d) => { const raw = get('--a'); let n = parseFloat(raw); if (isNaN(n)) n = d; return /^[\d.]+$/.test(raw || String(d)) && n > 0.5 && n < 2 ? 1 + (n - 1) * AMP : n * AMP; }, // a bare number near 1 is a scale
+        px: (d) => { const n = parseFloat(get('--a')); return (isNaN(n) ? d : n) * k * AMP; },
+        x: (d) => { const n = parseFloat(get('--x')); return (isNaN(n) ? d : n) * k * (trip ? 1 : AMP); },
+        y: (d) => { const n = parseFloat(get('--y')); return (isNaN(n) ? d : n) * k * (trip ? 1 : AMP); },
       };
       const [frames, alt, easing] = m(v);
       const d = (parseFloat(get('--d')) || 6) * 1000 * (reduce ? 1.6 : 1), dl = (parseFloat(get('--dl')) || 0) * 1000;
-      try { el.animate(frames, { duration: d, delay: dl, iterations: Infinity, direction: alt ? 'alternate' : 'normal', easing: easing || 'ease-in-out' }); } catch {}
+      // the CSS motion stays as a fallback until this has really started
+      try { el.animate(frames, { duration: d, delay: dl, iterations: Infinity, direction: alt ? 'alternate' : 'normal', easing: easing || 'ease-in-out' }); el.classList.add('ns-wa'); } catch { el.classList.remove('ns-wa'); }
     });
   }
 
@@ -328,7 +332,6 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     root.setAttribute('aria-label', T.cover.h.replace(/<[^>]+>/g, ''));
     root.setAttribute('translate', 'no');
     root.dir = isRtl() ? 'rtl' : 'ltr'; root.lang = L;
-    if (can) root.classList.add('ns-js');
     const dots = T.ch.map((c, i) => `<button type="button" class="ns-dot" data-i="${i}" style="inset-inline-start:${(i / (N() - 1) * 100).toFixed(3)}%" aria-label="${esc(T.ui.chapter)} ${i + 1}: ${esc(c.k)}"></button>`).join('');
     root.innerHTML = `${ART.defs}
 <button type="button" class="ns-x" aria-label="${esc(T.ui.close)}">${ICON.close}</button>
@@ -410,7 +413,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     tx.innerHTML = `<div class="ns-k">${esc(T.ui.chapter)} ${pad(cur + 1)} ${esc(T.ui.of)} ${pad(N())} · ${esc(c.k)}</div>
 <h3 class="ns-h">${esc(c.h)}</h3>
 <svg class="ns-u" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 10 C60 2 120 16 196 6"/></svg>
-<div class="ns-p">${c.p.map((p, i) => `<p style="--i:${i}">${esc(p)}</p>`).join('')}</div>
+<div class="ns-p">${c.p.map((p, i) => (p[0] === '!' ? `<p class="ns-hl" style="--i:${i}">${esc(p.slice(1))}</p>` : `<p style="--i:${i}">${esc(p)}</p>`)).join('')}</div>
 ${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
     // open the live chat first, so the soundtrack doesn't swell back in between
     if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { dispatchEvent(new CustomEvent('usha:talk')); close(true); });

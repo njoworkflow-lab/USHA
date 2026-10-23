@@ -1580,7 +1580,7 @@ function findingChart(i, lang) {
   const CSS = `
 @font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cav}) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF}
 @font-face{font-family:'USHA Hand';font-weight:400 700;font-display:swap;src:url(${F.cavc}) format('woff2');unicode-range:U+0400-045F}
-@font-face{font-family:'USHA Ruqaa';font-weight:400 700;font-display:swap;src:url(${F.ar}) format('woff2');unicode-range:U+0600-06FF,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:'USHA Arabic Hand';font-weight:300 700;font-display:swap;src:url(${F.ar}) format('woff2');unicode-range:U+0600-06FF,U+FB50-FDFF,U+FE70-FEFF}
 .x-story{margin:96px 0 0;padding-top:56px;border-top:1px solid var(--line)}
 .xs-card{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:48px;width:100%;padding:44px 48px;border-radius:28px;border:1px solid var(--line);background:radial-gradient(600px 300px at 85% 40%,rgba(255,90,31,.10),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));cursor:pointer;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
 .xs-card:hover{border-color:rgba(255,180,138,.45);transform:translateY(-3px)}
@@ -1604,7 +1604,7 @@ html[dir=rtl] .xs-b svg{transform:scaleX(-1)}
 .xs-pg{animation:xs-peck 2.6s steps(1) infinite}
 @keyframes xs-peck{0%{transform:translate(0,0)}30%{transform:translate(3px,2px)}60%{transform:translate(0,0)}80%{transform:translate(-2px,0)}}
 .xs-note{font-family:'USHA Hand',cursive;font-weight:700}
-html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
+html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
 .xs-card.wait .xs-b{opacity:.7}
 @media (max-width:900px){.xs-card{grid-template-columns:1fr;gap:28px;padding:30px 24px}.xs-art{order:-1;width:min(100%,360px)}}
 @media (prefers-reduced-motion:reduce){.xs-eye,.xs-pg{animation:none}.xs-card,.xs-paper{transition:none}}

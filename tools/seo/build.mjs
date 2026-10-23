@@ -357,7 +357,7 @@ let STORY_CFG;
 function storyCfg() {
   if (STORY_CFG) return STORY_CFG;
   const font = (f, n) => { const b = fs.readFileSync(path.join(STORY_DIR, 'fonts', f)); return emit(`fonts/${n}-${hash(b)}.woff2`, b); };
-  return (STORY_CFG = { src: emit(`story-${hash(STORY_JS)}.js`, STORY_JS), fonts: { cav: font('caveat-latin.woff2', 'caveat-latin'), cavc: font('caveat-cyrillic.woff2', 'caveat-cyrillic'), ar: font('aref-ruqaa-arabic.woff2', 'aref-ruqaa-arabic') } });
+  return (STORY_CFG = { src: emit(`story-${hash(STORY_JS)}.js`, STORY_JS), fonts: { cav: font('caveat-latin.woff2', 'caveat-latin'), cavc: font('caveat-cyrillic.woff2', 'caveat-cyrillic'), ar: font('marhey-arabic.woff2', 'marhey-arabic') } });
 }
 // "Ask USHA live": the chat server (usha-brain/worker) and the Turnstile site
 // key. Both are public by design. Empty api keeps the live chat switched off.

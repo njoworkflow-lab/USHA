@@ -57,12 +57,14 @@
   // Arabic reads right to left, so it sits right-aligned in the same box.
   A.note = (t, x, y, w, o = {}) => {
     if (t == null) return '';
-    const s = o.s || 24, lh = s * 1.08, c = o.c === 'g' ? G : o.c || E, wt = o.c === 'g' ? 500 : 700;
-    const k = lang === 'ru' ? 0.45 : lang === 'ar' ? 0.44 : 0.41;
+    // the Arabic hand runs larger for its size, so it is set a little smaller
+    const s = (o.s || 24) * (lang === 'ar' ? 0.88 : 1), lh = s * 1.08, c = o.c === 'g' ? G : o.c || E, wt = o.c === 'g' ? 500 : 700;
+    const k = lang === 'ru' ? 0.45 : lang === 'ar' ? 0.52 : 0.41;
     const ls = lines(t, Math.max(5, Math.floor(w / (s * k))));
     let a = o.a || 'start', ax = x;
     if (a === 'end') ax = x; // right edge
-    if (rtl && a !== 'middle') { ax = a === 'start' ? x + w : x; a = 'start'; }
+    // right to left: a start box still begins at x (where its arrow starts), so the text ends there; an end box ends at x
+    if (rtl && a !== 'middle') { ax = x; a = a === 'start' ? 'end' : 'start'; }
     const y0 = o.v === 'b' ? y - (ls.length - 1) * lh : y;
     const rot = o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : '';
     return `<text class="ns-n${o.keep ? ' ns-keep' : ''}" font-size="${s}" fill="${c}" font-weight="${wt}" text-anchor="${a}"${rtl ? ' direction="rtl"' : ''}${rot}>${ls.map((l, i) => `<tspan x="${ax}" y="${(y0 + i * lh).toFixed(1)}">${esc(l)}</tspan>`).join('')}</text>`;
