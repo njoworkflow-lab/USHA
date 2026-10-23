@@ -57,7 +57,7 @@ for (const v of [0, 1]) {
   }
   ok(r1(mean(N.soc.er[v])) === r1(mean(N.soc.er[v])), 'er');
 }
-ok(-N.stock[0][0] === N.dip[1] - N.dip[0] + 1, 'stock-out days = dip in the daily chart');
+ok(X.stkFacts(0).out === N.dip[1] - N.dip[0] + 1 && X.stkFacts(1).out === 0, 'stock-out days = dip in the daily chart');
 const last = new Date(Date.UTC(...N.start) + (N.days - 1) * 864e5);
 ok(last.getUTCMonth() === 8 && last.getUTCDate() === 28, '90 days end on 28 Sep');
 
@@ -95,12 +95,12 @@ for (const lang of ['en', 'ru', 'ar']) {
       eq(k['r' + i + 'r'], ru ? nf((r[0] / r[1]) * 100, 1) + '%' : nf(r[1] / r[0], 1) + 'x', 'row ratio');
     });
     // engagement
-    k = pick(X.screen(2, v));
+    k = pick(X.screen(3, v));
     eq(k.er, nf(r1(mean(N.soc.er[v])), 1) + '%', 'ER = mean of posts');
     eq(k.reach, nf(N.soc.reach[v]), 'reach'); eq(k.saves, nf(N.soc.saves[v]), 'saves'); eq(k.foll, '+' + nf(N.soc.foll[v]), 'followers');
     N.soc.er[v].forEach((e, i) => eq(k['p' + i], 'ER ' + nf(e, 1) + '%', 'post ER'));
     // reviews
-    k = pick(X.screen(3, v));
+    k = pick(X.screen(9, v));
     eq(k.rating, nf(r1(dist[v].avg), 1), 'rating = weighted mean of stars');
     eq(k.count, nf(dist[v].n), 'ratings = sum of stars');
     N.rev.dist[v].forEach((c, i) => eq(k['dist' + i], nf(c), 'stars ' + (5 - i)));
@@ -108,11 +108,76 @@ for (const lang of ['en', 'ru', 'ar']) {
     ok(k.answered.includes(nf(N.rev.answered[v])) && k.answered.includes(nf(dist[v].n)), `${tag} answered "a of n"`);
     eq(k.trendEnd, nf(r1(dist[v].avg), 1), 'rating trend end');
     // search
-    k = pick(X.screen(4, v));
+    k = pick(X.screen(10, v));
     const p = pos[v], pg = Math.ceil(p / N.srch.perPage);
     ok(k.posTxt.includes(String(p)) && k.posTxt.includes(String(pg)), `${tag} position text "${k.posTxt}"`);
     if (v) ok(k.badge && k.badge.includes(String(p)), `${tag} badge shows #${p}`);
     if (!v) ok(!k.badge, `${tag} product not on page 1 without USHA`);
+  }
+  // ---------- the new screens ----------
+  const money2 = (n) => (ru ? nf(Math.round(n)) + ' ₽' : 'AED ' + nf(n, 2));
+  const p2 = (n) => nf(n, 2) + '%';
+  const sadT = (v) => { const r = M.sad[v]; return [0, 1, 2, 3].map((j) => sum(r.map((x) => x[j]))); };
+  const wOrders = (v) => sum(M.web.orders[v]);
+  const perDay = (v, i) => (i < 3 ? N.top[v][i] : N.stk.extra[v][i - 3]) / 90;
+  const cov = (v, i) => Math.round(N.stk.onHand[v][i] / perDay(v, i));
+  for (const v of [0, 1]) {
+    const tag = `${lang} v${v}`;
+    // social ads
+    let k = pick(X.screen(2, v));
+    const [sp, im, cl, by] = sadT(v);
+    eq(k.spend, money(sp), 'social spend = rows'); eq(k.buy, nf(by), 'purchases = rows');
+    eq(k.cpm, money2((sp / im) * 1000), 'CPM = spend ÷ impressions × 1000'); eq(k.ctr, p2((cl / im) * 100), 'CTR = clicks ÷ impressions'); eq(k.cpa, money2(sp / by), 'CPA = spend ÷ purchases');
+    M.sad[v].forEach((r, i) => { eq(k['r' + i + 's'], nf(r[0]), 'row spend'); eq(k['r' + i + 'm'], money2((r[0] / r[1]) * 1000), 'row CPM'); eq(k['r' + i + 'c'], p2((r[2] / r[1]) * 100), 'row CTR'); eq(k['r' + i + 'b'], nf(r[3]), 'row purchases'); eq(k['r' + i + 'a'], money2(r[0] / r[3]), 'row CPA'); });
+    ok(M.web.orders[v][1] === by, `${tag} website paid-ads orders = social/search ad purchases`);
+    // SEO
+    k = pick(X.screen(4, v));
+    const o = N.seo;
+    eq(k.clicks, nf(o.clicks[v]), 'clicks'); eq(k.impr, nf(o.impr[v]), 'impressions'); eq(k.ctr, p2((o.clicks[v] / o.impr[v]) * 100), 'search CTR'); eq(k.pos, nf(o.pos[v], 1), 'avg position');
+    o.q[v].forEach((r, i) => { eq(k['q' + i + 'c'], nf(r[0]), 'query clicks'); eq(k['q' + i + 'i'], nf(r[1]), 'query impressions'); eq(k['q' + i + 'p'], nf(r[2], 1), 'query position'); });
+    o.pages[v].forEach((c, i) => eq(k['pg' + i + 'c'], nf(c), 'page clicks'));
+    ok(sum(o.q[v].map((r) => r[0])) <= o.clicks[v] && sum(o.pages[v]) <= o.clicks[v] && sum(o.q[v].map((r) => r[1])) <= o.impr[v], `${tag} top queries and pages fit inside the totals`);
+    // website
+    k = pick(X.screen(5, v));
+    const n = wOrders(v), aov = M.web.aov[v];
+    eq(k.ses, nf(N.web.sessions[v]), 'sessions'); eq(k.cr, p2((n / N.web.sessions[v]) * 100), 'conversion = orders ÷ sessions'); eq(k.aov, money(aov), 'avg order'); eq(k.rev, money(n * aov), 'revenue = orders × avg order');
+    M.web.orders[v].forEach((c, i) => { eq(k['o' + i], nf(c), 'channel orders'); eq(k['v' + i], nf(c * aov), 'channel revenue'); eq(k['s' + i], nf((c / n) * 100, 0) + '%', 'channel share'); });
+    eq(k.ot, nf(n), 'orders total = channels'); eq(k.vt, nf(n * aov), 'revenue total = channels');
+    eq(k.ab, nf(N.web.abandoned[v]), 'abandoned'); eq(k.rec, nf(N.web.recovered[v]), 'recovered'); eq(k.recr, nf((N.web.recovered[v] / N.web.abandoned[v]) * 100, 1) + '%', 'recovery rate'); eq(k.recv, money(N.web.recovered[v] * aov), 'recovered revenue');
+    ok(N.web.recovered[v] <= M.web.orders[v][2], `${tag} recovered carts fit inside email orders`);
+    // service
+    k = pick(X.screen(6, v));
+    const c = N.crm, cn = sum(c.conv[v]);
+    eq(k.conv, nf(cn), 'conversations = channels'); eq(k.res, nf((c.resolved[v] / cn) * 100, 0) + '%', 'resolved %'); eq(k.resn, nf(c.resolved[v]) + ' / ' + nf(cn), 'resolved of total'); eq(k.csat, nf(c.csat[v], 1) + ' / 5', 'CSAT');
+    c.conv[v].forEach((x, i) => eq(k['c' + i], nf(x), 'channel conversations'));
+    c.pipe[v].forEach((x, i) => { eq(k['pc' + i], nf(x), 'stage count'); eq(k['pv' + i], money(x * M.deal), 'stage value = count × deal'); });
+    ok(c.pipe[v].every((x, i, a) => !i || x <= a[i - 1]) && c.resolved[v] <= cn, `${tag} pipeline narrows and resolved ≤ conversations`);
+    // stock
+    k = pick(X.screen(7, v));
+    const covs = [0, 1, 2, 3, 4].map((i) => cov(v, i));
+    covs.forEach((d, i) => { eq(k['h' + i], nf(N.stk.onHand[v][i]), 'on hand'); eq(k['d' + i], nf(perDay(v, i), 1), 'per day = units ÷ 90'); ok(k['cv' + i].includes(String(d)), `${tag} cover ${i} = on hand ÷ per day (${d})`); });
+    eq(k.below, nf(covs.filter((d) => d < N.stk.reorderDays).length), 'SKUs below reorder point');
+    eq(k.dead, nf(sum(covs.map((d, i) => (d > N.stk.deadDays ? N.stk.onHand[v][i] : 0)))), 'dead stock units');
+    eq(k.out, nf(v ? 0 : N.dip[1] - N.dip[0] + 1), 'stock-out days = chart dip');
+    const ks = pick(X.screen(0, v));
+    [0, 1, 2].forEach((i) => ok(ks['stock' + i].includes(String(covs[i])), `${tag} sales stock pill ${i} = stock screen cover ${covs[i]}`));
+    if (v) {
+      const qty = Math.round((N.stk.coverTarget * perDay(1, 0)) / 10) * 10, due = new Date(Date.UTC(2026, 6, 1 + 89 + covs[0] - N.stk.reorderDays));
+      const dd = due.toLocaleDateString(lang === 'ar' ? 'ar-u-nu-latn' : ru ? 'ru-RU' : 'en-US', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+      ok(k.plan.includes(nf(qty)) && k.plan.includes(dd), `${tag} reorder plan "${k.plan}" has ${qty} and ${dd}`);
+    }
+    // market
+    k = pick(X.screen(8, v));
+    const sos = N.mkt.sos[v], others = Math.round((100 - sum(sos)) * 10) / 10;
+    sos.forEach((x, i) => eq(k['sos' + i], nt(x) + '%', 'share of search')); eq(k.sos4, nt(others) + '%', 'others = 100 − the rest');
+    eq(k.sent0, nt(r1(((N.rev.dist[v][0] + N.rev.dist[v][1]) / dist[v].n) * 100)) + '%', 'positive reviews = 4–5★ ÷ ratings');
+    eq(k.seen, N.mkt.seen[v] + ' / 3', 'launches spotted');
+  }
+  // the agreed believable ranges for the new screens
+  if (lang !== 'ar') {
+    const a = sadT(0), b = sadT(1);
+    ok(pctChg(a[3], b[3]) >= 20 && pctChg(a[3], b[3]) <= 35 && pctChg(a[0], b[0]) < 0 && pctChg(a[0], b[0]) >= -10, `${lang} social ads: purchases +20–35% on less spend`);
+    ok(pctChg(wOrders(0), wOrders(1)) >= 22 && pctChg(wOrders(0), wOrders(1)) <= 30 && pctChg(M.web.aov[0], M.web.aov[1]) >= 3 && pctChg(M.web.aov[0], M.web.aov[1]) <= 5, `${lang} website orders +22–30%, AOV +3–5%`);
   }
   // with-vs-without strips
   const d = (i) => { const k = pick(X.diff(i)); return Object.keys(k).sort().map((x) => k[x]); };
@@ -121,23 +186,41 @@ for (const lang of ['en', 'ru', 'ar']) {
   const want = {
     0: [chg(N.orders[0], N.orders[1]), chg(M.avg[0], M.avg[1]), chg(N.orders[0] * M.avg[0], N.orders[1] * M.avg[1]), pp(M.rate[0], M.rate[1])],
     1: [ru ? arrow(nf((ads(M, 0).s / ads(M, 0).a) * 100) + '%', nf((ads(M, 1).s / ads(M, 1).a) * 100) + '%') : arrow(nf(ads(M, 0).a / ads(M, 0).s, 1) + 'x', nf(ads(M, 1).a / ads(M, 1).s, 1) + 'x'), chg(ads(M, 0).s, ads(M, 1).s), chg(ads(M, 0).a, ads(M, 1).a), chg(N.ctr[0], N.ctr[1])],
-    2: [arrow(nf(1.2, 1) + '%', nf(2.8, 1) + '%'), '×' + nt(r1(N.soc.reach[1] / N.soc.reach[0])), '×' + nt(r1(N.soc.saves[1] / N.soc.saves[0])), arrow('+' + nf(240), '+' + nf(910))],
-    3: [arrow(nf(4.2, 1), nf(4.5, 1)), chg(dist[0].n, dist[1].n), arrow('15%', '96%'), null],
-    4: [arrow(38, 9), arrow(2, 1)],
+    3: [arrow(nf(1.2, 1) + '%', nf(2.8, 1) + '%'), '×' + nt(r1(N.soc.reach[1] / N.soc.reach[0])), '×' + nt(r1(N.soc.saves[1] / N.soc.saves[0])), arrow('+' + nf(240), '+' + nf(910))],
+    9: [arrow(nf(4.2, 1), nf(4.5, 1)), chg(dist[0].n, dist[1].n), arrow('15%', '96%'), null],
+    10: [arrow(38, 9), arrow(2, 1)],
   };
-  for (const i of [0, 1, 2, 3, 4]) d(i).forEach((got, j) => { if (want[i][j] !== null) eq(got, want[i][j], `strip ${i}.${j}`); });
+  const sT = (v) => { const r = M.sad[v]; return [0, 1, 2, 3].map((j) => sum(r.map((x) => x[j]))); }, sa = sT(0), sb = sT(1);
+  const wn = (v) => sum(M.web.orders[v]), wcr = (v) => p2((wn(v) / N.web.sessions[v]) * 100);
+  const cr = N.crm, crn = (v) => sum(cr.conv[v]), dur = (m) => (ru ? (m >= 60 ? Math.floor(m / 60) + ' ч' + (m % 60 ? ' ' + (m % 60) + ' мин' : '') : m + ' мин') : lang === 'ar' ? (m >= 60 ? Math.floor(m / 60) + ' س' + (m % 60 ? ' ' + (m % 60) + ' د' : '') : m + ' د') : (m >= 60 ? Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : '') : m + ' min'));
+  const deadU = (v) => sum([0, 1, 2, 3, 4].map((i) => { const d = Math.round(N.stk.onHand[v][i] / ((i < 3 ? N.top[v][i] : N.stk.extra[v][i - 3]) / 90)); return d > N.stk.deadDays ? N.stk.onHand[v][i] : 0; }));
+  const posR = (v) => nt(r1(((N.rev.dist[v][0] + N.rev.dist[v][1]) / dist[v].n) * 100)) + '%';
+  Object.assign(want, {
+    2: [chg(sa[0], sb[0]), chg(sa[0] / sa[3], sb[0] / sb[3]), arrow(p2((sa[2] / sa[1]) * 100), p2((sb[2] / sb[1]) * 100)), chg(sa[3], sb[3])],
+    4: [chg(N.seo.clicks[0], N.seo.clicks[1]), chg(N.seo.impr[0], N.seo.impr[1]), arrow(p2((N.seo.clicks[0] / N.seo.impr[0]) * 100), p2((N.seo.clicks[1] / N.seo.impr[1]) * 100)), arrow(nf(N.seo.pos[0], 1), nf(N.seo.pos[1], 1))],
+    5: [chg(wn(0) * M.web.aov[0], wn(1) * M.web.aov[1]), chg(wn(0), wn(1)), arrow(wcr(0), wcr(1)), chg(M.web.aov[0], M.web.aov[1])],
+    6: [arrow(dur(cr.frt[0]), dur(cr.frt[1])), arrow(nf((cr.resolved[0] / crn(0)) * 100, 0) + '%', nf((cr.resolved[1] / crn(1)) * 100, 0) + '%'), arrow(nf(cr.csat[0], 1), nf(cr.csat[1], 1)), chg(cr.pipe[0][3], cr.pipe[1][3])],
+    7: [arrow(nf(N.dip[1] - N.dip[0] + 1), nf(0)), arrow(nf(deadU(0)), nf(deadU(1))), null],
+    8: [arrow(nt(N.mkt.sos[0][0]) + '%', nt(N.mkt.sos[1][0]) + '%'), arrow(posR(0), posR(1)), arrow(N.mkt.seen[0] + ' / 3', N.mkt.seen[1] + ' / 3')],
+  });
+  for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) d(i).forEach((got, j) => { if (want[i][j] !== null) eq(got, want[i][j], `strip ${i}.${j}`); });
   // USHA's notes carry the same numbers
   const notes = (i) => clean(X.notes(i));
   const has = (i, s, what) => ok(notes(i).includes(clean(s)), `${lang} note ${what}: "${s}" in "${notes(i)}"`);
-  has(0, String(-N.stock[0][0]), 'stock-out days'); has(0, chg(N.top[0][2], N.top[1][2]), 'gift box growth'); has(0, pp(M.rate[0], M.rate[1]), 'return rate / buyout change');
+  has(0, String(N.dip[1] - N.dip[0] + 1), 'stock-out days'); has(0, chg(N.top[0][2], N.top[1][2]), 'gift box growth'); has(0, pp(M.rate[0], M.rate[1]), 'return rate / buyout change');
   const auto = M.ads[0][2], srch = M.ads[1][0];
   has(1, money(auto[0]), 'auto spend'); has(1, ru ? nf((auto[0] / auto[1]) * 100, 1) + '%' : nf(auto[1] / auto[0], 1) + 'x', 'auto ratio');
   has(1, ru ? nf((srch[0] / srch[1]) * 100, 1) + '%' : nf(srch[1] / srch[0], 1) + 'x', 'search ratio');
-  has(2, '×' + nt(r1(N.soc.saves[1] / N.soc.saves[0])), 'saves'); has(2, '×' + nt(r1(N.soc.reach[1] / N.soc.reach[0])), 'reach'); has(2, nf(910), 'followers');
-  has(3, nf(N.rev.dist[0][4]) + ' → ' + nf(N.rev.dist[1][4]), '1★ count'); has(3, '96%', 'reply rate');
-  has(4, '38', 'from'); has(4, '9', 'to');
+  has(3, '×' + nt(r1(N.soc.saves[1] / N.soc.saves[0])), 'saves'); has(3, '×' + nt(r1(N.soc.reach[1] / N.soc.reach[0])), 'reach'); has(3, nf(910), 'followers');
+  has(9, nf(N.rev.dist[0][4]) + ' → ' + nf(N.rev.dist[1][4]), '1★ count'); has(9, '96%', 'reply rate');
+  has(10, '38', 'from'); has(10, '9', 'to');
+  has(2, chg(sa[3], sb[3]), 'purchases'); has(2, chg(sa[0], sb[0]), 'social spend'); has(2, money2(sa[0] / sa[3]).replace(/^AED /, ''), 'CPA before');
+  has(4, nf(N.seo.q[0][0][2], 1) + ' → ' + nf(N.seo.q[1][0][2], 1), 'query position'); has(4, '+' + nf(N.seo.pages[1][2] - N.seo.pages[0][2]), 'guide clicks');
+  has(5, nf(N.web.recovered[0]) + ' → ' + nf(N.web.recovered[1]), 'recovered carts'); has(5, wcr(0) + ' → ' + wcr(1), 'conversion');
+  has(6, dur(cr.frt[1]), 'first reply'); has(6, nf(cr.pipe[0][3]) + ' → ' + nf(cr.pipe[1][3]), 'won');
+  has(7, nf(deadU(0)) + ' → ' + nf(deadU(1)), 'dead stock'); has(8, nt(N.mkt.sos[0][0]) + '% → ' + nt(N.mkt.sos[1][0]) + '%', 'share of search');
   const wk = N.srch.trend[1].findIndex((x) => x <= N.srch.perPage) + 1;
-  ok(pick(X.notes(4))['n.week'].includes(String(wk)), `${lang} page 1 since week ${wk}`);
+  ok(pick(X.notes(10))['n.week'].includes(String(wk)), `${lang} page 1 since week ${wk}`);
 }
 console.log(`${checks} checks, ${fails} failed`);
 process.exit(fails ? 1 : 0);
