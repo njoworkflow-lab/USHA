@@ -128,13 +128,13 @@ function findingChart(i, lang) {
   }
 
   // ---------- pointer: eyes cursor only over the 3D story; glass follows the light ----------
-  const STORY = '#hero,#noise,#signal,#game';
+  const STORY = '#hero,#noise,#signal,#game,#talk';
   if (fine) addEventListener('pointermove', (e) => {
     const t = e.target;
     if (!t || !t.closest) return;
-    // popup windows (plans, the live chat, USHA's story) sit above the eyes cursor: they always get the normal pointer
-    const inStory = !t.closest('.x-modal,.ns') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
-    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button'));
+    // popup windows (plans, the live chat, USHA's story, section 03 pop-ups) sit above the eyes cursor: they always get the normal pointer
+    const inStory = !t.closest('.x-modal,.ns,.t3-modal') && (t.closest(STORY) || t.id === 'gl' || !t.closest('main,header,footer,.ov'));
+    H.classList.toggle('x-native', !inStory || !!t.closest('.fcard,.hero-t a,.hero-t button,.t3-cards a,.t3-cards button'));
     const g = t.closest('.sec .glass');
     if (g) { const r = g.getBoundingClientRect(); g.style.setProperty('--px', e.clientX - r.left + 'px'); g.style.setProperty('--py', e.clientY - r.top + 'px'); }
   }, { passive: true });

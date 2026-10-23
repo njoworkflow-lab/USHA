@@ -494,3 +494,4 @@ html[dir=rtl] .t3-mhead{padding:12px 16px 10px 12px}
 @keyframes t3-pop{0%,8%{opacity:0;transform:scale(.9)}16%,86%{opacity:1;transform:none}96%,100%{opacity:0}}
 @keyframes t3-reveal{0%,10%{transform:translateX(-100%)}60%,85%{transform:none}100%{transform:none}}
 @keyframes t3-sweep{0%,10%{transform:translateX(0);opacity:0}15%{opacity:1}60%{transform:translateX(220px);opacity:1}70%,100%{transform:translateX(220px);opacity:0}}
+.cur-on.x-native .t3-stage,.cur-on.x-native .t3-stage *{cursor:ew-resize!important}
