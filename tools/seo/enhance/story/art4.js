@@ -106,16 +106,18 @@ ${lab}
     const dates = A.lang() !== 'ru';
     const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
     const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
+    // his first ad: a tower of 3,000 orders beside the 1,000 cartons he actually had
+    const L = A.lang(), num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : L === 'ru' ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
     let stack = '';
-    // the viral campaign: a pyramid of pallets
-    const rows = [[0, 4], [1, 3], [2, 2], [3, 1]];
-    const items = [];
-    rows.forEach(([lv, n]) => { for (let i = 0; i < n; i++) items.push([4 + i + lv * 0.5, 1, lv * 0.82]); });
-    items.sort((p, q) => p[2] - q[2] || (p[0] + p[1]) - (q[0] + q[1])).forEach(([x, y, z]) => { stack += pallet(x, y, z); });
+    for (let i = 0; i < 22; i++) stack += box(5.6 + (i % 3) * 0.03, 1 + ((i * 7) % 4) * 0.02, i * 0.16, 1.1, 0.8, 0.12, '#FFFFFF', '#E9E4DA', '#F4F0E8');
+    [[3.2, 1, 0], [3.2, 2.05, 0], [3.25, 1.5, 0.82]].forEach(([x, y, z]) => { stack += pallet(x, y, z); });
+    const ordersAt = iso(6.15, 1.4, 22 * 0.16 + 0.3), cartonsAt = iso(3.7, 1.6, 1.9);
+    stack += `<text x="${ordersAt[0]}" y="${ordersAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${E}" text-anchor="middle">${num(3000)}</text>`;
+    stack += `<text x="${cartonsAt[0]}" y="${cartonsAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${G}" text-anchor="middle">${num(1000)}</text>`;
     let floor = '';
     for (let i = -2; i <= 10; i++) { const a = iso(i, -2, 0), b = iso(i, 9, 0), cc = iso(-2, i, 0), d = iso(9, i, 0); floor += `<path d="M${pt(a)} L${pt(b)} M${pt(cc)} L${pt(d)}"/>`; }
     const door = [iso(-2, 1, 0), iso(-2, 1, 4), iso(-2, 5, 4), iso(-2, 5, 0)];
-    const lbl = iso(5.5, 1, 3.6);
+    const lbl = iso(6.15, 1.4, 22 * 0.16 + 0.9);
     return A.base(`
 <defs><linearGradient id="ns-c-dawn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC690" stop-opacity=".9"/><stop offset="1" stop-color="#FFC690" stop-opacity="0"/></linearGradient></defs>
 <rect width="760" height="690" fill="#D9D2C6" opacity=".5"/>
@@ -127,7 +129,6 @@ ${A.ink(`<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])
 <g fill="none" stroke="${G}" stroke-width="1" opacity=".4">${[1, 2, 3].map((z) => `<path d="M${pt(iso(-2, 1, 3.4 + z * .15))} L${pt(iso(-2, 5, 3.4 + z * .15))}"/>`).join('')}</g>
 <g transform="translate(${iso(-2, 3, 4.6)[0]} ${iso(-2, 3, 4.6)[1]})"><rect x="-30" y="-16" width="60" height="28" rx="4" fill="#2A2420"/><text y="5" font-family="ui-monospace,monospace" font-size="15" fill="#FF8A4C" text-anchor="middle">06:00</text></g>
 ${stack}
-<text x="${lbl[0]}" y="${lbl[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="15" fill="${E}" text-anchor="middle">VIRAL!!</text>
 <!-- the unit of truth, front and centre -->
 ${pallet(1.2, 6.6, 0, 0)}
 <!-- him: hard hat, vest, clipboard -->
