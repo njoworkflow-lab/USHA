@@ -141,7 +141,9 @@ for (const lang of ['en', 'ru', 'ar']) {
     k = pick(X.screen(5, v));
     const n = wOrders(v), aov = M.web.aov[v];
     eq(k.ses, nf(N.web.sessions[v]), 'sessions'); eq(k.cr, p2((n / N.web.sessions[v]) * 100), 'conversion = orders ÷ sessions'); eq(k.aov, money(aov), 'avg order'); eq(k.rev, money(n * aov), 'revenue = orders × avg order');
-    M.web.orders[v].forEach((c, i) => { eq(k['o' + i], nf(c), 'channel orders'); eq(k['v' + i], nf(c * aov), 'channel revenue'); eq(k['s' + i], nf((c / n) * 100, 0) + '%', 'channel share'); });
+    const shv = M.web.orders[v].map((c) => k['s' + M.web.orders[v].indexOf(c)]);
+    M.web.orders[v].forEach((c, i) => { eq(k['o' + i], nf(c), 'channel orders'); eq(k['v' + i], nf(c * aov), 'channel revenue'); const sv = parseFloat(k['s' + i].replace(',', '.')); ok(Math.abs(sv - (c / n) * 100) < 0.1, `${tag} channel share ${i} within rounding (${k['s' + i]})`); });
+    ok(Math.abs(sum([0, 1, 2, 3].map((i) => parseFloat(k['s' + i].replace(',', '.')))) - 100) < 1e-6, `${tag} shown channel shares add up to 100`);
     eq(k.ot, nf(n), 'orders total = channels'); eq(k.vt, nf(n * aov), 'revenue total = channels');
     eq(k.ab, nf(N.web.abandoned[v]), 'abandoned'); eq(k.rec, nf(N.web.recovered[v]), 'recovered'); eq(k.recr, nf((N.web.recovered[v] / N.web.abandoned[v]) * 100, 1) + '%', 'recovery rate'); eq(k.recv, money(N.web.recovered[v] * aov), 'recovered revenue');
     ok(N.web.recovered[v] <= M.web.orders[v][2], `${tag} recovered carts fit inside email orders`);
@@ -155,7 +157,7 @@ for (const lang of ['en', 'ru', 'ar']) {
     // stock
     k = pick(X.screen(7, v));
     const covs = [0, 1, 2, 3, 4].map((i) => cov(v, i));
-    covs.forEach((d, i) => { eq(k['h' + i], nf(N.stk.onHand[v][i]), 'on hand'); eq(k['d' + i], nf(perDay(v, i), 1), 'per day = units ÷ 90'); ok(k['cv' + i].includes(String(d)), `${tag} cover ${i} = on hand ÷ per day (${d})`); });
+    covs.forEach((d, i) => { eq(k['h' + i], nf(N.stk.onHand[v][i]), 'on hand'); eq(k['d' + i], nf(perDay(v, i), 1), 'per day = units ÷ 90'); ok(k['cv' + i].includes(nf(d)), `${tag} cover ${i} = on hand ÷ per day (${d})`); });
     eq(k.below, nf(covs.filter((d) => d < N.stk.reorderDays).length), 'SKUs below reorder point');
     eq(k.dead, nf(sum(covs.map((d, i) => (d > N.stk.deadDays ? N.stk.onHand[v][i] : 0)))), 'dead stock units');
     eq(k.out, nf(v ? 0 : N.dip[1] - N.dip[0] + 1), 'stock-out days = chart dip');

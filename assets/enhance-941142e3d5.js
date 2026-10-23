@@ -2051,6 +2051,8 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
   const money2 = (n) => (ru_() ? fmt(Math.round(n)) + ' ₽' : A('AED ' + fmt(n, 2)));
   const pct2 = (n) => A(fmt(n, 2) + '%');
   const sadTot = (v) => { const r = M_().sad[v]; return { spend: sum(r.map((x) => x[0])), impr: sum(r.map((x) => x[1])), clicks: sum(r.map((x) => x[2])), buy: sum(r.map((x) => x[3])) }; };
+  // shares to one decimal that always add up to 100 (largest remainder)
+  function shares(a) { const t = sum(a), raw = a.map((x) => (x / t) * 1000), out = raw.map(Math.floor); let r = 1000 - sum(out); raw.map((x, i) => [x - Math.floor(x), i]).sort((p, q) => q[0] - p[0]).slice(0, r).forEach(([, i]) => out[i]++); return out.map((x) => x / 10); }
   const kpis = (list, cls = '') => `<div class="sc-kpis ${cls}">${list.map(([a, b, h, sm]) => `<div class="sc-kpi${h ? ' hl ' + h : ''}"><span>${a}</span>${b}${sm || ''}</div>`).join('')}</div>`;
   function sSad(v) {
     const t = tx(), S = t.sad, rows = M_().sad[v], x = sadTot(v);
@@ -2077,11 +2079,12 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
   function sWeb(v) {
     const t = tx(), S = t.web, W2 = M_().web, o = W2.orders[v], n = sum(o), aov = W2.aov[v], ses = N.web.sessions[v], rev = n * aov;
     const kp = [[S.k[0], C('ses', ses, 'int')], [S.k[1], K('cr', pct2((n / ses) * 100), 'b'), v ? 'ok' : 'bad'], [S.k[2], C('aov', aov, 'money')], [S.k[3], C('rev', rev, 'money')]];
-    const rows = o.map((k, i) => `<tr><td><span class="sc-ell">${esc(S.chans[i])}</span></td><td class="num">${K('o' + i, fmt(k))}</td><td class="num">${K('v' + i, fmt(k * aov))}</td><td class="num hide-s"><span class="sc-share"><i style="--w:${(k / n) * 100}%"></i>${K('s' + i, A(fmt((k / n) * 100, 0) + '%'))}</span></td></tr>`).join('');
+    const sh = shares(o);
+    const rows = o.map((k, i) => `<tr><td><span class="sc-ell">${esc(S.chans[i])}</span></td><td class="num">${K('o' + i, fmt(k))}</td><td class="num">${K('v' + i, fmt(k * aov))}</td><td class="num hide-s"><span class="sc-share"><i style="--w:${(k / n) * 100}%"></i>${K('s' + i, A(fmt(sh[i], 1) + '%'))}</span></td></tr>`).join('');
     const ab = N.web.abandoned[v], rc = N.web.recovered[v];
     const cart = [[S.ck[0], K('ab', fmt(ab), 'b')], [S.ck[1], K('rec', fmt(rc), 'b')], [S.ck[2], K('recr', pct((rc / ab) * 100, 1), 'b')], [S.ck[3], K('recv', money(rc * aov), 'b')]];
     return frame('web', S.app, S.brand, esc(t.screens[5][0]), `${kpis(kp)}${NB(v, 'web', 'a')}
-      <div class="sc-row2 web"><div class="sc-col"><table class="sc-t"><thead><tr>${S.cols.map((h, i) => `<th class="${i ? 'num' : ''}${i === 3 ? ' hide-s' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${rows}<tr class="tot"><td>Σ</td><td class="num">${K('ot', fmt(n), 'b')}</td><td class="num">${K('vt', fmt(rev), 'b')}</td><td class="num hide-s">100%</td></tr></tbody></table></div>
+      <div class="sc-row2 web"><div class="sc-col"><table class="sc-t"><thead><tr>${S.cols.map((h, i) => `<th class="${i ? 'num' : ''}${i === 3 ? ' hide-s' : ''}">${h}</th>`).join('')}</tr></thead><tbody>${rows}<tr class="tot"><td>Σ</td><td class="num">${K('ot', fmt(n), 'b')}</td><td class="num">${K('vt', fmt(rev), 'b')}</td><td class="num hide-s">${A(fmt(100, 1) + '%')}</td></tr></tbody></table></div>
       <div class="sc-card sc-cart"><div class="sc-ct"><span>${esc(S.cart)}</span><small>${esc(range())}</small></div><div class="sc-mini">${cart.map(([a, b]) => `<div><small>${esc(a)}</small>${b}</div>`).join('')}</div></div></div>${NB(v, 'web', 'b')}`);
   }
   const dur = (m) => (L === 'ru' ? (m >= 60 ? `${Math.floor(m / 60)} ч${m % 60 ? ' ' + (m % 60) + ' мин' : ''}` : `${m} мин`) : L === 'ar' ? (m >= 60 ? `${Math.floor(m / 60)} س${m % 60 ? ' ' + (m % 60) + ' د' : ''}` : `${m} د`) : m >= 60 ? `${Math.floor(m / 60)} h${m % 60 ? ' ' + (m % 60) + ' min' : ''}` : `${m} min`);
@@ -2109,7 +2112,7 @@ html[lang=ar] .xs-note{font-family:'USHA Ruqaa','USHA Hand',serif}
     const kp = [[S.k[0], K('below', fmt(f.below), 'b'), f.below ? 'bad' : 'ok'], [S.k[1], K('dead', fmt(f.dead), 'b')], [S.k[2], K('out', fmt(f.out), 'b'), f.out ? 'bad' : 'ok']];
     const rows = names.map((nm, i) => {
       const c = f.cov[i], st = c < N.stk.reorderDays ? 1 : c > N.stk.deadDays ? 2 : 0;
-      return `<tr data-k="s${i}"><td><span class="sc-pi">${shot([0, 1, 2, 5, 3][i], [24, 32, 350, 20, 300][i])}</span><span class="sc-ell">${esc(nm)}</span></td><td class="num">${K('h' + i, fmt(N.stk.onHand[v][i]))}</td><td class="num hide-s">${K('d' + i, fmt(perDay(v, i), 1))}</td><td class="num">${K('cv' + i, esc(S.days(c)), 'b', st === 1 ? 'bad' : st === 2 ? 'warn' : '')}</td><td>${K('st' + i, esc(S.st[st]), 'span', 'sc-pill ' + ['ok', 'bad', 'mute'][st])}</td></tr>`;
+      return `<tr data-k="s${i}"><td><span class="sc-pi">${shot([0, 1, 2, 5, 3][i], [24, 32, 350, 20, 300][i])}</span><span class="sc-ell">${esc(nm)}</span></td><td class="num">${K('h' + i, fmt(N.stk.onHand[v][i]))}</td><td class="num hide-s">${K('d' + i, fmt(perDay(v, i), 1))}</td><td class="num">${K('cv' + i, esc(S.days(fmt(c))), 'b', st === 1 ? 'bad' : st === 2 ? 'warn' : '')}</td><td>${K('st' + i, esc(S.st[st]), 'span', 'sc-pill ' + ['ok', 'bad', 'mute'][st])}</td></tr>`;
     }).join('');
     const bar = f.cov.map((c, i) => `<i class="${c < N.stk.reorderDays ? 'bad' : c > N.stk.deadDays ? 'dead' : ''}" style="--w:${Math.min(100, (c / 120) * 100)}%"></i>`).join('');
     const plan = v ? K('plan', esc(S.sug(fmt(f.qty), f.date)), 'p') : K('plan', esc(S.none.replace('{d}', f.cov[0]).replace('{r}', N.stk.reorderDays)), 'p', 'warn');
