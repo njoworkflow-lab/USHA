@@ -10,6 +10,7 @@
   const A = (window.USHA_ART = window.USHA_ART || { by: {} });
   let rtl = false, lang = 'en';
   A.setLang = (l) => { lang = l; rtl = l === 'ar'; };
+  A.lang = () => lang;
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   A.esc = esc;
   A.dir = () => (rtl ? ' direction="rtl"' : '');

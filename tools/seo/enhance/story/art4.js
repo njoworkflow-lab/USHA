@@ -102,7 +102,10 @@ ${lab}
       const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
       return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
     };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, '#E3C9A0', '#B99B7A', '#CDB08A') : '');
+    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
+    const dates = A.lang() !== 'ru';
+    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(.55)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2.4" stroke-linecap="round"/></g>`; };
+    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
     let stack = '';
     // the viral campaign: a pyramid of pallets
     const rows = [[0, 4], [1, 3], [2, 2], [3, 1]];

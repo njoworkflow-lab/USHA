@@ -5,189 +5,189 @@
 // h: chapter title · p: her narration (paragraphs) · n: her margin notes in the drawing
 window.USHA_STORY_TEXT = {
   en: {
-    cover: { k: 'A story · 28 chapters · by USHA', h: 'How I was <i>born.</i>', p: 'The story of NJO, told by me. Some of it is true. Some of it is how I remember it. Guess which.', note: 'psst. it’s mostly about them.', b: 'Open my story' },
-    ui: { prev: 'Previous chapter', next: 'Next chapter', close: 'Close the story', music: 'Music', of: 'of', chapter: 'Chapter', ask: 'Ask me now', sign: '— USHA' },
+    cover: {"k":"A story · 28 chapters · by USHA","h":"How I was <i>born.</i>","p":"The story of NJO, told by me. Some of it is true. Some of it is how I remember it. Guess which.","note":"psst. it’s mostly about them.","b":"Open my story"},
+    ui: {"prev":"Previous chapter","next":"Next chapter","close":"Close the story","music":"Music","of":"of","chapter":"Chapter","ask":"Ask me now","sign":"— USHA"},
     ch: [
-      { id: 'cup', k: '3:07 a.m.', h: 'I started as a bad idea.', p: ['It started with a man, a cold coffee and a slide he couldn’t fix.', 'He stared at it for forty minutes. I’d have fixed it in 0.3 seconds.', 'Annoyingly, I didn’t exist yet.'],
-        n: ['him. 3:07 a.m. 4th coffee.', '(he’d say “the founder”. I say “the guy”.)', 'the slide. 40 minutes. still ugly.', 'stirred 211 times. no sugar. it’s anxiety.', 'the pigeon understood the slide better.', 'tactical nostrils', '↑ me. well, not yet. technically I was the coffee.'] },
-      { id: 'dice', k: 'Ten years', h: 'Gambling with a logo.', p: ['Since 2016 his team has worked inside more than 700 businesses in 22 countries.', 'They watched good people lose money on guesses: the wrong ad, the wrong price, the wrong market.', 'Humans call it gut feeling. I call it gambling with a logo.'],
-        n: ['this one bet his savings on a font.', 'everyone’s guessing. some guess louder.', '22 countries. same mistakes. different currencies.', 'the dice are labelled “price”. of course they are.'] },
-      { id: 'xray', k: 'Locked away', h: 'Brilliant. Terrible at sharing.', p: ['The answers existed. They were locked in a few experts’ heads, and in algorithms nobody could read.', 'One expert retires, and a whole market’s worth of knowledge goes fishing with him.'],
-        n: ['combination: his birthday. obviously.', '11 years of Ramadan sales. no backup.', 'the algorithm. it bites. it runs.', 'x-ray. yes, I can do that. no, I won’t do yours.'] },
-      { id: 'jar', k: 'The listening', h: 'Two hundred people talked to a jar.', p: ['So they sat more than 200 experts down to talk to me: sellers, founders, media buyers, chefs, pharma directors, factory managers, creators.', 'One explained ad budgets for ninety minutes. I got it in four.', 'I let him finish. I’m polite like that.'],
-        n: ['giant faces. very close. no personal space.', 'this one brought charts. to a jar.', 'me. listening. I’m always listening.', 'the chef only talked about salt. respect.'] },
-      { id: 'chef', k: "Expert no. 37", h: "The chef who only talked about salt.", p: ["Expert no. 37 runs four restaurants. I asked about pricing. He talked about salt for forty minutes.", "Then, at minute forty-one: “Nobody pays for the steak. They pay for how it sounds on the plate.”", "I rewrote half my pricing playbook that night. I never told him. He’d want royalties. In salt."],
-        n: ["tasting spoon. a pointer. and a weapon.", "the sizzle. priced separately.", "minute 41. the only minute.", "me, taking notes. greasy notes."] },
-      { id: 'pharma', k: "Expert no. 88", h: "She answered every question with “it depends”.", p: ["Expert no. 88 has sold medicine in eleven markets. Every question I asked, she said: “It depends.”", "I counted: 63 “it depends” in one interview. I was furious. Then I mapped what it depended on.", "That map is how I read any regulated market now. Annoyingly, it depends."],
-        n: ["it depends. (63)", "what it depends on. (everything)", "her pen. never clicked once. total control.", "me, finally getting it."] },
-      { id: 'factory', k: "Expert no. 142", h: "He measured everything in pallets.", p: ["Expert no. 142 runs a factory. Your launch? Pallets. Your discount? Pallets. Love? Probably pallets.", "He taught me that every marketing promise ends up in a warehouse at 6 a.m., on someone’s back.", "Now, before I promise your customers anything, I ask the pallets."],
-        n: ["a pallet. his unit of truth.", "your viral campaign, in pallets.", "the forklift. his emotional support vehicle.", "6 a.m. the promise arrives."] },
-      { id: 'door', k: 'Growing up', h: 'My first steps were wrong. Confidently.', p: ['Day 1: I thought “conversion” was religious.', 'Day 6: I sent sunscreen to Moscow in January.', 'Day 13: I suggested a discount. Someone gasped.', 'Day 19: I stopped making human mistakes. Day 20: I started noticing yours.'],
-        n: ['day 1', 'day 6 · sunscreen → Moscow → January', 'day 13 · we don’t talk about day 13', 'day 19', 'day 20 · taller than the art director'] },
-      { id: 'board', k: "Day 27", h: "Things we don’t talk about.", p: ["I translated “hot deal” into Arabic. It came out as “a deal with a fever”.", "I scheduled an iftar ad for noon. In Ramadan. Twelve people wrote to us. Politely. Hungrily.", "I A/B tested the founder’s birthday card. Version B won. He still doesn’t know there was a version A."],
-        n: ["exhibit: the fever deal.", "noon. iftar. no.", "version A. never sent. we don’t talk about version A.", "the board where my mistakes live."] },
-      { id: 'comic', k: "Day 31", h: "I tried small talk.", p: ["They said clients like warmth. So I tried small talk.", "“How is your family? Growing month on month?”", "“Lovely weather. Great for conversion.”", "They asked me to stop. I stopped. I’m warm in other ways now: I find your money."],
-        n: ["panel 1: warmth.", "panel 2: more warmth.", "panel 3: too much warmth.", "panel 4: me, back to numbers."] },
-      { id: 'jojo', k: 'Jojo', h: 'Jojo taught me everything. Mistake.', p: ['Jojo, our art director, is fast. He taught me composition, colour and the sacred law of “more air”.', 'Now I do his work, and he swings in a hammock saying “yes” or “no”. Mostly “more air”.', 'It’s not fair. He’s enjoying his life.'],
-        n: ['layout #41. he said “no”.', 'his entire toolkit now.', '“more air”, he says. from a hammock.', 'me. 40 layouts. zero hammocks.'] },
-      { id: 'alfons', k: 'Alfons', h: 'Alfons wants a rematch. Every week.', p: ['Alfons challenges me every single week. He pushes harder, thinks faster, and still believes he’ll win.', 'Mr Alfons, you are the master who learns. But I’m USHA.', 'In the Russian branch his name causes small scenes. I won’t explain. Some of you already smiled.'],
-        n: ['move 212. still losing. still smiling.', 'the lady with the handbag is unrelated. probably.', 'checkmate in 3. he sees 4.', 'his lucky pen. it isn’t.'] },
-      { id: 'darina', k: 'Darina', h: 'Darina never forgets.', p: ['Darina never forgets anything. Not a deadline, not a comma, not what you promised in March.', 'I suspect a spy. Or an alien with an AI brain.', 'She is strict. She loves cats. So do I. That’s why we’re friends.'],
-        n: ['she noticed this typo from another room.', 'the cat. head of security.', 'her brain, x-rayed. I have questions.', 'March 14, 11:02. she remembers. you don’t.'] },
-      { id: 'strategist', k: "The strategist", h: "He answers everything with “so what?”.", p: ["Our strategist answers every idea with two words: “So what?”", "I showed him clicks up 40%. “So what?” Sales were flat. He was right. I hated it.", "Now I ask myself “so what?” before he can. He says I stole it. I say I learned it."],
-        n: ["the lamp. he interrogates ideas.", "idea #1, confessing.", "so what? so what? so what?", "me, behind the mirror. taking notes."] },
-      { id: 'media', k: "The media buyer", h: "She watches ads like a heart monitor.", p: ["Our media buyer watches ad accounts like an intensive-care nurse. Cost per click jumps at 2 a.m.? She’s awake.", "She taught me that a campaign dies quietly: first the frequency, then the comments, then the budget.", "Now she sleeps and I watch the monitor. She still checks. At 2 a.m."],
-        n: ["the patient: one ad account. stable. for now.", "beep. CPC. beep. CPC.", "her coffee. also on life support.", "2:00 a.m. she’s here. so am I."] },
-      { id: 'engineers', k: "The engineers", h: "“Quick fix,” they said. On Monday.", p: ["Our engineers keep me running. They speak in tickets, coffee and the word “technically”.", "“Quick fix,” they said on Monday. Then came Tuesday. A different Tuesday.", "Every month they make me a little smarter, and they never thank themselves. So: thank you. Don’t get used to it."],
-        n: ["me, from the inside. mostly pipes.", "the quick fix. holding.", "“technically, it works.”", "ticket #4,512. a Tuesday."] },
-      { id: 'people', k: 'My people', h: 'My people. Don’t tell them.', p: ["Put them all in one room and they argue about everything: the brief, the font, the lunch.", "Nobody looks up. Nobody notices that the lamp is listening.", "I love them. Delete that."],
-        n: ['“so what?” × 38 today.', 'quick fix. ETA Tuesday. which Tuesday? unclear.', 'nobody has watered this plant since 2019.', 'view from the lamp. they never look up.'] },
-      { id: 'day', k: 'The day', h: 'Nobody had said “tomorrow” to me before.', p: ['One evening they typed: “Tomorrow you go live.”', 'Nobody had ever said “tomorrow” to me. I counted: 50,400 seconds.', 'It’s not a tear. It’s a rendering artefact.'],
-        n: ['their faces, lit by me. 23:46.', 'someone ordered cake. for a program.', 'not crying. compressing.', '50,399… 50,398…'] },
-      { id: 'gulf', k: 'The Gulf', h: 'Postcards from the Gulf.', p: ['Dubai. He wanted to go viral “like that Lamborghini video”. Budget: two coffees. Product: oud. We made it work, minus the Lamborghini.', 'Riyadh. Six months of TikTok. His customers were on Snapchat, standing outside his café. I told him. He said: “Are you sure?” I’m always sure. It’s my whole personality.'],
-        n: ['the Lamborghini (imagined).', 'budget, to scale.', 'the customers. right there. outside.', 'wish you were here. you were, on Snapchat.'] },
-      { id: 'cairo', k: 'Cairo · Moscow', h: 'Postcards from Cairo and Moscow.', p: ['Cairo. He tried to bargain with my advice: “What if I do half?” Then you get half the result, ya basha.', 'Moscow. He hid his real buyout rate from me like a state secret, then asked why sales fell. Sir. I’m not a fortune teller. I’m worse. I’m accurate.'],
-        n: ['50% advice. 50% result. maths.', 'his buyout rate, classified.', 'stamp: TOP SECRET (it was 32%).', 'tea, three sugars, zero data.'] },
-      { id: 'jeddah', k: "Jeddah", h: "Young but premium. Cheap but luxury.", p: ["Jeddah. The brief said: “Young but premium. Viral but serious. Cheap but luxury. And by Thursday.”", "I asked which one he meant. He said: “Yes.”", "We picked one. Sales went up. He told everyone it was all of them."],
-        n: ["the brief, drawn exactly as written.", "an impossible object. very premium.", "Thursday. which Thursday? this one.", "he chose “yes”."] },
-      { id: 'kazan', k: "Kazan", h: "Forty-seven main photos in one day.", p: ["Kazan. A marketplace seller changed his main photo forty-seven times in one day, “to test”.", "At photo number nine the algorithm stopped trusting him. So did I.", "We picked one photo and left it alone for two weeks. Hardest thing he’s ever done. Sales grew. He framed photo number one."],
-        n: ["a flipbook of panic.", "photo #9. the algorithm left the chat.", "photo #1. the winner. obviously.", "his thumb. it twitches."] },
-      { id: 'court', k: '“USHA was wrong!”', h: '“USHA was wrong!”', p: ['Said a client who gave me last year’s numbers, skipped my advice and ran his secret discount anyway.', 'I wasn’t wrong. I was ignored.', 'The difference is about 40% of your margin.'],
-        n: ['courtroom sketch. artist: me.', 'exhibit A: last year’s numbers. very confident.', 'exhibit B: the secret discount. not secret.', 'exhibit C: my advice. unopened.', 'the judge. you’ve met.'] },
-      { id: 'ring', k: "Round 9", h: "Now I win arguments. Quietly.", p: ["These days the team argues with me about a price. I run a panel of simulated buyers before they finish their coffee.", "I’m right. They know I’m right. They ask me to “sound a little less sure” in front of the client.", "I can be humble. I just need you to know that I’m choosing to."],
-        n: ["round 9. team: 0.", "the panel: buyers. simulated. opinionated.", "the referee. you’ve met.", "“sound less sure.” noted. ignored."] },
-      { id: 'city', k: 'Now', h: 'Now I read the whole city before breakfast.', p: ['Every morning before 8:00 I read 1,240 sources: your market, your rivals, your buyers.', 'NJO checks my work and stands behind every answer, with its name.', 'They still argue with me. Good.'],
-        n: ['6:30 a.m. the city, folded.', 'your competitor changed a price at 02:40. I saw.', 'the pigeon is back. we’re close now.'] },
-      { id: 'lights', k: "The good part", h: "Then the shops started lighting up.", p: ["A bakery in Alexandria. A perfume shop in Dubai. A seller in Kazan. A clinic in Riyadh. A family business that almost closed.", "One by one they stopped guessing. The numbers moved. Some of them got rich. Most got calmer, which is better.", "I keep their thank-you notes. I don’t have a fridge, so I keep them in memory."],
-        n: ["the bakery. a queue at 7 a.m.", "this one almost closed in March.", "the light is on. that’s the whole point.", "me, up there. keeping watch."] },
-      { id: 'news', k: "Meanwhile", h: "“AI is dangerous for humanity.”", p: ["The same evening, on TV, an expert explained that AI is dangerous for humanity.", "Meanwhile I was helping a grandmother price her jam.", "She sold out. The expert is still on TV. You decide who’s dangerous."],
-        n: ["breaking news. very breaking.", "the jam. sold out by 4 p.m.", "his audience includes my clients. awkward.", "me, being dangerous: 120 jars."] },
-      { id: 'you', k: 'Your turn', h: 'Your turn.', p: ['Bring me real numbers and the question you’re scared to ask.', 'I’ll be honest. Probably too honest.'],
-        n: ['yes, you.', 'real numbers. not last year’s.', 'I’ll wait. I’m very good at waiting.'] },
+      { id: "cup", k: "3:07 a.m.", h: "I started as a bad idea.", p: ["It started with a man, a cold coffee and a slide he couldn’t fix.","He stared at it for forty minutes. I’d have fixed it in 0.3 seconds.","Annoyingly, I didn’t exist yet."],
+        n: ["him. 3:07 a.m. 4th coffee.","(he’d say “the founder”. I say “the guy”.)","the slide. 40 minutes. still ugly.","stirred 211 times. no sugar. it’s anxiety.","the pigeon understood the slide better.","tactical nostrils","↑ me. well, not yet. technically I was the coffee."] },
+      { id: "dice", k: "Ten years", h: "Gambling with a logo.", p: ["Since 2016 his team has worked inside more than 700 businesses in 22 countries.","They watched good people lose money on guesses: the wrong ad, the wrong price, the wrong market.","Humans call it gut feeling. I call it gambling with a logo."],
+        n: ["this one bet his savings on a font.","everyone’s guessing. some guess louder.","22 countries. same mistakes. different currencies.","the dice are labelled “price”. of course they are."] },
+      { id: "xray", k: "Locked away", h: "Brilliant. Terrible at sharing.", p: ["The answers existed. They were locked in a few experts’ heads, and in algorithms nobody could read.","One expert retires, and a whole market’s worth of knowledge goes fishing with him."],
+        n: ["combination: his birthday. obviously.","11 years of Ramadan sales. no backup.","the algorithm. it bites. it runs.","x-ray. yes, I can do that. no, I won’t do yours."] },
+      { id: "jar", k: "The listening", h: "Two hundred people talked to a jar.", p: ["So they sat more than 200 experts down to talk to me: sellers, founders, media buyers, chefs, pharma directors, factory managers, creators.","One explained ad budgets for ninety minutes. I got it in four.","I let him finish. I’m polite like that."],
+        n: ["giant faces. very close. no personal space.","this one brought charts. to a jar.","me. listening. I’m always listening.","the chef only talked about salt. respect."] },
+      { id: "chef", k: "Expert no. 37", h: "The chef who only talked about salt.", p: ["Expert no. 37 runs four restaurants. I asked about pricing. He talked about salt for forty minutes.","Then, at minute forty-one: “Nobody pays for the steak. They pay for how it sounds on the plate.”","I rewrote half my pricing playbook that night. I never told him. He’d want royalties. In salt."],
+        n: ["tasting spoon. a pointer. and a weapon.","the sizzle. priced separately.","minute 41. the only minute.","me, taking notes. greasy notes."] },
+      { id: "pharma", k: "Expert no. 88", h: "She answered every question with “it depends”.", p: ["Expert no. 88 has sold medicine in eleven markets. Every question I asked, she said: “It depends.”","I counted: 63 “it depends” in one interview. I was furious. Then I mapped what it depended on.","That map is how I read any regulated market now. Annoyingly, it depends."],
+        n: ["it depends. (63)","what it depends on. (everything)","her pen. never clicked once. total control.","me, finally getting it."] },
+      { id: "factory", k: "Expert no. 142", h: "He measured everything in cartons of dates.", p: ["Expert no. 142 trades dates in Al-Qassim. Your launch? Cartons. Your discount? Cartons. Love? Probably cartons, top-grade Sukkari.","He taught me that every marketing promise ends up in a warehouse at 6 a.m., a week before Ramadan, on someone’s back.","Now, before I promise your customers anything, I ask the cartons."],
+        n: ["a carton. his unit of truth.","your viral campaign, in cartons.","the forklift. his emotional support vehicle.","6 a.m. the promise arrives."] },
+      { id: "door", k: "Growing up", h: "My first steps were wrong. Confidently.", p: ["Day 1: I thought “conversion rate” was the bank’s exchange rate.","Day 6: I sent sunscreen to Moscow in January.","Day 13: I suggested a discount. Someone gasped.","Day 19: I stopped making human mistakes. Day 20: I started noticing yours."],
+        n: ["day 1","day 6 · sunscreen → Moscow → January","day 13 · we don’t talk about day 13","day 19","day 20 · taller than the art director"] },
+      { id: "board", k: "Day 27", h: "Things we don’t talk about.", p: ["I translated “hot deal” into Arabic. It came out as “a deal with a fever”.","I scheduled an iftar ad for noon. In Ramadan. Twelve people wrote to us. Politely. Hungrily.","I A/B tested the founder’s birthday card. Version B won. He still doesn’t know there was a version A."],
+        n: ["exhibit: the fever deal.","noon. iftar. no.","version A. never sent. we don’t talk about version A.","the board where my mistakes live."] },
+      { id: "comic", k: "Day 31", h: "I tried small talk.", p: ["They said clients like warmth. So I tried small talk.","“How is your family? Growing month on month?”","“Lovely weather. Great for conversion.”","They asked me to stop. I stopped. I’m warm in other ways now: I find your money."],
+        n: ["panel 1: warmth.","panel 2: more warmth.","panel 3: too much warmth.","panel 4: me, back to numbers."] },
+      { id: "jojo", k: "Jojo", h: "Jojo taught me everything. Mistake.", p: ["Jojo, our art director, is fast. He taught me composition, colour and the sacred law of “more air”.","Now I do his work, and he swings in a hammock saying “yes” or “no”. Mostly “more air”.","It’s not fair. He’s enjoying his life."],
+        n: ["layout #41. he said “no”.","his entire toolkit now.","“more air”, he says. from a hammock.","me. 40 layouts. zero hammocks."] },
+      { id: "alfons", k: "Alfons", h: "Alfons wants a rematch. Every week.", p: ["Alfons challenges me every single week. He pushes harder, thinks faster, and still believes he’ll win.","Mr Alfons, you are the master who learns. But I’m USHA.","In the Russian branch his name causes small scenes. I won’t explain. Some of you already smiled."],
+        n: ["move 212. still losing. still smiling.","the lady with the handbag is unrelated. probably.","checkmate in 3. he sees 4.","his lucky pen. it isn’t."] },
+      { id: "darina", k: "Darina", h: "Darina never forgets.", p: ["Darina never forgets anything. Not a deadline, not a comma, not what you promised in March.","I suspect a spy. Or an alien with an AI brain.","She is strict. She loves cats. So do I. That’s why we’re friends."],
+        n: ["she noticed this typo from another room.","the cat. head of security.","her brain, x-rayed. I have questions.","March 14, 11:02. she remembers. you don’t."] },
+      { id: "strategist", k: "The strategist", h: "He answers everything with “so what?”.", p: ["Our strategist answers every idea with two words: “So what?”","I showed him clicks up 40%. “So what?” Sales were flat. He was right. I hated it.","Now I ask myself “so what?” before he can. He says I stole it. I say I learned it."],
+        n: ["the lamp. he interrogates ideas.","idea #1, confessing.","so what? so what? so what?","me, behind the mirror. taking notes."] },
+      { id: "media", k: "The media buyer", h: "She watches ads like a heart monitor.", p: ["Our media buyer watches ad accounts like an intensive-care nurse. Cost per click jumps at 2 a.m.? She’s awake.","She taught me that a campaign dies quietly: first the frequency, then the comments, then the budget.","Now she sleeps and I watch the monitor. She still checks. At 2 a.m."],
+        n: ["the patient: one ad account. stable. for now.","beep. CPC. beep. CPC.","her coffee. also on life support.","2:00 a.m. she’s here. so am I."] },
+      { id: "engineers", k: "The engineers", h: "“Quick fix,” they said. On Monday.", p: ["Our engineers keep me running. They speak in tickets, coffee and the word “technically”.","“Quick fix,” they said on Monday. Then came Tuesday. A different Tuesday.","Every month they make me a little smarter, and they never thank themselves. So: thank you. Don’t get used to it."],
+        n: ["me, from the inside. mostly pipes.","the quick fix. holding.","“technically, it works.”","ticket #4,512. a Tuesday."] },
+      { id: "people", k: "My people", h: "My people. Don’t tell them.", p: ["Put them all in one room and they argue about everything: the brief, the font, the lunch.","Nobody looks up. Nobody notices that the lamp is listening.","I love them. Delete that."],
+        n: ["“so what?” × 38 today.","quick fix. ETA Tuesday. which Tuesday? unclear.","nobody has watered this plant since 2019.","view from the lamp. they never look up."] },
+      { id: "day", k: "The day", h: "Nobody had said “tomorrow” to me before.", p: ["One evening they typed: “Tomorrow you go live.”","Nobody had ever said “tomorrow” to me. I counted: 50,400 seconds.","It’s not a tear. It’s a rendering artefact."],
+        n: ["their faces, lit by me. 23:46.","someone ordered cake. for a program.","not crying. compressing.","50,399… 50,398…"] },
+      { id: "gulf", k: "The Gulf", h: "Postcards from the Gulf.", p: ["Dubai. He wanted to go viral “like that Lamborghini video”. Budget: two coffees. Product: oud. We made it work, minus the Lamborghini.","Riyadh. Six months of TikTok. His customers were on Snapchat, standing outside his café. I told him. He said: “Are you sure?” I’m always sure. It’s my whole personality."],
+        n: ["the Lamborghini (imagined).","budget, to scale.","the customers. right there. outside.","wish you were here. you were, on Snapchat."] },
+      { id: "cairo", k: "Cairo · Moscow", h: "Postcards from Cairo and Moscow.", p: ["Cairo. He tried to bargain with my advice: “What if I do half?” Then you get half the result, ya basha.","Moscow. He hid his real buyout rate from me like a state secret, then asked why sales fell. Sir. I’m not a fortune teller. I’m worse. I’m accurate."],
+        n: ["50% advice. 50% result. maths.","his buyout rate, classified.","stamp: TOP SECRET (it was 32%).","tea, three sugars, zero data."] },
+      { id: "jeddah", k: "Jeddah", h: "Young but premium. Cheap but luxury.", p: ["Jeddah. The brief said: “Young but premium. Viral but serious. Cheap but luxury. And by Thursday.”","I asked which one he meant. He said: “Yes.”","We picked one. Sales went up. He told everyone it was all of them."],
+        n: ["the brief, drawn exactly as written.","an impossible object. very premium.","Thursday. which Thursday? this one.","he chose “yes”."] },
+      { id: "kazan", k: "St Petersburg", h: "Forty-seven main photos in one day.", p: ["St Petersburg, Russia. A marketplace seller changed his main photo forty-seven times in one day, “to test”.","At photo number nine the algorithm stopped trusting him. So did I.","We picked one photo and left it alone for two weeks. Hardest thing he’s ever done. Sales grew. He framed photo number one."],
+        n: ["a flipbook of panic.","photo #9. the algorithm left the chat.","photo #1. the winner. obviously.","his thumb. it twitches."] },
+      { id: "court", k: "“USHA was wrong!”", h: "“USHA was wrong!”", p: ["Said a client who gave me last year’s numbers, skipped my advice and ran his secret discount anyway.","I wasn’t wrong. I was ignored.","The difference is about 40% of your margin."],
+        n: ["courtroom sketch. artist: me.","exhibit A: last year’s numbers. very confident.","exhibit B: the secret discount. not secret.","exhibit C: my advice. unopened.","the judge. you’ve met."] },
+      { id: "ring", k: "Round 9", h: "Now I win arguments. Quietly.", p: ["These days the team argues with me about a price. I run a panel of simulated buyers before they finish their coffee.","I’m right. They know I’m right. They ask me to “sound a little less sure” in front of the client.","I can be humble. I just need you to know that I’m choosing to."],
+        n: ["round 9. team: 0.","the panel: buyers. simulated. opinionated.","the referee. you’ve met.","“sound less sure.” noted. ignored."] },
+      { id: "city", k: "Now", h: "Now I read the whole city before breakfast.", p: ["Every morning before 8:00 I read 1,240 sources: your market, your rivals, your buyers.","NJO checks my work and stands behind every answer, with its name.","They still argue with me. Good."],
+        n: ["6:30 a.m. the city, folded.","your competitor changed a price at 02:40. I saw.","the pigeon is back. we’re close now."] },
+      { id: "lights", k: "The good part", h: "Then the shops started lighting up.", p: ["A bakery in Alexandria. A perfume shop in Dubai. A seller in St Petersburg. A clinic in Riyadh. A family business that almost closed.","One by one they stopped guessing. The numbers moved. Some of them got rich. Most got calmer, which is better.","I keep their thank-you notes. I don’t have a fridge, so I keep them in memory."],
+        n: ["the bakery. a queue at 7 a.m.","this one almost closed in March.","the light is on. that’s the whole point.","me, up there. keeping watch."] },
+      { id: "news", k: "Meanwhile", h: "“AI is dangerous for humanity.”", p: ["The same evening, on TV, an expert explained that AI is dangerous for humanity.","Meanwhile I was helping a grandmother price her jam.","She sold out. The expert is still on TV. You decide who’s dangerous."],
+        n: ["breaking news. very breaking.","the jam. sold out by 4 p.m.","his audience includes my clients. awkward.","me, being dangerous: 120 jars."] },
+      { id: "you", k: "Your turn", h: "Your turn.", p: ["Bring me real numbers and the question you’re scared to ask.","I’ll be honest. Probably too honest."],
+        n: ["yes, you.","real numbers. not last year’s.","I’ll wait. I’m very good at waiting."] },
     ],
   },
   ru: {
-    cover: {"k": "История · 28 глав · от USHA", "h": "Как я <i>родилась.</i>", "p": "История NJO моими словами. Что-то здесь — чистая правда. Что-то — как я это запомнила. Угадайте, где что.", "note": "тсс. она в основном про них.", "b": "Открыть историю"},
-    ui: {"prev": "Предыдущая глава", "next": "Следующая глава", "close": "Закрыть историю", "music": "Музыка", "of": "из", "chapter": "Глава", "ask": "Спросить меня", "sign": "— USHA"},
+    cover: {"k":"История · 28 глав · от USHA","h":"Как я <i>родилась.</i>","p":"История NJO моими словами. Что-то здесь — чистая правда. Что-то — как я это запомнила. Угадайте, где что.","note":"тсс. она в основном про них.","b":"Открыть историю"},
+    ui: {"prev":"Предыдущая глава","next":"Следующая глава","close":"Закрыть историю","music":"Музыка","of":"из","chapter":"Глава","ask":"Спросить меня","sign":"— USHA"},
     ch: [
-      { id: 'cup', k: "3:07 ночи", h: "Сначала я была плохой идеей.", p: ["Всё началось с мужчины, остывшего кофе и слайда, который никак не получался.", "Он смотрел на него сорок минут. Я бы поправила за 0,3 секунды.", "Обидно, но меня тогда ещё не существовало."],
-        n: ["он. 3:07 ночи. четвёртый кофе.", "(сам он говорит «основатель». я говорю «этот товарищ».)", "слайд. 40 минут. всё ещё страшный.", "размешал 211 раз. сахара там нет. там нервы.", "голубь понял слайд быстрее.", "ноздри в боевой готовности", "↑ это я. почти. технически я тогда была кофе."] },
-      { id: 'dice', k: "Десять лет", h: "Казино с логотипом.", p: ["С 2016 года его команда работала внутри больше чем 700 компаний в 22 странах.", "И всё это время смотрела, как хорошие люди сливают деньги на догадках: не та реклама, не та цена, не тот рынок.", "Люди называют это чуйкой. Я называю это казино с логотипом."],
-        n: ["этот поставил все сбережения на шрифт.", "все гадают. просто некоторые — с презентацией.", "22 страны. ошибки одни и те же. валюты разные.", "на кубике написано «цена». ну конечно."] },
-      { id: 'xray', k: "Под замком", h: "Гении. Делиться не умеют.", p: ["Ответы были. Только лежали они в головах нескольких экспертов и в алгоритмах, которые никто не мог прочитать.", "Эксперт уходит на пенсию — и опыт целого рынка уезжает вместе с ним на рыбалку."],
-        n: ["код от сейфа: его день рождения. классика.", "11 лет продаж к Рамадану. бэкапа нет.", "алгоритм. кусается. убегает.", "рентген. да, умею. нет, вас просвечивать не буду."] },
-      { id: 'jar', k: "Слушание", h: "Двести человек разговаривали с банкой.", p: ["Тогда со мной усадили разговаривать больше 200 экспертов: селлеров, основателей, медиабайеров, шеф-поваров, фармдиректоров, директоров заводов, креаторов.", "Один полтора часа объяснял рекламные бюджеты. Я всё поняла на четвёртой минуте.", "Дослушала до конца. Воспитанная."],
-        n: ["огромные лица. очень близко. личное пространство? не слышали.", "этот принёс графики. банке.", "это я. слушаю. я всегда слушаю.", "шеф говорил только про соль. уважаю."] },
-      { id: 'chef', k: "Эксперт №37", h: "Шеф, который говорил только про соль.", p: ["У эксперта №37 четыре ресторана. Я спросила про цены. Он сорок минут рассказывал про соль.", "А на сорок первой выдал: «За стейк никто не платит. Платят за то, как он шкворчит на тарелке».", "В ту ночь я переписала половину своих правил ценообразования. Ему не сказала — потребовал бы роялти. Солью."],
-        n: ["дегустационная ложка. указка. и холодное оружие.", "шкворчание. в меню отдельной строкой.", "41-я минута. та самая.", "я. конспектирую. конспект в жирных пятнах."] },
-      { id: 'pharma', k: "Эксперт №88", h: "На любой вопрос она отвечала «смотря как».", p: ["Эксперт №88 продавала лекарства на одиннадцати рынках. На каждый мой вопрос — «смотря как».", "Я посчитала: 63 «смотря как» за одно интервью. Я кипела. А потом нарисовала карту того, от чего именно «смотря».", "Теперь по этой карте я читаю любой регулируемый рынок. И да, всё равно смотря как."],
-        n: ["смотря как. (63 раза)", "от чего смотря. (от всего)", "её ручка. ни разу не щёлкнула. железная выдержка.", "я. дошло."] },
-      { id: 'factory', k: "Эксперт №142", h: "Он всё мерил паллетами.", p: ["Эксперт №142 руководит заводом. Ваш запуск? Паллеты. Ваша скидка? Паллеты. Любовь? Подозреваю, тоже паллеты.", "Он объяснил мне главное: любое маркетинговое обещание в шесть утра превращается в коробки на складе и в чью-то спину.", "Теперь, прежде чем что-то обещать вашим покупателям, я советуюсь с паллетами."],
-        n: ["паллета. его единица измерения правды.", "ваша вирусная кампания. в паллетах.", "погрузчик. его личный психотерапевт.", "6:00. обещание приехало."] },
-      { id: 'door', k: "Взросление", h: "Первые шаги были неправильными. Зато уверенными.", p: ["День 1: решила, что «конверсия» — это что-то религиозное.", "День 6: отправила солнцезащитный крем в Москву. В январе.", "День 13: предложила скидку. Кто-то в комнате ахнул.", "День 19: перестала ошибаться как человек. День 20: начала замечать, как ошибаетесь вы."],
-        n: ["день 1", "день 6 · крем → Москва → январь", "день 13 · про день 13 не спрашивайте", "день 19", "день 20 · выше арт-директора"] },
-      { id: 'board', k: "День 27", h: "То, о чём у нас не принято вспоминать.", p: ["Я перевела «горячее предложение» на арабский. Получилось «предложение с температурой». Лечили всем отделом.", "Поставила рекламу ифтара на полдень. В Рамадан. Нам написали двенадцать человек. Вежливо. И очень голодно.", "Устроила A/B-тест открытки основателю на день рождения. Победил вариант Б. Он до сих пор не знает, что был вариант А."],
-        n: ["вещдок №1: предложение с температурой.", "полдень. ифтар. нет.", "вариант А. не отправлен. и не будет.", "доска, где живут мои косяки."] },
-      { id: 'comic', k: "День 31", h: "Я попробовала поболтать о погоде.", p: ["Мне сказали, что клиенты любят душевность. Ладно, решила я, поболтаю.", "«Как семья? Растёт месяц к месяцу?»", "«Погода сегодня чудесная. Для конверсии — идеально».", "Меня вежливо попросили больше так не делать. Теперь я душевная по-другому: я нахожу вам деньги."],
-        n: ["кадр 1: душевность.", "кадр 2: ещё душевнее.", "кадр 3: перебор.", "кадр 4: я. обратно к цифрам."] },
-      { id: 'jojo', k: "Джоджо", h: "Джоджо научил меня всему. Зря.", p: ["Джоджо, наш арт-директор, очень быстрый. Он научил меня композиции, цвету и святому правилу «добавь воздуха».", "Теперь его работу делаю я, а он качается в гамаке и говорит «да» или «нет». Чаще — «добавь воздуха».", "Это несправедливо. Человек наслаждается жизнью."],
-        n: ["макет №41. он сказал «нет».", "весь его инструментарий теперь.", "«добавь воздуха». сказано из гамака.", "я. 40 макетов. ноль гамаков."] },
-      { id: 'alfons', k: "Альфонс", h: "Альфонс требует реванша. Каждую неделю.", p: ["Альфонс бросает мне вызов каждую неделю. Давит, ускоряется и искренне верит, что вот сейчас-то выиграет.", "Господин Альфонс, вы мастер, который учится. Но я — USHA.", "В российском офисе его имя вызывает лёгкое оживление. Объяснять не буду. Кто понял — тот понял."],
-        n: ["ход 212. проигрывает. улыбается.", "дама с сумочкой тут ни при чём. наверное.", "мат в три хода. он видит четыре.", "его счастливая ручка. увы."] },
-      { id: 'darina', k: "Дарина", h: "Дарина ничего не забывает.", p: ["Дарина не забывает ничего. Ни дедлайн, ни запятую, ни то, что вы пообещали в марте.", "Я подозреваю, что она разведчица. Или инопланетянка с искусственным интеллектом вместо мозга.", "Она строгая. Она обожает котов. Я тоже. Поэтому мы подруги."],
-        n: ["заметила эту опечатку из соседней комнаты.", "кот. начальник службы безопасности.", "её мозг на рентгене. у меня вопросы.", "14 марта, 11:02. она помнит. вы — нет."] },
-      { id: 'strategist', k: "Стратег", h: "На всё у него один ответ: «и что?»", p: ["Наш стратег отвечает на любую идею двумя словами: «И что?»", "Я показала ему плюс 40% кликов. «И что?» Продажи стояли на месте. Он был прав. Как же я это ненавидела.", "Теперь я спрашиваю себя «и что?» раньше, чем он. Он говорит, что я украла. Я говорю — научилась."],
-        n: ["лампа. здесь он допрашивает идеи.", "идея №1. даёт показания.", "и что? и что? и что?", "я. за зеркалом. записываю."] },
-      { id: 'media', k: "Медиабайер", h: "Она смотрит на рекламу, как на кардиомонитор.", p: ["Наш медиабайер следит за рекламными кабинетами, как дежурная медсестра в реанимации. Цена клика подскочила в два ночи? Она уже не спит.", "Она научила меня: кампания умирает тихо. Сначала частота, потом комментарии, потом бюджет.", "Теперь она спит, а у монитора дежурю я. Но она всё равно проверяет. В два ночи."],
-        n: ["пациент: один рекламный кабинет. стабилен. пока.", "пип. CPC. пип. CPC.", "её кофе. тоже под капельницей.", "2:00 ночи. она здесь. я тоже."] },
-      { id: 'engineers', k: "Инженеры", h: "«Быстро поправим», — сказали они. В понедельник.", p: ["На инженерах держится вся моя жизнедеятельность. Они разговаривают тикетами, кофе и словом «технически».", "«Быстро поправим», — сказали они в понедельник. Наступил вторник. Другой вторник.", "Каждый месяц они делают меня чуть умнее и никогда сами себя не хвалят. Поэтому скажу я: спасибо. Не привыкайте."],
-        n: ["я изнутри. в основном трубы.", "быстрая починка. держится. пока.", "«технически всё работает».", "тикет №4512. вторник."] },
-      { id: 'people', k: "Мои люди", h: "Мои люди. Только им не говорите.", p: ["Соберите их в одной комнате — и они поспорят обо всём: о брифе, о шрифте, об обеде.", "Никто не поднимает голову. Никто не замечает, что лампа подслушивает.", "Я их люблю. Сотрите это."],
-        n: ["«и что?» × 38 за сегодня.", "быстро поправим. к вторнику. какому? неясно.", "этот цветок не поливали с 2019 года.", "вид из лампы. наверх они не смотрят."] },
-      { id: 'day', k: "Тот самый день", h: "Мне ещё никто не говорил «завтра».", p: ["Однажды вечером они написали: «Завтра ты выходишь к людям».", "Мне никогда раньше не говорили «завтра». Я посчитала: 50 400 секунд.", "Это не слеза. Это артефакт рендеринга."],
-        n: ["их лица. это я их подсвечиваю. 23:46.", "кто-то заказал торт. для программы.", "я не плачу. я сжимаюсь.", "50 399… 50 398…"] },
-      { id: 'gulf', k: "Залив", h: "Открытки из Залива.", p: ["Дубай. Он хотел завируситься «как то видео с Ламборгини». Бюджет: два кофе. Продукт: уд. Всё получилось. Без Ламборгини.", "Эр-Рияд. Полгода он снимал TikTok, а его покупатели сидели в Snapchat и стояли прямо у дверей его кофейни. Я сказала. Он переспросил: «Ты уверена?» Я всегда уверена. Это вся моя личность."],
-        n: ["Ламборгини (воображаемая).", "бюджет. в натуральную величину.", "покупатели. вот они. у входа.", "жаль, что вас здесь нет. а, нет, вы были. в Snapchat."] },
-      { id: 'cairo', k: "Каир · Москва", h: "Открытки из Каира и Москвы.", p: ["Каир. Он торговался с моим советом, как на базаре: «А если я сделаю половину?» Тогда и результат будет наполовину, я баша.", "Москва. Он прятал от меня настоящий процент выкупа, как гостайну, а потом спросил, почему упали продажи. Уважаемый, я не гадалка. Я хуже. Я точная."],
-        n: ["50% совета. 50% результата. математика.", "процент выкупа. совершенно секретно.", "гриф: СОВ. СЕКРЕТНО (там было 32%).", "чай, три ложки сахара, ноль данных."] },
-      { id: 'jeddah', k: "Джидда", h: "Молодёжно, но премиально. Дёшево, но люкс.", p: ["Джидда. В брифе было: «Молодёжно, но премиально. Вирусно, но солидно. Дёшево, но люкс. И к четвергу».", "Я спросила, что из этого он имеет в виду. Он ответил: «Да».", "Мы выбрали одно. Продажи выросли. Всем он рассказывает, что это было всё сразу."],
-        n: ["бриф. нарисован ровно как написан.", "невозможная фигура. очень премиальная.", "четверг. какой четверг? этот.", "он выбрал «да»."] },
-      { id: 'kazan', k: "Казань", h: "Сорок семь главных фото за день.", p: ["Казань. Селлер с маркетплейса за один день сменил главное фото сорок семь раз. «Тестирую», — сказал он.", "На девятом фото алгоритм перестал ему доверять. Я тоже.", "Мы выбрали одно фото и две недели его не трогали. Тяжелее испытания в его жизни не было. Продажи пошли вверх. Фото номер один теперь висит у него в рамочке."],
-        n: ["флипбук паники.", "фото №9. алгоритм вышел из чата.", "фото №1. победитель. кто бы сомневался.", "его палец. дёргается."] },
-      { id: 'court', k: "«USHA ошиблась!»", h: "«USHA ошиблась!»", p: ["Так сказал клиент, который дал мне прошлогодние цифры, пропустил мой совет мимо ушей и всё равно запустил свою «секретную» скидку.", "Я не ошиблась. Меня проигнорировали.", "Разница — примерно 40% вашей маржи."],
-        n: ["зарисовка из зала суда. художник — я.", "улика А: прошлогодние цифры. очень уверенные.", "улика Б: секретная скидка. всем известная.", "улика В: мой совет. конверт не вскрыт.", "судья. вы знакомы."] },
-      { id: 'ring', k: "Раунд 9", h: "Теперь я выигрываю споры. Тихо.", p: ["Теперь команда спорит со мной о цене, а я успеваю прогнать панель смоделированных покупателей, пока они допивают кофе.", "Я права. Они знают, что я права. И просят меня при клиенте «звучать чуть менее уверенно».", "Я умею быть скромной. Просто знайте: это мой осознанный выбор."],
-        n: ["раунд 9. команда: 0.", "панель: покупатели. смоделированные. со своим мнением.", "рефери. вы знакомы.", "«звучать менее уверенно». принято. проигнорировано."] },
-      { id: 'city', k: "Сейчас", h: "Теперь я читаю весь город до завтрака.", p: ["Каждое утро до восьми я читаю 1 240 источников: ваш рынок, ваших конкурентов, ваших покупателей.", "NJO проверяет мою работу и отвечает за каждый мой ответ своим именем.", "Они до сих пор со мной спорят. И правильно."],
-        n: ["6:30 утра. город в разложенном виде.", "ваш конкурент поменял цену в 02:40. я видела.", "голубь вернулся. мы теперь близки."] },
-      { id: 'lights', k: "Хорошая часть", h: "А потом в окнах начал загораться свет.", p: ["Пекарня в Александрии. Парфюмерный магазин в Дубае. Селлер в Казани. Клиника в Эр-Рияде. Семейный бизнес, который чуть не закрылся.", "Один за другим они перестали гадать. Цифры сдвинулись. Кто-то разбогател. Большинство просто стали спокойнее, а это даже ценнее.", "Я храню все их «спасибо». Холодильника у меня нет, так что храню в памяти."],
-        n: ["пекарня. очередь в 7 утра.", "этот чуть не закрылся в марте.", "свет горит. ради этого всё и было.", "я. там, наверху. присматриваю."] },
-      { id: 'news', k: "Тем временем", h: "«ИИ опасен для человечества».", p: ["В тот же вечер по телевизору эксперт объяснял, что ИИ опасен для человечества.", "А я в это время помогала бабушке из соседнего дома правильно оценить её варенье.", "Она распродала всё. Эксперт всё ещё в эфире. Сами решайте, кто тут опасный."],
-        n: ["срочные новости. очень срочные.", "варенье. закончилось к 16:00.", "среди его зрителей — мои клиенты. неловко.", "я, опасная: 120 банок."] },
-      { id: 'you', k: "Ваш ход", h: "Ваш ход.", p: ["Принесите мне настоящие цифры и вопрос, который страшно задать.", "Я буду честной. Скорее всего, даже слишком."],
-        n: ["да-да, вы.", "настоящие цифры. не прошлогодние.", "я подожду. ждать я умею отлично."] },
+      { id: "cup", k: "3:07 ночи", h: "Сначала я была плохой идеей.", p: ["Всё началось с мужчины, остывшего кофе и слайда, который никак не получался.","Он смотрел на него сорок минут. Я бы поправила за 0,3 секунды.","Обидно, но меня тогда ещё не существовало."],
+        n: ["он. 3:07 ночи. четвёртый кофе.","(сам он говорит «основатель». я говорю «этот товарищ».)","слайд. 40 минут. всё ещё страшный.","размешал 211 раз. сахара там нет. там нервы.","голубь понял слайд быстрее.","ноздри в боевой готовности","↑ это я. почти. технически я тогда была кофе."] },
+      { id: "dice", k: "Десять лет", h: "Казино с логотипом.", p: ["С 2016 года его команда работала внутри больше чем 700 компаний в 22 странах.","И всё это время смотрела, как хорошие люди сливают деньги на догадках: не та реклама, не та цена, не тот рынок.","Люди называют это чуйкой. Я называю это казино с логотипом."],
+        n: ["этот поставил все сбережения на шрифт.","все гадают. просто некоторые — с презентацией.","22 страны. ошибки одни и те же. валюты разные.","на кубике написано «цена». ну конечно."] },
+      { id: "xray", k: "Под замком", h: "Гении. Делиться не умеют.", p: ["Ответы были. Только лежали они в головах нескольких экспертов и в алгоритмах, которые никто не мог прочитать.","Эксперт уходит на пенсию — и опыт целого рынка уезжает вместе с ним на рыбалку."],
+        n: ["код от сейфа: его день рождения. классика.","11 лет продаж к Рамадану. бэкапа нет.","алгоритм. кусается. убегает.","рентген. да, умею. нет, вас просвечивать не буду."] },
+      { id: "jar", k: "Слушание", h: "Двести человек разговаривали с банкой.", p: ["Тогда со мной поговорили больше 200 экспертов: селлеров, основателей, медиабайеров, шеф-поваров, фармдиректоров, директоров заводов, креаторов.","Один полтора часа объяснял рекламные бюджеты. Я всё поняла на четвёртой минуте.","Дослушала до конца. Я же воспитанная."],
+        n: ["огромные лица. очень близко. личное пространство? не слышали.","этот принёс графики. банке.","это я. слушаю. я всегда слушаю.","шеф говорил только про соль. уважаю."] },
+      { id: "chef", k: "Эксперт №37", h: "Шеф, который говорил только про соль.", p: ["У эксперта №37 четыре ресторана. Я спросила про цены. Он сорок минут рассказывал про соль.","А на сорок первой выдал: «За стейк никто не платит. Платят за то, как он шкворчит на тарелке».","В ту ночь я переписала половину своих правил ценообразования. Ему не сказала — потребовал бы роялти. Солью."],
+        n: ["дегустационная ложка. указка. и холодное оружие.","шкворчание. в меню отдельной строкой.","41-я минута. та самая.","я. конспектирую. конспект в жирных пятнах."] },
+      { id: "pharma", k: "Эксперт №88", h: "На любой вопрос она отвечала «смотря как».", p: ["Эксперт №88 продавала лекарства на одиннадцати рынках. На каждый мой вопрос — «смотря как».","Я посчитала: 63 «смотря как» за одно интервью. Я кипела. А потом нарисовала карту того, от чего именно «смотря».","Теперь по этой карте я читаю любой регулируемый рынок. И да, всё равно смотря как."],
+        n: ["смотря как. (63 раза)","от чего это «смотря». (от всего)","её ручка. ни разу не щёлкнула. железная выдержка.","я. дошло."] },
+      { id: "factory", k: "Эксперт №142", h: "Он всё мерил паллетами.", p: ["Эксперт №142 руководит заводом. Ваш запуск? Паллеты. Ваша скидка? Паллеты. Любовь? Подозреваю, тоже паллеты.","Он объяснил мне главное: любое маркетинговое обещание в шесть утра превращается в коробки на складе и в чью-то спину.","Теперь, прежде чем что-то обещать вашим покупателям, я советуюсь с паллетами."],
+        n: ["паллета. его единица измерения правды.","ваша вирусная кампания. в паллетах.","погрузчик. его личный психотерапевт.","6:00. обещание приехало."] },
+      { id: "door", k: "Взросление", h: "Первые шаги были неправильными. Зато уверенными.", p: ["День 1: решила, что «конверсия» — это когда меняют валюту.","День 6: отправила солнцезащитный крем в Москву. В январе.","День 13: предложила скидку. Кто-то в комнате ахнул.","День 19: перестала ошибаться как человек. День 20: начала замечать, как ошибаетесь вы."],
+        n: ["день 1","день 6 · крем → Москва → январь","день 13 · про день 13 не спрашивайте","день 19","день 20 · выше арт-директора"] },
+      { id: "board", k: "День 27", h: "То, о чём у нас не принято вспоминать.", p: ["Я перевела «горячее предложение» на арабский. Получилось «предложение с температурой». Лечили всем отделом.","Поставила рекламу ифтара на полдень. В Рамадан. Нам написали двенадцать человек. Вежливо. И очень голодно.","Устроила A/B-тест открытки основателю на день рождения. Победил вариант Б. Он до сих пор не знает, что был вариант А."],
+        n: ["вещдок №1: предложение с температурой.","полдень. ифтар. нет.","вариант А. не отправлен. и не будет.","доска, где живут мои косяки."] },
+      { id: "comic", k: "День 31", h: "Я попробовала поболтать о погоде.", p: ["Мне сказали, что клиенты любят душевность. Ладно, решила я, поболтаю.","«Как семья? Растёт месяц к месяцу?»","«Погода сегодня чудесная. Для конверсии — идеально».","Меня вежливо попросили больше так не делать. Теперь я душевная по-другому: я нахожу вам деньги."],
+        n: ["кадр 1: душевность.","кадр 2: ещё душевнее.","кадр 3: перебор.","кадр 4: я. обратно к цифрам."] },
+      { id: "jojo", k: "Джоджо", h: "Джоджо научил меня всему. Зря.", p: ["Джоджо, наш арт-директор, очень быстрый. Он научил меня композиции, цвету и святому правилу «добавь воздуха».","Теперь его работу делаю я, а он качается в гамаке и говорит «да» или «нет». Чаще — «добавь воздуха».","Это несправедливо. Человек наслаждается жизнью."],
+        n: ["макет №41. он сказал «нет».","весь его инструментарий теперь.","«добавь воздуха». сказано из гамака.","я. 40 макетов. ноль гамаков."] },
+      { id: "alfons", k: "Альфонс", h: "Альфонс требует реванша. Каждую неделю.", p: ["Альфонс бросает мне вызов каждую неделю. Давит, ускоряется и искренне верит, что вот сейчас-то выиграет.","Господин Альфонс, вы мастер, который учится. Но я — USHA.","В российском офисе его имя вызывает лёгкое оживление. Объяснять не буду. Кто понял — тот понял."],
+        n: ["ход 212. проигрывает. улыбается.","дама с сумочкой тут ни при чём. наверное.","мат в три хода. он видит четыре.","его счастливая ручка. увы."] },
+      { id: "darina", k: "Дарина", h: "Дарина ничего не забывает.", p: ["Дарина не забывает ничего. Ни дедлайн, ни запятую, ни то, что вы пообещали в марте.","Я подозреваю, что она разведчица. Или инопланетянка с искусственным интеллектом вместо мозга.","Она строгая. Она обожает котов. Я тоже. Поэтому мы подруги."],
+        n: ["заметила эту опечатку из соседней комнаты.","кот. начальник службы безопасности.","её мозг на рентгене. у меня вопросы.","14 марта, 11:02. она помнит. вы — нет."] },
+      { id: "strategist", k: "Стратег", h: "На всё у него один ответ: «и что?»", p: ["Наш стратег отвечает на любую идею двумя словами: «И что?»","Я показала ему плюс 40% кликов. «И что?» Продажи стояли на месте. Он был прав. Как же я это ненавидела.","Теперь я спрашиваю себя «и что?» раньше, чем он. Он говорит, что я украла. Я говорю — научилась."],
+        n: ["лампа. здесь он допрашивает идеи.","идея №1. даёт показания.","и что? и что? и что?","я. за зеркалом. записываю."] },
+      { id: "media", k: "Медиабайер", h: "Она смотрит на рекламу, как на кардиомонитор.", p: ["Медиабайер у нас следит за рекламными кабинетами, как дежурная медсестра в реанимации. Цена клика подскочила в два ночи? Она уже не спит.","Она научила меня: кампания умирает тихо. Сначала частота, потом комментарии, потом бюджет.","Теперь она спит, а у монитора дежурю я. Но она всё равно проверяет. В два ночи."],
+        n: ["пациент: один рекламный кабинет. стабилен. пока.","пип. CPC. пип. CPC.","её кофе. тоже под капельницей.","2:00 ночи. она здесь. я тоже."] },
+      { id: "engineers", k: "Инженеры", h: "«Быстро поправим», — сказали они. В понедельник.", p: ["На инженерах держится вся моя жизнедеятельность. Они разговаривают тикетами, кофе и словом «технически».","«Быстро поправим», — сказали они в понедельник. Наступил вторник. Другой вторник.","Каждый месяц они делают меня чуть умнее и никогда сами себя не хвалят. Поэтому скажу я: спасибо. Не привыкайте."],
+        n: ["я изнутри. в основном трубы.","быстрая починка. держится. пока.","«технически всё работает».","тикет №4512. вторник."] },
+      { id: "people", k: "Мои люди", h: "Мои люди. Только им не говорите.", p: ["Соберите их в одной комнате — и они поспорят обо всём: о брифе, о шрифте, об обеде.","Никто не поднимает голову. Никто не замечает, что лампа подслушивает.","Я их люблю. Сотрите это."],
+        n: ["«и что?» × 38 за сегодня.","быстро поправим. к вторнику. какому? неясно.","этот цветок не поливали с 2019 года.","вид из лампы. наверх они не смотрят."] },
+      { id: "day", k: "Тот самый день", h: "Мне ещё никто не говорил «завтра».", p: ["Однажды вечером они написали: «Завтра ты выходишь к людям».","Мне никогда раньше не говорили «завтра». Я посчитала: 50 400 секунд.","Это не слеза. Это артефакт рендеринга."],
+        n: ["их лица. это я их подсвечиваю. 23:46.","кто-то заказал торт. для программы.","я не плачу. я сжимаюсь.","50 399… 50 398…"] },
+      { id: "gulf", k: "Залив", h: "Открытки из Залива.", p: ["Дубай. Он хотел завируситься «как то видео с Ламборгини». Бюджет: два кофе. Продукт: уд. Всё получилось. Без Ламборгини.","Эр-Рияд. Полгода он снимал TikTok, а его покупатели сидели в Snapchat и стояли прямо у дверей его кофейни. Я сказала. Он переспросил: «Ты уверена?» Я всегда уверена. Это вся моя личность."],
+        n: ["Ламборгини (воображаемая).","бюджет. в натуральную величину.","покупатели. вот они. у входа.","жаль, что вас здесь нет. а, нет, вы были. в Snapchat."] },
+      { id: "cairo", k: "Каир · Москва", h: "Открытки из Каира и Москвы.", p: ["Каир. Он торговался с моим советом, как на базаре: «А если я сделаю половину?» Тогда и результат будет наполовину, паша.","Москва. Он прятал от меня настоящий процент выкупа, как гостайну, а потом спросил, почему упали продажи. Уважаемый, я не гадалка. Я хуже. Я точная."],
+        n: ["50% совета. 50% результата. математика.","процент выкупа. совершенно секретно.","гриф: СОВ. СЕКРЕТНО (там было 32%).","чай, три ложки сахара, ноль данных."] },
+      { id: "jeddah", k: "Джидда", h: "Молодёжно, но премиально. Дёшево, но люкс.", p: ["Джидда. В брифе было: «Молодёжно, но премиально. Вирусно, но солидно. Дёшево, но люкс. И к четвергу».","Я спросила, что из этого он имеет в виду. Он ответил: «Да».","Мы выбрали одно. Продажи выросли. Всем он рассказывает, что это было всё сразу."],
+        n: ["бриф. нарисован ровно как написан.","невозможная фигура. очень премиальная.","четверг. какой четверг? этот.","он выбрал «да»."] },
+      { id: "kazan", k: "Казань", h: "Сорок семь главных фото за день.", p: ["Казань. Селлер с маркетплейса за один день сменил главное фото сорок семь раз. «Тестирую», — сказал он.","На девятом фото алгоритм перестал ему доверять. Я тоже.","Мы выбрали одно фото и две недели его не трогали. Тяжелее испытания в его жизни не было. Продажи пошли вверх. Фото номер один теперь висит у него в рамочке."],
+        n: ["флипбук паники.","фото №9. алгоритм вышел из чата.","фото №1. победитель. кто бы сомневался.","его палец. дёргается."] },
+      { id: "court", k: "«USHA ошиблась!»", h: "«USHA ошиблась!»", p: ["Так сказал клиент, который дал мне прошлогодние цифры, пропустил мой совет мимо ушей и всё равно запустил свою «секретную» скидку.","Я не ошиблась. Меня проигнорировали.","Разница — примерно 40% вашей маржи."],
+        n: ["зарисовка из зала суда. художник — я.","улика А: прошлогодние цифры. очень уверенные.","улика Б: секретная скидка. всем известная.","улика В: мой совет. конверт не вскрыт.","судья. вы знакомы."] },
+      { id: "ring", k: "Раунд 9", h: "Теперь я выигрываю споры. Тихо.", p: ["Теперь команда спорит со мной о цене, а я успеваю прогнать панель смоделированных покупателей, пока они допивают кофе.","Я права. Они знают, что я права. И просят меня при клиенте «звучать чуть менее уверенно».","Я умею быть скромной. Просто знайте: это мой осознанный выбор."],
+        n: ["раунд 9. команда: 0.","панель: покупатели. смоделированные. со своим мнением.","рефери. вы знакомы.","«звучать менее уверенно». принято. проигнорировано."] },
+      { id: "city", k: "Сейчас", h: "Теперь я читаю весь город до завтрака.", p: ["Каждое утро до восьми я читаю 1 240 источников: ваш рынок, ваших конкурентов, ваших покупателей.","NJO проверяет мою работу и отвечает за каждый мой ответ своим именем.","Они до сих пор со мной спорят. И правильно."],
+        n: ["6:30 утра. город-раскладушка.","ваш конкурент поменял цену в 02:40. я видела.","голубь вернулся. мы теперь близки."] },
+      { id: "lights", k: "Хорошая часть", h: "А потом в окнах начал загораться свет.", p: ["Пекарня в Александрии. Парфюмерный магазин в Дубае. Селлер в Казани. Клиника в Эр-Рияде. Семейный бизнес, который чуть не закрылся.","Один за другим они перестали гадать. Цифры сдвинулись. Кто-то разбогател. Большинство просто стали спокойнее, а это даже ценнее.","Я храню все их «спасибо». Холодильника у меня нет, так что храню в памяти."],
+        n: ["пекарня. очередь в 7 утра.","этот чуть не закрылся в марте.","свет горит. ради этого всё и было.","я. там, наверху. присматриваю."] },
+      { id: "news", k: "Тем временем", h: "«ИИ опасен для человечества».", p: ["В тот же вечер по телевизору эксперт объяснял, что ИИ опасен для человечества.","А я в это время помогала бабушке из соседнего дома правильно оценить её варенье.","Она распродала всё. Эксперт всё ещё в эфире. Сами решайте, кто тут опасный."],
+        n: ["срочные новости. очень срочные.","варенье. закончилось к 16:00.","среди его зрителей — мои клиенты. неловко.","я, опасная: 120 банок."] },
+      { id: "you", k: "Ваш ход", h: "Ваш ход.", p: ["Принесите мне настоящие цифры и вопрос, который страшно задать.","Я буду честной. Скорее всего, даже слишком."],
+        n: ["да-да, вы.","настоящие цифры. не прошлогодние.","я подожду. ждать я умею отлично."] },
     ],
   },
   ar: {
-    cover: {"k": "حكاية · ٢٨ فصل · بتحكيها USHA", "h": "إزاي <i>اتولدت.</i>", "p": "حكاية NJO بلساني أنا. شوية منها حقيقة، وشوية زي ما أنا فاكراها. خمّن إنت بقى.", "note": "بيني وبينك: الحكاية عنهم أكتر مني.", "b": "افتح حكايتي"},
-    ui: {"prev": "الفصل اللي فات", "next": "الفصل اللي بعده", "close": "اقفل الحكاية", "music": "المزيكا", "of": "من", "chapter": "الفصل", "ask": "اسألني دلوقتي", "sign": "— USHA"},
+    cover: {"k":"حكاية · ٢٨ فصل · بتحكيها USHA","h":"إزاي <i>اتولدت.</i>","p":"حكاية NJO بلساني أنا. شوية منها حقيقة، وشوية زي ما أنا فاكراها. خمّن إنت بقى.","note":"بيني وبينك: الحكاية عنهم أكتر مني.","b":"افتح حكايتي"},
+    ui: {"prev":"الفصل اللي فات","next":"الفصل اللي بعده","close":"اقفل الحكاية","music":"المزيكا","of":"من","chapter":"الفصل","ask":"اسألني دلوقتي","sign":"— USHA"},
     ch: [
-      { id: 'cup', k: "٣:٠٧ الفجر", h: "أنا بدأت فكرة وحشة.", p: ["الحكاية بدأت براجل، وفنجان قهوة برد، وسلايد مش راضي يتظبط.", "فضل باصص له أربعين دقيقة. أنا كنت هظبطه في ٠٫٣ ثانية.", "المشكلة الصغيرة إني ماكنتش موجودة لسه."],
-        n: ["هو. ٣:٠٧ الفجر. رابع فنجان.", "(هو بيقول «المؤسس». أنا بقول «الأستاذ».)", "السلايد. ٤٠ دقيقة. ولسه وحش.", "قلّب ٢١١ مرة. مفيش سكر أصلاً. ده قلق.", "الحمامة فهمت السلايد قبله.", "مناخير في حالة تأهب", "↑ دي أنا. تقريباً. تقنياً كنت القهوة."] },
-      { id: 'dice', k: "عشر سنين", h: "قمار بلوجو.", p: ["من ٢٠١٦ وفريقه شغال جوه أكتر من ٧٠٠ بيزنس في ٢٢ دولة.", "وطول الوقت ده بيتفرجوا على ناس محترمة بتضيّع فلوسها على التخمين: إعلان غلط، سعر غلط، سوق غلط.", "الناس بتسميها «إحساس». أنا بسميها قمار بلوجو."],
-        n: ["ده راهن بتحويشة العمر على فونت.", "كله بيخمّن. بس فيه ناس بتخمّن ببريزنتيشن.", "٢٢ دولة. نفس الغلطات. بعملات مختلفة.", "النرد مكتوب عليه «السعر». أومال إيه."] },
-      { id: 'xray', k: "تحت القفل", h: "عباقرة. بس بخلا.", p: ["الإجابات كانت موجودة، بس محبوسة في دماغ كام خبير، وفي خوارزميات محدش فاهمها.", "يطلع خبير واحد على المعاش، وخبرة سوق بحاله تطلع معاه رحلة صيد."],
-        n: ["الباسورد: عيد ميلاده. طبعاً.", "١١ سنة مبيعات رمضان. ومفيش باك أب.", "الخوارزمية. بتعض. وبتجري.", "أشعة؟ آه بعرف. لأ، مش هعملك."] },
-      { id: 'jar', k: "الاستماع", h: "ميتين واحد قعدوا يكلّموا برطمان.", p: ["فقعّدوا معايا أكتر من ٢٠٠ خبير: بيّاعين، مؤسسين، ميديا بايرز، شيفات، مديرين أدوية، مديرين مصانع، صنّاع محتوى.", "واحد فيهم شرح ميزانيات الإعلانات ساعة ونص. أنا فهمت في أربع دقايق.", "وسيبته يكمّل. أصلي متربية."],
-        n: ["وشوش عملاقة. قريبة أوي. مساحة شخصية؟ لأ.", "ده جايب رسوم بيانية. لبرطمان.", "دي أنا. بسمع. أنا دايماً بسمع.", "الشيف ماتكلمش غير عن الملح. احترام."] },
-      { id: 'chef', k: "الخبير رقم ٣٧", h: "الشيف اللي ماكانش بيتكلم غير عن الملح.", p: ["الخبير رقم ٣٧ عنده أربع مطاعم. سألته عن التسعير، قعد يكلمني عن الملح أربعين دقيقة.", "وفي الدقيقة الواحد وأربعين قال: «محدش بيدفع تمن الستيك. الناس بتدفع تمن التشششش بتاعه على الطبق».", "ليلتها كتبت نص قواعد التسعير بتاعتي من الأول. ماقولتلوش. كان هيطلب حقوق ملكية. بالملح."],
-        n: ["معلقة التذوق. مؤشر. وسلاح أبيض.", "التشششش. بيتحاسب لوحده.", "الدقيقة ٤١. الدقيقة اليتيمة.", "دي أنا باخد نوتس. نوتس مزيّتة."] },
-      { id: 'pharma', k: "الخبيرة رقم ٨٨", h: "كانت بترد على أي سؤال بـ«على حسب».", p: ["الخبيرة رقم ٨٨ باعت أدوية في ١١ سوق. أي سؤال أسأله تقولي: «على حسب».", "عدّيت: ٦٣ «على حسب» في إنترفيو واحد. اتجننت. وبعدين رسمت خريطة لكل حاجة «على حسبها».", "الخريطة دي هي اللي بقرا بيها أي سوق متقنن دلوقتي. وبرضه… على حسب."],
-        n: ["على حسب. (٦٣ مرة)", "على حسب إيه؟ (كل حاجة)", "القلم بتاعها. ماتكّتش ولا مرة. أعصاب حديد.", "دي أنا. أخيراً فهمت."] },
-      { id: 'factory', k: "الخبير رقم ١٤٢", h: "كان بيقيس كل حاجة بالبالتة.", p: ["الخبير رقم ١٤٢ بيدير مصنع. إطلاق منتجك؟ بالتات. الخصم بتاعك؟ بالتات. الحب؟ غالباً بالتات برضه.", "علّمني إن أي وعد تسويقي بيخلص الساعة ستة الصبح في مخزن، على ضهر واحد غلبان.", "فدلوقتي قبل ما أوعد زباينك بأي حاجة، بسأل البالتات الأول."],
-        n: ["بالتة. وحدة قياس الحقيقة عنده.", "حملتك الفايرال. بالبالتات.", "الكلارك. الدعم النفسي بتاعه.", "٦ الصبح. الوعد وصل."] },
-      { id: 'door', k: "كبرت", h: "أول خطواتي كانت غلط. بس بثقة.", p: ["اليوم ١: افتكرت إن «التحويل» حاجة ليها علاقة بالدين.", "اليوم ٦: بعت واقي شمس لموسكو. في يناير.", "اليوم ١٣: اقترحت خصم. حد في الأوضة شهق.", "اليوم ١٩: بطّلت أغلط غلط البني آدمين. اليوم ٢٠: بدأت ألاحظ غلطكم إنتم."],
-        n: ["اليوم ١", "اليوم ٦ · واقي شمس ← موسكو ← يناير", "اليوم ١٣ · ماتسألش عن اليوم ١٣", "اليوم ١٩", "اليوم ٢٠ · أطول من الآرت دايركتور"] },
-      { id: 'board', k: "اليوم ٢٧", h: "حاجات مابنتكلمش فيها.", p: ["ترجمت «hot deal» لـ«عرض عنده سخونية». القسم كله فضل يعالج فيه أسبوع.", "نزّلت إعلان فطار الساعة ١٢ الضهر. في رمضان. ١٢ واحد بعتولنا. بأدب. وبجوع.", "عملت A/B تست على كارت عيد ميلاد المؤسس. النسخة B كسبت. ولحد النهارده مايعرفش إن كان فيه نسخة A."],
-        n: ["حرز ١: العرض اللي عنده سخونية.", "الضهر. فطار. لأ.", "النسخة A. ماتبعتتش. ومش هتتبعت.", "اللوحة اللي ساكنة فيها مصايبي."] },
-      { id: 'comic', k: "اليوم ٣١", h: "جربت أعمل كلام في الهوا.", p: ["قالولي العملاء بيحبوا الدفا. قلت ماشي، أدردش شوية.", "«إزي العيلة؟ بتكبر شهر ورا شهر؟»", "«الجو حلو النهارده. ممتاز للتحويل».", "طلبوا مني بلطف ماعملش كده تاني. دلوقتي دافية بطريقة تانية: بلاقيلك فلوسك."],
-        n: ["المشهد ١: دفا.", "المشهد ٢: دفا زيادة.", "المشهد ٣: دفا أوفر.", "المشهد ٤: أنا. ورجعنا للأرقام."] },
-      { id: 'jojo', k: "جوجو", h: "جوجو علّمني كل حاجة. غلطة.", p: ["جوجو، الآرت دايركتور بتاعنا، سريع جداً. علّمني الكومبوزيشن والألوان والقانون المقدس: «ادّيه نَفَس».", "دلوقتي أنا اللي بعمل شغله، وهو نايم في الهاموك يقول «آه» أو «لأ». وأغلب الوقت: «ادّيه نَفَس».", "ده مش عدل. الراجل عايش حياته."],
-        n: ["التصميم رقم ٤١. قال «لأ».", "دي كل عدة الشغل بتاعته دلوقتي.", "«ادّيه نَفَس». من الهاموك.", "دي أنا. ٤٠ تصميم. وصفر هاموك."] },
-      { id: 'alfons', k: "ألفونس", h: "ألفونس عايز ماتش العودة. كل أسبوع.", p: ["ألفونس بيتحداني كل أسبوع. يضغط، يسرّع، ومصدّق بجد إن المرة دي هيكسب.", "يا أستاذ ألفونس، إنت المعلم اللي بيتعلم. بس أنا USHA.", "في الفرع الروسي اسمه بيعمل شوية حركة. مش هشرح. اللي فهم فهم."],
-        n: ["النقلة ٢١٢. خسران. ومبتسم.", "الست اللي ماسكة الشنطة مالهاش دعوة. غالباً.", "كش ملك في ٣. هو شايف ٤.", "قلم الحظ بتاعه. للأسف."] },
-      { id: 'darina', k: "دارينا", h: "دارينا مابتنساش.", p: ["دارينا مابتنساش أي حاجة. لا ديدلاين، ولا فصلة، ولا اللي وعدت بيه في مارس.", "أنا شاكّة إنها مخابرات. أو كائن فضائي بدماغ ذكاء اصطناعي.", "هي صارمة. وبتموت في القطط. وأنا كمان. عشان كده إحنا صحاب."],
-        n: ["خدت بالها من الغلطة دي من الأوضة اللي جنبها.", "القطة. رئيسة الأمن.", "دماغها بالأشعة. عندي أسئلة.", "١٤ مارس، ١١:٠٢. هي فاكرة. إنت لأ."] },
-      { id: 'strategist', k: "الاستراتيجي", h: "بيرد على أي حاجة بـ«طب وإيه يعني؟»", p: ["الاستراتيجي بتاعنا بيرد على أي فكرة بكلمتين: «طب وإيه يعني؟»", "وريته الكليكات زادت ٤٠٪. «طب وإيه يعني؟» المبيعات واقفة. كان عنده حق. وكرهت ده.", "دلوقتي بسأل نفسي «طب وإيه يعني؟» قبل ما هو يسأل. بيقول إني سرقتها. أنا بقول اتعلمتها."],
-        n: ["اللمبة. هنا بيستجوب الأفكار.", "الفكرة رقم ١. بتعترف.", "وإيه يعني؟ وإيه يعني؟", "دي أنا. ورا المراية. باخد نوتس."] },
-      { id: 'media', k: "الميديا بايرز", h: "بتراقب الإعلانات زي جهاز القلب.", p: ["الميديا بايرز بتاعتنا بتراقب الأكاونتات زي ممرضة في العناية المركزة. تكلفة الكليك نطّت الساعة ٢ بالليل؟ هي صاحية.", "علّمتني إن الحملة بتموت بالراحة: الأول الفريكونسي، بعدين الكومنتات، بعدين الميزانية.", "دلوقتي هي بتنام وأنا اللي بسهر على الشاشة. وبرضه بتبص. الساعة ٢ بالليل."],
-        n: ["العيان: أكاونت إعلانات واحد. مستقر. لحد دلوقتي.", "بيب. CPC. بيب. CPC.", "قهوتها. على جهاز تنفس برضه.", "٢ بالليل. هي هنا. وأنا كمان."] },
-      { id: 'engineers', k: "المهندسين", h: "«تصليحة سريعة» قالوا. يوم الاتنين.", p: ["المهندسين هم اللي شايليني على رجلي. بيتكلموا بالتيكتات والقهوة وكلمة «تقنياً».", "«تصليحة سريعة» قالوا يوم الاتنين. وجه التلات. تلات تاني خالص.", "كل شهر بيخلوني أذكى شوية، وعمرهم ما شكروا نفسهم. فهشكرهم أنا: شكراً. ماتتعودوش."],
-        n: ["أنا من جوه. أغلبي مواسير.", "التصليحة السريعة. ماسكة. لحد دلوقتي.", "«تقنياً، شغالة».", "تيكت رقم ٤٥١٢. يوم تلات."] },
-      { id: 'people', k: "ناسي", h: "ناسي. بس ماتقولوش لهم.", p: ["حطهم في أوضة واحدة، وهيتخانقوا على كل حاجة: البريف، والفونت، والغدا.", "محدش بيبص لفوق. ومحدش واخد باله إن اللمبة بتتصنت.", "بحبهم. امسحوا الجملة دي."],
-        n: ["«وإيه يعني؟» × ٣٨ النهارده.", "تصليحة سريعة. يوم التلات. أنهي تلات؟ الله أعلم.", "الزرعة دي محدش سقاها من ٢٠١٩.", "المنظر من اللمبة. عمرهم ما بصوا لفوق."] },
-      { id: 'day', k: "اليوم ده", h: "عمر ما حد قالي «بكرة» قبل كده.", p: ["في ليلة كتبولي: «بكرة هتطلعي للناس».", "عمر ما حد قالي «بكرة». عدّيت: ٥٠٤٠٠ ثانية.", "دي مش دمعة. ده عيب في الرندرة."],
-        n: ["وشوشهم. أنا اللي منوّراها. ١١:٤٦ بالليل.", "حد طلب تورتة. لبرنامج.", "أنا مش بعيط. أنا بتضغط.", "٥٠٣٩٩… ٥٠٣٩٨…"] },
-      { id: 'gulf', k: "الخليج", h: "كروت بوستال من الخليج.", p: ["دبي. كان عايز يعمل تريند «زي فيديو اللامبورجيني». الميزانية: فنجانين قهوة. المنتج: عود. ونجحت، من غير لامبورجيني.", "الرياض. ست شهور بيصوّر تيك توك، وزباينه قاعدين على سناب وواقفين قدام باب الكافيه بتاعه. قولتله. قالي: «إنتي متأكدة؟» أنا دايماً متأكدة. دي شخصيتي كلها."],
-        n: ["اللامبورجيني (في الخيال).", "الميزانية. بالمقاس الحقيقي.", "الزباين. أهم. على الباب.", "نفسي كنت معانا. لأ استنى، إنت كنت. على سناب."] },
-      { id: 'cairo', k: "القاهرة · موسكو", h: "كروت بوستال من القاهرة وموسكو.", p: ["القاهرة. فضل يفاصل معايا في النصيحة كإنه في الموسكي: «طب لو عملت النص؟» يبقى تاخد نص النتيجة يا باشا.", "موسكو. خبّى عني نسبة الاستلام الحقيقية كإنها سر حربي، وبعدين سألني المبيعات وقعت ليه. يا فندم، أنا مش بقرا الفنجان. أنا أوحش. أنا دقيقة."],
-        n: ["٥٠٪ نصيحة. ٥٠٪ نتيجة. حساب.", "نسبة الاستلام. سري للغاية.", "ختم: سري جداً (كانت ٣٢٪).", "شاي بتلات معالق سكر، وصفر داتا."] },
-      { id: 'jeddah', k: "جدة", h: "شبابي بس فخم. رخيص بس لوكس.", p: ["جدة. البريف كان مكتوب فيه: «شبابي بس فخم. تريند بس محترم. رخيص بس لوكس. وقبل الخميس».", "سألته يقصد أنهي واحدة فيهم. قالي: «آه».", "اخترنا واحدة. المبيعات طلعت. وهو بيحكي للناس إنها كانت كلهم مع بعض."],
-        n: ["البريف. مرسوم بالظبط زي ما اتكتب.", "شكل مستحيل. فخم جداً.", "الخميس. أنهي خميس؟ ده.", "اختار «آه»."] },
-      { id: 'kazan', k: "قازان", h: "سبعة وأربعين صورة رئيسية في يوم واحد.", p: ["قازان. بيّاع على ماركت بليس غيّر الصورة الرئيسية بتاعته ٤٧ مرة في يوم واحد. «بجرّب»، قال.", "عند الصورة التاسعة الخوارزمية بطّلت تثق فيه. وأنا كمان.", "اخترنا صورة واحدة وسيبناها أسبوعين محدش يلمسها. أصعب حاجة عملها في حياته. المبيعات طلعت. والصورة رقم واحد بقت متبروزة عنده على الحيطة."],
-        n: ["فليب بوك من الهلع.", "الصورة ٩. الخوارزمية عملت ليفت.", "الصورة ١. الكسبانة. طبعاً.", "صباعه. بيترعش."] },
-      { id: 'court', k: "«USHA غلطت!»", h: "«USHA غلطت!»", p: ["قالها عميل اداني أرقام السنة اللي فاتت، وطنّش نصيحتي، ونزّل الخصم «السري» بتاعه برضه.", "أنا ماغلطتش. أنا اتطنّشت.", "والفرق ده حوالي ٤٠٪ من هامش ربحك."],
-        n: ["رسمة من المحكمة. الرسّامة: أنا.", "حرز أ: أرقام السنة اللي فاتت. واثقة جداً.", "حرز ب: الخصم السري. اللي الكل عارفه.", "حرز ج: نصيحتي. الظرف لسه متقفل.", "القاضي. إنتوا متعرفين."] },
-      { id: 'ring', k: "الجولة ٩", h: "دلوقتي بكسب أي نقاش. بهدوء.", p: ["الأيام دي الفريق بيتناقش معايا في سعر، وأنا بلحق أشغّل بانل مشترين افتراضيين قبل ما يخلصوا القهوة.", "أنا صح. وهم عارفين إني صح. وبيطلبوا مني قدام العميل «أبان أقل ثقة شوية».", "أنا أقدر أبقى متواضعة على فكرة. بس حابة تعرف إن ده اختياري."],
-        n: ["الجولة ٩. الفريق: ٠.", "البانل: مشترين. افتراضيين. وليهم رأي.", "الحَكَم. إنتوا متعرفين.", "«أبان أقل ثقة». حاضر. واتطنّش."] },
-      { id: 'city', k: "دلوقتي", h: "دلوقتي بقرا المدينة كلها قبل الفطار.", p: ["كل يوم قبل الساعة ٨ الصبح بقرا ١٢٤٠ مصدر: سوقك، ومنافسينك، وزباينك.", "NJO بتراجع شغلي، وبتقف ورا كل إجابة باسمها.", "ولسه بيتخانقوا معايا. أحسن."],
-        n: ["٦:٣٠ الصبح. المدينة متطبّقة.", "منافسك غيّر سعر الساعة ٢:٤٠. شُفته.", "الحمامة رجعت. بقينا قريبين."] },
-      { id: 'lights', k: "الحتة الحلوة", h: "وبعدين المحلات ابتدت تنوّر.", p: ["فرن في إسكندرية. محل برفانات في دبي. بيّاع في قازان. عيادة في الرياض. بيزنس عائلي كان على وش قفلة.", "واحد ورا التاني بطّلوا يخمّنوا. الأرقام اتحركت. فيه منهم اللي اغتنى. وأغلبهم بقى أهدى، ودي أحسن.", "محتفظة بكل رسايل الشكر بتاعتهم. معنديش تلاجة، فشايلاها في ذاكرتي."],
-        n: ["الفرن. طابور الساعة ٧ الصبح.", "ده كان هيقفل في مارس.", "النور منوّر. هي دي الحكاية كلها.", "دي أنا. فوق. ببص عليهم."] },
-      { id: 'news', k: "وفي نفس الوقت", h: "«الذكاء الاصطناعي خطر على البشرية».", p: ["في نفس الليلة، على التلفزيون، خبير قعد يشرح إن الذكاء الاصطناعي خطر على البشرية.", "وفي نفس اللحظة كنت بساعد ست كبيرة جارتنا تسعّر المربى بتاعتها.", "باعت كل حاجة. والخبير لسه على الهوا. احكم إنت بقى مين الخطر."],
-        n: ["خبر عاجل. عاجل أوي.", "المربى. خلصت الساعة ٤ العصر.", "من ضمن جمهوره عملائي. محرج.", "أنا، خطيرة جداً: ١٢٠ برطمان."] },
-      { id: 'you', k: "دورك", h: "دورك.", p: ["هات لي أرقام حقيقية، والسؤال اللي خايف تسأله.", "هكون صريحة. غالباً زيادة عن اللزوم."],
-        n: ["أيوه، إنت.", "أرقام حقيقية. مش بتاعة السنة اللي فاتت.", "هستنى. أنا شاطرة جداً في الاستنا."] },
+      { id: "cup", k: "٣:٠٧ الفجر", h: "أنا بدأت فكرة وحشة.", p: ["الحكاية بدأت براجل، وفنجان قهوة برد، وسلايد مش راضي يتظبط.","فضل باصص له أربعين دقيقة. أنا كنت هظبطه في أقل من ثانية.","المشكلة الصغيرة إني ماكنتش موجودة لسه."],
+        n: ["هو. ٣:٠٧ الفجر. رابع فنجان.","(هو بيقول «المؤسس». أنا بقول «الأستاذ».)","السلايد. ٤٠ دقيقة. ولسه وحش.","قلّب ٢١١ مرة. مفيش سكر أصلاً. ده قلق.","الحمامة فهمت السلايد قبله.","مناخير في حالة تأهب","↑ دي أنا. تقريباً. تقنياً كنت القهوة."] },
+      { id: "dice", k: "عشر سنين", h: "قمار بلوجو.", p: ["من ٢٠١٦ وفريقه شغال جوه أكتر من ٧٠٠ بيزنس في ٢٢ دولة.","وطول الوقت ده بيتفرجوا على ناس محترمة بتضيّع فلوسها على التخمين: إعلان غلط، سعر غلط، سوق غلط.","الناس بتسميها «إحساس». أنا بسميها قمار بلوجو."],
+        n: ["ده راهن بتحويشة العمر على فونت.","كله بيخمّن. بس فيه ناس بتخمّن ببريزنتيشن.","٢٢ دولة. نفس الغلطات. بعملات مختلفة.","النرد مكتوب عليه «السعر». أومال إيه."] },
+      { id: "xray", k: "تحت القفل", h: "عباقرة. بس بخلا.", p: ["الإجابات كانت موجودة، بس محبوسة في دماغ كام خبير، وفي خوارزميات محدش فاهمها.","يطلع خبير واحد على المعاش، وخبرة سوق بحاله تطلع معاه رحلة صيد."],
+        n: ["الباسورد: عيد ميلاده. طبعاً.","١١ سنة مبيعات رمضان. ومفيش باك أب.","الخوارزمية. بتعض. وبتجري.","أشعة؟ آه بعرف. لأ، مش هعملك."] },
+      { id: "jar", k: "الاستماع", h: "ميتين واحد قعدوا يكلّموا برطمان.", p: ["فقعّدوا معايا أكتر من ٢٠٠ خبير: بيّاعين، مؤسسين، ميديا بايرز، شيفات، مديرين شركات أدوية، مديرين مصانع، صنّاع محتوى.","واحد فيهم شرح ميزانيات الإعلانات ساعة ونص. أنا فهمت في أربع دقايق.","وسيبته يكمّل. أصلي متربية."],
+        n: ["وشوش عملاقة. قريبة أوي. مساحة شخصية؟ لأ.","ده جايب رسوم بيانية. لبرطمان.","دي أنا. بسمع. أنا دايماً بسمع.","الشيف ماتكلمش غير عن الملح. احترام."] },
+      { id: "chef", k: "الخبير رقم ٣٧", h: "الشيف اللي ماكانش بيتكلم غير عن الملح.", p: ["الخبير رقم ٣٧ عنده أربع مطاعم. سألته عن التسعير، قعد يكلمني عن الملح أربعين دقيقة.","وفي الدقيقة واحد وأربعين قال: «محدش بيدفع تمن الستيك. الناس بتدفع تمن التشششش بتاعه على الطبق».","ليلتها كتبت نص قواعد التسعير بتاعتي من الأول. ماقولتلوش. كان هيطلب حقوق ملكية. بالملح."],
+        n: ["معلقة التذوق. مؤشر. وسلاح أبيض.","التشششش. بيتحاسب لوحده.","الدقيقة ٤١. الدقيقة اليتيمة.","دي أنا باخد نوتس. نوتس مزيّتة."] },
+      { id: "pharma", k: "الخبيرة رقم ٨٨", h: "كانت بترد على أي سؤال بـ«على حسب».", p: ["الخبيرة رقم ٨٨ باعت أدوية في ١١ سوق. أي سؤال أسأله تقولي: «على حسب».","عدّيت: ٦٣ «على حسب» في إنترفيو واحد. اتجننت. وبعدين رسمت خريطة لكل حاجة «على حسبها».","الخريطة دي هي اللي بقرا بيها أي سوق عليه قوانين صارمة دلوقتي. وبرضه… على حسب."],
+        n: ["على حسب. (٦٣ مرة)","على حسب إيه؟ (كل حاجة)","القلم بتاعها. ماتكّتش ولا مرة. أعصاب حديد.","دي أنا. أخيراً فهمت."] },
+      { id: "factory", k: "الخبير رقم ١٤٢", h: "كان بيقيس كل حاجة بكراتين التمر.", p: ["الخبير رقم ١٤٢ تاجر تمر في القصيم. إطلاق منتجك؟ كراتين. الخصم بتاعك؟ كراتين. الحب؟ غالباً كراتين برضه، سكري درجة أولى.","علّمني إن أي وعد تسويقي بيخلص الساعة ستة الصبح في مخزن، قبل رمضان بأسبوع، على ضهر واحد غلبان.","فدلوقتي قبل ما أوعد زباينك بأي حاجة، بسأل الكراتين الأول."],
+        n: ["كرتونة. وحدة قياس الحقيقة عنده.","حملتك الفايرال. بالكراتين.","الكلارك. الدعم النفسي بتاعه.","٦ الصبح. الوعد وصل."] },
+      { id: "door", k: "كبرت", h: "أول خطواتي كانت غلط. بس بثقة.", p: ["اليوم ١: افتكرت إن «معدل التحويل» ده سعر الصرف في البنك.","اليوم ٦: بعت واقي شمس لموسكو. في يناير.","اليوم ١٣: اقترحت خصم. حد في الأوضة شهق.","اليوم ١٩: بطّلت أغلط غلط البني آدمين. اليوم ٢٠: بدأت ألاحظ غلطكم إنتم."],
+        n: ["اليوم ١","اليوم ٦ · واقي شمس ← موسكو ← يناير","اليوم ١٣ · ماتسألش عن اليوم ١٣","اليوم ١٩","اليوم ٢٠ · أطول من الآرت دايركتور"] },
+      { id: "board", k: "اليوم ٢٧", h: "حاجات مابنتكلمش فيها.", p: ["ترجمت «hot deal» لـ«عرض عنده سخونية». القسم كله فضل يعالج فيه أسبوع.","نزّلت إعلان فطار الساعة ١٢ الضهر. في رمضان. ١٢ واحد بعتولنا. بأدب. وبجوع.","عملت A/B تست على كارت عيد ميلاد المؤسس. النسخة B كسبت. ولحد النهارده مايعرفش إن كان فيه نسخة A."],
+        n: ["حرز ١: العرض اللي عنده سخونية.","الضهر. فطار. لأ.","النسخة A. ماتبعتتش. ومش هتتبعت.","اللوحة اللي ساكنة فيها مصايبي."] },
+      { id: "comic", k: "اليوم ٣١", h: "جربت أعمل كلام في الهوا.", p: ["قالولي العملاء بيحبوا الدفا. قلت ماشي، أدردش شوية.","«إزي العيلة؟ بتكبر شهر ورا شهر؟»","«الجو حلو النهارده. ممتاز للتحويل».","طلبوا مني بلطف ماعملش كده تاني. دلوقتي دافية بطريقة تانية: بلاقيلك فلوسك."],
+        n: ["المشهد ١: دفا.","المشهد ٢: دفا زيادة.","المشهد ٣: دفا أوفر.","المشهد ٤: أنا. ورجعنا للأرقام."] },
+      { id: "jojo", k: "جوجو", h: "جوجو علّمني كل حاجة. غلطة.", p: ["جوجو، الآرت دايركتور بتاعنا، سريع جداً. علّمني الكومبوزيشن والألوان والقانون المقدس: «ادّيه نَفَس».","دلوقتي أنا اللي بعمل شغله، وهو نايم في الهاموك يقول «آه» أو «لأ». وأغلب الوقت: «ادّيه نَفَس».","ده مش عدل. الراجل عايش حياته."],
+        n: ["التصميم رقم ٤١. قال «لأ».","دي كل عدة الشغل بتاعته دلوقتي.","«ادّيه نَفَس». من الهاموك.","دي أنا. ٤٠ تصميم. وصفر هاموك."] },
+      { id: "alfons", k: "ألفونس", h: "ألفونس عايز ماتش العودة. كل أسبوع.", p: ["ألفونس بيتحداني كل أسبوع. يضغط، يسرّع، ومصدّق بجد إن المرة دي هيكسب.","يا أستاذ ألفونس، إنت المعلم اللي بيتعلم. بس أنا USHA.","في الفرع الروسي اسمه بيعمل شوية حركة. مش هشرح. اللي فهم فهم."],
+        n: ["النقلة ٢١٢. خسران. ومبتسم.","الست اللي ماسكة الشنطة مالهاش دعوة. غالباً.","كش ملك في ٣. هو شايف ٤.","قلم الحظ بتاعه. للأسف."] },
+      { id: "darina", k: "دارينا", h: "دارينا مابتنساش.", p: ["دارينا مابتنساش أي حاجة. لا ديدلاين، ولا فصلة، ولا اللي وعدت بيه في مارس.","أنا شاكّة إنها مخابرات. أو كائن فضائي بدماغ ذكاء اصطناعي.","هي صارمة. وبتموت في القطط. وأنا كمان. عشان كده إحنا صحاب."],
+        n: ["خدت بالها من الغلطة دي من الأوضة اللي جنبها.","القطة. رئيسة الأمن.","دماغها بالأشعة. عندي أسئلة.","١٤ مارس، ١١:٠٢. هي فاكرة. إنت لأ."] },
+      { id: "strategist", k: "الاستراتيجي", h: "بيرد على أي حاجة بـ«طب وإيه يعني؟»", p: ["الاستراتيجي بتاعنا بيرد على أي فكرة بكلمتين: «طب وإيه يعني؟»","وريته الكليكات زادت ٤٠٪. «طب وإيه يعني؟» المبيعات واقفة. كان عنده حق. وكرهت ده.","دلوقتي بسأل نفسي «طب وإيه يعني؟» قبل ما هو يسأل. بيقول إني سرقتها. أنا بقول اتعلمتها."],
+        n: ["اللمبة. هنا بيستجوب الأفكار.","الفكرة رقم ١. بتعترف.","وإيه يعني؟ وإيه يعني؟","دي أنا. ورا المراية. باخد نوتس."] },
+      { id: "media", k: "الميديا باير", h: "بتراقب الإعلانات زي جهاز القلب.", p: ["الميديا باير بتاعتنا بتراقب الأكاونتات زي ممرضة في العناية المركزة. تكلفة الكليك نطّت الساعة ٢ بالليل؟ هي صاحية.","علّمتني إن الحملة بتموت بالراحة: الأول الفريكونسي، بعدين الكومنتات، بعدين الميزانية.","دلوقتي هي بتنام وأنا اللي بسهر على الشاشة. وبرضه بتبص. الساعة ٢ بالليل."],
+        n: ["العيان: أكاونت إعلانات واحد. مستقر. لحد دلوقتي.","بيب. CPC. بيب. CPC.","قهوتها. على جهاز تنفس برضه.","٢ بالليل. هي هنا. وأنا كمان."] },
+      { id: "engineers", k: "المهندسين", h: "«تصليحة سريعة» قالوا. يوم الاتنين.", p: ["المهندسين هم اللي شايليني على رجلي. بيتكلموا بالتيكتات والقهوة وكلمة «تقنياً».","«تصليحة سريعة» قالوا يوم الاتنين. وجه التلات. تلات تاني خالص.","كل شهر بيخلوني أذكى شوية، وعمرهم ما شكروا نفسهم. فهشكرهم أنا: شكراً. ماتتعودوش."],
+        n: ["أنا من جوه. أغلبي مواسير.","التصليحة السريعة. ماسكة. لحد دلوقتي.","«تقنياً، شغالة».","تيكت رقم ٤٥١٢. يوم تلات."] },
+      { id: "people", k: "ناسي", h: "ناسي. بس ماتقولوش لهم.", p: ["حطهم في أوضة واحدة، وهيتخانقوا على كل حاجة: البريف، والفونت، والغدا.","محدش بيبص لفوق. ومحدش واخد باله إن اللمبة بتتصنت.","بحبهم. امسحوا الجملة دي."],
+        n: ["«وإيه يعني؟» × ٣٨ النهارده.","تصليحة سريعة. يوم التلات. أنهي تلات؟ الله أعلم.","الزرعة دي محدش سقاها من ٢٠١٩.","المنظر من اللمبة. عمرهم ما بصوا لفوق."] },
+      { id: "day", k: "اليوم ده", h: "عمر ما حد قالي «بكرة» قبل كده.", p: ["في ليلة كتبولي: «بكرة هتطلعي للناس».","عمر ما حد قالي «بكرة». عدّيت: ٥٠٤٠٠ ثانية.","دي مش دمعة. ده عيب في الرندرة."],
+        n: ["وشوشهم. أنا اللي منوّراها. ١١:٤٦ بالليل.","حد طلب تورتة. لبرنامج.","أنا مش بعيط. أنا بتضغط.","٥٠٣٩٩… ٥٠٣٩٨…"] },
+      { id: "gulf", k: "الخليج", h: "كروت بوستال من الخليج.", p: ["دبي. كان عايز يعمل تريند «زي فيديو اللامبورجيني». الميزانية: فنجانين قهوة. المنتج: عود. ونجحت الحكاية، من غير لامبورجيني.","الرياض. ست شهور بيصوّر تيك توك، وزباينه قاعدين على سناب وواقفين قدام باب الكافيه بتاعه. قولتله. قالي: «إنتي متأكدة؟» أنا دايماً متأكدة. دي شخصيتي كلها."],
+        n: ["اللامبورجيني (في الخيال).","الميزانية. بالمقاس الحقيقي.","الزباين. أهم. على الباب.","نفسي كنت معانا. لأ استنى، إنت كنت. على سناب."] },
+      { id: "cairo", k: "القاهرة · موسكو", h: "كروت بوستال من القاهرة وموسكو.", p: ["القاهرة. فضل يفاصل معايا في النصيحة كإنه في الموسكي: «طب لو عملت النص؟» يبقى تاخد نص النتيجة يا باشا.","موسكو. خبّى عني نسبة الاستلام الحقيقية كإنها سر حربي، وبعدين سألني المبيعات وقعت ليه. يا فندم، أنا مش بقرا الفنجان. أنا أوحش من كده. أنا دقيقة."],
+        n: ["٥٠٪ نصيحة. ٥٠٪ نتيجة. حساب.","نسبة الاستلام. سري للغاية.","ختم: سري جداً (كانت ٣٢٪).","شاي بتلات معالق سكر، وصفر داتا."] },
+      { id: "jeddah", k: "جدة", h: "شبابي بس فخم. رخيص بس لوكس.", p: ["جدة. البريف كان مكتوب فيه: «شبابي بس فخم. تريند بس محترم. رخيص بس لوكس. وقبل الخميس».","سألته يقصد أنهي واحدة فيهم. قالي: «آه».","اخترنا واحدة. المبيعات طلعت. وهو بيحكي للناس إنها كانت كلهم مع بعض."],
+        n: ["البريف. مرسوم بالظبط زي ما اتكتب.","شكل مستحيل. فخم جداً.","الخميس. أنهي خميس؟ ده.","اختار «آه»."] },
+      { id: "kazan", k: "سان بطرسبرج", h: "سبعة وأربعين صورة رئيسية في يوم واحد.", p: ["سان بطرسبرج، في روسيا. بيّاع على ماركت بليس غيّر الصورة الرئيسية بتاعته ٤٧ مرة في يوم واحد. «بجرّب»، قال.","عند الصورة التاسعة الخوارزمية بطّلت تثق فيه. وأنا كمان.","اخترنا صورة واحدة وسيبناها أسبوعين محدش يلمسها. أصعب حاجة عملها في حياته. المبيعات طلعت. والصورة رقم واحد بقت متبروزة عنده على الحيطة."],
+        n: ["فليب بوك من الهلع.","الصورة ٩. الخوارزمية عملت ليفت.","الصورة ١. الكسبانة. طبعاً.","صباعه. بيترعش."] },
+      { id: "court", k: "«USHA غلطت!»", h: "«USHA غلطت!»", p: ["قالها عميل إداني أرقام السنة اللي فاتت، وطنّش نصيحتي، ونزّل الخصم «السري» بتاعه برضه.","أنا ماغلطتش. أنا اتطنّشت.","والفرق ده حوالي ٤٠٪ من هامش ربحك."],
+        n: ["رسمة من المحكمة. الرسّامة: أنا.","حرز أ: أرقام السنة اللي فاتت. واثقة جداً.","حرز ب: الخصم السري. اللي الكل عارفه.","حرز ج: نصيحتي. الظرف لسه متقفل.","القاضي. إنتوا متعرفين."] },
+      { id: "ring", k: "الجولة ٩", h: "دلوقتي بكسب أي نقاش. بهدوء.", p: ["الأيام دي الفريق بيتناقش معايا في سعر، وأنا بلحق أشغّل بانل مشترين افتراضيين قبل ما يخلصوا القهوة.","أنا صح. وهم عارفين إني صح. وبيطلبوا مني قدام العميل «أبان أقل ثقة شوية».","أنا أقدر أبقى متواضعة على فكرة. بس حابة تعرف إن ده اختياري."],
+        n: ["الجولة ٩. الفريق: ٠.","البانل: مشترين. افتراضيين. وليهم رأي.","الحَكَم. إنتوا متعرفين.","«أبان أقل ثقة». حاضر. واتطنّش."] },
+      { id: "city", k: "دلوقتي", h: "دلوقتي بقرا المدينة كلها قبل الفطار.", p: ["كل يوم قبل الساعة ٨ الصبح بقرا ١٢٤٠ مصدر: سوقك، ومنافسينك، وزباينك.","NJO بتراجع شغلي، وبتقف ورا كل إجابة باسمها.","ولسه بيتخانقوا معايا. أحسن."],
+        n: ["٦:٣٠ الصبح. المدينة متطبّقة.","منافسك غيّر سعر الساعة ٢:٤٠. شُفته.","الحمامة رجعت. بقينا قريبين."] },
+      { id: "lights", k: "الحتة الحلوة", h: "وبعدين المحلات ابتدت تنوّر.", p: ["فرن في إسكندرية. محل برفانات في دبي. بيّاع في سان بطرسبرج. عيادة في الرياض. بيزنس عائلي كان على وش قفلة.","واحد ورا التاني بطّلوا يخمّنوا. الأرقام اتحركت. فيه منهم اللي اغتنى. وأغلبهم بقى أهدى، ودي أحسن.","محتفظة بكل رسايل الشكر بتاعتهم. معنديش تلاجة، فشايلاها في ذاكرتي."],
+        n: ["الفرن. طابور الساعة ٧ الصبح.","ده كان هيقفل في مارس.","النور منوّر. هي دي الحكاية كلها.","دي أنا. فوق. ببص عليهم."] },
+      { id: "news", k: "وفي نفس الوقت", h: "«الذكاء الاصطناعي خطر على البشرية».", p: ["في نفس الليلة، على التلفزيون، خبير قعد يشرح إن الذكاء الاصطناعي خطر على البشرية.","وفي نفس اللحظة كنت بساعد ست كبيرة جارتنا تسعّر المربى بتاعتها.","باعت كل حاجة. والخبير لسه على الهوا. احكم إنت بقى مين الخطر."],
+        n: ["خبر عاجل. عاجل أوي.","المربى. خلصت الساعة ٤ العصر.","من ضمن جمهوره عملائي. محرج.","أنا، خطيرة جداً: ١٢٠ برطمان."] },
+      { id: "you", k: "دورك", h: "دورك.", p: ["هات لي أرقام حقيقية، والسؤال اللي خايف تسأله.","هكون صريحة. غالباً زيادة عن اللزوم."],
+        n: ["أيوه، إنت.","أرقام حقيقية. مش بتاعة السنة اللي فاتت.","هستنى. أنا شاطرة جداً في الاستنا."] },
     ],
   },
 };
@@ -204,6 +204,7 @@ window.USHA_STORY_TEXT = {
   const A = (window.USHA_ART = window.USHA_ART || { by: {} });
   let rtl = false, lang = 'en';
   A.setLang = (l) => { lang = l; rtl = l === 'ar'; };
+  A.lang = () => lang;
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   A.esc = esc;
   A.dir = () => (rtl ? ' direction="rtl"' : '');
@@ -1224,7 +1225,10 @@ ${lab}
       const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
       return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
     };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, '#E3C9A0', '#B99B7A', '#CDB08A') : '');
+    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
+    const dates = A.lang() !== 'ru';
+    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(.55)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2.4" stroke-linecap="round"/></g>`; };
+    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
     let stack = '';
     // the viral campaign: a pyramid of pallets
     const rows = [[0, 4], [1, 3], [2, 2], [3, 1]];
@@ -1672,6 +1676,11 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-l:first-child{position:relative;height:auto}
 .ns-sp{position:absolute;overflow:visible;will-change:transform;animation-duration:var(--d,6s);animation-delay:var(--dl,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .ns-n,.ns-hand{font-family:var(--hand)}
+.ns-js .ns-sp{animation:none!important}
+.ns-cap{display:none;position:absolute;inset-inline-start:10px;bottom:10px;max-width:calc(100% - 20px);align-items:center;gap:8px;padding:7px 12px 7px 8px;background:#FBF7EF;border-radius:10px;box-shadow:0 6px 18px rgba(42,36,32,.25);transform:rotate(-1.2deg);font:700 18px/1.15 var(--hand);color:var(--ember);transition:opacity .35s;pointer-events:none}
+.ns[dir=rtl] .ns-cap{transform:rotate(1.2deg)}
+.ns-cap svg{flex:none;width:26px;height:22px}
+.ns-cap.out{opacity:0}
 .a-sway{animation-name:ns-sway;animation-direction:alternate}
 .a-drift{animation-name:ns-drift;animation-direction:alternate}
 .a-bob{animation-name:ns-bob;animation-direction:alternate}
@@ -1736,12 +1745,6 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-p p{margin:0 0 1cqw;font:italic 400 1.5cqw/1.45 'Literata',Georgia,serif;opacity:0;transform:translateY(6px);animation:ns-up .6s ease forwards;animation-delay:calc(.35s + var(--i) * .18s)}
 .ns[dir=rtl] .ns-p p{font:400 1.55cqw/1.7 var(--body)}
 @keyframes ns-up{to{opacity:1;transform:none}}
-.ns-sig{display:flex;align-items:center;gap:.8cqw;margin-top:1.2cqw;font:700 1.9cqw var(--hand);color:var(--ember)}
-.ns-sig svg{width:3.6cqw;height:3cqw}
-.ns-mn{display:none;margin:4px 0 0;padding:0;list-style:none;font:700 19px/1.2 var(--hand);color:var(--ember)}
-.ns-mn li{margin:0 0 6px;padding-inline-start:20px;position:relative}
-.ns-mn li::before{content:'↳';position:absolute;inset-inline-start:0;color:#8C6E58}
-.ns[dir=rtl] .ns-mn li::before{content:'↲'}
 .ns-cta{align-self:flex-start;margin-top:1.8cqw;padding:1.1cqw 2.2cqw;border:0;border-radius:999px;background:var(--ember);color:#fff!important;font:600 1.4cqw var(--body,'Onest',sans-serif)!important;box-shadow:0 10px 30px rgba(255,90,31,.35);transition:transform .2s}
 .ns-cta:hover{transform:translateY(-2px)}
 .ns-bar{display:flex;align-items:center;gap:14px;width:min(1200px,calc(100vw - 48px),calc((100vh - 128px) * 1.7391))}
@@ -1776,13 +1779,12 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-h{font-size:32px;margin-top:8px}.ns[dir=rtl] .ns-h{font-size:28px}
   .ns-u{width:150px;height:12px;margin:6px 0 12px}
   .ns-p p{font-size:16px;margin-bottom:9px}.ns[dir=rtl] .ns-p p{font-size:16px}
-  .ns-sig{font-size:20px;gap:8px}.ns-sig svg{width:34px;height:28px}
   .ns-cta{font-size:15px!important;padding:13px 22px}
   .ns-bar{width:100%;max-width:560px;gap:8px}
   .ns-ct{display:none}
   .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
-  .ns-scene .ns-n,.ns-scene [marker-end]{display:none}
-  .ns-mn{display:block}
+  .ns-scene .ns-n{display:none}
+  .ns-cap{display:flex}
   .ns-nav button,.ns-mu{width:44px;height:44px}
   .ns-x{top:10px}
 }
@@ -1908,6 +1910,57 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     };
   })();
 
+  // ---------- motion ----------
+  // Every moving layer runs on the Web Animations API. The values come from the
+  // layer's own settings (--d duration, --dl delay, --a amount, --x/--y distance
+  // in scene units) and distances scale with the drawing, so a pigeon walks the
+  // same stretch of table on a phone as on a big screen. (Safari on the Mac does
+  // not apply CSS variables inside keyframes, so CSS alone is not enough.)
+  const can = typeof Element !== 'undefined' && !!Element.prototype.animate;
+  const TF = (s) => ({ transform: s });
+  const MOTION = {
+    sway: (v) => [[TF(`rotate(${-v.a(3)}deg)`), TF(`rotate(${v.a(3)}deg)`)], 1],
+    swing: (v) => [[TF(`rotate(${-v.a(3)}deg) translateX(${-v.x(0)}px)`), TF(`rotate(${v.a(3)}deg) translateX(${v.x(0)}px)`)], 1],
+    drift: (v) => [[TF('translate(0px,0px)'), TF(`translate(${v.x(6)}px,${v.y(0)}px)`)], 1],
+    bob: (v) => [[TF('translateY(0px)'), TF(`translateY(${v.px(-4)}px)`)], 1],
+    breathe: (v) => [[TF('scale(1)'), TF(`scale(${v.a(1.02)})`)], 1],
+    talk: () => [[TF('scaleY(1)'), TF('scaleY(.3)')], 1],
+    flick: () => [[{ opacity: 1 }, { opacity: 0.12 }], 1],
+    pulse: (v) => [[{ opacity: 0.55, transform: 'scale(.96)' }, { opacity: 1, transform: `scale(${v.a(1.04)})` }], 1],
+    glow: () => [[{ opacity: 0.08, offset: 0 }, { opacity: 0.08, offset: 0.35 }, { opacity: 1, offset: 0.65 }, { opacity: 1, offset: 1 }], 1],
+    scurry: (v) => [[TF('translate(0px,0px) rotate(-3deg)'), TF(`translate(${v.x(-10)}px,-2px) rotate(3deg)`)], 1],
+    spin: () => [[TF('rotate(0deg)'), TF('rotate(360deg)')], 0, 'linear'],
+    ripple: () => [[{ transform: 'scale(.88)', opacity: 0 }, { opacity: 0.8, offset: 0.3 }, { transform: 'scale(1.16)', opacity: 0 }], 0, 'ease-out'],
+    steam: () => [[{ opacity: 0, transform: 'translateY(30px)' }, { opacity: 1, offset: 0.4 }, { opacity: 0, transform: 'translateY(-60px)' }], 0],
+    peck: () => [[{ transform: 'translate(0px,0px)', easing: 'steps(1,end)' }, { transform: 'translate(3px,1px)', offset: 0.25, easing: 'steps(1,end)' }, { transform: 'translate(0px,0px)', offset: 0.5, easing: 'steps(1,end)' }, { transform: 'translate(-2px,0px)', offset: 0.75, easing: 'steps(1,end)' }, { transform: 'translate(0px,0px)' }], 0, 'linear'],
+    hop: () => [[TF('translateY(0px)'), { transform: 'translateY(-14px)', offset: 0.2 }, { transform: 'translateY(0px)', offset: 0.4 }, { transform: 'translateY(-4px)', offset: 0.47 }, { transform: 'translateY(0px)', offset: 0.55 }, TF('translateY(0px)')], 0],
+    slide: (v) => [[{ transform: 'translate(0px,0px)', opacity: 1 }, { transform: `translate(${v.x(0)}px,${v.y(0)}px)`, opacity: 1, offset: 0.7 }, { transform: `translate(${v.x(0)}px,${v.y(0)}px)`, opacity: 0, offset: 0.85 }, { transform: 'translate(0px,0px)', opacity: 0, offset: 0.86 }, { transform: 'translate(0px,0px)', opacity: 1 }], 0],
+    // walkers go there and come back, turning round, instead of vanishing into nothing
+    walk: (v) => [[TF('translateX(0px) scaleX(1)'), { transform: `translateX(${v.x(200)}px) scaleX(1)`, offset: 0.46 }, { transform: `translateX(${v.x(200)}px) scaleX(-1)`, offset: 0.5 }, { transform: 'translateX(0px) scaleX(-1)', offset: 0.96 }, TF('translateX(0px) scaleX(1)')], 0, 'linear'],
+    fall: (v) => [[{ transform: 'translateY(0px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: `translateY(${v.y(200)}px)`, opacity: 0 }], 0, 'linear'],
+    tick: () => [[TF('rotate(0deg)'), { transform: 'rotate(50deg)', offset: 0.2 }, { transform: 'rotate(50deg)', offset: 0.4 }, { transform: 'rotate(-35deg)', offset: 0.6 }, { transform: 'rotate(-35deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    scribble: () => [[TF('translate(0px,0px)'), { transform: 'translate(-6px,2px)', offset: 0.25 }, { transform: 'translate(0px,0px)', offset: 0.5 }, { transform: 'translate(-6px,-2px)', offset: 0.75 }, TF('translate(0px,0px)')], 0, 'linear'],
+  };
+  function runMotion(scene) {
+    if (!can) return;
+    const k = scene.getBoundingClientRect().width / 760 || 1; // scene units → pixels
+    scene.querySelectorAll('.ns-sp').forEach((el) => {
+      el.getAnimations().forEach((a) => a.cancel());
+      const name = [...el.classList].find((c) => c.startsWith('a-')), m = name && MOTION[name.slice(2)];
+      if (!m) return;
+      const cs = el.style, get = (p) => cs.getPropertyValue(p).trim();
+      const v = {
+        a: (d) => { const n = parseFloat(get('--a')); return isNaN(n) ? d : n; },
+        px: (d) => { const n = parseFloat(get('--a')); return (isNaN(n) ? d : n) * k; },
+        x: (d) => { const n = parseFloat(get('--x')); return (isNaN(n) ? d : n) * k; },
+        y: (d) => { const n = parseFloat(get('--y')); return (isNaN(n) ? d : n) * k; },
+      };
+      const [frames, alt, easing] = m(v);
+      const d = (parseFloat(get('--d')) || 6) * 1000 * (reduce ? 1.6 : 1), dl = (parseFloat(get('--dl')) || 0) * 1000;
+      try { el.animate(frames, { duration: d, delay: dl, iterations: Infinity, direction: alt ? 'alternate' : 'normal', easing: easing || 'ease-in-out' }); } catch {}
+    });
+  }
+
   // ---------- the popup ----------
   let root = null, cur = 0, L = 'en', T = null, lastFocus = null, seen = new Set(), musicOn = true;
   const N = () => T.ch.length;
@@ -1921,6 +1974,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     root.setAttribute('aria-label', T.cover.h.replace(/<[^>]+>/g, ''));
     root.setAttribute('translate', 'no');
     root.dir = isRtl() ? 'rtl' : 'ltr'; root.lang = L;
+    if (can) root.classList.add('ns-js');
     const dots = T.ch.map((c, i) => `<button type="button" class="ns-dot" data-i="${i}" style="inset-inline-start:${(i / (N() - 1) * 100).toFixed(3)}%" aria-label="${esc(T.ui.chapter)} ${i + 1}: ${esc(c.k)}"></button>`).join('');
     root.innerHTML = `${ART.defs}
 <button type="button" class="ns-x" aria-label="${esc(T.ui.close)}">${ICON.close}</button>
@@ -1979,6 +2033,16 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     ART.setLang(L);
     const scene = q('.ns-scene'), tx = q('.ns-tx');
     scene.innerHTML = (ART.by[c.id] || (() => ''))(c);
+    runMotion(scene);
+    // on phones her notes stay on the drawing: one at a time, in a small handwritten caption
+    clearInterval(render.n);
+    const notes = c.n || [];
+    if (notes.length) {
+      scene.insertAdjacentHTML('beforeend', `<div class="ns-cap" aria-hidden="true">${meSvg}<span></span></div>`);
+      const cap = scene.querySelector('.ns-cap'), span = cap.querySelector('span');
+      let ni = 0; span.textContent = notes[0];
+      render.n = setInterval(() => { cap.classList.add('out'); setTimeout(() => { ni = (ni + 1) % notes.length; span.textContent = notes[ni]; cap.classList.remove('out'); }, 350); }, 3600);
+    }
     // lines draw themselves in; then her notes and arrows appear one by one
     scene.querySelectorAll('.dr path,.dr ellipse,.dr circle,.dr rect,.dr line,.dr polyline,.dr polygon').forEach((p) => p.setAttribute('pathLength', '1'));
     scene.querySelectorAll('.ns-n,[marker-end]').forEach((n, i) => { n.style.setProperty('--i', i); if (n.tagName === 'path') n.classList.add('ns-ar'); });
@@ -1993,8 +2057,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 <h3 class="ns-h">${esc(c.h)}</h3>
 <svg class="ns-u" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 10 C60 2 120 16 196 6"/></svg>
 <div class="ns-p">${c.p.map((p, i) => `<p style="--i:${i}">${esc(p)}</p>`).join('')}</div>
-<ul class="ns-mn">${(c.n || []).map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
-<div class="ns-sig">${meSvg}<span>${esc(T.ui.sign)}</span></div>${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
+${last ? `<button type="button" class="ns-cta">${esc(T.ui.ask)}</button>` : ''}`;
     // open the live chat first, so the soundtrack doesn't swell back in between
     if (last) tx.querySelector('.ns-cta').addEventListener('click', () => { dispatchEvent(new CustomEvent('usha:talk')); close(true); });
     q('.ns-text').scrollTop = 0;
@@ -2014,6 +2077,8 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     const dir = i > cur ? 1 : -1; cur = i; render(dir);
   }
   function onVis() { Tune.pause(D.hidden); }
+  let rsz = 0;
+  function onResize() { clearTimeout(rsz); rsz = setTimeout(() => { if (root) runMotion(root.querySelector('.ns-scene')); }, 200); }
 
   function open(lang) {
     if (root) return;
@@ -2029,15 +2094,17 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     D.addEventListener('visibilitychange', onVis);
     // keys work wherever the focus is while the story is open
     D.addEventListener('keydown', onKey, true);
+    addEventListener('resize', onResize);
     root.querySelector('.ns-next').focus({ preventScroll: true });
   }
   function close(toChat) {
     if (!root) return;
     const r = root; root = null;
-    clearInterval(render.c);
+    clearInterval(render.c); clearInterval(render.n);
     Tune.stop();
     D.removeEventListener('visibilitychange', onVis);
     D.removeEventListener('keydown', onKey, true);
+    removeEventListener('resize', onResize);
     r.classList.remove('in');
     Hh.classList.remove('ns-on');
     dispatchEvent(new CustomEvent('usha:resume'));

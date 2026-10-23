@@ -17,7 +17,8 @@ export function applySound(src) {
     ['ln.gain.setTargetAtTime(.8,fe.currentTime,.2)', 'ln.gain.setTargetAtTime(window.__fxL??.8,fe.currentTime,.2)'],
     // effects run in both modes; their level decides whether they are heard
     ['if(!yt&&!i){yt=!0,', 'if(!yt){yt=!0,'],
-    ['Iu()||(Ae.enable(),', '(Ae.enable(),'],
+    // (the replacement must not already appear inside the original, or the patcher thinks it is done)
+    ['||Iu()||(Ae.enable(),Ae.running', '||(0,Ae.enable(),Ae.running'],
     // the engine tone that rose while holding to wake her: removed in every mode
     ['li.gain.setTargetAtTime(.12,fe.currentTime,.15)', 'li.gain.setTargetAtTime(0,fe.currentTime,.15)'],
     // a fresh setting: an old "off" was about the engine hum, not the music

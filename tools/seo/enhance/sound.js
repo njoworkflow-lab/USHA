@@ -29,10 +29,11 @@
   const live = () => H.classList.contains('x-modal-on');
   const target = () => (ready && on && !quiet.size && !live() && !D.hidden ? VOL : 0);
 
-  // site effects: silent in music mode and in the live chat, half when muted
+  // site effects: silent in music mode and in the live chat, half when muted; open in the game
   function fx() {
     const A = audio(); if (!A) return;
-    const lvl = live() ? 0 : on ? 0 : FX_MUTED;
+    // in the game her voice and the game's effects are the sound, so the bus opens (full, or half when muted)
+    const lvl = live() ? 0 : quiet.has('game') ? (on ? 0.8 : FX_MUTED) : on ? 0 : FX_MUTED;
     window.__fxL = lvl;
     A.fx.gain.setTargetAtTime(lvl, A.ac.currentTime, 0.15);
   }

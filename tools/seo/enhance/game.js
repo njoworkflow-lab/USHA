@@ -1,6 +1,6 @@
 function au({scene:i,cam:e,U:t,SND:n,haptic:s,T:r,onBreak:o,onSecret:a,onExit:l}){
-// the game's sounds come from game-sound.js (point 14): soft tones, not USHA's voice
-const gsfx=k=>{const g=window.UshaGameSound;g?g.fx(k):n.voice(k)};
+// her voice stays; game-sound.js (point 14) adds a soft accent under it
+const gsfx=k=>{n.voice(k);const g=window.UshaGameSound;g&&g.fx(k)};
 // USHA's game: five levels in the noise. Replaces the bundle's one-round game
 // (tools/seo/enhance/game.js, swapped in by the build). Everything is drawn as
 // glowing points, like the rest of the site. Uses the bundle's three.js names:
@@ -158,6 +158,8 @@ function update(dt,time,ptr,moved){
  let threat=99,tx0=0,ty0=0;
  for(const d of devs)if(!d.dead){const q=dist(L.x,L.y,d.x,d.y);if(q<threat){threat=q;tx0=d.x;ty0=d.y}}
  if(boss&&boss.hp>0){const q=dist(L.x,L.y,boss.x,boss.y)-1.1;if(q<threat){threat=q;tx0=boss.x;ty0=boss.y}}
+ // read-only: what is around her, for the ambience in game-sound.js
+ window.__gsnd={ty:c.ty,phase:w.phase,threat,boss:boss&&boss.hp>0?boss.hp/boss.max:0,dash:L.dash>0,wind:winds.some(wd=>Math.abs(L.y-wd.y)<wd.h/2),lives:w.lives,paused:w.paused};
  const scared=threat<1.9&&w.phase==="play"&&w.shield<=0;
  if(w.phase!=="over"){
   t.tgt.lookX=scared?clamp((tx0-L.x)*.25,-.6,.6):clamp(L.vx*.12,-.6,.6);
