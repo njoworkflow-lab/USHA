@@ -183,7 +183,7 @@ ${pin(130, 398)}
     const pan = [[20, 70], [392, 70], [20, 382], [392, 382]], PW = 348, PH = 296;
     const frame = pan.map(([x, y]) => `<rect x="${x}" y="${y}" width="${PW}" height="${PH}" fill="#FBF7EF"/>`).join('');
     const client = (x, y, mood) => `<g transform="translate(${x} ${y})"><path d="M-40 90 C-40 30 40 30 40 90 Z" fill="#9DB7D6"/><circle r="30" fill="#E7C2A3"/>${A.ink(`<path d="M-40 90 C-40 30 40 30 40 90"/><circle r="30"/><path d="M-14 -4 v4 M14 -4 v4"/>${mood === 'ok' ? '<path d="M-12 12 q12 10 24 0"/>' : mood === 'meh' ? '<path d="M-10 14 h20"/>' : '<ellipse cx="0" cy="14" rx="6" ry="8"/>'}`, 2.4)}</g>`;
-    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g' })}</g>`;
+    const bub = (x, y, w, t) => `<g><path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z" fill="#fff"/>${A.ink(`<path d="M${x} ${y} h${w} v70 h-${w - 60} l-20 22 l2 -22 h-${40} Z"/>`, 2)}${A.note(t, x + 12, y + 28, w - 24, { s: 19, c: 'g', keep: 1 })}</g>`;
     return A.base(`
 <rect width="760" height="690" fill="#D9CDB8" opacity=".4"/>
 ${frame}
@@ -204,6 +204,6 @@ ${A.me(462, 600, 2)}${client(662, 552, 'ok')}
     + A.sp([60, 520, 110, 60], 'a-bob', `<g fill="${E}"><path d="M80 540 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M130 530 c-5 -8 -16 -3 -11 5 l11 10 l11 -10 c5 -8 -6 -13 -11 -5 Z"/><path d="M150 560 c-4 -6 -12 -2 -8 4 l8 7 l8 -7 c4 -6 -4 -10 -8 -4 Z"/></g>`, null, '--d:.8s;--a:-8px')
     // the client, leaving the panel at speed
     + A.sp([250, 480, 120, 150], 'a-drift', `<g transform="translate(300 540) rotate(14)"><path d="M-30 60 C-30 14 30 14 30 60 Z" fill="#9DB7D6"/><circle r="24" fill="#E7C2A3"/>${A.ink('<path d="M-30 60 C-30 14 30 14 30 60"/><circle r="24"/><ellipse cx="0" cy="10" rx="5" ry="7"/><path d="M-12 60 l-16 30 M12 60 l20 26"/>', 2.4)}</g>`, null, '--d:.4s;--x:16px')
-    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20 })}`).join(''));
+    + A.base(pan.map(([x, y], i) => `<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34" fill="#F3E08A"/>${A.ink(`<rect x="${x + 10}" y="${y + 10}" width="${PW - 20}" height="34"/>`, 1.6)}${A.note(N(c, i), x + 20, y + 34, PW - 40, { s: 20, keep: 1 })}`).join(''));
   };
 })();

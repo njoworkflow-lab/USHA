@@ -52,7 +52,8 @@
     return out;
   }
   // her handwriting. Box from x to x+w; a: start | middle | end (x is then the right edge);
-  // s: size, c: 'g' for graphite, r: rotation, v: 'b' when y is the last line.
+  // s: size, c: 'g' for graphite, r: rotation, v: 'b' when y is the last line,
+  // keep: part of the drawing itself (speech bubbles, labels), so it stays on phones too.
   // Arabic reads right to left, so it sits right-aligned in the same box.
   A.note = (t, x, y, w, o = {}) => {
     if (t == null) return '';
@@ -64,7 +65,7 @@
     if (rtl && a !== 'middle') { ax = a === 'start' ? x + w : x; a = 'start'; }
     const y0 = o.v === 'b' ? y - (ls.length - 1) * lh : y;
     const rot = o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : '';
-    return `<text class="ns-n" font-size="${s}" fill="${c}" font-weight="${wt}" text-anchor="${a}"${rtl ? ' direction="rtl"' : ''}${rot}>${ls.map((l, i) => `<tspan x="${ax}" y="${(y0 + i * lh).toFixed(1)}">${esc(l)}</tspan>`).join('')}</text>`;
+    return `<text class="ns-n${o.keep ? ' ns-keep' : ''}" font-size="${s}" fill="${c}" font-weight="${wt}" text-anchor="${a}"${rtl ? ' direction="rtl"' : ''}${rot}>${ls.map((l, i) => `<tspan x="${ax}" y="${(y0 + i * lh).toFixed(1)}">${esc(l)}</tspan>`).join('')}</text>`;
   };
   // her arrows
   A.arrow = (d, dash) => `<path d="${d}" fill="none" stroke="${E}" stroke-width="2.4" stroke-linecap="round" filter="url(#ns-pencil)" marker-end="url(#ns-ah)"${dash ? ' stroke-dasharray="6 6"' : ''}/>`;
@@ -406,6 +407,6 @@ ${book(600, 40, 96, '#C98E8E', '200 experts')}${book(566, 34, 84, '#9DB7D6', 'Ko
     + A.sp([420, 160, 116, 342], 'a-breathe', `${A.me(478, 218, 2.3)}<g stroke="${G}" stroke-width="3.4" stroke-linecap="round" filter="url(#ns-pencil)"><path d="M466 256 V496 M490 256 V496 M466 496 l-6 4 M490 496 l6 4"/></g><path d="M440 230 c-14 6 -20 18 -18 30 M516 230 c14 -12 26 -40 34 -52" stroke="${G}" stroke-width="3" fill="none" stroke-linecap="round"/>`, [478, 500], '--d:4.5s;--a:1.02')
     // the pencil in my hand, still making the mark
     + A.sp([540, 130, 100, 80], 'a-scribble', `<g transform="rotate(-36 600 160)"><rect x="572" y="152" width="80" height="14" fill="#E8C35A"/><path d="M572 152 l-16 7 l16 7 Z" fill="#EBD5B4"/><path d="M556 159 l5 -2 v4 Z" fill="${G}"/><rect x="644" y="152" width="10" height="14" fill="#E6A3A3"/>${A.ink('<rect x="572" y="152" width="82" height="14"/><path d="M572 152 l-16 7 l16 7"/>', 1.8)}</g>`, [560, 176], '--d:.8s')
-    + A.base(`${marks.map((y, i) => A.note(lbl[i], 584, y + 8, 160, { s: i === 4 ? 25 : 22, c: i === 4 || i === 2 ? E : 'g' })).join('')}`);
+    + A.base(`${marks.map((y, i) => A.note(lbl[i], 584, y + 8, 160, { s: i === 4 ? 25 : 22, c: i === 4 || i === 2 ? E : 'g', keep: 1 })).join('')}`);
   };
 })();

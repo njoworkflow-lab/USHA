@@ -137,7 +137,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-bar{width:100%;max-width:560px;gap:8px}
   .ns-ct{display:none}
   .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
-  .ns-scene .ns-n,.ns-scene [marker-end]{display:none}
+  .ns-scene .ns-n:not(.ns-keep),.ns-scene [marker-end]{display:none}
   .ns-cap{display:flex}
   .ns-nav button,.ns-mu{width:44px;height:44px}
   .ns-x{top:10px}
@@ -390,7 +390,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     runMotion(scene);
     // on phones her notes stay on the drawing: one at a time, in a small handwritten caption
     clearInterval(render.n);
-    const notes = c.n || [];
+    const notes = scene.querySelector('.ns-n:not(.ns-keep)') ? c.n || [] : [];
     if (notes.length) {
       scene.insertAdjacentHTML('beforeend', `<div class="ns-cap" aria-hidden="true">${meSvg}<span></span></div>`);
       const cap = scene.querySelector('.ns-cap'), span = cap.querySelector('span');
