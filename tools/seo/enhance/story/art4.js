@@ -93,57 +93,100 @@ ${lab}
   ${A.arrow('M482 632 C462 626 446 622 432 620')}`);
   };
 
-  // ================= Expert no. 142 — the warehouse at 6 a.m., isometric =================
+  // ================= Expert no. 142 — an old photo: his first ad, twenty years ago =================
+  // A faded photograph pinned to the page: his shop at dawn, a fax that will not
+  // stop printing orders (3,000), a sad little stack of cartons (1,000), young him
+  // apologising on a brick phone, customers at the window. Beside it, him today,
+  // and an eye that still twitches at the word "campaign". Russian: New Year, snow.
   A.by.factory = (c) => {
-    const S = 34, ox = 380, oy = 250;
-    const iso = (x, y, z) => [ox + (x - y) * 0.87 * S, oy + (x + y) * 0.5 * S - z * S];
-    const pt = (p) => p.map((v) => v.toFixed(1)).join(' ');
-    const box = (x, y, z, w, d, h, top, left, right, extra = '') => {
-      const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
-      return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
-    };
-    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
-    const dates = A.lang() !== 'ru';
-    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
-    // his first ad: a tower of 3,000 orders beside the 1,000 cartons he actually had
-    const L = A.lang(), num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : L === 'ru' ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
-    let stack = '';
-    for (let i = 0; i < 22; i++) stack += box(5.6 + (i % 3) * 0.03, 1 + ((i * 7) % 4) * 0.02, i * 0.16, 1.1, 0.8, 0.12, '#FFFFFF', '#E9E4DA', '#F4F0E8');
-    [[3.2, 1, 0], [3.2, 2.05, 0], [3.25, 1.5, 0.82]].forEach(([x, y, z]) => { stack += pallet(x, y, z); });
-    const ordersAt = iso(6.15, 1.4, 22 * 0.16 + 0.3), cartonsAt = iso(3.7, 1.6, 1.9);
-    stack += `<text x="${ordersAt[0]}" y="${ordersAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${E}" text-anchor="middle">${num(3000)}</text>`;
-    stack += `<text x="${cartonsAt[0]}" y="${cartonsAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${G}" text-anchor="middle">${num(1000)}</text>`;
-    let floor = '';
-    for (let i = -2; i <= 10; i++) { const a = iso(i, -2, 0), b = iso(i, 9, 0), cc = iso(-2, i, 0), d = iso(9, i, 0); floor += `<path d="M${pt(a)} L${pt(b)} M${pt(cc)} L${pt(d)}"/>`; }
-    const door = [iso(-2, 1, 0), iso(-2, 1, 4), iso(-2, 5, 4), iso(-2, 5, 0)];
-    const lbl = iso(6.15, 1.4, 22 * 0.16 + 0.9);
+    const L = A.lang(), ru = L === 'ru', T3 = (en, rus, ar) => (L === 'ar' ? ar : ru ? rus : en);
+    const num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : ru ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
+    const PH = 'rotate(-3 290 290)', SEP = '#E4CFAA', INK = '#4A3A2A';
+    const inPhoto = (s) => `<g transform="${PH}"><g clip-path="url(#ns-c7-ph)">${s}</g></g>`;
+    // the paper ribbon of orders, out of the fax, across the floor, into a heap
+    const ribbon = 'M150 268 C150 236 176 232 186 250 C204 286 160 318 200 338 C246 360 214 392 262 396 C300 398 290 430 330 432';
+    let heap = '';
+    for (let i = 0; i < 26; i++) { const x = 300 + (i % 6) * 18 - (i >> 2) * 2, y = 452 - (i / 6 | 0) * 13 - (i % 3) * 3; heap += `<path d="M${x} ${y} l40 -6 l2 12 l-40 6 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.2" transform="rotate(${(i * 37) % 30 - 15} ${x + 20} ${y})"/>`; }
+    const carton = (x, y) => `<g transform="translate(${x} ${y})"><path d="M0 0 h34 v22 h-34 Z" fill="#C59B62"/><path d="M0 0 l8 -8 h34 l-8 8 Z" fill="#D8B27A"/><path d="M34 0 l8 -8 v22 l-8 8 Z" fill="#A87E4A"/><path d="M0 0 h34 v22 h-34 Z M0 0 l8 -8 h34 l-8 8 M34 0 l8 -8 v22 l-8 8" fill="none" stroke="${INK}" stroke-width="1.4"/>${ru ? '' : `<path d="M17 18 v-9 M17 9 c-4 -3 -7 -2 -8 0 M17 9 c4 -3 7 -2 8 0" fill="none" stroke="${INK}" stroke-width="1.2"/>`}</g>`;
+    const decor = ru
+      ? `<path d="M60 74 C120 96 200 96 270 78 C340 96 430 96 520 74" fill="none" stroke="${INK}" stroke-width="1.6"/>${[90, 140, 190, 240, 300, 350, 400, 450, 500].map((x, i) => `<circle cx="${x}" cy="${86 + (i % 2) * 6}" r="5" fill="${['#C8402F', '#E0A73A', '#5E8F5A'][i % 3]}" opacity=".75"/>`).join('')}`
+      : `<path d="M270 66 V104" stroke="${INK}" stroke-width="1.6"/>`;
     return A.base(`
-<defs><linearGradient id="ns-c-dawn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC690" stop-opacity=".9"/><stop offset="1" stop-color="#FFC690" stop-opacity="0"/></linearGradient></defs>
-<rect width="760" height="690" fill="#D9D2C6" opacity=".5"/>
-<g fill="none" stroke="${G}" stroke-width=".8" opacity=".25">${floor}</g>
-<!-- the roller door, and the dawn coming in -->
-<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])} Z" fill="#FFE2B8"/>
-<path d="M${pt(door[0])} L${pt(door[3])} L${pt(iso(4, 5, 0))} L${pt(iso(4, 1, 0))} Z" fill="url(#ns-c-dawn)" opacity=".6"/>
-${A.ink(`<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])}"/>`, 2.6)}
-<g fill="none" stroke="${G}" stroke-width="1" opacity=".4">${[1, 2, 3].map((z) => `<path d="M${pt(iso(-2, 1, 3.4 + z * .15))} L${pt(iso(-2, 5, 3.4 + z * .15))}"/>`).join('')}</g>
-<g transform="translate(${iso(-2, 3, 4.6)[0]} ${iso(-2, 3, 4.6)[1]})"><rect x="-30" y="-16" width="60" height="28" rx="4" fill="#2A2420"/><text y="5" font-family="ui-monospace,monospace" font-size="15" fill="#FF8A4C" text-anchor="middle">06:00</text></g>
-${stack}
-<!-- the unit of truth, front and centre -->
-${pallet(1.2, 6.6, 0, 0)}
-<!-- him: hard hat, vest, clipboard -->
-<g transform="translate(150 470)"><path d="M-26 90 L-22 20 C-20 4 20 4 22 20 L26 90 Z" fill="#E8D27A"/><path d="M-26 50 h52" stroke="#FBF7EF" stroke-width="5"/><circle cy="-8" r="16" fill="#E7C2A3"/><path d="M-20 -12 C-20 -34 20 -34 20 -12 Z" fill="${E}"/><path d="M-24 -12 h48" stroke="${G}" stroke-width="2"/>${A.ink('<path d="M-26 90 L-22 20 C-20 4 20 4 22 20 L26 90"/><circle cy="-8" r="16"/><path d="M-20 -12 C-20 -34 20 -34 20 -12"/>', 2.2)}<g transform="translate(26 40) rotate(-10)"><rect x="-12" y="-16" width="24" height="32" fill="#FBF7EF" stroke="${G}" stroke-width="1.6"/><path d="M-7 -6 h14 M-7 0 h14 M-7 6 h10" stroke="${G}" stroke-width="1"/></g></g>`, true)
-    // the forklift, his emotional support vehicle
-    + A.sp([500, 400, 200, 160], 'a-drift', `<g transform="translate(600 480)"><path d="M-60 30 h80 v-40 h-30 l-10 -30 h-30 Z" fill="#E0A73A"/>${A.ink('<path d="M-60 30 h80 v-40 h-30 l-10 -30 h-30 Z M-40 -40 V-10 M-60 -10 h50"/><circle cx="-40" cy="34" r="12"/><circle cx="6" cy="34" r="12"/><path d="M28 -60 V30 M28 20 h36 M28 0 h36" stroke-width="3"/>', 2.6)}<path d="M-22 -26 c-6 -10 -18 -4 -12 6 l12 10 l12 -10 c6 -10 -6 -16 -12 -6 Z" fill="${E}"/></g>`, null, '--d:4s;--x:-40px;--y:-22px')
+<defs><clipPath id="ns-c7-ph"><rect x="56" y="66" width="468" height="404"/></clipPath>
+<filter id="ns-c7-old"><feColorMatrix type="matrix" values=".9 .1 0 0 .04  .1 .8 .1 0 .02  .1 .1 .6 0 0  0 0 0 1 0"/></filter></defs>
+<!-- the photograph -->
+<g transform="${PH}">
+  <rect x="48" y="62" width="500" height="476" fill="${G}" opacity=".22" filter="url(#ns-b8)"/>
+  <rect x="40" y="50" width="500" height="476" fill="#FBF7EF"/>
+  <rect x="56" y="66" width="468" height="404" fill="${SEP}"/>
+  <g clip-path="url(#ns-c7-ph)" filter="url(#ns-c7-old)">
+    <rect x="56" y="360" width="468" height="110" fill="#D2B88E"/>
+    <path d="M56 360 H524" stroke="${INK}" stroke-width="1.4" opacity=".6"/>
+    <!-- the window: dawn, and the queue -->
+    <rect x="352" y="92" width="150" height="120" fill="#9C8A72"/>
+    ${ru ? `<g fill="#FBF7EF" opacity=".8">${[[372, 110], [410, 128], [450, 104], [482, 140], [390, 160], [470, 176]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6"/>`).join('')}</g>` : `<path d="M470 112 a16 16 0 1 0 12 26 a12 12 0 1 1 -12 -26 Z" fill="#F4E2B8"/>`}
+    <g fill="#7A6A58">${[384, 418, 452, 486].map((x, i) => `<circle cx="${x}" cy="${196 - (i % 2) * 6}" r="13"/>`).join('')}</g>
+    <path d="M352 92 h150 v120 h-150 Z M427 92 V212 M352 152 H502" fill="none" stroke="${INK}" stroke-width="3"/>
+    <!-- the clock -->
+    <g transform="translate(300 120)"><circle r="24" fill="#FBF6EA" stroke="${INK}" stroke-width="2.4"/><path d="M0 0 V-17 M0 0 V12" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/></g>
+    ${decor}
+    <!-- the fax on its little table -->
+    <path d="M86 300 h120 M96 300 v62 M196 300 v62" stroke="${INK}" stroke-width="3"/>
+    <g transform="translate(112 270)"><path d="M0 30 h70 v-22 l-10 -10 h-50 l-10 10 Z" fill="#B9AE9C" stroke="${INK}" stroke-width="2"/><rect x="10" y="12" width="20" height="8" fill="#5E8F5A"/><rect x="46" y="12" width="14" height="10" fill="#7A6A58"/><path d="M20 -2 h30" stroke="${INK}" stroke-width="2"/></g>
+    <!-- the orders: a ribbon, then a heap -->
+    <path d="${ribbon}" fill="none" stroke="#FBF6EA" stroke-width="16" stroke-linecap="round"/>
+    <path d="${ribbon}" fill="none" stroke="${INK}" stroke-width="1" stroke-dasharray="2 6" opacity=".6"/>
+    ${heap}
+    <!-- the cartons he actually had -->
+    ${carton(74, 428)}${carton(110, 428)}${carton(92, 406)}
+    <!-- the counter -->
+    <path d="M320 300 h204 v62 h-204 Z" fill="#B48A5A" stroke="${INK}" stroke-width="2.4"/>
+  </g>
+  ${A.ink('<rect x="40" y="50" width="500" height="476"/><rect x="56" y="66" width="468" height="404" stroke-width="1.4"/>', 2.4)}
+  <!-- the two numbers of the story, above the old photo's tint -->
+  <g transform="translate(360 368) rotate(-4)"><rect x="-42" y="-17" width="84" height="28" rx="5" fill="#FBF7EF" stroke="${E}" stroke-width="2"/><text y="5" font-family="ui-monospace,monospace" font-weight="700" font-size="18" fill="${E}" text-anchor="middle">${num(3000)}</text></g>
+  <g transform="translate(112 392) rotate(-4)"><rect x="-42" y="-17" width="84" height="28" rx="5" fill="#FBF7EF" stroke="${G}" stroke-width="2"/><text y="5" font-family="ui-monospace,monospace" font-weight="700" font-size="18" fill="${G}" text-anchor="middle">${num(1000)}</text></g>
+  <text x="290" y="508" class="ns-hand" font-size="22" fill="${INK}" text-anchor="middle"${A.dir()}>${A.esc(T3('Ramadan, twenty years ago', 'Новый год, двадцать лет назад', 'رمضان، من عشرين سنة'))}</text>
+</g>
+<!-- the pin -->
+<circle cx="292" cy="58" r="8" fill="${E}" stroke="${G}" stroke-width="1.6"/>
+<!-- him today -->
+<g transform="rotate(4 650 520)">
+  <rect x="566" y="420" width="176" height="200" fill="#FBF7EF"/>
+  ${A.ink('<rect x="566" y="420" width="176" height="200"/>', 2)}
+  <path d="M610 600 C610 540 698 540 698 600 Z" fill="#9DB7D6" stroke="${G}" stroke-width="2"/>
+  <circle cx="654" cy="510" r="30" fill="#E7C2A3" stroke="${G}" stroke-width="2.2"/>
+  <path d="M624 500 C626 470 682 470 684 500 C672 488 636 488 624 500 Z" fill="#D8D2CC" stroke="${G}" stroke-width="1.6"/>
+  <g fill="none" stroke="${G}" stroke-width="2"><circle cx="642" cy="512" r="9"/><circle cx="668" cy="512" r="9"/><path d="M651 512 h8 M642 530 q12 -4 24 0"/></g>
+  <circle cx="642" cy="512" r="2.6" fill="${G}"/>
+  <g transform="translate(700 452) rotate(8)"><rect x="-36" y="-14" width="72" height="26" fill="#F3E08A" stroke="${G}" stroke-width="1.4"/><text y="5" class="ns-hand" font-size="15" font-weight="700" fill="${G}" text-anchor="middle"${A.dir()}>${A.esc(T3('campaign?', 'кампания?', 'حملة؟'))}</text></g>
+  <text x="590" y="440" class="ns-hand" font-size="15" fill="${G}"${A.dir()}>${A.esc(T3('today', 'сегодня', 'النهارده'))}</text>
+</g>`, true)
+    // the lantern (or the garland's star), swaying in the shop
+    + (ru ? '' : A.sp([244, 96, 56, 80], 'a-sway', inPhoto(`<g filter="url(#ns-c7-old)"><path d="M262 104 h16 l6 12 v26 l-6 12 h-16 l-6 -12 v-26 Z" fill="#E0A73A" stroke="${INK}" stroke-width="1.8"/><path d="M262 116 h16 M262 142 h16" stroke="${INK}" stroke-width="1.2"/><circle cx="270" cy="129" r="16" fill="#FFE2A0" opacity=".35" filter="url(#ns-b8)"/></g>`), [270, 66], '--d:3.6s;--a:5deg'))
+    // the fax, still printing: sheets keep coming out of the slot
+    + [0, 1, 2].map((i) => A.sp([126, 200, 52, 80], 'a-fall', inPhoto(`<path d="M136 268 h30 v-14 h-30 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.2"/><path d="M140 262 h20 M140 258 h14" stroke="${INK}" stroke-width=".8"/>`), null, `--d:1.8s;--dl:${-i * 0.6}s;--y:-46px`)).join('')
+    + A.sp([118, 276, 24, 16], 'a-flick', inPhoto(`<rect x="122" y="282" width="20" height="8" fill="#9FE07A"/>`), null, '--d:.4s')
+    // young him, on the brick phone, bowing and apologising
+    + A.sp([380, 210, 110, 110], 'a-bow', inPhoto(`<g filter="url(#ns-c7-old)"><path d="M396 300 C396 262 470 262 470 300 Z" fill="#8C98A6" stroke="${INK}" stroke-width="2"/><circle cx="432" cy="246" r="20" fill="#E7C2A3" stroke="${INK}" stroke-width="2"/><path d="M414 236 C416 220 448 220 450 236 Z" fill="#3B2A22"/><path d="M432 254 q6 4 12 0" stroke="${INK}" stroke-width="1.6" fill="none"/><path d="M452 246 l10 -2 v-22 l-8 0 Z" fill="#4A4A4A" stroke="${INK}" stroke-width="1.4"/><path d="M450 270 C460 262 462 250 458 244" stroke="#E7C2A3" stroke-width="8" stroke-linecap="round" fill="none"/></g>`), [432, 300], '--d:1.4s;--a:8deg')
+    + A.sp([462, 200, 30, 40], 'a-flick', inPhoto(`<path d="M468 208 l8 -6 M470 218 l10 -2 M468 228 l8 4" stroke="${E}" stroke-width="2" stroke-linecap="round"/>`), null, '--d:.25s')
+    + A.sp([410, 226, 12, 50], 'a-fall', inPhoto(`<path d="M414 230 c-3 5 -3 8 0 9 c3 -1 3 -4 0 -9 Z" fill="#9FD3FF"/>`), null, '--d:1.6s;--y:30px')
+    // the queue at the window, asking
+    + A.sp([370, 150, 140, 40], 'a-pulse', inPhoto(`<g transform="translate(432 166)"><path d="M-60 -16 H60 Q68 -16 68 -8 V8 Q68 16 60 16 H-4 L-12 26 L-16 16 H-60 Q-68 16 -68 8 V-8 Q-68 -16 -60 -16 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.6"/><text y="6" class="ns-hand" font-size="16" font-weight="700" fill="${INK}" text-anchor="middle"${A.dir()}>${A.esc(T3('where’s my order?', 'где мой заказ?', 'وين طلبي؟'))}</text></g>`), null, '--d:1.2s;--a:1.06')
+    // the clock's second hand, at six in the morning
+    + A.sp([276, 96, 48, 48], 'a-spin', inPhoto(`<path d="M300 120 L314 112" stroke="${E}" stroke-width="1.6" stroke-linecap="round"/>`), [300, 120], '--d:6s')
+    + (ru ? [0, 1, 2, 3].map((i) => A.sp([360 + i * 34, 92, 8, 8], 'a-fall', inPhoto(`<circle cx="${364 + i * 34}" cy="96" r="2.4" fill="#fff"/>`), null, `--d:${3 + i * 0.4}s;--dl:${-i}s;--y:110px`)).join('') : '')
+    // him today: the eye twitches at the word
+    + A.sp([656, 500, 24, 24], 'a-twitch', `<g transform="rotate(4 650 520)"><path d="M659 512 a9 9 0 0 1 18 0 Z" fill="#E7C2A3" stroke="${G}" stroke-width="1.6"/></g>`, [668, 503], '--d:2.6s')
     + A.base(`
-  ${A.note(N(c, 0), 14, 600, 300, { s: 22 })}
-  ${A.arrow(`M200 610 C${iso(1.7, 7.1, .2)[0] - 40} 610 ${iso(1.7, 7.1, .2)[0] - 10} ${iso(1.7, 7.1, .2)[1] + 20} ${iso(1.7, 7.1, .2)[0]} ${iso(1.7, 7.1, .2)[1] + 6}`)}
-  ${A.note(N(c, 1), 470, 40, 280, { s: 23 })}
-  ${A.arrow(`M560 70 C540 90 ${lbl[0] + 30} ${lbl[1] - 40} ${lbl[0] + 10} ${lbl[1] - 20}`)}
-  ${A.note(N(c, 2), 540, 620, 216, { s: 22 })}
-  ${A.arrow('M600 610 C596 590 594 570 592 546')}
-  ${A.note(N(c, 3), 14, 40, 240, { s: 23 })}
-  ${A.arrow(`M100 70 C110 110 ${iso(-2, 3, 4.6)[0] - 60} ${iso(-2, 3, 4.6)[1] - 10} ${iso(-2, 3, 4.6)[0] - 34} ${iso(-2, 3, 4.6)[1]}`)}`);
+  ${A.note(N(c, 3), 566, 40, 190, { s: 22 })}
+  ${A.arrow('M600 70 C520 80 400 100 330 116')}
+  ${A.note(N(c, 1), 566, 186, 190, { s: 22 })}
+  ${A.arrow('M600 230 C540 290 420 340 368 380')}
+  ${A.note(N(c, 0), 14, 600, 260, { s: 22 })}
+  ${A.arrow('M90 586 C96 520 100 480 104 452')}
+  ${A.note(N(c, 2), 290, 600, 260, { s: 22 })}
+  ${A.arrow('M300 586 C240 470 190 360 160 300')}`);
   };
 
   // ================= Day 27 — the evidence board of my own mistakes =================

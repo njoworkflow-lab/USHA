@@ -351,7 +351,7 @@ const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(
 const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
-const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
+const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
 const STORY_TEXT = (() => { const w = {}; new Function('window', fs.readFileSync(path.join(STORY_DIR, 'text.js'), 'utf8'))(w); return w.USHA_STORY_TEXT; })();
 let STORY_CFG;
 function storyCfg() {

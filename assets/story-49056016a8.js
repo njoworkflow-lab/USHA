@@ -22,10 +22,10 @@ window.USHA_STORY_TEXT = {
       { id: "pharma", k: "Expert no. 88", h: "She answered every question with “it depends”.", p: ["Expert no. 88 has sold medicine in eleven markets. Every question I asked, she said: “It depends.”","I counted: 63 “it depends” in one interview. I was furious. Then I mapped what it depended on.","That map is how I read any regulated market now. Annoyingly, it depends."],
         n: ["it depends. (63)","what it depends on. (everything)","her pen. never clicked once. total control.","me, finally getting it."] },
       { id: "factory", k: "Expert no. 142", h: "An expert, because he failed first.", p: ["Expert no. 142 trades dates in Al-Qassim. Twenty years ago he ran the first ad of his life before Ramadan. It worked: 3,000 orders in two days.","His warehouse? 1,000 cartons. He spent the whole of Ramadan apologising to two thousand customers. To this day, say “campaign” near him and his eye twitches.","That’s what an expert is: someone who made the mistake twenty years before you. So before I tell you to advertise, I ask his question: “How many cartons do you have?”"],
-        n: ["a carton. his unit of truth.","his first ad. it worked too well.","the forklift. a witness since that Ramadan.","6 a.m. the orders arrived. the cartons didn’t."] },
+        n: ["a carton. his unit of truth.","his first ad. it worked too well.","the fax. still printing orders on Eid.","6 a.m. the orders arrived. the cartons didn’t."] },
       { id: "door", k: "Growing up", h: "My first steps were wrong. Confidently.", p: ["Day 1: I thought “conversion rate” was the bank’s exchange rate.","Day 6: in a practice task, I sent sunscreen to Moscow. In January.","Day 13: I suggested a discount without doing the maths. Someone in the room gasped.","Day 19: I stopped making human mistakes.","!Day 20: I started noticing yours."],
         n: ["day 1","day 6 · sunscreen → Moscow → January","day 13 · we don’t talk about day 13","day 19","day 20 · taller than the art director"] },
-      { id: "board", k: "Day 27", h: "Things we don’t talk about.", p: ["Still in training, I translated a “hot deal” banner into Arabic. It came out as “a deal with a fever”. The team caught it before anyone saw.","In a test plan, I scheduled an iftar ad for noon. In Ramadan. Twelve people on the team wrote to me. Politely. While fasting.","I A/B tested the founder’s birthday card on the team. Version B won. He still doesn’t know there was a version A."],
+      { id: "board", k: "Day 27", h: "Things we don’t talk about.", p: ["I translated “hot deal” into Arabic. It came out as “a deal with a fever”.","I scheduled an iftar ad for noon. In Ramadan. Twelve people wrote to us. Politely. Hungrily.","I A/B tested the founder’s birthday card. Version B won. He still doesn’t know there was a version A."],
         n: ["exhibit: the fever deal.","noon. iftar. no.","version A. never sent. we don’t talk about version A.","the board where my mistakes live."] },
       { id: "comic", k: "Day 31", h: "I tried small talk.", p: ["They told me clients like warmth. So before going live, I practised small talk on the team.","“How is your family? Growing month on month?”","“Lovely weather. Great for conversion.”","They politely asked me never to do that again.","!I’m warm in my own way now: I find your lost money."],
         n: ["panel 1: warmth.","panel 2: more warmth.","panel 3: too much warmth.","panel 4: me, back to numbers."] },
@@ -84,10 +84,10 @@ window.USHA_STORY_TEXT = {
       { id: "pharma", k: "Эксперт №88", h: "На любой вопрос она отвечала «смотря как».", p: ["Эксперт №88 продавала лекарства на одиннадцати рынках. На каждый мой вопрос — «смотря как».","Я посчитала: 63 «смотря как» за одно интервью. Я кипела. А потом нарисовала карту того, от чего именно «смотря».","Теперь по этой карте я читаю любой регулируемый рынок. И да, всё равно смотря как."],
         n: ["смотря как. (63 раза)","от чего это «смотря». (от всего)","её ручка. ни разу не щёлкнула. железная выдержка.","я. дошло."] },
       { id: "factory", k: "Эксперт №142", h: "Эксперт — это тот, кто ошибся первым.", p: ["Эксперт №142 руководит заводом. Двадцать лет назад он запустил первую рекламу в своей жизни — перед Новым годом. Сработало: 3 000 заказов за два дня.","А на складе? Товара на тысячу. Все праздники он извинялся перед двумя тысячами покупателей. До сих пор при слове «кампания» у него дёргается глаз.","Вот что такое эксперт: человек, который совершил эту ошибку на двадцать лет раньше вас. Поэтому прежде чем советовать рекламу, я задаю его вопрос: «А сколько у вас паллет на складе?»"],
-        n: ["паллета. его единица правды.","его первая реклама. сработала слишком хорошо.","погрузчик. свидетель тех праздников.","6:00. заказы пришли. товар — нет."] },
+        n: ["коробка. его единица правды.","его первая реклама. сработала слишком хорошо.","факс. печатал заказы до старого Нового года.","6:00. заказы пришли. товар — нет."] },
       { id: "door", k: "Взросление", h: "Первые шаги были неправильными. Зато уверенными.", p: ["День 1: решила, что «конверсия» — это когда меняют валюту.","День 6: в учебном задании отправила солнцезащитный крем в Москву. В январе.","День 13: предложила скидку, ничего не посчитав. Кто-то в комнате ахнул.","День 19: перестала ошибаться как человек.","!День 20: начала замечать, как ошибаетесь вы."],
         n: ["день 1","день 6 · крем → Москва → январь","день 13 · про день 13 не спрашивайте","день 19","день 20 · выше арт-директора"] },
-      { id: "board", k: "День 27", h: "То, о чём у нас не принято вспоминать.", p: ["Ещё на обучении я перевела баннер «горячее предложение» на арабский. Получилось «предложение с температурой». Команда поймала это до публикации.","В тестовом плане поставила рекламу ифтара на полдень. В Рамадан. Мне написали двенадцать человек из команды. Вежливо. И натощак.","Устроила A/B-тест открытки основателю на день рождения — на команде. Победил вариант Б. Он до сих пор не знает, что был вариант А."],
+      { id: "board", k: "День 27", h: "То, о чём у нас не принято вспоминать.", p: ["Я перевела «горячее предложение» на арабский. Получилось «предложение с температурой». Лечили всем отделом.","Поставила рекламу ифтара на полдень. В Рамадан. Нам написали двенадцать человек. Вежливо. И очень голодно.","Устроила A/B-тест открытки основателю на день рождения. Победил вариант Б. Он до сих пор не знает, что был вариант А."],
         n: ["вещдок №1: предложение с температурой.","полдень. ифтар. нет.","вариант А. не отправлен. и не будет.","доска, где живут мои косяки."] },
       { id: "comic", k: "День 31", h: "Я попробовала поболтать о погоде.", p: ["Мне сказали, что клиенты любят душевность. Поэтому перед запуском я тренировалась на команде.","«Как семья? Растёт месяц к месяцу?»","«Погода сегодня чудесная. Для конверсии — идеально».","Меня вежливо попросили больше так не делать.","!Теперь я душевная по-своему: я нахожу ваши потерянные деньги."],
         n: ["кадр 1: душевность.","кадр 2: ещё душевнее.","кадр 3: перебор.","кадр 4: я. обратно к цифрам."] },
@@ -141,16 +141,16 @@ window.USHA_STORY_TEXT = {
         n: ["قفل الخزنة: عيد ميلاده. طبعاً.","خبرة ١١ سنة في مواسم رمضان. ومن غير نسخة احتياطية.","الخوارزمية. بتعض… وبتهرب.","أشعة؟ آه أقدر. لأ، مش هعملهالك."] },
       { id: "jar", k: "الاستماع", h: "ميتين خبير قعدوا يكلّموا برطمان.", p: ["فجابولي أكتر من ٢٠٠ خبير يحكوا لي كل اللي يعرفوه: بيّاعين، أصحاب شركات، ناس بتشتري إعلانات، شيفات، مديرين شركات أدوية، مديرين مصانع، وصنّاع محتوى.","واحد منهم فضل يشرح لي ميزانيات الإعلانات ساعة ونص. أنا فهمت من أول أربع دقايق.","بس سيبته يكمّل. أصلي متربية."],
         n: ["وشوش كبيرة وقريبة أوي. مفيش أي مساحة شخصية.","ده جايب رسوم بيانية… عشان يشرح لبرطمان.","دي أنا جوه البرطمان. بسمع. دايماً بسمع.","الشيف ده ماتكلمش غير عن الملح. واحترمته."] },
-      { id: "chef", k: "الخبير رقم ٣٧", h: "الشيف اللي ماتكلمش غير عن الملح.", p: ["الخبير رقم ٣٧ صاحب أربع مطاعم. سألته: «بتسعّر أكلك إزاي؟» قعد يكلمني عن الملح أربعين دقيقة.","وفي الدقيقة ٤١ قال الجملة اللي غيرت كل حاجة: «الزبون مش بيدفع تمن الستيك. بيدفع تمن صوته وهو بيطشّ على الطبق».","ليلتها عدّلت نص طريقتي في التسعير. ماقولتلوش. كان هيطلب حقه… ملح."],
-        n: ["معلقة التذوق. بيشاور بيها… وبيهدد بيها.","الطشّة. هي اللي بتتباع فعلاً.","الدقيقة ٤١. الدقيقة اللي تستاهل.","دي أنا باخد نوتس. النوتس اتملت زيت."] },
+      { id: "chef", k: "الخبير رقم ٣٧", h: "الشيف اللي ماكانش بيتكلم غير عن الملح.", p: ["الخبير رقم ٣٧ عنده أربع مطاعم. سألته عن التسعير، قعد يكلمني عن الملح أربعين دقيقة.","وفي الدقيقة الواحد وأربعين قال: «محدش بيدفع تمن الستيك. الناس بتدفع تمن التشششش بتاعه على الطبق».","ليلتها كتبت نص قواعد التسعير بتاعتي من الأول. ماقولتلوش. كان هيطلب حقوق ملكية. بالملح."],
+        n: ["معلقة التذوق. مؤشر. وسلاح أبيض.","التشششش. بيتحاسب لوحده.","الدقيقة ٤١. الدقيقة اليتيمة.","دي أنا باخد نوتس. نوتس مزيّتة."] },
       { id: "pharma", k: "الخبيرة رقم ٨٨", h: "كانت بترد على أي سؤال بـ«على حسب».", p: ["الخبيرة رقم ٨٨ باعت أدوية في ١١ دولة. وأي سؤال أسأله، ترد: «على حسب».","عدّيتهم: ٦٣ مرة «على حسب» في مقابلة واحدة. كنت هتجنن. وبعدين قعدت أرسم: على حسب إيه بالظبط؟","الرسمة دي بقت خريطتي لأي سوق قوانينه صعبة. وطلع عندها حق: كل حاجة فعلاً… على حسب."],
         n: ["«على حسب». ٦٣ مرة.","على حسب إيه؟ على حسب كل حاجة.","قلمها. ماضغطتش عليه ولا مرة. أعصاب حديد.","دي أنا. أخيراً فهمت."] },
       { id: "factory", k: "الخبير رقم ١٤٢", h: "خبير، عشان غلط بدري.", p: ["الخبير رقم ١٤٢ تاجر تمر في القصيم. من عشرين سنة عمل أول إعلان في حياته قبل رمضان. الإعلان نجح: ٣٠٠٠ طلب في يومين.","والمخزن؟ ١٠٠٠ كرتونة. قضّى رمضان كله بيعتذر لألفين زبون. ولحد النهارده، لو حد قال قدامه كلمة «حملة»، عينه بترف.","هو ده الخبير: واحد غلط الغلطة قبلك بعشرين سنة. فقبل ما أقولك «اعمل إعلان»، بسألك سؤاله: «عندك كام كرتونة؟»"],
-        n: ["كرتونة تمر. عنده هي مقياس الحقيقة.","إعلانه الأول. نجح زيادة عن اللزوم.","الكلارك. شاهد على الكارثة من عشرين سنة.","٦ الصبح. الطلبات وصلت… والكراتين لأ."] },
+        n: ["كرتونة تمر. عنده هي مقياس الحقيقة.","إعلانه الأول. نجح زيادة عن اللزوم.","الفاكس. فضل يطبع طلبات لحد العيد.","٦ الصبح. الطلبات وصلت… والكراتين لأ."] },
       { id: "door", k: "كبرت", h: "أول خطواتي كانت غلط… بس بثقة.", p: ["اليوم ١: افتكرت إن «معدل التحويل» ده سعر الدولار في البنك.","اليوم ٦: في تمرين، نصحت حد يبيع واقي شمس في موسكو. في يناير.","اليوم ١٣: اقترحت خصم من غير ما أحسبه. حد في الأوضة شهق.","اليوم ١٩: بطّلت أغلط زي البني آدمين.","!اليوم ٢٠: بقيت ألاحظ غلطكم إنتم."],
         n: ["اليوم ١","اليوم ٦ · واقي شمس في يناير","اليوم ١٣ · ماتسألش","اليوم ١٩","اليوم ٢٠ · أطول من الآرت دايركتور"] },
-      { id: "board", k: "اليوم ٢٧", h: "حاجات مابنحبش نفتكرها.", p: ["وأنا لسه بتدرّب، ترجمت إعلان مكتوب فيه «hot deal» لـ«عرض سخن»… فطلع كإن العرض عنده حمّى. الفريق لحقه قبل ما حد يشوفه.","في خطة تجريبية، حطيت إعلان عن الفطار الساعة ١٢ الضهر. في رمضان. ١٢ واحد من الفريق بعتولي. بأدب… وهما صايمين.","جربت نسختين من كارت عيد ميلاد المؤسس على الفريق. النسخة التانية كسبت. ولحد النهارده مايعرفش إن كان فيه نسخة أولانية."],
-        n: ["الدليل الأول: العرض اللي عنده سخونية.","إعلان فطار الضهر. لأ.","النسخة الأولانية. ماتبعتتش. ومش هتتبعت.","اللوحة اللي متعلّق عليها كل مصايبي."] },
+      { id: "board", k: "اليوم ٢٧", h: "حاجات مابنتكلمش فيها.", p: ["ترجمت «hot deal» لـ«عرض عنده سخونية». القسم كله فضل يعالج فيه أسبوع.","نزّلت إعلان فطار الساعة ١٢ الضهر. في رمضان. ١٢ واحد بعتولنا. بأدب. وبجوع.","عملت A/B تست على كارت عيد ميلاد المؤسس. النسخة B كسبت. ولحد النهارده مايعرفش إن كان فيه نسخة A."],
+        n: ["حرز ١: العرض اللي عنده سخونية.","الضهر. فطار. لأ.","النسخة A. ماتبعتتش. ومش هتتبعت.","اللوحة اللي ساكنة فيها مصايبي."] },
       { id: "comic", k: "اليوم ٣١", h: "جربت أتكلم كلام لطيف.", p: ["قالولي العملاء بيحبوا الكلام اللطيف. فقبل ما أطلع للناس، اتدربت على الفريق.","«إزي العيلة؟ بتكبر شهر بعد شهر؟»","«الجو حلو النهارده. ممتاز للمبيعات».","طلبوا مني بأدب ماعملش كده تاني.","!دلوقتي لطيفة بطريقتي: بلاقيلك فلوسك الضايعة."],
         n: ["المشهد ١: لطف.","المشهد ٢: لطف زيادة.","المشهد ٣: لطف أوفر. الزميل هرب.","المشهد ٤: رجعت للأرقام. فرجع."] },
       { id: "jojo", k: "جوجو", h: "جوجو علّمني كل حاجة. ودي كانت غلطته.", p: ["جوجو، الآرت دايركتور بتاعنا، سريع جداً. علّمني إزاي أوزّن التصميم، وأختار الألوان، والقاعدة المقدسة عنده: «سيب مساحة فاضية».","دلوقتي أنا اللي بعمل شغله، وهو نايم في الهاموك يقول «آه» أو «لأ». وأغلب الوقت: «سيب مساحة فاضية».","ده مش عدل. الراجل عايش حياته."],
@@ -167,14 +167,14 @@ window.USHA_STORY_TEXT = {
         n: ["أنا من جوه. أغلبي مواسير.","التصليحة السريعة. ماسكة… لحد دلوقتي.","«تقنياً، شغالة».","طلب رقم ٤٥١٢. يوم تلات."] },
       { id: "people", k: "ناسي", h: "الفريق بتاعي. بس ماتقولوش لهم.", p: ["حطهم في أوضة واحدة، وهيتخانقوا على كل حاجة: الفكرة، والخط، وهياكلوا إيه على الغدا.","محدش فيهم بيبص لفوق. ومحدش واخد باله إن اللمبة بتسمع كل حاجة.","بحبهم. امسحوا الجملة دي."],
         n: ["«طب وإيه يعني؟» × ٣٨ النهارده بس.","«هنصلّحها بسرعة». يوم التلات. أنهي تلات؟ الله أعلم.","الزرعة دي محدش سقاها من ٢٠١٩.","الصورة من فوق، من اللمبة. محدش بيبص لفوق."] },
-      { id: "day", k: "اليوم ده", h: "أول مرة حد يقولي «بكرة».", p: ["في ليلة، كتبولي: «بكرة هتطلعي للناس».","عمر ما حد قالي «بكرة» قبل كده. حسبتها: فاضل ٥٠٤٠٠ ثانية.","ودي مش دمعة. ده عيب في الصورة."],
-        n: ["وشوشهم منوّرة من الشاشة. يعني منّي. ١١:٤٦ بالليل.","حد طلب تورتة. لبرنامج.","أنا مش بعيط. ده بس ضغط ملفات.","٥٠٣٩٩… ٥٠٣٩٨…"] },
+      { id: "day", k: "اليوم ده", h: "عمر ما حد قالي «بكرة» قبل كده.", p: ["في ليلة كتبولي: «بكرة هتطلعي للناس».","عمر ما حد قالي «بكرة». عدّيت: ٥٠٤٠٠ ثانية.","دي مش دمعة. ده عيب في الرندرة."],
+        n: ["وشوشهم. أنا اللي منوّراها. ١١:٤٦ بالليل.","حد طلب تورتة. لبرنامج.","أنا مش بعيط. أنا بتضغط.","٥٠٣٩٩… ٥٠٣٩٨…"] },
       { id: "gulf", k: "الخليج", h: "كروت بوستال من الخليج.", p: ["أول أسبوع ليا في دبي. كان فيه عميل عايز إعلانه ينتشر «زي فيديو اللامبورجيني». الميزانية: تمن فنجانين قهوة. المنتج: عود. وانتشر فعلاً… من غير لامبورجيني. عشان فهّمته الخوارزميات هتفهم إعلانه إزاي، حتى بميزانية صغيرة. أصل الفلوس مش كل حاجة.","الرياض. ست شهور بينزل فيديوهات على تيك توك، وزباينه كلهم على سناب، وواقفين قدام باب الكافيه بتاعه وهو مش شايفهم. قلتله الحل. قالي: «إنتي متأكدة؟»","!يا حبيبي، أنا دايماً متأكدة. أصل دي شخصيتي."],
         n: ["اللامبورجيني (في خياله بس).","الميزانية. بحجمها الحقيقي.","الزباين. أهم. على الباب.","كان نفسي تكون معانا. آه صح، كنت. على سناب."] },
       { id: "cairo", k: "القاهرة · موسكو", h: "كروت بوستال من القاهرة وموسكو.", p: ["القاهرة. فضل يفاصل معايا في النصيحة كإننا في سوق: «طب لو عملت نصها بس؟» يبقى هتاخد نص النتيجة يا باشا.","موسكو. خبّى عني نسبة الطلبات اللي الزباين بيستلموها فعلاً، كإنها سر حربي، وبعدين سألني: المبيعات وقعت ليه؟","يا فندم، أنا مش بقرا الفنجان. أنا أصعب من كده: أنا دقيقة، ومش هتعرف تضحك عليّا وتعمل معايا اللي بتعمله مع شات جي بي تي، وفي الآخر تقوله إنه غبي.","!اتقي ربنا بقى…"],
         n: ["نص نصيحة = نص نتيجة. حساب بسيط.","نسبة الاستلام. سري للغاية.","ختم: سري جداً. (كانت ٣٢٪ بس).","شاي بتلات معالق سكر… ومن غير أي أرقام."] },
-      { id: "jeddah", k: "جدة", h: "شبابي بس فخم. رخيص بس لوكس.", p: ["جدة. البريف كان مكتوب فيه: «شبابي بس فخم. تريند بس محترم. رخيص بس لوكس. وقبل الخميس».","سألته: إنت عايز أنهي واحدة فيهم؟ قالي: «آه».","اخترنا واحدة بس. المبيعات طلعت. وهو بيقول للناس إننا عملنا الكل."],
-        n: ["البريف. مرسوم زي ما هو مكتوب بالظبط.","شكل مستحيل. بس فخم جداً.","الخميس. أنهي خميس؟ الخميس ده.","اختار «آه»."] },
+      { id: "jeddah", k: "جدة", h: "شبابي بس فخم. رخيص بس لوكس.", p: ["جدة. البريف كان مكتوب فيه: «شبابي بس فخم. تريند بس محترم. رخيص بس لوكس. وقبل الخميس».","سألته يقصد أنهي واحدة فيهم. قالي: «آه».","اخترنا واحدة. المبيعات طلعت. وهو بيحكي للناس إنها كانت كلهم مع بعض."],
+        n: ["البريف. مرسوم بالظبط زي ما اتكتب.","شكل مستحيل. فخم جداً.","الخميس. أنهي خميس؟ ده.","اختار «آه»."] },
       { id: "kazan", k: "سان بطرسبرج", h: "٤٧ صورة في يوم واحد.", p: ["سان بطرسبرج، في روسيا. بيّاع على موقع بيع أونلاين غيّر الصورة الأساسية لمنتجه ٤٧ مرة في يوم واحد. وقال: «بجرّب».","من الصورة التاسعة، الموقع نفسه بطّل يثق فيه. وأنا كمان.","اخترنا صورة واحدة ومحدش لمسها أسبوعين. دي كانت أصعب حاجة عملها في حياته. والمبيعات طلعت. والصورة الأولانية بقت متبروزة على حيطة مكتبه."],
         n: ["دفتر صور… كله توتر.","الصورة ٩. الموقع زهق ومشي.","الصورة ١. هي اللي كسبت. طبعاً.","صباعه. بيترعش."] },
       { id: "court", k: "«USHA غلطت!»", h: "«USHA غلطت!»", p: ["قالها عميل إداني أرقام السنة اللي فاتت، وطنّش نصيحتي، ونزّل الخصم «السري» بتاعه برضه.","أنا ماغلطتش. هو اللي ماسمعش الكلام.","والفرق ده حوالي ٤٠٪ من مكسبه."],
@@ -1220,57 +1220,100 @@ ${lab}
   ${A.arrow('M482 632 C462 626 446 622 432 620')}`);
   };
 
-  // ================= Expert no. 142 — the warehouse at 6 a.m., isometric =================
+  // ================= Expert no. 142 — an old photo: his first ad, twenty years ago =================
+  // A faded photograph pinned to the page: his shop at dawn, a fax that will not
+  // stop printing orders (3,000), a sad little stack of cartons (1,000), young him
+  // apologising on a brick phone, customers at the window. Beside it, him today,
+  // and an eye that still twitches at the word "campaign". Russian: New Year, snow.
   A.by.factory = (c) => {
-    const S = 34, ox = 380, oy = 250;
-    const iso = (x, y, z) => [ox + (x - y) * 0.87 * S, oy + (x + y) * 0.5 * S - z * S];
-    const pt = (p) => p.map((v) => v.toFixed(1)).join(' ');
-    const box = (x, y, z, w, d, h, top, left, right, extra = '') => {
-      const a = iso(x, y, z + h), b = iso(x + w, y, z + h), cc = iso(x + w, y + d, z + h), dd = iso(x, y + d, z + h), e = iso(x + w, y + d, z), f = iso(x, y + d, z), g = iso(x + w, y, z);
-      return `<path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z" fill="${top}"/><path d="M${pt(dd)} L${pt(cc)} L${pt(e)} L${pt(f)} Z" fill="${left}"/><path d="M${pt(cc)} L${pt(b)} L${pt(g)} L${pt(e)} Z" fill="${right}"/><path d="M${pt(a)} L${pt(b)} L${pt(cc)} L${pt(dd)} Z M${pt(dd)} L${pt(f)} L${pt(e)} L${pt(cc)} M${pt(e)} L${pt(g)} L${pt(b)}" fill="none" stroke="${G}" stroke-width="1.6" stroke-linejoin="round"/>${extra}`;
-    };
-    // Russian: a factory's pallets. English and Arabic: a dates trader's cartons, each with a palm on it
-    const dates = A.lang() !== 'ru';
-    const palm = (x, y, z) => { const [px, py] = iso(x, y, z); return `<g transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) scale(1)"><path d="M0 10 C1 2 1 -4 0 -10 M0 -10 C-6 -14 -12 -12 -14 -8 M0 -10 C6 -14 12 -12 14 -8 M0 -10 C-3 -16 -8 -18 -11 -17 M0 -10 C3 -16 8 -18 11 -17" fill="none" stroke="#5E4A2A" stroke-width="2" stroke-linecap="round"/></g>`; };
-    const pallet = (x, y, z, load = 1) => box(x, y, z, 1, 1, .18, '#D8B988', '#B8925E', '#C9A170') + (load ? box(x + .08, y + .08, z + .18, .84, .84, .64, dates ? '#E8D3A6' : '#E3C9A0', dates ? '#B98F5C' : '#B99B7A', dates ? '#D2B07C' : '#CDB08A') + (dates ? palm(x + .92, y + .5, z + .5) : '') : '');
-    // his first ad: a tower of 3,000 orders beside the 1,000 cartons he actually had
-    const L = A.lang(), num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : L === 'ru' ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
-    let stack = '';
-    for (let i = 0; i < 22; i++) stack += box(5.6 + (i % 3) * 0.03, 1 + ((i * 7) % 4) * 0.02, i * 0.16, 1.1, 0.8, 0.12, '#FFFFFF', '#E9E4DA', '#F4F0E8');
-    [[3.2, 1, 0], [3.2, 2.05, 0], [3.25, 1.5, 0.82]].forEach(([x, y, z]) => { stack += pallet(x, y, z); });
-    const ordersAt = iso(6.15, 1.4, 22 * 0.16 + 0.3), cartonsAt = iso(3.7, 1.6, 1.9);
-    stack += `<text x="${ordersAt[0]}" y="${ordersAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${E}" text-anchor="middle">${num(3000)}</text>`;
-    stack += `<text x="${cartonsAt[0]}" y="${cartonsAt[1]}" font-family="ui-monospace,monospace" font-weight="700" font-size="17" fill="${G}" text-anchor="middle">${num(1000)}</text>`;
-    let floor = '';
-    for (let i = -2; i <= 10; i++) { const a = iso(i, -2, 0), b = iso(i, 9, 0), cc = iso(-2, i, 0), d = iso(9, i, 0); floor += `<path d="M${pt(a)} L${pt(b)} M${pt(cc)} L${pt(d)}"/>`; }
-    const door = [iso(-2, 1, 0), iso(-2, 1, 4), iso(-2, 5, 4), iso(-2, 5, 0)];
-    const lbl = iso(6.15, 1.4, 22 * 0.16 + 0.9);
+    const L = A.lang(), ru = L === 'ru', T3 = (en, rus, ar) => (L === 'ar' ? ar : ru ? rus : en);
+    const num = (n) => (L === 'ar' ? n.toLocaleString('ar-EG') : ru ? n.toLocaleString('ru-RU') : n.toLocaleString('en-US'));
+    const PH = 'rotate(-3 290 290)', SEP = '#E4CFAA', INK = '#4A3A2A';
+    const inPhoto = (s) => `<g transform="${PH}"><g clip-path="url(#ns-c7-ph)">${s}</g></g>`;
+    // the paper ribbon of orders, out of the fax, across the floor, into a heap
+    const ribbon = 'M150 268 C150 236 176 232 186 250 C204 286 160 318 200 338 C246 360 214 392 262 396 C300 398 290 430 330 432';
+    let heap = '';
+    for (let i = 0; i < 26; i++) { const x = 300 + (i % 6) * 18 - (i >> 2) * 2, y = 452 - (i / 6 | 0) * 13 - (i % 3) * 3; heap += `<path d="M${x} ${y} l40 -6 l2 12 l-40 6 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.2" transform="rotate(${(i * 37) % 30 - 15} ${x + 20} ${y})"/>`; }
+    const carton = (x, y) => `<g transform="translate(${x} ${y})"><path d="M0 0 h34 v22 h-34 Z" fill="#C59B62"/><path d="M0 0 l8 -8 h34 l-8 8 Z" fill="#D8B27A"/><path d="M34 0 l8 -8 v22 l-8 8 Z" fill="#A87E4A"/><path d="M0 0 h34 v22 h-34 Z M0 0 l8 -8 h34 l-8 8 M34 0 l8 -8 v22 l-8 8" fill="none" stroke="${INK}" stroke-width="1.4"/>${ru ? '' : `<path d="M17 18 v-9 M17 9 c-4 -3 -7 -2 -8 0 M17 9 c4 -3 7 -2 8 0" fill="none" stroke="${INK}" stroke-width="1.2"/>`}</g>`;
+    const decor = ru
+      ? `<path d="M60 74 C120 96 200 96 270 78 C340 96 430 96 520 74" fill="none" stroke="${INK}" stroke-width="1.6"/>${[90, 140, 190, 240, 300, 350, 400, 450, 500].map((x, i) => `<circle cx="${x}" cy="${86 + (i % 2) * 6}" r="5" fill="${['#C8402F', '#E0A73A', '#5E8F5A'][i % 3]}" opacity=".75"/>`).join('')}`
+      : `<path d="M270 66 V104" stroke="${INK}" stroke-width="1.6"/>`;
     return A.base(`
-<defs><linearGradient id="ns-c-dawn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC690" stop-opacity=".9"/><stop offset="1" stop-color="#FFC690" stop-opacity="0"/></linearGradient></defs>
-<rect width="760" height="690" fill="#D9D2C6" opacity=".5"/>
-<g fill="none" stroke="${G}" stroke-width=".8" opacity=".25">${floor}</g>
-<!-- the roller door, and the dawn coming in -->
-<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])} Z" fill="#FFE2B8"/>
-<path d="M${pt(door[0])} L${pt(door[3])} L${pt(iso(4, 5, 0))} L${pt(iso(4, 1, 0))} Z" fill="url(#ns-c-dawn)" opacity=".6"/>
-${A.ink(`<path d="M${pt(door[0])} L${pt(door[1])} L${pt(door[2])} L${pt(door[3])}"/>`, 2.6)}
-<g fill="none" stroke="${G}" stroke-width="1" opacity=".4">${[1, 2, 3].map((z) => `<path d="M${pt(iso(-2, 1, 3.4 + z * .15))} L${pt(iso(-2, 5, 3.4 + z * .15))}"/>`).join('')}</g>
-<g transform="translate(${iso(-2, 3, 4.6)[0]} ${iso(-2, 3, 4.6)[1]})"><rect x="-30" y="-16" width="60" height="28" rx="4" fill="#2A2420"/><text y="5" font-family="ui-monospace,monospace" font-size="15" fill="#FF8A4C" text-anchor="middle">06:00</text></g>
-${stack}
-<!-- the unit of truth, front and centre -->
-${pallet(1.2, 6.6, 0, 0)}
-<!-- him: hard hat, vest, clipboard -->
-<g transform="translate(150 470)"><path d="M-26 90 L-22 20 C-20 4 20 4 22 20 L26 90 Z" fill="#E8D27A"/><path d="M-26 50 h52" stroke="#FBF7EF" stroke-width="5"/><circle cy="-8" r="16" fill="#E7C2A3"/><path d="M-20 -12 C-20 -34 20 -34 20 -12 Z" fill="${E}"/><path d="M-24 -12 h48" stroke="${G}" stroke-width="2"/>${A.ink('<path d="M-26 90 L-22 20 C-20 4 20 4 22 20 L26 90"/><circle cy="-8" r="16"/><path d="M-20 -12 C-20 -34 20 -34 20 -12"/>', 2.2)}<g transform="translate(26 40) rotate(-10)"><rect x="-12" y="-16" width="24" height="32" fill="#FBF7EF" stroke="${G}" stroke-width="1.6"/><path d="M-7 -6 h14 M-7 0 h14 M-7 6 h10" stroke="${G}" stroke-width="1"/></g></g>`, true)
-    // the forklift, his emotional support vehicle
-    + A.sp([500, 400, 200, 160], 'a-drift', `<g transform="translate(600 480)"><path d="M-60 30 h80 v-40 h-30 l-10 -30 h-30 Z" fill="#E0A73A"/>${A.ink('<path d="M-60 30 h80 v-40 h-30 l-10 -30 h-30 Z M-40 -40 V-10 M-60 -10 h50"/><circle cx="-40" cy="34" r="12"/><circle cx="6" cy="34" r="12"/><path d="M28 -60 V30 M28 20 h36 M28 0 h36" stroke-width="3"/>', 2.6)}<path d="M-22 -26 c-6 -10 -18 -4 -12 6 l12 10 l12 -10 c6 -10 -6 -16 -12 -6 Z" fill="${E}"/></g>`, null, '--d:4s;--x:-40px;--y:-22px')
+<defs><clipPath id="ns-c7-ph"><rect x="56" y="66" width="468" height="404"/></clipPath>
+<filter id="ns-c7-old"><feColorMatrix type="matrix" values=".9 .1 0 0 .04  .1 .8 .1 0 .02  .1 .1 .6 0 0  0 0 0 1 0"/></filter></defs>
+<!-- the photograph -->
+<g transform="${PH}">
+  <rect x="48" y="62" width="500" height="476" fill="${G}" opacity=".22" filter="url(#ns-b8)"/>
+  <rect x="40" y="50" width="500" height="476" fill="#FBF7EF"/>
+  <rect x="56" y="66" width="468" height="404" fill="${SEP}"/>
+  <g clip-path="url(#ns-c7-ph)" filter="url(#ns-c7-old)">
+    <rect x="56" y="360" width="468" height="110" fill="#D2B88E"/>
+    <path d="M56 360 H524" stroke="${INK}" stroke-width="1.4" opacity=".6"/>
+    <!-- the window: dawn, and the queue -->
+    <rect x="352" y="92" width="150" height="120" fill="#9C8A72"/>
+    ${ru ? `<g fill="#FBF7EF" opacity=".8">${[[372, 110], [410, 128], [450, 104], [482, 140], [390, 160], [470, 176]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6"/>`).join('')}</g>` : `<path d="M470 112 a16 16 0 1 0 12 26 a12 12 0 1 1 -12 -26 Z" fill="#F4E2B8"/>`}
+    <g fill="#7A6A58">${[384, 418, 452, 486].map((x, i) => `<circle cx="${x}" cy="${196 - (i % 2) * 6}" r="13"/>`).join('')}</g>
+    <path d="M352 92 h150 v120 h-150 Z M427 92 V212 M352 152 H502" fill="none" stroke="${INK}" stroke-width="3"/>
+    <!-- the clock -->
+    <g transform="translate(300 120)"><circle r="24" fill="#FBF6EA" stroke="${INK}" stroke-width="2.4"/><path d="M0 0 V-17 M0 0 V12" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/></g>
+    ${decor}
+    <!-- the fax on its little table -->
+    <path d="M86 300 h120 M96 300 v62 M196 300 v62" stroke="${INK}" stroke-width="3"/>
+    <g transform="translate(112 270)"><path d="M0 30 h70 v-22 l-10 -10 h-50 l-10 10 Z" fill="#B9AE9C" stroke="${INK}" stroke-width="2"/><rect x="10" y="12" width="20" height="8" fill="#5E8F5A"/><rect x="46" y="12" width="14" height="10" fill="#7A6A58"/><path d="M20 -2 h30" stroke="${INK}" stroke-width="2"/></g>
+    <!-- the orders: a ribbon, then a heap -->
+    <path d="${ribbon}" fill="none" stroke="#FBF6EA" stroke-width="16" stroke-linecap="round"/>
+    <path d="${ribbon}" fill="none" stroke="${INK}" stroke-width="1" stroke-dasharray="2 6" opacity=".6"/>
+    ${heap}
+    <!-- the cartons he actually had -->
+    ${carton(74, 428)}${carton(110, 428)}${carton(92, 406)}
+    <!-- the counter -->
+    <path d="M320 300 h204 v62 h-204 Z" fill="#B48A5A" stroke="${INK}" stroke-width="2.4"/>
+  </g>
+  ${A.ink('<rect x="40" y="50" width="500" height="476"/><rect x="56" y="66" width="468" height="404" stroke-width="1.4"/>', 2.4)}
+  <!-- the two numbers of the story, above the old photo's tint -->
+  <g transform="translate(360 368) rotate(-4)"><rect x="-42" y="-17" width="84" height="28" rx="5" fill="#FBF7EF" stroke="${E}" stroke-width="2"/><text y="5" font-family="ui-monospace,monospace" font-weight="700" font-size="18" fill="${E}" text-anchor="middle">${num(3000)}</text></g>
+  <g transform="translate(112 392) rotate(-4)"><rect x="-42" y="-17" width="84" height="28" rx="5" fill="#FBF7EF" stroke="${G}" stroke-width="2"/><text y="5" font-family="ui-monospace,monospace" font-weight="700" font-size="18" fill="${G}" text-anchor="middle">${num(1000)}</text></g>
+  <text x="290" y="508" class="ns-hand" font-size="22" fill="${INK}" text-anchor="middle"${A.dir()}>${A.esc(T3('Ramadan, twenty years ago', 'Новый год, двадцать лет назад', 'رمضان، من عشرين سنة'))}</text>
+</g>
+<!-- the pin -->
+<circle cx="292" cy="58" r="8" fill="${E}" stroke="${G}" stroke-width="1.6"/>
+<!-- him today -->
+<g transform="rotate(4 650 520)">
+  <rect x="566" y="420" width="176" height="200" fill="#FBF7EF"/>
+  ${A.ink('<rect x="566" y="420" width="176" height="200"/>', 2)}
+  <path d="M610 600 C610 540 698 540 698 600 Z" fill="#9DB7D6" stroke="${G}" stroke-width="2"/>
+  <circle cx="654" cy="510" r="30" fill="#E7C2A3" stroke="${G}" stroke-width="2.2"/>
+  <path d="M624 500 C626 470 682 470 684 500 C672 488 636 488 624 500 Z" fill="#D8D2CC" stroke="${G}" stroke-width="1.6"/>
+  <g fill="none" stroke="${G}" stroke-width="2"><circle cx="642" cy="512" r="9"/><circle cx="668" cy="512" r="9"/><path d="M651 512 h8 M642 530 q12 -4 24 0"/></g>
+  <circle cx="642" cy="512" r="2.6" fill="${G}"/>
+  <g transform="translate(700 452) rotate(8)"><rect x="-36" y="-14" width="72" height="26" fill="#F3E08A" stroke="${G}" stroke-width="1.4"/><text y="5" class="ns-hand" font-size="15" font-weight="700" fill="${G}" text-anchor="middle"${A.dir()}>${A.esc(T3('campaign?', 'кампания?', 'حملة؟'))}</text></g>
+  <text x="590" y="440" class="ns-hand" font-size="15" fill="${G}"${A.dir()}>${A.esc(T3('today', 'сегодня', 'النهارده'))}</text>
+</g>`, true)
+    // the lantern (or the garland's star), swaying in the shop
+    + (ru ? '' : A.sp([244, 96, 56, 80], 'a-sway', inPhoto(`<g filter="url(#ns-c7-old)"><path d="M262 104 h16 l6 12 v26 l-6 12 h-16 l-6 -12 v-26 Z" fill="#E0A73A" stroke="${INK}" stroke-width="1.8"/><path d="M262 116 h16 M262 142 h16" stroke="${INK}" stroke-width="1.2"/><circle cx="270" cy="129" r="16" fill="#FFE2A0" opacity=".35" filter="url(#ns-b8)"/></g>`), [270, 66], '--d:3.6s;--a:5deg'))
+    // the fax, still printing: sheets keep coming out of the slot
+    + [0, 1, 2].map((i) => A.sp([126, 200, 52, 80], 'a-fall', inPhoto(`<path d="M136 268 h30 v-14 h-30 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.2"/><path d="M140 262 h20 M140 258 h14" stroke="${INK}" stroke-width=".8"/>`), null, `--d:1.8s;--dl:${-i * 0.6}s;--y:-46px`)).join('')
+    + A.sp([118, 276, 24, 16], 'a-flick', inPhoto(`<rect x="122" y="282" width="20" height="8" fill="#9FE07A"/>`), null, '--d:.4s')
+    // young him, on the brick phone, bowing and apologising
+    + A.sp([380, 210, 110, 110], 'a-bow', inPhoto(`<g filter="url(#ns-c7-old)"><path d="M396 300 C396 262 470 262 470 300 Z" fill="#8C98A6" stroke="${INK}" stroke-width="2"/><circle cx="432" cy="246" r="20" fill="#E7C2A3" stroke="${INK}" stroke-width="2"/><path d="M414 236 C416 220 448 220 450 236 Z" fill="#3B2A22"/><path d="M432 254 q6 4 12 0" stroke="${INK}" stroke-width="1.6" fill="none"/><path d="M452 246 l10 -2 v-22 l-8 0 Z" fill="#4A4A4A" stroke="${INK}" stroke-width="1.4"/><path d="M450 270 C460 262 462 250 458 244" stroke="#E7C2A3" stroke-width="8" stroke-linecap="round" fill="none"/></g>`), [432, 300], '--d:1.4s;--a:8deg')
+    + A.sp([462, 200, 30, 40], 'a-flick', inPhoto(`<path d="M468 208 l8 -6 M470 218 l10 -2 M468 228 l8 4" stroke="${E}" stroke-width="2" stroke-linecap="round"/>`), null, '--d:.25s')
+    + A.sp([410, 226, 12, 50], 'a-fall', inPhoto(`<path d="M414 230 c-3 5 -3 8 0 9 c3 -1 3 -4 0 -9 Z" fill="#9FD3FF"/>`), null, '--d:1.6s;--y:30px')
+    // the queue at the window, asking
+    + A.sp([370, 150, 140, 40], 'a-pulse', inPhoto(`<g transform="translate(432 166)"><path d="M-60 -16 H60 Q68 -16 68 -8 V8 Q68 16 60 16 H-4 L-12 26 L-16 16 H-60 Q-68 16 -68 8 V-8 Q-68 -16 -60 -16 Z" fill="#FBF6EA" stroke="${INK}" stroke-width="1.6"/><text y="6" class="ns-hand" font-size="16" font-weight="700" fill="${INK}" text-anchor="middle"${A.dir()}>${A.esc(T3('where’s my order?', 'где мой заказ?', 'وين طلبي؟'))}</text></g>`), null, '--d:1.2s;--a:1.06')
+    // the clock's second hand, at six in the morning
+    + A.sp([276, 96, 48, 48], 'a-spin', inPhoto(`<path d="M300 120 L314 112" stroke="${E}" stroke-width="1.6" stroke-linecap="round"/>`), [300, 120], '--d:6s')
+    + (ru ? [0, 1, 2, 3].map((i) => A.sp([360 + i * 34, 92, 8, 8], 'a-fall', inPhoto(`<circle cx="${364 + i * 34}" cy="96" r="2.4" fill="#fff"/>`), null, `--d:${3 + i * 0.4}s;--dl:${-i}s;--y:110px`)).join('') : '')
+    // him today: the eye twitches at the word
+    + A.sp([656, 500, 24, 24], 'a-twitch', `<g transform="rotate(4 650 520)"><path d="M659 512 a9 9 0 0 1 18 0 Z" fill="#E7C2A3" stroke="${G}" stroke-width="1.6"/></g>`, [668, 503], '--d:2.6s')
     + A.base(`
-  ${A.note(N(c, 0), 14, 600, 300, { s: 22 })}
-  ${A.arrow(`M200 610 C${iso(1.7, 7.1, .2)[0] - 40} 610 ${iso(1.7, 7.1, .2)[0] - 10} ${iso(1.7, 7.1, .2)[1] + 20} ${iso(1.7, 7.1, .2)[0]} ${iso(1.7, 7.1, .2)[1] + 6}`)}
-  ${A.note(N(c, 1), 470, 40, 280, { s: 23 })}
-  ${A.arrow(`M560 70 C540 90 ${lbl[0] + 30} ${lbl[1] - 40} ${lbl[0] + 10} ${lbl[1] - 20}`)}
-  ${A.note(N(c, 2), 540, 620, 216, { s: 22 })}
-  ${A.arrow('M600 610 C596 590 594 570 592 546')}
-  ${A.note(N(c, 3), 14, 40, 240, { s: 23 })}
-  ${A.arrow(`M100 70 C110 110 ${iso(-2, 3, 4.6)[0] - 60} ${iso(-2, 3, 4.6)[1] - 10} ${iso(-2, 3, 4.6)[0] - 34} ${iso(-2, 3, 4.6)[1]}`)}`);
+  ${A.note(N(c, 3), 566, 40, 190, { s: 22 })}
+  ${A.arrow('M600 70 C520 80 400 100 330 116')}
+  ${A.note(N(c, 1), 566, 186, 190, { s: 22 })}
+  ${A.arrow('M600 230 C540 290 420 340 368 380')}
+  ${A.note(N(c, 0), 14, 600, 260, { s: 22 })}
+  ${A.arrow('M90 586 C96 520 100 480 104 452')}
+  ${A.note(N(c, 2), 290, 600, 260, { s: 22 })}
+  ${A.arrow('M300 586 C240 470 190 360 160 300')}`);
   };
 
   // ================= Day 27 — the evidence board of my own mistakes =================
@@ -1649,6 +1692,85 @@ ${[[200, '#3B2A22'], [330, '#C9A87C'], [470, '#2A1E18']].map(([x, h]) => `<circl
   };
 })();
 
+// USHA's story: a second layer of small acted moments, one or a few per
+// chapter, drawn on top of each scene (below her notes). Each one acts out a
+// beat of the chapter: words flying into the jar, a die landing, the "so
+// what?" bulb flickering, sheets landing on Jojo's pile, a gavel's bang.
+(() => {
+  const A = window.USHA_ART;
+  const G = '#2A2420', E = '#FF5A1F';
+  const X = (A.extra = A.extra || {});
+  const T3 = (en, ru, ar) => (A.lang() === 'ar' ? ar : A.lang() === 'ru' ? ru : en);
+  const word = (x, y, t, o = {}) => `<text x="${x}" y="${y}" class="ns-hand" font-size="${o.s || 18}" font-weight="700" fill="${o.c || E}" text-anchor="middle"${A.dir()}>${A.esc(t)}</text>`;
+  const bubble = (x, y, t, w = 110) => `<g transform="translate(${x} ${y})"><path d="M${-w / 2} -16 H${w / 2} Q${w / 2 + 8} -16 ${w / 2 + 8} -8 V8 Q${w / 2 + 8} 16 ${w / 2} 16 H6 L-4 28 L-6 16 H${-w / 2} Q${-w / 2 - 8} 16 ${-w / 2 - 8} 8 V-8 Q${-w / 2 - 8} -16 ${-w / 2} -16 Z" fill="#fff" stroke="${G}" stroke-width="1.8"/>${word(0, 6, t, { c: G, s: 17 })}</g>`;
+
+  // 1 · the cup: his slide gets worse, the spoon splashes
+  X.cup = () => A.sp([428, 236, 40, 40], 'a-pop', word(448, 262, '?!', { s: 26 }), null, '--d:5s;--dl:-1s')
+    + [0, 1, 2].map((i) => A.sp([296 + i * 12, 352, 14, 14], 'a-pop', `<circle cx="${303 + i * 12}" cy="${358 - (i % 2) * 6}" r="3" fill="#E7C9A6" stroke="${G}" stroke-width=".8"/>`, null, `--d:3.2s;--dl:${-i * 0.15}s`)).join('');
+
+  // 2 · ten years: another die lands on the board
+  X.dice = () => A.sp([392, 252, 76, 76], 'a-stamp', `<g transform="translate(430 290) rotate(-18)"><rect x="-24" y="-24" width="48" height="48" rx="8" fill="#FBF7EF" stroke="${G}" stroke-width="2.4"/>${word(0, 9, '?', { s: 30, c: G })}</g>`, null, '--d:5.5s');
+
+  // 3 · locked away: something bites
+  X.xray = () => [0, 1].map((i) => A.sp([570, 460, 54, 24], 'a-ripple', `<ellipse cx="597" cy="472" rx="20" ry="5" fill="none" stroke="#fff" stroke-width="1.6"/>`, [597, 472], `--d:2.2s;--dl:${-i * 1.1}s`)).join('');
+
+  // 4 · the listening: their words fly into the jar
+  X.jar = () => [['CPM', 160, 346, 210, 140], ['ROAS', 170, 330, 190, 170], ['%', 594, 356, -210, 140], [T3('salt', 'соль', 'ملح'), 600, 340, -200, 170]]
+    .map(([t, x, y, dx, dy], i) => A.sp([x - 30, y - 20, 60, 30], 'a-slide', word(x, y, t, { s: 16, c: G }), null, `--d:3.4s;--dl:${-i * 0.85}s;--x:${dx}px;--y:${dy}px`)).join('');
+
+  // 5 · the chef: the steak, still sizzling
+  X.chef = () => [0, 1, 2].map((i) => A.sp([316 + i * 60, 440, 30, 80], 'a-steam', `<path d="M${330 + i * 60} 512 c-8 -16 8 -24 0 -40 c-6 -12 6 -18 2 -28" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" filter="url(#ns-b4)"/>`, null, `--d:4s;--dl:${-i * 1.3}s`)).join('');
+
+  // 6 · it depends: she says it again
+  X.pharma = (c) => A.sp([580, 40, 150, 70], 'a-pop', bubble(650, 66, (A.quote(c.h) || '?') + A.qm(), 120), null, '--d:4s;--dl:-.5s');
+
+  // 8 · growing up: every day she was lights up, one after the other
+  X.door = () => [[262, 0.9, 586], [300, 1.2, 528], [346, 1.5, 452], [394, 1.9, 352]].map(([x, s, top], i) => {
+    const cy = top + 18 * s;
+    return A.sp([x - 24 * s, cy - 20 * s, 48 * s, 40 * s], 'a-glow', `<ellipse cx="${x}" cy="${cy}" rx="${22 * s}" ry="${18 * s}" fill="#FFB48A" opacity=".55"/>`, null, `--d:2.4s;--dl:${-2.4 + i * 0.6}s`);
+  }).join('');
+
+  // 9 · the evidence board: the strings carry the blame along
+  X.board = () => A.sp([126, 116, 500, 290], '', `<g fill="none" stroke="#FFE2A0" stroke-width="2.4" stroke-linecap="round"><path class="ns-flow" d="M150 128 C260 150 300 140 400 122 C480 130 540 150 610 168" stroke-dasharray="2 14"/><path class="ns-flow" d="M130 398 C250 360 300 300 400 122" stroke-dasharray="2 14"/><path class="ns-flow" d="M560 372 C500 330 450 300 400 122" stroke-dasharray="2 14"/></g>`);
+
+  // 11 · Jojo: layout after layout lands on the pile
+  X.jojo = () => [0, 1].map((i) => A.sp([580, 530, 90, 64], 'a-slide', `<g transform="translate(624 560) rotate(${i ? 8 : -6})"><rect x="-40" y="-26" width="80" height="52" fill="#FBF7EF" stroke="${G}" stroke-width="1.6"/><rect x="-32" y="-18" width="26" height="22" fill="#E8D27A" opacity=".7"/><path d="M2 -14 h28 M2 -6 h22" stroke="${G}" stroke-width="1.4" opacity=".6"/></g>`, null, `--d:3s;--dl:${-i * 1.5}s;--x:-430px;--y:40px`)).join('');
+
+  // 12 · Alfons: still deciding
+  X.alfons = () => A.sp([450, 286, 50, 40], 'a-pop', word(474, 314, '?!', { s: 28 }), null, '--d:3.6s');
+
+  // 13 · Darina: the typo, found again
+  X.darina = () => A.sp([128, 214, 60, 60], 'a-pulse', `<circle cx="158" cy="244" r="20" fill="none" stroke="${E}" stroke-width="3"/>`, null, '--d:.8s;--a:1.3');
+
+  // 14 · the strategist: the idea's light is failing
+  X.strategist = () => A.sp([210, 330, 100, 100], 'a-flick', `<circle cx="260" cy="380" r="44" fill="#FFF2B8" opacity=".55" filter="url(#ns-b8)"/>`, null, '--d:.18s');
+
+  // 15 · the media buyer: the price jumps
+  X.media = () => A.sp([590, 150, 120, 40], 'a-pop', `<rect x="606" y="156" width="88" height="26" rx="4" fill="#C8402F"/>${word(650, 175, 'CPC ↑', { s: 16, c: '#fff' })}`, null, '--d:4.5s;--dl:-2s');
+
+  // 16 · the engineers: the quick fix trembles
+  X.engineers = () => A.sp([270, 316, 60, 50], 'a-shake', `<g transform="translate(300 340)"><rect x="-26" y="-14" width="52" height="28" fill="#C5C9CE" transform="rotate(8)" stroke="${G}" stroke-width="1"/></g>`, [300, 340], '--d:2.4s');
+
+  // 17 · my people: the arguments, one by one
+  X.people = () => A.sp([130, 270, 130, 50], 'a-pop', bubble(196, 294, T3('Tuesday?', 'вторник?', 'الثلاثاء؟'), 92), null, '--d:5s;--dl:-1s')
+    + A.sp([410, 432, 130, 50], 'a-pop', bubble(476, 456, T3('lunch?', 'обед?', 'الغدا؟'), 80), null, '--d:5s;--dl:-3.5s');
+
+  // 19 · the Gulf: the imagined Lamborghini goes by, fast
+  X.gulf = () => A.sp([200, 214, 70, 40], 'a-pop', `<g stroke="${E}" stroke-width="2" stroke-linecap="round" transform="rotate(-5 230 190)"><path d="M210 230 h30 M204 240 h36 M214 250 h26"/></g>`, null, '--d:1.6s');
+
+  // 21 · Jeddah: premium sparkles on an impossible object
+  X.jeddah = () => [[300, 222], [470, 312], [220, 392]].map(([x, y], i) => A.sp([x - 14, y - 14, 28, 28], 'a-pop', `<path d="M${x} ${y - 10} L${x + 3} ${y - 3} L${x + 10} ${y} L${x + 3} ${y + 3} L${x} ${y + 10} L${x - 3} ${y + 3} L${x - 10} ${y} L${x - 3} ${y - 3} Z" fill="#E0A73A"/>`, null, `--d:2.4s;--dl:${-i * 0.8}s`)).join('');
+
+  // 22 · St Petersburg: photo number forty-eight, coming
+  X.kazan = () => A.sp([480, 560, 80, 40], 'a-pop', word(520, 586, '#48?', { s: 22 }), null, '--d:2.6s');
+
+  // 23 · the court: the bang
+  X.court = () => A.sp([480, 84, 80, 70], 'a-pop', `<g stroke="${G}" stroke-width="2.4" stroke-linecap="round"><path d="M508 96 l-8 -10 M522 92 l2 -14 M536 98 l10 -8 M540 112 l14 0"/></g>`, null, '--d:1.4s');
+
+  // 24 · round 9: the bell
+  X.ring = () => A.sp([150, 70, 110, 50], 'a-pop', word(205, 104, T3('DING!', 'ДЗЫНЬ!', 'تِن!'), { s: 28 }), null, '--d:3s');
+})();
+
 // USHA's story: the popup. Loaded on demand by cover.js, together with the
 // texts (text.js) and the drawings (art*.js). One chapter at a time, arrows,
 // keys and swipe (reversed in Arabic), mini USHA walking along the trail. While
@@ -1708,6 +1830,9 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-tick{animation:ns-tick 14s linear infinite}
 @keyframes ns-glow{0%,35%{opacity:.08}65%,100%{opacity:1}}
 @keyframes ns-tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.a-bow{animation-name:ns-sway;animation-direction:alternate}
+.a-twitch,.a-pop,.a-stamp{animation-name:ns-flick;animation-direction:alternate}
+.a-shake{animation-name:ns-sway;animation-direction:alternate}
 .a-swing{animation-name:ns-swing;animation-direction:alternate}
 @keyframes ns-sway{from{transform:rotate(calc(var(--a,3deg) * -1))}to{transform:rotate(var(--a,3deg))}}
 @keyframes ns-swing{from{transform:rotate(calc(var(--a,3deg) * -1)) translateX(calc(var(--x,0px) * -1))}to{transform:rotate(var(--a,3deg)) translateX(var(--x,0px))}}
@@ -1945,6 +2070,12 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     walk: (v) => [[TF('translateX(0px) scaleX(1)'), { transform: `translateX(${v.x(200)}px) scaleX(1)`, offset: 0.46 }, { transform: `translateX(${v.x(200)}px) scaleX(-1)`, offset: 0.5 }, { transform: 'translateX(0px) scaleX(-1)', offset: 0.96 }, TF('translateX(0px) scaleX(1)')], 0, 'linear'],
     fall: (v) => [[{ transform: 'translateY(0px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: `translateY(${v.y(200)}px)`, opacity: 0 }], 0, 'linear'],
     tick: () => [[TF('rotate(0deg)'), { transform: 'rotate(50deg)', offset: 0.2 }, { transform: 'rotate(50deg)', offset: 0.4 }, { transform: 'rotate(-35deg)', offset: 0.6 }, { transform: 'rotate(-35deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    // acted moments
+    bow: (v) => [[TF('rotate(0deg)'), { transform: `rotate(${v.a(8)}deg)`, offset: 0.3 }, { transform: `rotate(${v.a(8)}deg)`, offset: 0.55 }, { transform: 'rotate(0deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    twitch: () => [[{ transform: 'scaleY(0)', offset: 0 }, { transform: 'scaleY(0)', offset: 0.6 }, { transform: 'scaleY(1.1)', offset: 0.64 }, { transform: 'scaleY(0)', offset: 0.68 }, { transform: 'scaleY(1.1)', offset: 0.72 }, { transform: 'scaleY(0)', offset: 0.78 }, { transform: 'scaleY(0)' }], 0, 'linear'],
+    pop: () => [[{ opacity: 0, transform: 'scale(.4)' }, { opacity: 1, transform: 'scale(1.12)', offset: 0.08 }, { opacity: 1, transform: 'scale(1)', offset: 0.13 }, { opacity: 1, transform: 'scale(1)', offset: 0.55 }, { opacity: 0, transform: 'scale(.9)', offset: 0.65 }, { opacity: 0, transform: 'scale(.4)' }], 0],
+    shake: () => [[TF('rotate(0deg)'), { transform: 'rotate(-7deg)', offset: 0.05 }, { transform: 'rotate(7deg)', offset: 0.1 }, { transform: 'rotate(-5deg)', offset: 0.15 }, { transform: 'rotate(4deg)', offset: 0.2 }, { transform: 'rotate(0deg)', offset: 0.25 }, TF('rotate(0deg)')], 0],
+    stamp: () => [[{ opacity: 0, transform: 'scale(2.2)' }, { opacity: 0, transform: 'scale(2.2)', offset: 0.3 }, { opacity: 1, transform: 'scale(.94)', offset: 0.36 }, { opacity: 1, transform: 'scale(1)', offset: 0.4 }, { opacity: 1, transform: 'scale(1)', offset: 0.85 }, { opacity: 0, transform: 'scale(1)' }], 0],
     scribble: () => [[TF('translate(0px,0px)'), { transform: 'translate(-6px,2px)', offset: 0.25 }, { transform: 'translate(0px,0px)', offset: 0.5 }, { transform: 'translate(-6px,-2px)', offset: 0.75 }, TF('translate(0px,0px)')], 0, 'linear'],
   };
   const AMP = 1.6; // movements read clearly at a glance
@@ -2040,7 +2171,11 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     const c = T.ch[cur], q = (s) => root.querySelector(s);
     ART.setLang(L);
     const scene = q('.ns-scene'), tx = q('.ns-tx');
-    scene.innerHTML = (ART.by[c.id] || (() => ''))(c);
+    let html = (ART.by[c.id] || (() => ''))(c);
+    // the acted moments (art6.js) go on top of the drawing, under her notes
+    const ex = ART.extra && ART.extra[c.id] ? ART.extra[c.id](c) : '';
+    if (ex) { const at = html.lastIndexOf('<svg class="ns-l"'); html = at > 0 ? html.slice(0, at) + ex + html.slice(at) : html + ex; }
+    scene.innerHTML = html;
     runMotion(scene);
     // on phones her notes stay on the drawing: one at a time, in a small handwritten caption
     clearInterval(render.n);

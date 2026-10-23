@@ -57,6 +57,9 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns-tick{animation:ns-tick 14s linear infinite}
 @keyframes ns-glow{0%,35%{opacity:.08}65%,100%{opacity:1}}
 @keyframes ns-tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.a-bow{animation-name:ns-sway;animation-direction:alternate}
+.a-twitch,.a-pop,.a-stamp{animation-name:ns-flick;animation-direction:alternate}
+.a-shake{animation-name:ns-sway;animation-direction:alternate}
 .a-swing{animation-name:ns-swing;animation-direction:alternate}
 @keyframes ns-sway{from{transform:rotate(calc(var(--a,3deg) * -1))}to{transform:rotate(var(--a,3deg))}}
 @keyframes ns-swing{from{transform:rotate(calc(var(--a,3deg) * -1)) translateX(calc(var(--x,0px) * -1))}to{transform:rotate(var(--a,3deg)) translateX(var(--x,0px))}}
@@ -294,6 +297,12 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     walk: (v) => [[TF('translateX(0px) scaleX(1)'), { transform: `translateX(${v.x(200)}px) scaleX(1)`, offset: 0.46 }, { transform: `translateX(${v.x(200)}px) scaleX(-1)`, offset: 0.5 }, { transform: 'translateX(0px) scaleX(-1)', offset: 0.96 }, TF('translateX(0px) scaleX(1)')], 0, 'linear'],
     fall: (v) => [[{ transform: 'translateY(0px)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { transform: `translateY(${v.y(200)}px)`, opacity: 0 }], 0, 'linear'],
     tick: () => [[TF('rotate(0deg)'), { transform: 'rotate(50deg)', offset: 0.2 }, { transform: 'rotate(50deg)', offset: 0.4 }, { transform: 'rotate(-35deg)', offset: 0.6 }, { transform: 'rotate(-35deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    // acted moments
+    bow: (v) => [[TF('rotate(0deg)'), { transform: `rotate(${v.a(8)}deg)`, offset: 0.3 }, { transform: `rotate(${v.a(8)}deg)`, offset: 0.55 }, { transform: 'rotate(0deg)', offset: 0.8 }, TF('rotate(0deg)')], 0],
+    twitch: () => [[{ transform: 'scaleY(0)', offset: 0 }, { transform: 'scaleY(0)', offset: 0.6 }, { transform: 'scaleY(1.1)', offset: 0.64 }, { transform: 'scaleY(0)', offset: 0.68 }, { transform: 'scaleY(1.1)', offset: 0.72 }, { transform: 'scaleY(0)', offset: 0.78 }, { transform: 'scaleY(0)' }], 0, 'linear'],
+    pop: () => [[{ opacity: 0, transform: 'scale(.4)' }, { opacity: 1, transform: 'scale(1.12)', offset: 0.08 }, { opacity: 1, transform: 'scale(1)', offset: 0.13 }, { opacity: 1, transform: 'scale(1)', offset: 0.55 }, { opacity: 0, transform: 'scale(.9)', offset: 0.65 }, { opacity: 0, transform: 'scale(.4)' }], 0],
+    shake: () => [[TF('rotate(0deg)'), { transform: 'rotate(-7deg)', offset: 0.05 }, { transform: 'rotate(7deg)', offset: 0.1 }, { transform: 'rotate(-5deg)', offset: 0.15 }, { transform: 'rotate(4deg)', offset: 0.2 }, { transform: 'rotate(0deg)', offset: 0.25 }, TF('rotate(0deg)')], 0],
+    stamp: () => [[{ opacity: 0, transform: 'scale(2.2)' }, { opacity: 0, transform: 'scale(2.2)', offset: 0.3 }, { opacity: 1, transform: 'scale(.94)', offset: 0.36 }, { opacity: 1, transform: 'scale(1)', offset: 0.4 }, { opacity: 1, transform: 'scale(1)', offset: 0.85 }, { opacity: 0, transform: 'scale(1)' }], 0],
     scribble: () => [[TF('translate(0px,0px)'), { transform: 'translate(-6px,2px)', offset: 0.25 }, { transform: 'translate(0px,0px)', offset: 0.5 }, { transform: 'translate(-6px,-2px)', offset: 0.75 }, TF('translate(0px,0px)')], 0, 'linear'],
   };
   const AMP = 1.6; // movements read clearly at a glance
@@ -389,7 +398,11 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     const c = T.ch[cur], q = (s) => root.querySelector(s);
     ART.setLang(L);
     const scene = q('.ns-scene'), tx = q('.ns-tx');
-    scene.innerHTML = (ART.by[c.id] || (() => ''))(c);
+    let html = (ART.by[c.id] || (() => ''))(c);
+    // the acted moments (art6.js) go on top of the drawing, under her notes
+    const ex = ART.extra && ART.extra[c.id] ? ART.extra[c.id](c) : '';
+    if (ex) { const at = html.lastIndexOf('<svg class="ns-l"'); html = at > 0 ? html.slice(0, at) + ex + html.slice(at) : html + ex; }
+    scene.innerHTML = html;
     runMotion(scene);
     // on phones her notes stay on the drawing: one at a time, in a small handwritten caption
     clearInterval(render.n);
