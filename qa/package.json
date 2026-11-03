@@ -1,0 +1,21 @@
+{
+  "name": "usha-qa",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node run.mjs",
+    "baseline": "node run.mjs --baseline",
+    "smoke": "node run.mjs --smoke",
+    "report": "node scripts/report.mjs",
+    "self-test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.1",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.56.1",
+    "pixelmatch": "7.1.0",
+    "pngjs": "7.0.0"
+  }
+}

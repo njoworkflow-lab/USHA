@@ -1,0 +1,87 @@
+name: Heavy QA
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+        browser: [chromium, webkit, firefox]
+    env:
+      QA_WORKERS: '2'
+      QA_SHARD: ${{ matrix.shard }}
+      QA_BROWSER_SHARD: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: qa/package-lock.json
+      - name: Install pinned QA dependencies
+        run: npm ci --prefix qa --no-audit --no-fund
+      - name: Install Chromium, Firefox, WebKit and system dependencies
+        working-directory: qa
+        shell: bash
+        run: |
+          mkdir -p .work/install
+          npx playwright install --with-deps 2>&1 | tee .work/install/browsers.log
+      - name: Check the QA harness
+        run: npm --prefix qa run self-test
+      - name: Run the scheduled browser, device and all three languages
+        run: npm --prefix qa test
+      - name: Upload QA report, screenshots, diffs and installation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usha-qa-${{ github.run_id }}-shard-${{ matrix.browser }}-${{ matrix.shard }}
+          path: |
+            qa/report/
+            qa/.work/install/
+          if-no-files-found: error
+          retention-days: 30
+          include-hidden-files: true
+  report:
+    name: Complete QA matrix
+    if: always()
+    needs: qa
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --prefix qa --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: usha-qa-${{ github.run_id }}-shard-*
+          path: qa/.work/shards
+      - name: Verify coverage and combine every result
+        run: node qa/scripts/merge-reports.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: usha-qa-${{ github.run_id }}-complete
+          path: qa/report/
+          if-no-files-found: error
+          retention-days: 30
