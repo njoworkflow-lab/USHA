@@ -1,4 +1,4 @@
-import { click as qaClick } from '../lib/input.mjs';
+import { click as qaClick, scrollInput, scrollInputName, usesProgrammaticScroll } from '../lib/input.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { PNG } from 'pngjs';
@@ -7,7 +7,7 @@ import { QA, SECTIONS } from '../lib/config.mjs';
 import { goSection, settle, visualTicks, wake } from '../lib/browser.mjs';
 import { domTools, waitForReveal } from '../lib/dom.mjs';
 
-async function wheelTo(page, target, cdp) {
+async function wheelTo(page, target, cdp, cell) {
   const started = Date.now();
   let y = await page.evaluate(() => scrollY);
   if (Math.abs(target - y) <= 3) return { target, actual: y, reached: true };
@@ -22,7 +22,7 @@ async function wheelTo(page, target, cdp) {
     y = await page.evaluate(() => scrollY);
   }
   while (Math.abs(target - y) > 3 && Date.now() - started < 30000) {
-    await page.mouse.wheel(0, Math.sign(target - y) * Math.min(500, Math.abs(target - y)));
+    await scrollInput(page, cell, Math.sign(target - y) * Math.min(500, Math.abs(target - y)));
     // Wheel dispatch returns before a slow renderer processes the scroll. An
     // unchanged immediate sample must not be mistaken for the final position.
     try { await page.waitForFunction(previous => Math.abs(scrollY - previous) >= 1, y, { timeout: 3000 }); }
@@ -37,6 +37,8 @@ export async function visibility(s, cell, record, sections = SECTIONS, modes = [
   const { page } = s;
   await page.evaluate(domTools);
   record.metrics.checked = { normal: 0, jump: 0 };
+  record.metrics.normalScrollInput = s.cdp ? 'native CDP/Playwright wheel' : scrollInputName(cell);
+  if (usesProgrammaticScroll(cell)) record.notes.push('Mobile WebKit has no Playwright wheel/swipe API; content traversal uses programmatic scrollBy. Native touch-scroll behavior is not covered.');
   record.metrics.excluded = 'display:none, hidden/inert/aria-hidden and closed details answers. State-dependent Back/approval controls are tested in interaction. Story content is reached through its declared scroll interval; every finding card is activated via its real dot button.';
   record.metrics.deferred = [];
   for (const mode of modes) {
@@ -52,7 +54,7 @@ export async function visibility(s, cell, record, sections = SECTIONS, modes = [
       console.log(`VISIBILITY  ${cell.id} ${mode} ${id}`);
       if (mode === 'normal') {
         const target = await page.locator('#' + id).evaluate(el => el.offsetTop);
-        await wheelTo(page, target, s.cdp);
+        await wheelTo(page, target, s.cdp, cell);
         await settle(page);
       } else await goSection(page, id, { anchor: true });
       const candidates = await page.evaluate(id => window.__qaDOM.candidates(document.getElementById(id)).map(el => {
@@ -76,11 +78,11 @@ export async function visibility(s, cell, record, sections = SECTIONS, modes = [
           if (state.cue && cueKey !== activeCue) {
             const target = state.target;
             if (mode === 'normal') {
-              const approach = await wheelTo(page, target, s.cdp);
-              await record.check(approach.reached, 'Normal wheel input did not reach the content activation interval', { section: id, selector, ...approach });
+              const approach = await wheelTo(page, target, s.cdp, cell);
+              await record.check(approach.reached, 'Scroll input did not reach the content activation interval', { section: id, selector, input: record.metrics.normalScrollInput, ...approach });
             } else {
               await page.mouse.move(15, page.viewportSize().height * .7);
-              await page.mouse.wheel(0, target - await page.evaluate(() => scrollY));
+              await scrollInput(page, cell, target - await page.evaluate(() => scrollY));
             }
             await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
             if (state.item >= 0) {

@@ -50,6 +50,13 @@ WebKit/Firefox lack that CDP throttle; those performance measurements are marked
 unavailable. Firefox phone emulation omits unsupported `isMobile`, retaining
 viewport, DPR, touch and user agent. These are emulated profiles, not real phones.
 
+Pinned Playwright cannot dispatch wheel input in mobile WebKit and has no swipe
+API for that engine. Those profiles retain mobile emulation and use explicitly
+labeled programmatic `scrollBy` for content traversal and rendering measurements.
+This covers revealed content and frame timing, not native touch-scroll/fling
+behavior. Other engines retain their native input paths. Small scroll/reveal
+fixtures run in all three installed engines during the CI harness check.
+
 Full CI uses one browser session at a time per runner to avoid contention between
 software renderers. Reference capture has a 20-minute deadline and candidate
 tests have 150 minutes, leaving time for installation and artifact upload. These

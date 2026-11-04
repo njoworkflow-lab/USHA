@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { constants } from 'node:fs';
-import { click as qaClick } from '../lib/input.mjs';
+import { click as qaClick, scrollInput, scrollInputName, usesProgrammaticScroll } from '../lib/input.mjs';
 import { frameStats, fpsFloor, isPhone, SECTIONS } from '../lib/config.mjs';
 import { closePopups, goSection, settle } from '../lib/browser.mjs';
 
@@ -20,6 +20,7 @@ export async function smoothness(s, cell, record, smoke) {
   const enforce = enforceFps(renderer, process.env.QA_STRICT_FPS, runnerGpu);
   Object.assign(record.metrics, { renderer, runnerGpu, strict: process.env.QA_STRICT_FPS === '1', informationalOnly: !enforce });
   if (!enforce) record.notes.push('Software or unverified GPU: FPS and frame-time limits are informational only. Set QA_STRICT_FPS=1 to enforce them.');
+  if (usesProgrammaticScroll(cell)) record.notes.push('Mobile WebKit has no Playwright wheel/swipe API. Programmatic scrollBy measures rendered scrolling, not a native touch gesture or fling.');
   record.metrics.cpuThrottle = cell.profile === 'android-low' ? 4 : 1;
   record.metrics.network = cell.profile === 'android-low' ? 'Fast 3G: 150 ms RTT, 1.6 Mbps down, 750 Kbps up' : 'local, unthrottled';
   for (const mode of ['slow-wheel', 'fast-wheel', 'fling']) {
@@ -30,7 +31,7 @@ export async function smoothness(s, cell, record, smoke) {
     const started = Date.now();
     const size = page.viewportSize();
     // Actual wheel input; phone fling uses compositor touch gestures over CDP.
-    // Firefox/WebKit use fast wheel input, recorded explicitly below.
+    // Other modes record their actual wheel/programmatic input explicitly.
     let iterations = 0;
     while (Date.now() - started < (smoke ? 12000 : 300000)) {
       const pos = await page.evaluate(() => ({ y: scrollY, end: document.documentElement.scrollHeight - innerHeight }));
@@ -57,7 +58,7 @@ export async function smoothness(s, cell, record, smoke) {
         });
       } else {
         await page.mouse.move(size.width / 2, size.height * .6);
-        await page.mouse.wheel(0, mode === 'slow-wheel' ? 160 : mode === 'fast-wheel' ? 800 : size.height * 3);
+        await scrollInput(page, cell, mode === 'slow-wheel' ? 160 : mode === 'fast-wheel' ? 800 : size.height * 3);
       }
       await page.waitForTimeout(mode === 'slow-wheel' ? 70 : mode === 'fast-wheel' ? 45 : 50);
       iterations++;
@@ -73,7 +74,7 @@ export async function smoothness(s, cell, record, smoke) {
     const stats = frameStats(data.frames);
     if (!data.longtaskSupported && !record.notes.includes('Long-task observer API is unavailable in this browser.')) record.notes.push('Long-task observer API is unavailable in this browser.');
     const screenshot = data.scrollY < data.end - 3 || stats.p5Fps < fpsFloor(cell) || stats.maxFrameMs > 200 ? await record.shot(mode) : undefined;
-    record.metrics.runs.push({ mode, input: mode === 'fling' && isPhone(cell) && cdp ? 'CDP touch fling' : cdp ? 'continuous native CDP wheel' : 'native Playwright wheel', ...stats, longtasks: data.longtasks, longtaskSupported: data.longtaskSupported, durationMs: Date.now() - started, iterations, reachedBottom: data.scrollY >= data.end - 3 });
+    record.metrics.runs.push({ mode, input: mode === 'fling' && isPhone(cell) && cdp ? 'CDP touch fling' : cdp ? 'continuous native CDP wheel' : scrollInputName(cell), ...stats, longtasks: data.longtasks, longtaskSupported: data.longtaskSupported, durationMs: Date.now() - started, iterations, reachedBottom: data.scrollY >= data.end - 3 });
     if (enforce) {
       await record.check(data.scrollY >= data.end - 3, `${mode}: did not reach document bottom`, { finalY: data.scrollY, bottom: data.end }, screenshot);
       await record.check(stats.p5Fps >= fpsFloor(cell), `${mode}: p5 ${stats.p5Fps.toFixed(1)} fps < ${fpsFloor(cell)}`, { ...stats }, screenshot);

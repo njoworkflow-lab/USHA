@@ -1,3 +1,15 @@
+import { PROFILES } from './config.mjs';
+
+export const usesProgrammaticScroll = cell => cell.browser === 'webkit' && !!PROFILES[cell.profile]?.isMobile;
+export const scrollInputName = cell => usesProgrammaticScroll(cell) ? 'programmatic scrollBy (mobile WebKit wheel unsupported)' : 'native Playwright wheel';
+export async function scrollInput(page, cell, deltaY) {
+  // Playwright 1.56.1 cannot dispatch wheel input in mobile WebKit and exposes
+  // no swipe API there. Keep mobile emulation and measure the rendered scroll,
+  // explicitly recording this substitute instead of claiming a native gesture.
+  if (usesProgrammaticScroll(cell)) await page.evaluate(top => scrollBy({ top, behavior: 'instant' }), deltaY);
+  else await page.mouse.wheel(0, deltaY);
+}
+
 // Real pointer input without waiting for two identical rendered frames. That
 // actionability wait becomes expensive on a software WebGL renderer. Explicit
 // hit testing still prevents clicking through overlays or disabled controls.
