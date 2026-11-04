@@ -27,6 +27,10 @@ import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
 import { applyMind, MIND } from './enhance/mind.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
+import { applyLaunch, undoLaunch, launchHTML, footerGuides } from './enhance/launch.mjs';
+import { COMPARE_ROWS } from './enhance/launch-copy.mjs';
+import { CASES2 } from './enhance/cases-v2.mjs';
+import { xcWallHTML } from './enhance/cases-ui.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const SITE = 'https://usha.one';
@@ -72,7 +76,7 @@ const SECRET = /^sec_/;
 // ---------- read source ----------
 const SRC_PATH = path.join(ROOT, 'index.html');
 const ASSETS = path.join(ROOT, 'assets');
-let src = hydrate(fs.readFileSync(SRC_PATH, 'utf8'));
+let src = undoLaunch(hydrate(fs.readFileSync(SRC_PATH, 'utf8')));
 
 // ---------- speed: inline bundle <-> cached files ----------
 // The uploaded index.html inlines ~250 KB of fonts and a ~640 KB script into
@@ -154,6 +158,8 @@ for (const l of ['en', 'ru']) Object.assign(DICT[l].bub, LIFE_BUB[l]);
 const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
+// Section 07 compares row by row with the launch copy (enhance/launch-copy.mjs).
+COMPARE = COMPARE_ROWS;
 AREAS = patchPairs(patchPairs(AREAS, PAIR_PATCH), AREA_LABELS);
 // The month counters share the plan table's limits instead of a second copy.
 for (const [area, counter, group, row] of [[0, 0, 0, 0], [0, 1, 0, 1], [3, 2, 1, 1]]) {
@@ -229,6 +235,8 @@ src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'
 src = applyBrief(src);
 // "Her mind" in section 02: her screen position, thinking glow, card hold (enhance/mind.mjs)
 src = applyMind(src);
+// the visitor's new section order: USHA's pose and the galaxy follow each section by id (enhance/launch.mjs)
+src = applyLaunch(src);
 
 // Keep the existing scene and shaders; bound render cost and pause behind dialogs.
 src = patch(src, /var ui=zl\?\.75:Math\.min\(devicePixelRatio\|\|1,(?:Wn\(\)\?1\.25:1\.75|1\.25)\)/,
@@ -321,7 +329,7 @@ function jsonLd(lang) {
     provider: { '@id': `${SITE}/#njo` }, brand: { '@type': 'Brand', name: 'USHA' },
     image: `${SITE}/og.jpg`, areaServed: org.areaServed,
     availableChannel: { '@type': 'ServiceChannel', serviceUrl: CONTACT.telegram, name: 'Telegram' },
-    offers: { '@type': 'Offer', name: strip(d.tr1), description: L.freeWeek, price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
+    offers: { '@type': 'Offer', name: strip(d.fr_h), description: strip(d.fr_p), price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
     hasOfferCatalog: {
       '@type': 'OfferCatalog', name: strip(d.p_k.replace(/^\d+\s*·\s*/, '')),
       itemListElement: PLANS.map((p) => ({
@@ -378,8 +386,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css', 'mind.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'mind.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css', 'mind.css', 'launch.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'mind.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'launch.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -440,8 +448,9 @@ function containers(lang) {
     plancards: PLANS.map((t) => `<div class="plan glass rv in${t.hot ? ' hot' : ''}">${t.hot ? `<span class="badge">${d.p_rec}</span>` : ''}<h3>${t.n}</h3><p>${t.t[i]}</p><ul>${t.pts.map((s) => `<li>${s[i]}</li>`).join('')}</ul><a class="btn ${t.hot ? 'btn-p' : 'btn-g'}" href="#free" data-plan="${t.n}">${t.hot ? '<span class="d"></span>' : ''}${d.p_cta}</a></div>`).join(''),
     cmp: `<tr><th></th><th>${d.w_c1}</th><th>${d.w_c2}</th><th>${d.w_c3}</th><th class="u">${d.w_c4}</th></tr>` + COMPARE.map((r) => `<tr>${r.map((n, s) => `<td class="${s === 4 ? 'u' : ''}">${n[i]}</td>`).join('')}</tr>`).join(''),
     roles: d.w_roles.map((t) => `<span>${t}</span>`).join('') + '<span class="one">USHA</span>',
-    areas: AREAS.map((e) => `<div class="area glass rv in"><h3>${e.k[i]}</h3><p>${e.t[i]}</p><div class="nums">${e.n.map((t) => `<div><span>${t[0][i]}</span><b data-a="${t[1]}" data-b="${t[2]}">${t[2]}</b></div>`).join('')}</div></div>`).join(''),
-    proonly: `<b style="font-weight:600;color:var(--peach)">${d.m_pro}</b>` + PRO_ONLY.map((e) => `<span>${e[i]}</span>`).join(''),
+    // the month's counters and the Pro-only row now live in Plans only; the bundle still fills these hidden hooks
+    areas: '',
+    proonly: '',
     track: PARTNERS.map((t) => `<span>${t}</span>`).join(''),
   };
 }
@@ -471,6 +480,14 @@ function render(lang) {
   h = h.replace(/<!--xcss-->[^]*?<!--\/xcss-->\n?/, '');
   h = h.replace('</head>', `<!--xcss--><style id="x-css">${ENH_CSS}</style>${lang === 'ar' ? `<style>${AR_LATE}</style>` : ''}<!--/xcss-->\n</head>`);
 
+  // the launch: new order, new sections and blocks (enhance/launch.mjs), and the
+  // footer guides as cards; all before the data-t pass so their copy is pre-rendered
+  const gl = GUIDES_HUB[lang] ? lang : 'en';
+  const slugs = ['agency-vs-in-house-vs-usha', 'competitor-monitoring', 'marketplace-analytics'];
+  const lc = { cases: casesUrl(lang), ask: LIVE.api ? '#ask' : '#talk', guides: slugs.map((g) => guideUrl(gl, g)), guideLang: gl === lang ? '' : gl };
+  h = launchHTML(h, lc);
+  h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => `${a}<!--seo:guides-->${footerGuides(lc)}<!--/seo:guides-->`);
+
   // data-t elements: values only contain <b>, <i>, <br>, so the first matching
   // closing tag is the element's own. The easter-egg popup stays out of the
   // static HTML so search engines do not give the secret away.
@@ -483,11 +500,6 @@ function render(lang) {
   h = h.replace(/(<[a-z]+\b[^>]*\bdata-ph="([^"]+)")(?: placeholder="[^"]*")?/g, (m, open, key) =>
     typeof d[key] === 'string' ? `${open} placeholder="${esc(d[key])}"` : m);
   h = h.replace(/(id="holdBtn" aria-label=")[^"]*"/, `$1${esc(strip(d.hold))}"`);
-
-  // footer links to the guides (Russian and English pages)
-  const hub = GUIDES_HUB[lang];
-  const links = hub ? `<!--seo:guides--><div><small>${hub.nav}</small>${GUIDES.map((g) => `<a href="${guideUrl(lang, g.slug)}">${strip(g[lang].h1)}</a>`).join('')}</div><!--/seo:guides-->` : '';
-  h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => a + links);
 
   // eight roles now (decks): the department stat
   h = h.replace('<b>7 → 1</b>', '<b>8 → 1</b>');
@@ -516,6 +528,7 @@ for (const lang of Object.keys(LANGS)) {
 // ---------- guides ----------
 const GUIDE_LANGS = Object.keys(GUIDES_HUB);
 function guideUrl(lang, slug) { return `${LANGS[lang].url}guides/${slug ? `${slug}/` : ''}`; }
+function casesUrl(lang) { return `${LANGS[lang].url}cases/`; }
 const guideFile = (lang, slug) => path.join(ROOT, new URL(guideUrl(lang, slug)).pathname, 'index.html');
 const FONT_FACES = TYPE_FACES;
 const LOGO = (src.match(/<a class="logo"[^>]*>(<svg[^]*?<\/svg>)/) || [, 'USHA'])[1];
@@ -571,7 +584,7 @@ function guideChrome(lang, otherUrl) {
   const H = GUIDES_HUB[lang], other = lang === 'ru' ? 'en' : 'ru';
   return {
     header: `<header class="g-h"><a class="logo" href="${LANGS[lang].url}" aria-label="USHA by NJO">${LOGO}</a><nav><a href="${guideUrl(lang)}">${H.nav}</a><a href="${otherUrl}" hreflang="${other}" lang="${other}">${other.toUpperCase()}</a><a class="btn" href="${LANGS[lang].url}#free">${H.cta}</a></nav></header>`,
-    footer: `<footer><span>USHA by NJO · ${strip(DICT[lang].ft_made)}</span><span><a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a> · <a href="${CONTACT.njo}" rel="noopener">njobusinesssolutions.com</a></span></footer>`,
+    footer: `<footer><span>${strip(DICT[lang].ft_made)}</span><span><a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a> · <a href="${CONTACT.njo}" rel="noopener">njobusinesssolutions.com</a></span></footer>`,
   };
 }
 const crumbsLd = (items) => ({ '@type': 'BreadcrumbList', itemListElement: items.map(([name, item], n) => ({ '@type': 'ListItem', position: n + 1, name, item })) });
@@ -615,6 +628,62 @@ for (const lang of GUIDE_LANGS) {
     fs.mkdirSync(path.dirname(guideFile(lang, g.slug)), { recursive: true });
     fs.writeFileSync(guideFile(lang, g.slug), html);
   }
+}
+
+// ---------- the cases page: /cases/ (RU), /en/cases/, /ar/cases/ ----------
+// The case library v2 (enhance/cases-v2.mjs) with filters and the full-story
+// dialog (cases-ui.mjs + cases.js, cases.css). The header carries the plain
+// disclosure line: every case is an example.
+const CASES_JS = fs.readFileSync(path.join(ENH, 'cases-ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'cases.js'), 'utf8');
+const CASES_JS_URL = emit(`cases-${hash(CASES_JS)}.js`, CASES_JS);
+const ENH_RAW = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8');
+const MODAL_CSS = ENH_RAW.slice(ENH_RAW.indexOf('html.x-modal-on,html.x-modal-on body'), ENH_RAW.indexOf('\n', ENH_RAW.indexOf('.xm-ft p{')));
+const CASES_CSS = (fs.readFileSync(path.join(ENH, 'cases.css'), 'utf8') + MODAL_CSS).replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+for (const lang of Object.keys(LANGS)) {
+  const d = DICT[lang], C = CASES2[lang], url = casesUrl(lang), L = LANGS[lang];
+  const alt = Object.fromEntries(Object.keys(LANGS).map((l) => [l, casesUrl(l)]));
+  const ld = [
+    { '@type': 'CollectionPage', '@id': `${url}#page`, url, name: strip(d.cs_title), description: d.cs_desc, inLanguage: lang, isPartOf: { '@id': `${SITE}/#website` }, publisher: { '@id': `${SITE}/#njo` },
+      mainEntity: { '@type': 'ItemList', itemListElement: C.cards.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.title })) } },
+    { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
+    crumbsLd([['USHA', L.url], [strip(d.cs_k), url]]),
+  ];
+  const langs = Object.keys(LANGS).filter((l) => l !== lang).map((l) => `<a href="${casesUrl(l)}" hreflang="${l}" lang="${l}">${l.toUpperCase()}</a>`).join('');
+  const html = `<!doctype html>
+<html lang="${lang}"${L.dir ? ` dir="${L.dir}"` : ''}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(strip(d.cs_title))}</title>
+<meta name="description" content="${esc(d.cs_desc)}">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="canonical" href="${url}">
+${Object.entries(alt).map(([l, u]) => `<link rel="alternate" hreflang="${l}" href="${u}">`).join('\n')}
+<link rel="alternate" hreflang="x-default" href="${alt.en}">
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta name="theme-color" content="#030304">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="USHA by NJO">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(strip(d.cs_title))}">
+<meta property="og:description" content="${esc(d.cs_desc)}">
+<meta property="og:locale" content="${L.locale}">
+<meta property="og:image" content="${SITE}/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>
+${lang === 'ar' ? AR_CSS + '\n' : ''}<style>${FONT_FACES}${GUIDE_CSS}${CASES_CSS}</style>
+</head>
+<body class="xc-page">
+<header class="g-h"><a class="logo" href="${L.url}" aria-label="USHA by NJO">${LOGO}</a><nav><a href="${L.url}">${d.cs_back}</a>${langs}<a class="btn" href="${L.url}#ask">${strip(d.cta)}</a></nav></header>
+<main id="cases" class="xc-main"><div class="xc-head"><p class="kick">${d.cs_k}</p><h1>${d.cs_h}</h1><p class="lead">${d.cs_p}</p><p class="xc-disc">${d.pr_note}</p><p class="xc-plan">${C.ui.plan}</p></div>
+<div class="xc-app">${xcWallHTML(C, lang)}</div></main>
+<footer><span>${strip(d.ft_made)}</span><span><a href="${L.url}">usha.one</a> · <a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a></span></footer>
+<script>window.USHA_CASES=${JSON.stringify({ [lang]: C }).replace(/</g, '\\u003c')};window.USHA_CASES_ASK=${JSON.stringify(`${L.url}#ask`)}</script><script src="${CASES_JS_URL}"></script>
+</body></html>
+`;
+  const file = path.join(ROOT, new URL(url).pathname, 'index.html');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, html);
 }
 
 // drop assets from earlier builds
@@ -665,6 +734,12 @@ ${[undefined, ...GUIDES.map((g) => g.slug)].flatMap((slug) => GUIDE_LANGS.map((l
 ${GUIDE_LANGS.map((x) => `    <xhtml:link rel="alternate" hreflang="${x}" href="${guideUrl(x, slug)}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${guideUrl('en', slug)}"/>
   </url>`)).join('\n')}
+${Object.keys(LANGS).map((l) => `  <url>
+    <loc>${casesUrl(l)}</loc>
+    <lastmod>${lastmod}</lastmod>
+${Object.keys(LANGS).map((x) => `    <xhtml:link rel="alternate" hreflang="${x}" href="${casesUrl(x)}"/>`).join('\n')}
+    <xhtml:link rel="alternate" hreflang="x-default" href="${casesUrl('en')}"/>
+  </url>`).join('\n')}
 </urlset>
 `);
 
@@ -716,7 +791,7 @@ function fullText(lang) {
 fs.writeFileSync(path.join(ROOT, 'llms-full.txt'),
   `# USHA by NJO — full site text\n\nSource: ${LANGS.en.url} (English), ${LANGS.ru.url} (Russian) and ${LANGS.ar.url} (Arabic). Updated ${lastmod}.\n\n---\n\n${fullText('en')}\n\n---\n\n${fullText('ru')}\n\n---\n\n${fullText('ar')}\n`);
 
-console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, ${GUIDE_LANGS.length * (GUIDES.length + 1)} guide pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);
+console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, ${GUIDE_LANGS.length * (GUIDES.length + 1)} guide pages, ${Object.keys(LANGS).length} cases pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);
 if (process.env.AR_COLLECT) {
   fs.writeFileSync(path.join(ROOT, 'tools/seo/ar-missing.json'), JSON.stringify([...AR_MISSING], null, 1));
   console.log(`${AR_MISSING.size} strings need Arabic`);

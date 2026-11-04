@@ -4,8 +4,11 @@
 // Arabic text for every English string lives in ../ar.json; the build stops if
 // one is missing.
 
+import { LAUNCH } from './launch-copy.mjs';
+
 // Dictionary keys that change. Anything not listed keeps the site's wording.
-export const DICT_PATCH = {
+// The launch copy (launch-copy.mjs) is merged in last and wins.
+const BASE_PATCH = {
   en: {
     // Hero (owner direction, 4 Nov 2026): the slogan stays the headline; the sub-line carries her full value.
     kicker: 'USHA · AI marketing director',
@@ -26,7 +29,6 @@ export const DICT_PATCH = {
     w_sick: 'She never goes on sick leave, never says “I’m not in the right headspace”, and never leaves for a competitor with your project history.',
     c_mk: 'GCC · Egypt · Russia',
     p_p: 'Core runs the full engine for one brand. Pro adds more channels and volume, customer replies, stock intelligence and website design.',
-    faq3: ['Which markets and platforms?', 'The GCC, Egypt and Russia. Amazon, noon, Namshi, Google, Instagram, Facebook, TikTok, Snapchat, YouTube, X, LinkedIn and others.'],
     g_p: 'Endless levels: catch the signals, burst the noise, dodge the fake-news imps and beat the Noise King. How far can you get?',
     g_best: 'Best',
     g_lv: 'Level',
@@ -60,7 +62,6 @@ export const DICT_PATCH = {
     w_sick: 'Она не уходит на больничный, не говорит «я не в ресурсе» и никогда не уйдёт к конкуренту вместе с историей вашего проекта.',
     c_mk: 'Россия · страны Залива · Египет',
     p_p: 'Core запускает весь движок для одного бренда. Pro добавляет каналы и объём, ответы покупателям, аналитику остатков и дизайн сайта.',
-    faq3: ['Какие рынки и площадки?', 'Россия, страны Залива и Египет. Wildberries, Ozon, Яндекс Маркет, ВКонтакте, Telegram, Instagram, Дзен, YouTube, RuTube, TikTok и другие.'],
     g_p: 'Бесконечные уровни: ловите сигналы, разбивайте шум, уворачивайтесь от бесов фейков и победите Короля шума. Как далеко вы пройдёте?',
     g_best: 'Рекорд',
     g_lv: 'Уровень',
@@ -75,6 +76,7 @@ export const DICT_PATCH = {
     g_done: 'Вы победили шум. Она вами гордится.',
   },
 };
+export const DICT_PATCH = { en: { ...BASE_PATCH.en, ...LAUNCH.en }, ru: { ...BASE_PATCH.ru, ...LAUNCH.ru } };
 
 // [en, ru] pairs inside the bundle's data arrays, keyed by the current English.
 export const PAIR_PATCH = {
@@ -145,33 +147,33 @@ export const X = {
   // plans table (deck slide 17)
   plansGroups: [
     [['Market intelligence', 'Аналитика рынка'], [
-      [['Competitors tracked', 'Конкуренты под наблюдением'], ['Up to 5', 'до 5'], ['Up to 10', 'до 10']],
+      [['Competitors she tracks', 'Конкуренты под наблюдением'], ['Up to 5', 'до 5'], ['Up to 10', 'до 10']],
       [['Marketplaces', 'Маркетплейсы'], ['1', '1'], ['Up to 3', 'до 3']],
       [['Success decoding', 'Разбор успеха лидеров'], ['Monthly', 'ежемесячно'], ['Twice a month', 'дважды в месяц']],
       [['Brief with actions', 'Сводка с действиями'], ['Monthly', 'ежемесячно'], ['Every 2 weeks', 'раз в 2 недели']],
     ]],
     [['Growth & sales', 'Рост и продажи'], [
-      [['Promotions', 'Акции'], ['Up to 1', 'до 1'], ['Up to 2', 'до 2']],
-      [['Bloggers & UGC creators', 'Блогеры и UGC-креаторы'], ['Up to 10', 'до 10'], ['Up to 30', 'до 30']],
+      [['Promotions', 'Акции'], ['1', '1'], ['2', '2']],
+      [['Creators who film your product', 'Блогеры, которые снимают ваш товар'], ['Up to 10', 'до 10'], ['Up to 30', 'до 30']],
       [['Ad platforms', 'Рекламные площадки'], ['Google or Meta', 'ВК или Яндекс'], ['Google + Meta', 'ВК + Яндекс']],
-      [['Customer replies', 'Ответы покупателям'], ['—', '—'], ['Mon–Fri', 'пн–пт']],
-      [['Stock intelligence', 'Аналитика остатков'], ['—', '—'], ['1 + 4 checks', '1 + 4 проверки']],
+      [['Customer replies', 'Ответы покупателям'], ['—', '—'], ['Included', 'пн–пт 10:00–18:00']],
+      [['Stock watch', 'Контроль остатков'], ['—', '—'], ['1 + 4 checks', '1 + 4 проверки']],
     ]],
     [['Content', 'Контент'], [
       [['Content strategy', 'Контент-стратегия'], ['1 channel', '1 канал'], ['2 channels', '2 канала']],
-      [['Posts / stories', 'Публикации / сторис'], ['16 / 32', '16 / 32'], ['20 / 40', '20 / 40']],
-      [['Videos without filming', 'Видео без съёмки'], ['Up to 4', 'до 4'], ['Up to 6', 'до 6']],
-      [['Edits of your footage', 'Монтаж ваших видео'], ['Up to 10', 'до 10'], ['Up to 15', 'до 15']],
+      [['Posts / stories a month', 'Публикации / сторис в месяц'], ['16 / 32', '16 / 32'], ['20 / 40', '20 / 40']],
+      [['Videos made without a shoot', 'Видео без съёмки'], ['Up to 4', 'до 4'], ['Up to 6', 'до 6']],
+      [['Edits of your own footage', 'Монтаж ваших видео'], ['8', '8'], ['15', '15']],
       [['Product photo shoots', 'Продуктовые фотосессии'], ['1 × 10–20', '1 × 10–20'], ['2 × 10–20', '2 × 10–20']],
-      [['Designs outside social', 'Макеты вне соцсетей'], ['Up to 10', 'до 10'], ['Up to 15', 'до 15']],
+      [['Designs beyond social', 'Макеты вне соцсетей'], ['8', '8'], ['15', '15']],
       [['Packaging design', 'Дизайн упаковки'], ['—', '—'], ['1 line · 3 SKUs', '1 линейка · 3 SKU']],
       [['Website design', 'Дизайн сайта'], ['—', '—'], ['Included', 'Входит']],
     ]],
   ],
-  plansCore: ['The full engine for one brand.', 'Весь движок для одного бренда.'],
-  plansPro: ['More channels and volume, customer replies, stock intelligence and website design.', 'Больше каналов и объёма, ответы покупателям, аналитика остатков и дизайн сайта.'],
+  plansCore: ['For a brand that sells mainly through one marketplace or store and wants it led properly.', 'Для бренда, который продаёт в основном через одну площадку или магазин и хочет, чтобы это вели как следует.'],
+  plansPro: ['For a brand selling across several marketplaces and stores.', 'Для бренда, который продаёт на нескольких площадках и в сетях.'],
   bothInclude: ['Both plans include', 'В обоих тарифах'],
-  both: ['Daily market radar · quarterly strategy and monthly plan · one brand visual system · cross-posting to every channel · 24/7 chat with USHA · monthly report', 'Ежедневный радар рынка · стратегия на квартал и план на месяц · единая визуальная система · кросс-постинг во все каналы · чат с USHA 24/7 · ежемесячный отчёт'],
+  both: ['a daily read of your market · the quarterly strategy and the monthly plan · one visual system for your brand · publishing to every channel · a direct line to USHA at any hour · the monthly review', 'ежедневный разбор рынка · стратегия на квартал и план на месяц · единая визуальная система · публикации во всех каналах · прямая связь с USHA в любой час · ежемесячный разбор результатов'],
   entKick: ['For groups and larger companies', 'Для групп компаний и крупного бизнеса'],
   entLead: ['Configured around your company.', 'Настраивается под вашу компанию.'],
   entAll: ['Everything in Pro', 'Всё, что в Pro'],
@@ -182,14 +184,11 @@ export const X = {
   legendCore: ['In Core', 'В Core'],
   legendPro: ['Pro adds', 'Pro добавляет'],
   ctrl: {
-    feed: [['Post published', 'Пост опубликован'], ['14 replies sent', 'Отправлено 14 ответов'], ['Weekly report ready', 'Недельный отчёт готов'], ['Stories scheduled', 'Сторис запланированы']],
-    on: ['Autopilot', 'Автопилот'],
-    ask: ['Launch the “−15% weekend” promo?', 'Запустить акцию «−15% на выходные»?'],
-    yes: ['Yes', 'Да'],
-    later: ['Not now', 'Не сейчас'],
-    ok: ['Approved. Launching Friday.', 'Одобрено. Запуск в пятницу.'],
-    lock: [['Deals', 'Сделки'], ['Payments', 'Платежи']],
-    only: ['Only you', 'Только вы'],
+    feed: [['Bids moved inside your cap', 'Ставки скорректированы в пределах лимита'], ['Creator brief sent for the approved campaign', 'Задание блогерам по утверждённой кампании отправлено'], ['Stock alert: SAR 1,450 set covers 6 days', 'Остатки: мини-набора на WB хватит на 6 дней'], ['Ad paused on a faulty batch', 'Реклама на бракованную партию остановлена'], ['This week’s numbers, with her read', 'Цифры недели с её выводами']],
+    on: ['She runs it', 'Делает сама'],
+    wait: ['Waiting for your yes', 'Ждёт вашего «да»'],
+    lock: [['Contracts', 'Договоры'], ['Payments', 'Платежи'], ['Hiring', 'Найм'], ['Deals', 'Сделки']],
+    only: ['Yours alone', 'Только вы'],
   },
   details: ['See everything in this plan', 'Всё, что входит в тариф'],
   inPro: ['In Pro', 'В Pro'],
@@ -199,10 +198,10 @@ export const X = {
   hide: ['Hide details', 'Скрыть детали'],
   entPlus: ['Everything in Pro, plus', 'Всё из Pro, плюс'],
   proPlus: ['Only in Pro', 'Только в Pro'],
-  forCore: ['One brand, the full engine', 'Один бренд, весь движок'],
+  forCore: ['One brand, the whole operation', 'Один бренд, весь маркетинг'],
   forPro: ['More channels, more volume', 'Больше каналов и объёма'],
   chatHead: ['USHA · online · reading your market', 'USHA · онлайн · читает ваш рынок'],
-  guarRing: ['NJO GUARANTEE · EVERY MONTH · CHECKED · ', 'ГАРАНТИЯ NJO · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
+  guarRing: ['GUARANTEED · EVERY MONTH · REVIEWED · ', 'ГАРАНТИРОВАНО · КАЖДЫЙ МЕСЯЦ · ПРОВЕРЕНО · '],
   decide: ['Your decision', 'Ваше решение'],
   // 8 → 1: each role hands its job to USHA
   hand: {

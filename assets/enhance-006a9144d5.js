@@ -227,6 +227,8 @@ function findingChart(i, lang) {
   let dept = null, done = -1;
   function rolesUI() {
     const seven = $('.seven'), box = $('#roles'), x = X().hand; if (!seven || !box || !x) return;
+    // the launch replaced the eight roles with the orbits (launch.js); the hidden block stays still
+    if (seven.closest('[hidden]') || getComputedStyle(seven).display === 'none') { dept = null; clearInterval(loopT); return; }
     const roles = $$('span:not(.one)', box).map((r) => r.textContent);
     const text = $(':scope > .rv', seven) || $('.x-d1 > .rv', seven);
     seven.classList.add('x-dept');
@@ -346,14 +348,14 @@ function findingChart(i, lang) {
     l.innerHTML = `<span><i></i>${esc(X().legendCore || '')}</span><span><i class="x"></i>${esc(X().legendPro || '')}</span>`;
   }
 
-  // ---------- control: three small live scenes ----------
-  let feedT = 0, askT = 0;
+  // ---------- control: three small live scenes (the approval itself is its own card, launch.js) ----------
+  let feedT = 0;
   function ctrlUI() {
     const cards = $$('.ctrl > div'), c = X().ctrl; if (cards.length < 3 || !c) return;
     $$('.x-w').forEach((w) => w.remove());
     const lockSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="sh" d="M7 11V8a5 5 0 0 1 10 0v3"/><rect x="4.5" y="11" width="15" height="10" rx="3"/><circle cx="12" cy="16" r="1.4"/></svg>';
     cards[0].insertAdjacentHTML('afterbegin', `<div class="x-w xw-auto" aria-hidden="true"><div class="xw-top"><span class="xw-ic xw-sw"><i></i></span><span class="xw-lab xw-on">${esc(c.on)}</span></div><span class="xw-feed">${c.feed.map((f, i) => `<span class="${i ? '' : 'cur'}"><b>✓</b>${esc(f)}</span>`).join('')}</span></div>`);
-    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-ask"><div class="xw-top"><span class="xw-ic xw-dot" aria-hidden="true"></span><span class="xw-q">${esc(c.ask)}</span></div><div class="xw-act"><div class="xw-btns"><button type="button" class="xw-yes">${esc(c.yes)}</button><button type="button" class="xw-no">${esc(c.later)}</button></div><p class="xw-ok" aria-live="polite">${esc(c.ok)}</p></div></div>`);
+    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-wait" aria-hidden="true"><div class="xw-top"><span class="xw-ic xw-dot"></span><span class="xw-lab">${esc(c.wait)}</span></div></div>`);
     cards[2].insertAdjacentHTML('afterbegin', `<div class="x-w xw-lock" aria-hidden="true"><div class="xw-top"><span class="xw-ic">${lockSvg}</span><span class="xw-lab xw-only">${esc(c.only)}</span></div><span class="xw-chips">${c.lock.map((k) => `<span>${esc(k)}</span>`).join('')}</span></div>`);
     // feed rolls through what she did today
     clearInterval(feedT);
@@ -364,19 +366,8 @@ function findingChart(i, lang) {
       setTimeout(() => items[i].classList.remove('was'), 700);
       items[(i + 1) % items.length].classList.add('cur');
     }, 2400);
-    // the yes: visitors can press it; on its own it gets pressed once in a while
-    const ask = $('.xw-ask');
-    const approve = () => { ask.classList.add('ok'); clearTimeout(askT); askT = setTimeout(() => ask.classList.remove('ok'), 4200); };
-    $('.xw-yes', ask).addEventListener('click', approve);
-    $('.xw-no', ask).addEventListener('click', () => { ask.classList.add('no'); setTimeout(() => ask.classList.remove('no'), 600); });
   }
   function ctrlCheck() {
-    const ask = $('.xw-ask'); if (!ask || ask.dataset.auto) return;
-    const r = ask.getBoundingClientRect();
-    if (r.top < innerHeight * 0.7 && r.bottom > 0) {
-      ask.dataset.auto = 1;
-      setTimeout(() => { ask.classList.add('press'); setTimeout(() => { ask.classList.remove('press'); ask.classList.add('ok'); setTimeout(() => ask.classList.remove('ok'), 4200); }, 380); }, 1400);
-    }
     $$('.xw-lock:not(.shut)').forEach((l) => { const q = l.getBoundingClientRect(); if (q.top < innerHeight * 0.75) l.classList.add('shut'); });
   }
 
@@ -594,7 +585,7 @@ function findingChart(i, lang) {
 
   const T = {
     en: {
-      cta_k: 'Live · a brief + 4 questions', cta_h: 'Consult your new <i>Marketing Director</i>.', cta_p: 'Brief her on your business, then ask four questions. Real answers on your market and your numbers.', cta_b: 'Ask USHA live',
+      cta_k: 'Live now', cta_h: 'A free consultation with your new <i>marketing director</i>', cta_p: 'She tells you where the money is in your market, where it’s leaking from your business, and the first move she’d make.', cta_b: 'Get a free consultation',
       k: 'USHA · live', h: 'Your business. <b>Her answer.</b>', p: 'Tell her who she is talking to. Then brief her and ask up to 4 questions. Your project manager follows up on these details, so please use real ones.',
       name: 'Your name', email: 'Work email', phone: 'Mobile number', country: 'Country code', business: 'Business name', size: 'Business size', industry: 'Industry', market: 'Main market', team: 'Team code',
       team_hint: 'For the NJO team: unlimited testing.', team_open: 'Have a team code?',
@@ -632,7 +623,7 @@ function findingChart(i, lang) {
       close: 'Close',
     },
     ru: {
-      cta_k: 'Вживую · бриф + 4 вопроса', cta_h: 'Консультация вашего нового <i>директора по маркетингу</i>.', cta_p: 'Расскажите о бизнесе и задайте четыре вопроса. Настоящие ответы про ваш рынок и ваши цифры.', cta_b: 'Спросить USHA',
+      cta_k: 'Онлайн', cta_h: 'Бесплатная консультация с вашим новым <i>директором по маркетингу</i>', cta_p: 'Она скажет, где на вашем рынке деньги, где они утекают из бизнеса и какой ход она сделает первым.', cta_b: 'Получить бесплатную консультацию',
       k: 'USHA · вживую', h: 'Ваш бизнес. <b>Её ответ.</b>', p: 'Расскажите, с кем она говорит. Потом дайте ей бриф и задайте до 4 вопросов. Менеджер проекта свяжется с вами по этим данным, поэтому укажите настоящие.',
       name: 'Ваше имя', email: 'Рабочий email', phone: 'Мобильный номер', country: 'Код страны', business: 'Название бизнеса', size: 'Размер бизнеса', industry: 'Сфера', market: 'Основной рынок', team: 'Код команды',
       team_hint: 'Для команды NJO: безлимитный тест.', team_open: 'Есть код команды?',
@@ -670,7 +661,7 @@ function findingChart(i, lang) {
       close: 'Закрыть',
     },
     ar: {
-      cta_k: 'مباشر · brief + ٤ أسئلة', cta_h: 'استشر <i>مديرة التسويق</i> الجديدة لديك.', cta_p: 'عرّفها على نشاطك ثم اسأل أربعة أسئلة. إجابات حقيقية عن سوقك وأرقامك.', cta_b: 'اسأل USHA مباشرة',
+      cta_k: 'متاحة الآن', cta_h: 'استشارة مجانية مع <i>مديرة التسويق</i> الجديدة لديك', cta_p: 'تخبرك أين المال في سوقك، ومن أين يتسرّب من نشاطك، وما أول خطوة ستتخذها.', cta_b: 'احصل على استشارتك المجانية',
       k: 'USHA · مباشر', h: 'نشاطك. <b>وإجابتها.</b>', p: 'عرّفها بمن تتحدث معه، ثم اكتب لها الـbrief واسأل حتى ٤ أسئلة. مدير المشروع سيتواصل معك على هذه البيانات، فاكتب بياناتك الحقيقية.',
       name: 'اسمك', email: 'البريد الإلكتروني للعمل', phone: 'رقم الجوال', country: 'رمز الدولة', business: 'اسم النشاط التجاري', size: 'حجم النشاط', industry: 'القطاع', market: 'السوق الرئيسي', team: 'رمز الفريق',
       team_hint: 'لفريق NJO: تجربة بلا حدود.', team_open: 'لديك رمز الفريق؟',
@@ -1308,8 +1299,8 @@ function findingChart(i, lang) {
   // ---------- the invitation in the first screen, right after she wakes ----------
   const HX = {
     en: { b: 'Get a free consultation', k: 'Live', a: '→' },
-    ru: { b: 'Бесплатная консультация', k: 'Онлайн', a: '→' },
-    ar: { b: 'احصل على استشارة مجانية', k: '', a: '←' },
+    ru: { b: 'Получить бесплатную консультацию', k: 'Онлайн', a: '→' },
+    ar: { b: 'احصل على استشارتك المجانية', k: '', a: '←' },
   };
   function heroUI() {
     const row = $('#hero .hero-t .cta'); if (!row) return;
@@ -1670,7 +1661,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const lang = () => (CFG.cover[H.lang] ? H.lang : Object.keys(CFG.cover)[0]);
 
   function mount() {
-    const eng = D.querySelector('#control .eng');
+    const eng = D.querySelector('#njo .eng');
     if (!eng) return;
     let el = D.querySelector('.x-story');
     const L = lang(), c = CFG.cover[L];
@@ -1810,17 +1801,18 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       scArt: { chips: ['Sweets', 'Cafés', 'Beauty'], q: 'Why did orders drop?', a: 'Found it. Here’s the fix.' },
       ill: 'Illustrative example, not client results. Brand names anonymised.', move: 'Her move',
       live: {
-        k: 'Live now', h: 'Consult your new <i>Marketing Director</i>.',
-        p: 'Brief her on your business, then ask four questions. Real answers on your market and your numbers.',
+        k: 'Live now', h: 'A free consultation with your new <i>marketing director</i>',
+        p: 'She tells you where the money is in your market, where it’s leaking from your business, and the first move she’d make.',
+        bring: 'Bring what you know: sales, margin, what you spend on media. Estimates are fine; she shows which way the answer moves.',
         hi: 'Hi, I’m USHA. Tell me what you sell and where, and I’ll read your market before I answer.',
         ask: 'You could ask', qs: ['Why did my sales drop this month?', 'Is my ad budget working?', 'What should I post next week?'],
-        steps: ['Your brief', '4 questions', 'Your project manager follows up'], b: 'Ask USHA live', typing: 'USHA is online',
+        steps: ['Your brief', '4 questions', 'Your project manager follows up'], b: 'Get a free consultation', typing: 'USHA is online',
       },
       days: '90 days', search: 'Search products, orders…', all: 'All products', exp: 'Export', week: 'week',
       tip: (d, n) => `${d} · ${n} orders`, onPage: (w) => `On page 1 since <b data-k="n.week">week ${w}</b>`,
       cards: {
-        sc: ['Scenarios', 'Pick a business and watch how she thinks: a finding, a reason, a move.', 'Open scenarios →'],
-        ff: ['Fast-forward 90 days', 'See your business 90 days from now: without USHA, and with her.', 'Fast-forward →'],
+        sc: ['Scenarios', 'Watch her work through a business like yours: what she found, why it matters, and the move.', 'Open scenarios →', 'Modelled'],
+        ff: ['Your next 90 days, both ways', 'Your business 90 days from now on its current course, and with her leading. Modelled for your sector.', 'See both futures →'],
       },
       close: 'Close', ffSub: 'Same brand, same 90 days (1 Jul – 28 Sep 2026). Drag the line to compare.', grip: 'Drag left or right',
       screens: [['Marketplace sales', 'Orders, stock, gross sales'], ['Marketplace ads', 'Spend, ROAS, campaigns'], ['Social ads', 'Meta and TikTok: CPA, purchases'], ['Social media', 'Reach, saves, followers'], ['SEO', 'Clicks, queries, pages'], ['Website sales', 'Sessions, conversion, revenue'], ['Customer service', 'Inbox, replies, leads'], ['Stock', 'Cover, reorders, dead stock'], ['Market and competitors', 'Prices, share of search, gaps'], ['Reviews', 'Rating and replies'], ['Search position', 'The main query on noon'], ['Content', 'Two videos side by side']],
@@ -1892,13 +1884,13 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     ru: {
       ex: 'Пример', without: 'Без USHA', with: 'С USHA', dragA: 'Сравнение: без USHA и с USHA',
       diffH: 'Те же 90 дней: разница с USHA', ill: 'Пример для наглядности, а не результаты клиента. Названия брендов изменены.', move: 'Что сделала USHA',
-      live: { k: 'Онлайн', h: 'Задайте вопрос своему <i>директору по маркетингу</i>.', p: 'Расскажите о бизнесе и задайте четыре вопроса — получите ответы по вашему рынку и вашим цифрам.', b: 'Спросить USHA' },
+      live: { k: 'Онлайн', h: 'Бесплатная консультация с вашим новым <i>директором по маркетингу</i>', p: 'Она скажет, где на вашем рынке деньги, где они утекают из бизнеса и какой ход она сделает первым.', bring: 'Приходите с тем, что знаете: продажи, маржа, расходы на рекламу. Оценки подойдут: она покажет, куда сдвинется ответ.', b: 'Получить бесплатную консультацию' },
       scArt: { chips: ['Сладости', 'Кофейни', 'Красота'], q: 'Почему упали заказы?', a: 'Нашла причину. Вот что делать.' },
       days: '90 дней', search: 'Поиск по товарам и заказам…', all: 'Все товары', exp: 'Выгрузить',
       tip: (d, n) => `${d} · ${n} ${plural(n, 'заказ', 'заказа', 'заказов')}`, onPage: (w) => `На первой странице с <b data-k="n.week">${w}-й недели</b>`,
       cards: {
-        sc: ['Сценарии', 'Выберите нишу и посмотрите, как думает USHA: что нашла, почему и что делать дальше.', 'Смотреть сценарии →'],
-        ff: ['Перемотать на 90 дней вперёд', 'Ваш бизнес через 90 дней: без USHA и с ней.', 'Перемотать →'],
+        sc: ['Сценарии', 'Посмотрите, как она разбирает бизнес, похожий на ваш: что нашла, почему это важно и какой ход.', 'Смотреть сценарии →', 'Условный пример'],
+        ff: ['Ваши следующие 90 дней, два варианта', 'Ваш бизнес через 90 дней: если всё оставить как есть и если работу ведёт она. Условный пример для вашей отрасли.', 'Сравнить два варианта →'],
       },
       close: 'Закрыть', ffSub: 'Тот же бренд и те же 90 дней: с 1 июля по 28 сентября 2026 года. Сдвиньте линию, чтобы сравнить.', grip: 'Сдвиньте влево или вправо',
       screens: [['Продажи на маркетплейсе', 'Заказы, остатки, сумма заказов'], ['Реклама на маркетплейсе', 'Расход, ДРР, кампании'], ['Таргет и контекст', 'VK Реклама и Директ: стоимость заказа'], ['Соцсети', 'Охват, сохранения, подписчики'], ['SEO', 'Клики, запросы, страницы'], ['Продажи на сайте', 'Визиты, конверсия, выручка'], ['Сервис и CRM', 'Обращения, скорость ответа, заявки'], ['Склад', 'Оборачиваемость, дозаказ, неликвид'], ['Рынок и конкуренты', 'Цены, доля поиска, свободные ниши'], ['Отзывы и рейтинг', 'Рейтинг и ответы на отзывы'], ['Позиция в выдаче', 'Главный запрос на WB'], ['Контент', 'Два ролика для сравнения']],
@@ -1970,13 +1962,13 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     ar: {
       ex: 'مثال', without: 'بدون ' + iso('USHA'), with: 'مع ' + iso('USHA'), dragA: 'قارن النتائج بدون ' + iso('USHA') + ' ومعها',
       diffH: 'الفرق خلال الـ90 يومًا نفسها', ill: 'مثال توضيحي، وليس نتائج عميل حقيقي. أسماء العلامات التجارية مُغيَّرة.', move: 'خطوة ' + iso('USHA'),
-      live: { k: 'متاحة الآن', h: 'اسأل <i>مديرة التسويق</i> الجديدة لديك.', p: 'عرّفها بنشاطك التجاري، ثم اطرح أربعة أسئلة واحصل على إجابات حقيقية عن سوقك وأرقامك.', b: 'تحدّث مع ' + iso('USHA') + ' الآن' },
+      live: { k: 'متاحة الآن', h: 'استشارة مجانية مع <i>مديرة التسويق</i> الجديدة لديك', p: 'تخبرك أين المال في سوقك، ومن أين يتسرّب من نشاطك، وما أول خطوة ستتخذها.', bring: 'أحضِر ما تعرفه: المبيعات، والهامش، وما تنفقه على الإعلام. التقديرات تكفي، وهي تريك في أي اتجاه تتغيّر الإجابة.', b: 'احصل على استشارتك المجانية' },
       scArt: { chips: ['حلويات', 'مقاهٍ', 'تجميل'], q: 'لماذا انخفضت الطلبات؟', a: 'وجدت السبب، وهذه الخطوة التالية.' },
       days: '90 يومًا', search: 'ابحث عن منتج أو طلب…', all: 'كل المنتجات', exp: 'تصدير',
       tip: (d, n) => `${d} · ${n} طلبًا`, onPage: (w) => `في الصفحة الأولى منذ <b data-k="n.week">الأسبوع ${w}</b>`,
       cards: {
-        sc: ['سيناريوهات حقيقية', 'اختر مجال نشاطك وشاهد كيف تحلّل ' + iso('USHA') + ': ماذا اكتشفت، ولماذا، وما الخطوة التالية.', 'شاهد السيناريوهات ←'],
-        ff: ['نتائج ٩٠ يوم', 'هكذا سيبدو نشاطك بعد 90 يومًا: بدون ' + iso('USHA') + ' ومعها.', 'اعرض النتائج ←'],
+        sc: ['سيناريوهات', 'شاهدها تعمل على نشاط يشبه نشاطك: ماذا وجدت، ولماذا يهمّ، وما الخطوة.', 'شاهد السيناريوهات ←', 'مثال افتراضي'],
+        ff: ['أيامك التسعون القادمة، بالطريقين', 'نشاطك بعد 90 يومًا على مساره الحالي، ومعها وهي تقود. مثال افتراضي لقطاعك.', 'شاهد المستقبلين ←'],
       },
       close: 'إغلاق', ffSub: 'العلامة التجارية نفسها والفترة نفسها: من 1 يوليو إلى 28 سبتمبر 2026. اسحب الخط للمقارنة.', grip: 'اسحب يمينًا أو يسارًا',
       screens: [['مبيعات المنصّة', 'الطلبات والمخزون وإجمالي المبيعات'], ['إعلانات المنصّة', 'الإنفاق والعائد والحملات'], ['إعلانات السوشيال ميديا', iso('Meta') + ' و' + iso('TikTok') + ': تكلفة الشراء والمشتريات'], ['حسابات السوشيال ميديا', 'الوصول والحفظ والمتابعون'], ['الظهور في البحث', 'النقرات وكلمات البحث والصفحات'], ['مبيعات الموقع', 'الزيارات ومعدل التحويل والإيرادات'], ['خدمة العملاء', 'الرسائل وسرعة الرد والعملاء المحتملون'], ['المخزون', 'مدة التغطية وإعادة الطلب والراكد'], ['السوق والمنافسون', 'الأسعار وحصة البحث والفرص'], ['التقييمات', 'متوسط التقييم والردود'], ['الترتيب في البحث', 'كلمة البحث الرئيسية على ' + iso('noon')], ['المحتوى', 'فيديوهان للمقارنة']],
@@ -2574,10 +2566,10 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const artSc = () => { const a = tx().scArt; return `<div class="t3-art art-sc" aria-hidden="true"><div class="sa-chips">${a.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div><div class="sa-q">${esc(a.q)}</div><div class="sa-a"><span class="t3-face"><i></i><i></i></span><span>${esc(a.a)}</span></div></div>`; };
   function cardsHTML() {
     const t = tx(), x = t.live, c = t.cards;
-    return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
+    return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}${c.sc[3] ? ` <small class="t3-tag">${esc(c.sc[3])}</small>` : ''}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
       <article class="t3-card k-live"><div class="t3-tex" aria-hidden="true"></div><div class="t3-lv-glow" aria-hidden="true"></div><div class="t3-lv-head"><div class="t3-lv-top"><span class="t3-onair"><i aria-hidden="true"></i>${esc(x.k)}</span><span class="t3-wave" aria-hidden="true">${'<i></i>'.repeat(9)}</span></div>
         <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div></div>
-        <h3>${x.h}</h3><p>${esc(x.p)}</p>
+        <h3>${x.h}</h3><p>${esc(x.p)}</p>${x.bring ? `<p class="t3-bring">${esc(x.bring)}</p>` : ''}
         <button type="button" class="t3-go"><span class="t3-go-ring" aria-hidden="true"></span><span class="d" aria-hidden="true"></span><span>${x.b}</span><span class="t3-go-a" aria-hidden="true">${rtl() ? '←' : '→'}</span></button></article>
       <article class="t3-card k-ff"><div class="t3-tex" aria-hidden="true"></div><div class="t3-art"><span class="t3-90" aria-hidden="true"><span dir="ltr">+90</span><small>${esc(bare(t.days))}</small></span>${ART_FF}</div><h3>${c.ff[0]}</h3><p>${c.ff[1]}</p><button type="button" class="t3-cta" data-open="ff"><span>${c.ff[2]}</span></button></article>`;
   }
@@ -3068,4 +3060,92 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   }).observe(H, { attributes: true, attributeFilter: ['class', 'lang'] });
   rail.dataset.l = H.lang;
   if (D.fonts && D.fonts.load) D.fonts.load("500 11px 'JetBrains Mono'").then(() => { atlas = null; still = -1; }, () => {});
+})();
+
+// The launch blocks (markup: launch.mjs, copy: launch-copy.mjs through data-t).
+// Everything is pre-rendered; this only switches what is shown: the gate's
+// Enter, the sector picker in 01, the approval card in 04, the orbits in 07,
+// the day picker in 08, the consultation buttons and the break's end screen.
+// The bundle re-renders the copy on a language switch; the state set here
+// (hidden, aria) survives it.
+(() => {
+  const D = document, H = D.documentElement;
+  const $ = (s, r = D) => r.querySelector(s), $$ = (s, r = D) => [...r.querySelectorAll(s)];
+  const talk = () => { if (window.USHA_LIVE && window.USHA_LIVE.api) dispatchEvent(new Event('usha:talk')); else { const t = D.getElementById('talk'); if (t) t.scrollIntoView({ behavior: 'smooth' }); } };
+
+  // a row of tabs: click, and arrow keys along the row (mirrored on the Arabic page)
+  function tabs(row, sel, pick) {
+    row.addEventListener('click', (e) => { const b = e.target.closest(sel); if (b && row.contains(b)) pick(b); });
+    row.addEventListener('keydown', (e) => {
+      const b = e.target.closest(sel); if (!b) return;
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!step) return;
+      e.preventDefault();
+      const all = $$(sel, row), k = (all.indexOf(b) + (H.dir === 'rtl' && e.key.startsWith('Arrow') && !e.key.includes('Up') && !e.key.includes('Down') ? -step : step) + all.length) % all.length;
+      all[k].focus(); pick(all[k]);
+    });
+  }
+
+  function boot() {
+    // ---------- gate: Enter wakes her without the hold ----------
+    const enter = $('#lEnter');
+    if (enter) enter.addEventListener('click', (e) => { e.stopPropagation(); if (window.__xEnter) window.__xEnter(); });
+
+    // ---------- 01: pick a sector, the four forces speak its language ----------
+    const pickRow = $('.l-pick');
+    if (pickRow) tabs(pickRow, 'button[data-s]', (b) => {
+      const s = b.dataset.s;
+      $$('button[data-s]', pickRow).forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+      $$('#noise .alg').forEach((a) => $$('.l-m', a).forEach((m) => { m.hidden = s === '0' ? m.classList.contains('l-sx') : m.dataset.s !== s; }));
+      $('#noise').classList.toggle('l-picked', s !== '0');
+    });
+
+    // ---------- 04: the approval moment ----------
+    const ap = $('.l-appr');
+    if (ap) ap.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      const st = b.classList.contains('l-ap-yes') || b.classList.contains('l-ap-pby') ? 'ok' : b.classList.contains('l-ap-no') ? 'pb' : b.classList.contains('l-ap-back') ? 'ask' : null;
+      if (st) { ap.dataset.st = st; ap.dataset.via = b.classList.contains('l-ap-pby') ? 'pb' : ''; }
+    });
+
+    // ---------- 07: one mind, seven orbits ----------
+    const op = $('.l-op');
+    if (op) {
+      tabs($('.l-orb', op), '.l-o', (b) => {
+        $$('.l-o', op).forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+        $$('.l-od', op).forEach((p) => { p.hidden = p.dataset.o !== b.dataset.o; });
+      });
+      $$('.l-o', op).forEach((x, i) => { x.tabIndex = i ? -1 : 0; });
+      $('.l-opap', op).addEventListener('click', () => op.classList.add('go'));
+    }
+
+    // ---------- 08: a month, day by day ----------
+    const mo = $('.l-mo');
+    if (mo) {
+      const cal = $('.l-cal', mo);
+      tabs(cal, 'button[data-d]', (b) => {
+        const d = b.dataset.d, has = !!$(`.l-dd[data-d="${d}"]`, mo);
+        $$('button[data-d]', cal).forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+        $$('.l-dd', mo).forEach((p) => { p.hidden = has ? p.dataset.d !== d : p.dataset.d !== '0'; });
+        if (!has) $('.l-rt .l-rn', mo).textContent = d;
+      });
+      $$('button[data-d]', cal).forEach((x, i) => { x.tabIndex = i ? -1 : 0; });
+    }
+
+    // ---------- consultation buttons (FAQ, the break) ----------
+    D.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('.l-ask'); if (b) { e.preventDefault(); talk(); } });
+
+    // ---------- the break: its end screen leads to a consultation ----------
+    const end = $('.l-gend');
+    if (end) {
+      addEventListener('usha:game-on', () => { end.hidden = true; $('#game').classList.remove('l-ended'); });
+      addEventListener('usha:game-off', () => {
+        const w = window.__xgS; if (!w) return;
+        const tpl = ($('.l-gtpl', end).textContent || '').replace('{l}', w.lv + 1).replace('{s}', w.caught || 0);
+        $('.l-gt', end).textContent = tpl;
+        end.hidden = false; $('#game').classList.add('l-ended');
+      });
+      $('.l-again', end).addEventListener('click', () => { end.hidden = true; $('#game').classList.remove('l-ended'); const g = $('#gstart'); if (g) g.click(); });
+    }
+  }
+  if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
 })();

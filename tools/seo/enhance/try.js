@@ -107,17 +107,18 @@
       scArt: { chips: ['Sweets', 'Cafés', 'Beauty'], q: 'Why did orders drop?', a: 'Found it. Here’s the fix.' },
       ill: 'Illustrative example, not client results. Brand names anonymised.', move: 'Her move',
       live: {
-        k: 'Live now', h: 'Consult your new <i>Marketing Director</i>.',
-        p: 'Brief her on your business, then ask four questions. Real answers on your market and your numbers.',
+        k: 'Live now', h: 'A free consultation with your new <i>marketing director</i>',
+        p: 'She tells you where the money is in your market, where it’s leaking from your business, and the first move she’d make.',
+        bring: 'Bring what you know: sales, margin, what you spend on media. Estimates are fine; she shows which way the answer moves.',
         hi: 'Hi, I’m USHA. Tell me what you sell and where, and I’ll read your market before I answer.',
         ask: 'You could ask', qs: ['Why did my sales drop this month?', 'Is my ad budget working?', 'What should I post next week?'],
-        steps: ['Your brief', '4 questions', 'Your project manager follows up'], b: 'Ask USHA live', typing: 'USHA is online',
+        steps: ['Your brief', '4 questions', 'Your project manager follows up'], b: 'Get a free consultation', typing: 'USHA is online',
       },
       days: '90 days', search: 'Search products, orders…', all: 'All products', exp: 'Export', week: 'week',
       tip: (d, n) => `${d} · ${n} orders`, onPage: (w) => `On page 1 since <b data-k="n.week">week ${w}</b>`,
       cards: {
-        sc: ['Scenarios', 'Pick a business and watch how she thinks: a finding, a reason, a move.', 'Open scenarios →'],
-        ff: ['Fast-forward 90 days', 'See your business 90 days from now: without USHA, and with her.', 'Fast-forward →'],
+        sc: ['Scenarios', 'Watch her work through a business like yours: what she found, why it matters, and the move.', 'Open scenarios →', 'Modelled'],
+        ff: ['Your next 90 days, both ways', 'Your business 90 days from now on its current course, and with her leading. Modelled for your sector.', 'See both futures →'],
       },
       close: 'Close', ffSub: 'Same brand, same 90 days (1 Jul – 28 Sep 2026). Drag the line to compare.', grip: 'Drag left or right',
       screens: [['Marketplace sales', 'Orders, stock, gross sales'], ['Marketplace ads', 'Spend, ROAS, campaigns'], ['Social ads', 'Meta and TikTok: CPA, purchases'], ['Social media', 'Reach, saves, followers'], ['SEO', 'Clicks, queries, pages'], ['Website sales', 'Sessions, conversion, revenue'], ['Customer service', 'Inbox, replies, leads'], ['Stock', 'Cover, reorders, dead stock'], ['Market and competitors', 'Prices, share of search, gaps'], ['Reviews', 'Rating and replies'], ['Search position', 'The main query on noon'], ['Content', 'Two videos side by side']],
@@ -189,13 +190,13 @@
     ru: {
       ex: 'Пример', without: 'Без USHA', with: 'С USHA', dragA: 'Сравнение: без USHA и с USHA',
       diffH: 'Те же 90 дней: разница с USHA', ill: 'Пример для наглядности, а не результаты клиента. Названия брендов изменены.', move: 'Что сделала USHA',
-      live: { k: 'Онлайн', h: 'Задайте вопрос своему <i>директору по маркетингу</i>.', p: 'Расскажите о бизнесе и задайте четыре вопроса — получите ответы по вашему рынку и вашим цифрам.', b: 'Спросить USHA' },
+      live: { k: 'Онлайн', h: 'Бесплатная консультация с вашим новым <i>директором по маркетингу</i>', p: 'Она скажет, где на вашем рынке деньги, где они утекают из бизнеса и какой ход она сделает первым.', bring: 'Приходите с тем, что знаете: продажи, маржа, расходы на рекламу. Оценки подойдут: она покажет, куда сдвинется ответ.', b: 'Получить бесплатную консультацию' },
       scArt: { chips: ['Сладости', 'Кофейни', 'Красота'], q: 'Почему упали заказы?', a: 'Нашла причину. Вот что делать.' },
       days: '90 дней', search: 'Поиск по товарам и заказам…', all: 'Все товары', exp: 'Выгрузить',
       tip: (d, n) => `${d} · ${n} ${plural(n, 'заказ', 'заказа', 'заказов')}`, onPage: (w) => `На первой странице с <b data-k="n.week">${w}-й недели</b>`,
       cards: {
-        sc: ['Сценарии', 'Выберите нишу и посмотрите, как думает USHA: что нашла, почему и что делать дальше.', 'Смотреть сценарии →'],
-        ff: ['Перемотать на 90 дней вперёд', 'Ваш бизнес через 90 дней: без USHA и с ней.', 'Перемотать →'],
+        sc: ['Сценарии', 'Посмотрите, как она разбирает бизнес, похожий на ваш: что нашла, почему это важно и какой ход.', 'Смотреть сценарии →', 'Условный пример'],
+        ff: ['Ваши следующие 90 дней, два варианта', 'Ваш бизнес через 90 дней: если всё оставить как есть и если работу ведёт она. Условный пример для вашей отрасли.', 'Сравнить два варианта →'],
       },
       close: 'Закрыть', ffSub: 'Тот же бренд и те же 90 дней: с 1 июля по 28 сентября 2026 года. Сдвиньте линию, чтобы сравнить.', grip: 'Сдвиньте влево или вправо',
       screens: [['Продажи на маркетплейсе', 'Заказы, остатки, сумма заказов'], ['Реклама на маркетплейсе', 'Расход, ДРР, кампании'], ['Таргет и контекст', 'VK Реклама и Директ: стоимость заказа'], ['Соцсети', 'Охват, сохранения, подписчики'], ['SEO', 'Клики, запросы, страницы'], ['Продажи на сайте', 'Визиты, конверсия, выручка'], ['Сервис и CRM', 'Обращения, скорость ответа, заявки'], ['Склад', 'Оборачиваемость, дозаказ, неликвид'], ['Рынок и конкуренты', 'Цены, доля поиска, свободные ниши'], ['Отзывы и рейтинг', 'Рейтинг и ответы на отзывы'], ['Позиция в выдаче', 'Главный запрос на WB'], ['Контент', 'Два ролика для сравнения']],
@@ -267,13 +268,13 @@
     ar: {
       ex: 'مثال', without: 'بدون ' + iso('USHA'), with: 'مع ' + iso('USHA'), dragA: 'قارن النتائج بدون ' + iso('USHA') + ' ومعها',
       diffH: 'الفرق خلال الـ90 يومًا نفسها', ill: 'مثال توضيحي، وليس نتائج عميل حقيقي. أسماء العلامات التجارية مُغيَّرة.', move: 'خطوة ' + iso('USHA'),
-      live: { k: 'متاحة الآن', h: 'اسأل <i>مديرة التسويق</i> الجديدة لديك.', p: 'عرّفها بنشاطك التجاري، ثم اطرح أربعة أسئلة واحصل على إجابات حقيقية عن سوقك وأرقامك.', b: 'تحدّث مع ' + iso('USHA') + ' الآن' },
+      live: { k: 'متاحة الآن', h: 'استشارة مجانية مع <i>مديرة التسويق</i> الجديدة لديك', p: 'تخبرك أين المال في سوقك، ومن أين يتسرّب من نشاطك، وما أول خطوة ستتخذها.', bring: 'أحضِر ما تعرفه: المبيعات، والهامش، وما تنفقه على الإعلام. التقديرات تكفي، وهي تريك في أي اتجاه تتغيّر الإجابة.', b: 'احصل على استشارتك المجانية' },
       scArt: { chips: ['حلويات', 'مقاهٍ', 'تجميل'], q: 'لماذا انخفضت الطلبات؟', a: 'وجدت السبب، وهذه الخطوة التالية.' },
       days: '90 يومًا', search: 'ابحث عن منتج أو طلب…', all: 'كل المنتجات', exp: 'تصدير',
       tip: (d, n) => `${d} · ${n} طلبًا`, onPage: (w) => `في الصفحة الأولى منذ <b data-k="n.week">الأسبوع ${w}</b>`,
       cards: {
-        sc: ['سيناريوهات حقيقية', 'اختر مجال نشاطك وشاهد كيف تحلّل ' + iso('USHA') + ': ماذا اكتشفت، ولماذا، وما الخطوة التالية.', 'شاهد السيناريوهات ←'],
-        ff: ['نتائج ٩٠ يوم', 'هكذا سيبدو نشاطك بعد 90 يومًا: بدون ' + iso('USHA') + ' ومعها.', 'اعرض النتائج ←'],
+        sc: ['سيناريوهات', 'شاهدها تعمل على نشاط يشبه نشاطك: ماذا وجدت، ولماذا يهمّ، وما الخطوة.', 'شاهد السيناريوهات ←', 'مثال افتراضي'],
+        ff: ['أيامك التسعون القادمة، بالطريقين', 'نشاطك بعد 90 يومًا على مساره الحالي، ومعها وهي تقود. مثال افتراضي لقطاعك.', 'شاهد المستقبلين ←'],
       },
       close: 'إغلاق', ffSub: 'العلامة التجارية نفسها والفترة نفسها: من 1 يوليو إلى 28 سبتمبر 2026. اسحب الخط للمقارنة.', grip: 'اسحب يمينًا أو يسارًا',
       screens: [['مبيعات المنصّة', 'الطلبات والمخزون وإجمالي المبيعات'], ['إعلانات المنصّة', 'الإنفاق والعائد والحملات'], ['إعلانات السوشيال ميديا', iso('Meta') + ' و' + iso('TikTok') + ': تكلفة الشراء والمشتريات'], ['حسابات السوشيال ميديا', 'الوصول والحفظ والمتابعون'], ['الظهور في البحث', 'النقرات وكلمات البحث والصفحات'], ['مبيعات الموقع', 'الزيارات ومعدل التحويل والإيرادات'], ['خدمة العملاء', 'الرسائل وسرعة الرد والعملاء المحتملون'], ['المخزون', 'مدة التغطية وإعادة الطلب والراكد'], ['السوق والمنافسون', 'الأسعار وحصة البحث والفرص'], ['التقييمات', 'متوسط التقييم والردود'], ['الترتيب في البحث', 'كلمة البحث الرئيسية على ' + iso('noon')], ['المحتوى', 'فيديوهان للمقارنة']],
@@ -871,10 +872,10 @@
   const artSc = () => { const a = tx().scArt; return `<div class="t3-art art-sc" aria-hidden="true"><div class="sa-chips">${a.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div><div class="sa-q">${esc(a.q)}</div><div class="sa-a"><span class="t3-face"><i></i><i></i></span><span>${esc(a.a)}</span></div></div>`; };
   function cardsHTML() {
     const t = tx(), x = t.live, c = t.cards;
-    return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
+    return `<article class="t3-card k-sc"><div class="t3-tex" aria-hidden="true"></div>${artSc()}<h3>${c.sc[0]}${c.sc[3] ? ` <small class="t3-tag">${esc(c.sc[3])}</small>` : ''}</h3><p>${c.sc[1]}</p><button type="button" class="t3-cta" data-open="sc"><span>${c.sc[2]}</span></button></article>
       <article class="t3-card k-live"><div class="t3-tex" aria-hidden="true"></div><div class="t3-lv-glow" aria-hidden="true"></div><div class="t3-lv-head"><div class="t3-lv-top"><span class="t3-onair"><i aria-hidden="true"></i>${esc(x.k)}</span><span class="t3-wave" aria-hidden="true">${'<i></i>'.repeat(9)}</span></div>
         <div class="t3-lv-orb" aria-hidden="true"><span class="t3-face lg"><i></i><i></i></span><s></s><s></s></div></div>
-        <h3>${x.h}</h3><p>${esc(x.p)}</p>
+        <h3>${x.h}</h3><p>${esc(x.p)}</p>${x.bring ? `<p class="t3-bring">${esc(x.bring)}</p>` : ''}
         <button type="button" class="t3-go"><span class="t3-go-ring" aria-hidden="true"></span><span class="d" aria-hidden="true"></span><span>${x.b}</span><span class="t3-go-a" aria-hidden="true">${rtl() ? '←' : '→'}</span></button></article>
       <article class="t3-card k-ff"><div class="t3-tex" aria-hidden="true"></div><div class="t3-art"><span class="t3-90" aria-hidden="true"><span dir="ltr">+90</span><small>${esc(bare(t.days))}</small></span>${ART_FF}</div><h3>${c.ff[0]}</h3><p>${c.ff[1]}</p><button type="button" class="t3-cta" data-open="ff"><span>${c.ff[2]}</span></button></article>`;
   }

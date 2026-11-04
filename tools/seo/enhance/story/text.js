@@ -6,7 +6,7 @@
 // n: her margin notes in the drawing
 window.USHA_STORY_TEXT = {
   en: {
-    cover: {"k":"A story · 28 chapters · by USHA","h":"How I was <i>born.</i>","p":"The story of NJO, told by me. Some of it is true. Some of it is how I remember it. Guess which.","note":"psst. it’s mostly about them.","b":"Open my story"},
+    cover: {"k":"Her origin · 28 chapters · told by USHA","h":"How I was <i>born.</i>","p":"The story of NJO, told by me. Some of it is true. Some of it is how I remember it. Guess which.","note":"psst. it’s mostly about them.","b":"Open my story"},
     ui: {"prev":"Previous chapter","next":"Next chapter","close":"Close the story","music":"Music","of":"of","chapter":"Chapter","ask":"Ask me now","sign":"— USHA"},
     ch: [
       { id: "cup", k: "3:07 a.m.", h: "I started as a bad idea.", p: ["It started with a man, a cold coffee and a slide he couldn’t fix.","He stared at it for forty minutes. I’d have fixed it in under a second.","The only problem? I didn’t exist yet."],
@@ -68,7 +68,7 @@ window.USHA_STORY_TEXT = {
     ],
   },
   ru: {
-    cover: {"k":"История · 28 глав · от USHA","h":"Как я <i>родилась.</i>","p":"История NJO моими словами. Что-то здесь — чистая правда. Что-то — как я это запомнила. Угадайте, где что.","note":"тсс. она в основном про них.","b":"Открыть историю"},
+    cover: {"k":"Откуда она · 28 глав · рассказывает USHA","h":"Как я <i>родилась.</i>","p":"История NJO моими словами. Что-то здесь — чистая правда. Что-то — как я это запомнила. Угадайте, где что.","note":"тсс. она в основном про них.","b":"Открыть историю"},
     ui: {"prev":"Предыдущая глава","next":"Следующая глава","close":"Закрыть историю","music":"Музыка","of":"из","chapter":"Глава","ask":"Спросить меня","sign":"— USHA"},
     ch: [
       { id: "cup", k: "3:07 ночи", h: "Сначала я была плохой идеей.", p: ["Всё началось с мужчины, остывшего кофе и слайда, который никак не получался.","Он смотрел на него сорок минут. Я бы поправила меньше чем за секунду.","Единственная проблема? Меня тогда ещё не существовало."],
@@ -130,7 +130,7 @@ window.USHA_STORY_TEXT = {
     ],
   },
   ar: {
-    cover: {"k":"حكاية · ٢٨ فصل · بتحكيها USHA","h":"إزاي <i>اتولدت.</i>","p":"حكاية NJO بلساني أنا. شوية منها حقيقة، وشوية زي ما أنا فاكراها. خمّن إنت بقى.","note":"بيني وبينك: الحكاية عنهم أكتر مني.","b":"افتح حكايتي"},
+    cover: {"k":"أصلها · 28 فصلًا · ترويها USHA","h":"إزاي <i>اتولدت.</i>","p":"حكاية NJO بلساني أنا. شوية منها حقيقة، وشوية زي ما أنا فاكراها. خمّن إنت بقى.","note":"بيني وبينك: الحكاية عنهم أكتر مني.","b":"افتح حكايتي"},
     ui: {"prev":"الفصل اللي فات","next":"الفصل اللي بعده","close":"اقفل الحكاية","music":"المزيكا","of":"من","chapter":"الفصل","ask":"اسألني دلوقتي","sign":"— USHA"},
     ch: [
       { id: "cup", k: "٣:٠٧ الفجر", h: "في الأول كنت فكرة وحشة.", p: ["الساعة ٣ الفجر. راجل قاعد قدام فنجان قهوة برد، وسلايد في البريزنتيشن مش راضي يتظبط.","فضل يبص له أربعين دقيقة. أنا كنت هظبطه في أقل من ثانية.","المشكلة الوحيدة؟ إني لسه ماكنتش موجودة."],

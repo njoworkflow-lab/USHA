@@ -1,10 +1,11 @@
-// The case wall (after "02 · What she does"): filters by sector, country and
-// situation; the grid re-flows with a FLIP morph; each card opens its full
-// story in the site's dialog (focus trapped, scroll and focus restored on close).
-// One motion moment: cards drift in from the galaxy as they come into view.
+// The cases page (/cases/, /en/cases/, /ar/cases/): filters by sector and
+// market; the grid re-flows with a FLIP morph; each card opens its full story
+// in the site's dialog (focus trapped, scroll and focus restored on close).
+// One motion moment: cards drift in as they come into view.
 // No scroll handlers: an IntersectionObserver reveals cards, filters animate
-// with transforms only. Content: window.USHA_CASES (built from cases-data.mjs);
-// markup: cases-ui.mjs (inlined above by the build).
+// with transforms only. Content: window.USHA_CASES (built from cases-v2.mjs);
+// markup: cases-ui.mjs (inlined above by the build). "Ask" goes to the free
+// consultation on the main page (window.USHA_CASES_ASK).
 (() => {
   const D = document, H = D.documentElement;
   const $ = (s, r = D) => r.querySelector(s), $$ = (s, r = D) => [...r.querySelectorAll(s)];
@@ -12,9 +13,9 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ease = 'cubic-bezier(.16,1,.3,1)';
   let app = null, lang = '', C = null, io = null;
-  const state = { sector: 'all', country: 'all', sit: '' };
+  const state = { sector: 'all', country: 'all' };
   const pick = () => (H.lang in ALL ? H.lang : Object.keys(ALL)[0]);
-  const talk = () => dispatchEvent(new Event('usha:talk'));
+  const talk = () => { if (window.USHA_CASES_ASK) location.href = window.USHA_CASES_ASK; else dispatchEvent(new Event('usha:talk')); };
 
   // ---------- reveal: cards drift in like signals pulled from the galaxy ----------
   function reveal() {
@@ -42,8 +43,7 @@
 
   // ---------- filters ----------
   const matches = (c) => (state.sector === 'all' || c.dataset.sector === state.sector) &&
-    (state.country === 'all' || c.dataset.country === state.country) &&
-    (!state.sit || c.dataset.sit.split(' ').includes(state.sit));
+    (state.country === 'all' || c.dataset.country === state.country);
 
   const unlift = (c) => ['position', 'left', 'top', 'width', 'height', 'margin'].forEach((p) => c.style.removeProperty(p));
   function apply() {
@@ -84,12 +84,12 @@
     }
     $('.xc-count', app).textContent = xcCount(C, n, lang);
     $('.xc-empty', app).hidden = n > 0;
-    $('.xc-clear', app).hidden = state.sector === 'all' && state.country === 'all' && !state.sit;
+    $('.xc-clear', app).hidden = state.sector === 'all' && state.country === 'all';
   }
 
   function setChip(b) {
     const f = b.dataset.f, v = b.dataset.v;
-    state[f] = f === 'sit' && state.sit === v ? '' : v;
+    state[f] = v;
     syncChips();
     apply();
   }
@@ -126,7 +126,7 @@
   function fill(id) {
     current = C.cards.find((c) => c.id === id);
     const panel = $('.xm-panel', modal);
-    panel.innerHTML = '<i class="xm-aura" aria-hidden="true"></i>' + xcStoryHTML(current, C, lang);
+    panel.innerHTML = '<i class="xm-aura" aria-hidden="true"></i>' + xcStoryHTML(current, C);
     $('.xm-x', panel).addEventListener('click', () => close());
     $('.xc-next', panel).addEventListener('click', () => {
       const ids = visibleIds(), i = ids.indexOf(current.id);
@@ -134,7 +134,7 @@
       $('.xm-body', modal).scrollTop = 0;
       $('.xc-next', modal).focus({ preventScroll: true });
     });
-    $('.xc-ask', panel).addEventListener('click', () => { close(true); talk(); });
+    $('.xc-ask', panel).addEventListener('click', (e) => { e.preventDefault(); close(true); talk(); });
   }
   function open(id, opener) {
     close(true);
@@ -178,7 +178,7 @@
     const l = pick();
     if (!ALL[l] || l === lang) return;
     lang = l; C = ALL[l];
-    state.sector = 'all'; state.country = 'all'; state.sit = '';
+    state.sector = 'all'; state.country = 'all';
     app.innerHTML = xcWallHTML(C, lang);
     app.dataset.lang = lang;
     reveal();
@@ -187,11 +187,11 @@
     app = $('#cases .xc-app'); if (!app) return;
     app.classList.add('xc-js');
     app.addEventListener('click', (e) => {
-      const t = e.target.closest('button'); if (!t) return;
+      const t = e.target.closest('button,.xc-ask'); if (!t) return;
       if (t.classList.contains('xc-chip')) setChip(t);
-      else if (t.classList.contains('xc-clear')) { state.sector = 'all'; state.country = 'all'; state.sit = ''; syncChips(); apply(); }
+      else if (t.classList.contains('xc-clear')) { state.sector = 'all'; state.country = 'all'; syncChips(); apply(); }
       else if (t.classList.contains('xc-open')) open(+t.closest('.xc-card').dataset.id, t);
-      else if (t.classList.contains('xc-ask')) talk();
+      else if (t.classList.contains('xc-ask')) { e.preventDefault(); talk(); }
     });
     app.addEventListener('keydown', chipKeys);
     render();
