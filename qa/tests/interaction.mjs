@@ -10,6 +10,13 @@ async function step(record, name, fn) {
   try { await fn(); record.metrics.steps.push({ name, completed: true }); }
   catch (error) { record.metrics.steps.push({ name, completed: false }); await record.fail(`${name}: ${error.message}`); }
 }
+export async function waitForDisclosure(summary, open, timeout = 10000) {
+  const handle = await summary.elementHandle();
+  try {
+    await summary.page().waitForFunction(({ summary, open }) => summary.parentElement?.open === open,
+      { summary: handle, open }, { timeout, polling: 100 });
+  } finally { await handle?.dispose(); }
+}
 async function trap(page, root, record, name) {
   const focusable = page.locator(`${root} button:visible:not([disabled]), ${root} a[href]:visible, ${root} input:visible, ${root} select:visible, ${root} textarea:visible, ${root} [tabindex="0"]:visible`);
   if (!(await focusable.count())) { await record.fail(`${name}: dialog has no focusable controls`); return; }
@@ -180,7 +187,7 @@ export async function interactions(s, cell, record, origin) {
   });
   await step(record, 'Every FAQ opens and closes', async () => {
     for (const summary of await page.locator('#faq summary').all()) {
-      await qaClick(summary); await settle(page, 500);
+      await qaClick(summary); await waitForDisclosure(summary, true); await settle(page, 500);
       await record.check(await summary.evaluate(el => el.parentElement.open), 'FAQ did not open');
       await record.check(await summary.evaluate(el => el.parentElement.querySelector('p').getBoundingClientRect().height > 0), 'FAQ answer has no height');
       for (const answer of await summary.locator('..').locator('p').all()) {
@@ -189,7 +196,7 @@ export async function interactions(s, cell, record, origin) {
         const detail = await answer.evaluate(el => window.__qaDOM.visible(el));
         await record.check(!detail.reasons.length, 'Opened FAQ answer is not readable', detail);
       }
-      await qaClick(summary); await settle(page, 400);
+      await qaClick(summary); await waitForDisclosure(summary, false);
       await record.check(!await summary.evaluate(el => el.parentElement.open), 'FAQ did not close');
     }
   });
@@ -308,10 +315,10 @@ export async function smokeInteractions(s, cell, record) {
   await step(record, 'FAQ disclosure toggles', async () => {
     const faq = page.locator('#faqs details').first();
     await qaClick(faq.locator('summary'));
-    await page.waitForFunction(() => document.querySelector('#faqs details')?.open, null, { timeout: 10000, polling: 100 });
+    await waitForDisclosure(faq.locator('summary'), true);
     await qaClick(faq.locator('summary'));
     // The site removes `open` in the 320 ms close animation's onfinish callback.
-    await page.waitForFunction(() => !document.querySelector('#faqs details')?.open, null, { timeout: 10000, polling: 100 });
+    await waitForDisclosure(faq.locator('summary'), false);
   });
 }
 

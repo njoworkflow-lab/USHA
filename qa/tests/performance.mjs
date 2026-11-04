@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises';
+import { constants } from 'node:fs';
 import { click as qaClick } from '../lib/input.mjs';
 import { frameStats, fpsFloor, isPhone, SECTIONS } from '../lib/config.mjs';
 import { closePopups, goSection, settle } from '../lib/browser.mjs';
@@ -14,8 +16,9 @@ export async function smoothness(s, cell, record, smoke) {
     gl?.getExtension('WEBGL_lose_context')?.loseContext();
     return name;
   });
-  const enforce = enforceFps(renderer, process.env.QA_STRICT_FPS);
-  Object.assign(record.metrics, { renderer, strict: process.env.QA_STRICT_FPS === '1', informationalOnly: !enforce });
+  const runnerGpu = await detectRunnerGpu();
+  const enforce = enforceFps(renderer, process.env.QA_STRICT_FPS, runnerGpu);
+  Object.assign(record.metrics, { renderer, runnerGpu, strict: process.env.QA_STRICT_FPS === '1', informationalOnly: !enforce });
   if (!enforce) record.notes.push('Software or unverified GPU: FPS and frame-time limits are informational only. Set QA_STRICT_FPS=1 to enforce them.');
   record.metrics.cpuThrottle = cell.profile === 'android-low' ? 4 : 1;
   record.metrics.network = cell.profile === 'android-low' ? 'Fast 3G: 150 ms RTT, 1.6 Mbps down, 750 Kbps up' : 'local, unthrottled';
@@ -81,8 +84,25 @@ export async function smoothness(s, cell, record, smoke) {
   if (!enforce) record.status = 'INFO';
 }
 
-export function enforceFps(renderer, strict) {
-  return strict === '1' || (!/swiftshader|llvmpipe|softpipe|software|basic render|unavailable/i.test(renderer) && /NVIDIA|GeForce|Radeon|AMD|Intel|Adreno|Mali|Apple.*GPU/i.test(renderer));
+const hardwareVendors = { '0x10de': /NVIDIA|GeForce/i, '0x1002': /AMD|Radeon/i, '0x8086': /Intel/i };
+export async function detectRunnerGpu({ platform = process.platform, io = fs } = {}) {
+  // Renderer strings can be privacy-masked (including a hardware brand on a
+  // software-only Linux runner). Require an accessible hardware render device.
+  if (platform === 'linux') for (const name of await io.readdir('/sys/class/drm').catch(() => [])) {
+    if (!/^renderD\d+$/.test(name)) continue;
+    try {
+      const vendor = (await io.readFile(`/sys/class/drm/${name}/device/vendor`, 'utf8')).trim().toLowerCase();
+      if (!hardwareVendors[vendor]) continue;
+      const device = `/dev/dri/${name}`;
+      if (!(await io.stat(device)).isCharacterDevice()) continue;
+      await io.access(device, constants.R_OK | constants.W_OK);
+      return { verified: true, vendor, device };
+    } catch { /* Missing/inaccessible/virtual devices do not prove a real GPU. */ }
+  }
+  return { verified: false, reason: 'No accessible, identified hardware render device; FPS is informational unless QA_STRICT_FPS=1.' };
+}
+export function enforceFps(renderer, strict, runnerGpu = { verified: false }) {
+  return strict === '1' || !!(runnerGpu.verified && hardwareVendors[runnerGpu.vendor]?.test(renderer) && !/swiftshader|llvmpipe|softpipe|lavapipe|swrast|software|basic render|unavailable/i.test(renderer));
 }
 
 export const POPUPS = [

@@ -6,7 +6,8 @@ import { chromium } from '@playwright/test';
 import { isAbortedRequest, launchOptions } from '../lib/browser.mjs';
 import { waitForReveal, domTools } from '../lib/dom.mjs';
 import { tapTargetLevel } from './accessibility.mjs';
-import { enforceFps, relativeGrowth } from './performance.mjs';
+import { detectRunnerGpu, enforceFps, relativeGrowth } from './performance.mjs';
+import { waitForDisclosure } from './interaction.mjs';
 import { loadPass, denyProxy } from '../lib/lighthouse.mjs';
 import { smokeMatrix, SMOKE_CATEGORIES } from '../lib/config.mjs';
 import { rollupMatrix } from '../scripts/report.mjs';
@@ -32,12 +33,38 @@ test('tap, mobile load, FPS and leak gates include exact boundary cases', () => 
   assert.equal(loadPass('mobile', { ...good, tbtMs: undefined }), false);
   assert.equal(enforceFps('ANGLE (SwiftShader Device)', ''), false);
   assert.equal(enforceFps('llvmpipe', '1'), true);
-  assert.equal(enforceFps('ANGLE (NVIDIA GeForce RTX)', ''), true);
+  const gpu = { verified: true, vendor: '0x10de' };
+  assert.equal(enforceFps('ANGLE (NVIDIA GeForce RTX)', '', gpu), true);
+  assert.equal(enforceFps('ANGLE (NVIDIA GeForce RTX)', ''), false);
+  assert.equal(enforceFps('Apple GPU', ''), false);
+  assert.equal(enforceFps('Apple GPU', '', gpu), false);
+  assert.equal(enforceFps('ANGLE (SwiftShader Device)', '', gpu), false);
   assert.equal(enforceFps('WebKit WebGL', ''), false);
   assert.equal(relativeGrowth(100, 120) < .2, false);
   assert.equal(relativeGrowth(100, 119) < .2, true);
   assert.equal(relativeGrowth(0, 1) < .2, false);
   assert.equal(relativeGrowth(0, 0), 0);
+});
+
+test('GPU detection requires an accessible hardware render device, rejecting virtual and missing devices', async () => {
+  const io = { readdir: async () => ['card0', 'renderD128'], readFile: async () => '0x10de\n', stat: async () => ({ isCharacterDevice: () => true }), access: async () => {} };
+  assert.equal((await detectRunnerGpu({ platform: 'linux', io })).verified, true);
+  assert.equal((await detectRunnerGpu({ platform: 'linux', io: { ...io, readFile: async () => '0x1414\n' } })).verified, false);
+  assert.equal((await detectRunnerGpu({ platform: 'linux', io: { ...io, access: async () => { throw new Error('EACCES'); } } })).verified, false);
+  assert.equal((await detectRunnerGpu({ platform: 'linux', io: { ...io, readdir: async () => [] } })).verified, false);
+});
+
+test('FAQ assertions wait for delayed closure and still reject a stuck disclosure', async () => {
+  const browser = await chromium.launch(launchOptions('chromium'));
+  try {
+    const page = await browser.newPage();
+    await page.setContent('<details open><summary>Question</summary><p>Answer</p></details><script>document.querySelector("summary").onclick = event => { event.preventDefault(); setTimeout(() => { document.querySelector("details").open = false; }, 650); };</script>');
+    const summary = page.locator('summary');
+    await summary.click();
+    await waitForDisclosure(summary, false, 3000);
+    await page.locator('details').evaluate(el => { el.open = true; });
+    await assert.rejects(waitForDisclosure(summary, false, 250), /Timeout/);
+  } finally { await browser.close(); }
 });
 
 test('smoke requires all six cells and all requested categories', () => {
