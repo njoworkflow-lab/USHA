@@ -10,9 +10,12 @@ have been removed from the proposed tree; they belong only in CI artifacts
   coverage enforcement.
 - Disposable production builds: 99 files, zero byte differences with/without QA,
   zero differences on a repeat build and zero changes to the checkout.
+- An independent build of main matches the candidate output (SHA-256 manifest
+  `3327c3a3261725f18a4a8c5c100750e02f248ab536b4b75a7e54d5d76e43c825`).
 - All 11 sitemap pages and crawler/service-worker files passed local HTTP checks.
-- Local six-cell smoke and remote CI validation are in progress. Outcomes and
-  links will be recorded before the repair is handed back; no CI pass is claimed.
+- CI outcomes, durations and artifact links are recorded in the replacement PR
+  description. This static verification summary does not claim that all site gates
+  pass. A red result can represent a real site defect; missing coverage also fails.
 - Playwright remains pinned at 1.56.1. Local diagnostics use system Chromium
   154.0.8037.57; WebKit and Firefox are not installed here. The actual CI matrix
   must install and run the pinned three engines on Ubuntu 24.04.

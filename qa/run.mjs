@@ -48,7 +48,7 @@ if (resume) for (const file of await fs.readdir(path.join(QA, 'report/results'))
   const result = JSON.parse(await fs.readFile(path.join(QA, 'report/results', file), 'utf8'));
   const unfinishedScroll = result.category === 'smoothness' && result.metrics.runs?.some(run => !run.reachedBottom);
   const unfinishedVisual = baseline && result.category === 'visual' && result.status !== 'UNAVAILABLE' && (result.metrics.sections?.length || 0) < SECTIONS.length;
-  if (['PASS', 'FAIL', 'UNAVAILABLE'].includes(result.status) && !unfinishedScroll && !unfinishedVisual) completed.add(`${result.id}/${result.category}`);
+  if (['PASS', 'FAIL', 'INFO', 'UNAVAILABLE'].includes(result.status) && !unfinishedScroll && !unfinishedVisual) completed.add(`${result.id}/${result.category}`);
 }
 const pending = (cell, category) => !completed.has(`${cell.id}/${category}`);
 let server;

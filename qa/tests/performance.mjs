@@ -1,7 +1,5 @@
 import { click as qaClick } from '../lib/input.mjs';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { QA, frameStats, fpsFloor, isPhone, SECTIONS } from '../lib/config.mjs';
+import { frameStats, fpsFloor, isPhone, SECTIONS } from '../lib/config.mjs';
 import { closePopups, goSection, settle } from '../lib/browser.mjs';
 
 export async function smoothness(s, cell, record, smoke) {
@@ -63,6 +61,12 @@ export async function smoothness(s, cell, record, smoke) {
     }
     await page.waitForTimeout(350);
     const data = await page.evaluate(() => { window.__qa.recording = false; return { frames: window.__qa.frames, longtasks: window.__qa.longtasks, longtaskSupported: PerformanceObserver.supportedEntryTypes?.includes('longtask'), scrollY, end: document.documentElement.scrollHeight - innerHeight }; });
+    if (!data.frames.length) {
+      record.metrics.runs.push({ mode, reachedBottom: data.scrollY >= data.end - 3, measurement: 'No animation frames recorded' });
+      if (enforce) await record.fail(`${mode}: no animation frames recorded`);
+      else record.notes.push(`${mode}: no frames on software/unverified renderer; informational only.`);
+      continue;
+    }
     const stats = frameStats(data.frames);
     if (!data.longtaskSupported && !record.notes.includes('Long-task observer API is unavailable in this browser.')) record.notes.push('Long-task observer API is unavailable in this browser.');
     const screenshot = data.scrollY < data.end - 3 || stats.p5Fps < fpsFloor(cell) || stats.maxFrameMs > 200 ? await record.shot(mode) : undefined;

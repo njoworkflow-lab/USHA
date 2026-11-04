@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPass } from '../lib/lighthouse.mjs';
-import { QA, CATEGORIES, SMOKE_CATEGORIES, PROFILES, matrix, smokeMatrix } from '../lib/config.mjs';
+import { QA, CATEGORIES, PROFILES, matrix, smokeMatrix } from '../lib/config.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const md = value => String(value ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
