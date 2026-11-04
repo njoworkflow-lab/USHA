@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "languages": {
+    "ru": {
+      "heroWidths": [
+        360,
+        375,
+        390
+      ],
+      "buttonsInside": 9,
+      "dialogsPassed": 4,
+      "freshIdleMs": 60248.89999999851,
+      "freshIdleVibrations": 0,
+      "separateInvitationHaptics": 1,
+      "consoleErrors": 0,
+      "failedAssets": 0,
+      "reducedMotionAnimations": 0
+    },
+    "en": {
+      "heroWidths": [
+        360,
+        375,
+        390
+      ],
+      "buttonsInside": 9,
+      "dialogsPassed": 4,
+      "freshIdleMs": 60092.89999999851,
+      "freshIdleVibrations": 0,
+      "separateInvitationHaptics": 1,
+      "consoleErrors": 0,
+      "failedAssets": 0,
+      "reducedMotionAnimations": 0
+    },
+    "ar": {
+      "heroWidths": [
+        360,
+        375,
+        390
+      ],
+      "buttonsInside": 9,
+      "dialogsPassed": 4,
+      "freshIdleMs": 60291.10000000149,
+      "freshIdleVibrations": 0,
+      "separateInvitationHaptics": 1,
+      "consoleErrors": 0,
+      "failedAssets": 0,
+      "reducedMotionAnimations": 0
+    }
+  }
+}

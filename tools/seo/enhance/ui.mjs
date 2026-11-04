@@ -66,7 +66,7 @@ export function planScreenHTML(x, d, k) {
     <i class="xm-aura" aria-hidden="true"></i>
     <header class="xm-hd"><div><span class="xm-k">${esc(kick)}</span><h3>USHA <b>${name}</b></h3><p>${esc(lead)}</p></div>
       <button type="button" class="xm-x" aria-label="${esc(x.close)}"></button></header>
-    <div class="xm-body">${body}</div>
+    <div class="xm-body" tabindex="0" role="region" aria-label="USHA ${name}">${body}</div>
     <footer class="xm-ft"><p>${k === 'ent' ? '' : `${esc(x.bothInclude)} ${esc(x.both)}`}</p><a class="btn btn-p xm-go" href="#free" data-plan="USHA ${name}"><span class="d"></span><span>${esc(d.p_cta)}</span></a></footer>
   </div>`;
 }

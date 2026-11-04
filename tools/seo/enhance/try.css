@@ -390,6 +390,7 @@ html[dir=rtl] .sc-dr i b{transform-origin:100% 50%}
 @container (min-width:600px){.sc-kpis.five{grid-template-columns:repeat(5,minmax(0,1fr))}.sc-kpis.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .sc-kpis.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .sc-kpi>small{font-size:10px;color:#77727E}
+.t3-m-ff .sc-kpi>small{color:#6b6670}
 .sc-t.sad th:first-child{width:30%}
 @container (min-width:640px){.sc-row2.seo{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}.sc-row2.web{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}}
 .sc-row2.seo .sc-t th:first-child{width:42%}
