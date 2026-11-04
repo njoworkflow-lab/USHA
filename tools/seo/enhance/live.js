@@ -289,7 +289,7 @@
   // ---------- the window ----------
   // invite: the server asks for an invitation code (GET /api/hello)
   let invite = false;
-  let modal = null, lastFocus = null, state = { token: '', name: '', left: null, team: false, brief: false, busy: false };
+  let modal = null, lastFocus = null, keepY = 0, state = { token: '', name: '', left: null, team: false, brief: false, busy: false };
 
   function shell(inner) {
     const x = L();
@@ -302,13 +302,14 @@
 
   function open() {
     if (modal) return;
-    lastFocus = D.activeElement;
+    lastFocus = D.activeElement; keepY = scrollY;
     modal = D.createElement('div');
     modal.className = 'x-modal x-live';
     modal.innerHTML = shell('');
     D.body.append(modal);
     H.classList.add('x-modal-on');
     requestAnimationFrame(() => modal && modal.classList.add('on'));
+    $('.xm-x', modal).focus({ preventScroll: true });
     $('.xm-x', modal).addEventListener('click', close);
     $('.xm-scrim', modal).addEventListener('click', close);
     chime('open');
@@ -334,11 +335,24 @@
   function close() {
     if (!modal) return;
     const m = modal; modal = null; tsId = null;
+    m.inert = true;
     H.classList.remove('x-modal-on');
     if (reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (Math.abs(scrollY - keepY) > 1) scrollTo({ top: keepY, behavior: 'instant' });
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal) close(); });
+  D.addEventListener('keydown', (e) => {
+    if (!modal) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); return; }
+    if (e.key !== 'Tab') return;
+    const f = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', modal)
+      .filter((el) => !el.disabled && el.offsetParent !== null && !el.closest('[inert],.ghost'));
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (!modal.contains(D.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus({ preventScroll: true }); }
+    else if (e.shiftKey && D.activeElement === first) { e.preventDefault(); last.focus({ preventScroll: true }); }
+    else if (!e.shiftKey && D.activeElement === last) { e.preventDefault(); first.focus({ preventScroll: true }); }
+  }, true);
   const view = () => $('.xl-view', modal);
   function setLeft() {
     const el = modal && $('.xl-left', modal); if (!el) return;

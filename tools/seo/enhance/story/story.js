@@ -35,6 +35,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 .ns[dir=rtl] .ns-cap{transform:rotate(1.2deg)}
 .ns-cap svg{flex:none;width:26px;height:22px}
 .ns-cap.out{opacity:0}
+.ns-cap>span{color:#b8400f}
 .a-sway{animation-name:ns-sway;animation-direction:alternate}
 .a-drift{animation-name:ns-drift;animation-direction:alternate}
 .a-bob{animation-name:ns-bob;animation-direction:alternate}
@@ -93,7 +94,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
 @keyframes ns-in{to{opacity:1}}
 .ns-text{position:relative;display:flex;flex-direction:column;justify-content:center;padding:3cqw 3.4cqw 3cqw .6cqw;color:#3E342D;overflow:auto}
 .ns[dir=rtl] .ns-text{padding:3cqw .6cqw 3cqw 3.4cqw}
-.ns-k{font:500 1.08cqw/1.3 var(--mono,ui-monospace,monospace);letter-spacing:.2em;text-transform:uppercase;color:#8C6E58}
+.ns-k{font:500 1.08cqw/1.3 var(--mono,ui-monospace,monospace);letter-spacing:.2em;text-transform:uppercase;color:#6b5240}
 .ns[dir=rtl] .ns-k{font-family:var(--body);letter-spacing:0;font-size:1.25cqw}
 .ns-h{margin:1.2cqw 0 0;font:700 3.9cqw/1.02 var(--hand);color:var(--g);letter-spacing:0;text-wrap:balance}
 .ns[dir=rtl] .ns-h{font-size:3.3cqw;line-height:1.35}
@@ -139,14 +140,14 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
   .ns-p p{font-size:16px;margin-bottom:9px}.ns[dir=rtl] .ns-p p{font-size:16px}
   .ns-cta{font-size:15px!important;padding:13px 22px}
   .ns-bar{width:100%;max-width:560px;gap:8px}
-  .ns-ct{display:none}
-  .ns-dot{width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
+  .ns-ct{display:block}
+  .ns-dot{pointer-events:none;width:12px;height:12px;margin:-6px 0 0 -6px}.ns[dir=rtl] .ns-dot{margin:-6px -6px 0 0}.ns-dot::after{inset:4px}
   .ns-scene .ns-n:not(.ns-keep),.ns-scene [marker-end]{display:none}
   .ns-cap{display:flex}
   .ns-nav button,.ns-mu{width:44px;height:44px}
   .ns-x{top:10px}
 }
-@media (prefers-reduced-motion:reduce){.ns *,.ns *::after{animation:none!important;transition:none!important}.ns-draw .dr *{stroke-dasharray:none}.ns-n,.ns-ar,.ns-p p,.ns-u path{opacity:1!important;stroke-dashoffset:0!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){.ns *,.ns *::before,.ns *::after{animation:none!important;transition:none!important}.ns-draw .dr *{stroke-dasharray:none}.ns-n,.ns-ar,.ns-p p,.ns-u path{opacity:1!important;stroke-dashoffset:0!important;transform:none!important}}
 `;
   const ICON = {
     prev: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
@@ -311,6 +312,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     const k = scene.getBoundingClientRect().width / 760 || 1; // scene units → pixels
     scene.querySelectorAll('.ns-sp').forEach((el) => {
       el.getAnimations().forEach((a) => a.cancel());
+      if (reduce) return;
       const name = [...el.classList].find((c) => c.startsWith('a-')), m = name && MOTION[name.slice(2)];
       if (!m) return;
       const cs = el.style, get = (p) => cs.getPropertyValue(p).trim(), trip = /^(walk|fall|slide)$/.test(name.slice(2));
@@ -322,7 +324,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
         y: (d) => { const n = parseFloat(get('--y')); return (isNaN(n) ? d : n) * k * (trip ? 1 : AMP); },
       };
       const [frames, alt, easing] = m(v);
-      const d = (parseFloat(get('--d')) || 6) * 1000 * (reduce ? 1.6 : 1), dl = (parseFloat(get('--dl')) || 0) * 1000;
+      const d = (parseFloat(get('--d')) || 6) * 1000, dl = (parseFloat(get('--dl')) || 0) * 1000;
       // the CSS motion stays as a fallback until this has really started
       try { el.animate(frames, { duration: d, delay: dl, iterations: Infinity, direction: alt ? 'alternate' : 'normal', easing: easing || 'ease-in-out' }); el.classList.add('ns-wa'); } catch { el.classList.remove('ns-wa'); }
     });
@@ -357,6 +359,14 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     q('.ns-prev').addEventListener('click', () => go(cur - 1));
     q('.ns-next').addEventListener('click', () => go(cur + 1));
     root.querySelectorAll('.ns-dot').forEach((b) => b.addEventListener('click', () => go(+b.dataset.i)));
+    q('.ns-trail').addEventListener('click', (e) => {
+      // Desktop dots retain their individual targets and all keyboard handlers.
+      if (innerWidth > 820 || e.detail === 0) return;
+      const r = e.currentTarget.getBoundingClientRect();
+      if (!r.width) return;
+      const x = Math.max(0, Math.min(r.width, e.clientX - r.left));
+      go(Math.round((isRtl() ? r.width - x : x) / r.width * (N() - 1)));
+    });
     q('.ns-mu').addEventListener('click', () => setMusic(!musicOn));
     // swipe on the book
     let sx = null, sy = 0;
@@ -411,7 +421,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
       scene.insertAdjacentHTML('beforeend', `<div class="ns-cap" aria-hidden="true">${meSvg}<span></span></div>`);
       const cap = scene.querySelector('.ns-cap'), span = cap.querySelector('span');
       let ni = 0; span.textContent = notes[0];
-      render.n = setInterval(() => { cap.classList.add('out'); setTimeout(() => { ni = (ni + 1) % notes.length; span.textContent = notes[ni]; cap.classList.remove('out'); }, 350); }, 3600);
+      if (!reduce) render.n = setInterval(() => { cap.classList.add('out'); setTimeout(() => { ni = (ni + 1) % notes.length; span.textContent = notes[ni]; cap.classList.remove('out'); }, 350); }, 3600);
     }
     // lines draw themselves in; then her notes and arrows appear one by one
     scene.querySelectorAll('.dr path,.dr ellipse,.dr circle,.dr rect,.dr line,.dr polyline,.dr polygon').forEach((p) => p.setAttribute('pathLength', '1'));
@@ -421,7 +431,7 @@ html.ns-on,html.ns-on body{overflow:hidden!important}
     clearInterval(render.c);
     const fmt = (n) => n.toLocaleString(L === 'ar' ? 'ar-EG' : L === 'ru' ? 'ru-RU' : 'en-US');
     const cnt = scene.querySelector('[data-count]');
-    if (cnt) { let n = +cnt.dataset.count; cnt.textContent = fmt(n); render.c = setInterval(() => { cnt.textContent = fmt(--n); }, 1000); }
+    if (cnt) { let n = +cnt.dataset.count; cnt.textContent = fmt(n); if (!reduce) render.c = setInterval(() => { cnt.textContent = fmt(--n); }, 1000); }
     const last = cur === N() - 1;
     tx.innerHTML = `<div class="ns-k">${esc(T.ui.chapter)} ${pad(cur + 1)} ${esc(T.ui.of)} ${pad(N())} · ${esc(c.k)}</div>
 <h3 class="ns-h">${esc(c.h)}</h3>

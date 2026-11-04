@@ -7,6 +7,15 @@
 // Dictionary keys that change. Anything not listed keeps the site's wording.
 export const DICT_PATCH = {
   en: {
+    bf_send: "Prepare brief",
+    bf_doneH: "Brief prepared",
+    bf_doneP: "Copy your brief, then send it to your project manager in Telegram or by email. Nothing has been sent yet.",
+    bf_doneCopied: "It is on your clipboard. Send it to your project manager in Telegram or by email. Sending is not confirmed here.",
+    bf_copy: "Copy brief",
+    bf_copyError: "The brief is prepared, but copying failed. Try Copy brief again, or open email to send it. Nothing has been sent yet.",
+    bf_errorSell: "Choose what you sell.",
+    bf_errorPain: "Choose your main challenge.",
+    bf_errorContact: "Enter a Telegram contact, phone number or email.",
     w_7h: 'One engine <i>instead of a department.</i>',
     w_7p: 'A department means eight full-time roles, plus analysts, influencer managers and customer support on top, and months of hiring, training and managing.',
     w_roles: ['Head of marketing', 'Marketer', 'Paid-media specialist', 'Social media specialist', 'Video editor', 'AI creator', 'Designer', 'Web designer & developer'],
@@ -28,6 +37,15 @@ export const DICT_PATCH = {
     g_done: 'You beat the noise. She’s proud of you.',
   },
   ru: {
+    bf_send: "Подготовить бриф",
+    bf_doneH: "Бриф подготовлен",
+    bf_doneP: "Скопируйте бриф и отправьте его проджект-менеджеру в Telegram или по почте. Пока ничего не отправлено.",
+    bf_doneCopied: "Бриф в буфере обмена. Отправьте его проджект-менеджеру в Telegram или по почте. Здесь отправка не подтверждается.",
+    bf_copy: "Скопировать бриф",
+    bf_copyError: "Бриф подготовлен, но скопировать его не удалось. Нажмите «Скопировать бриф» ещё раз или откройте письмо для отправки. Пока ничего не отправлено.",
+    bf_errorSell: "Выберите, что вы продаёте.",
+    bf_errorPain: "Выберите главную задачу.",
+    bf_errorContact: "Укажите Telegram, телефон или email.",
     w_7h: 'Один движок <i>вместо целого отдела.</i>',
     w_7p: 'Отдел — это восемь ставок в штате, плюс аналитики, менеджеры по блогерам и поддержка, и месяцы найма, обучения и управления.',
     w_roles: ['Руководитель маркетинга', 'Маркетолог', 'Таргетолог', 'SMM-специалист', 'Видеомонтажёр', 'ИИ-креатор', 'Дизайнер', 'Веб-дизайнер и разработчик'],
