@@ -1,6 +1,7 @@
 # QA suite repair verification
 
 Started from `codex/qa-suite` (`759ce2513dc55db9aa26aa414638fb601f9041a1`).
+Rebased onto main `b24a00c` after the separate site-fix PR #47 landed.
 Website source is unchanged. All generated reports, screenshots and baselines
 have been removed from the proposed tree; they belong only in CI artifacts
 (retention 14 days). This file is the sole tracked QA report.
@@ -9,10 +10,10 @@ have been removed from the proposed tree; they belong only in CI artifacts
   delayed reveals, deny-proxy connection resets, exact tap/Lighthouse/leak
   boundaries, hardware GPU evidence, animated FAQ closure and complete smoke/matrix
   coverage enforcement.
-- Disposable production builds: 99 files, zero byte differences with/without QA,
+- Disposable production builds: 101 files, zero byte differences with/without QA,
   zero differences on a repeat build and zero changes to the checkout.
 - An independent build of main matches the candidate output (SHA-256 manifest
-  `3327c3a3261725f18a4a8c5c100750e02f248ab536b4b75a7e54d5d76e43c825`).
+  `37d442d7647b37563b7ef5c2b60a2c7812f5841db5906713e2de9bdb08c7abb1`).
 - All 11 sitemap pages and crawler/service-worker files passed local HTTP checks.
 - CI outcomes, durations and artifact links are recorded in the replacement PR
   description. This static verification summary does not claim that all site gates

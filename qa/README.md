@@ -76,8 +76,10 @@ browser versions and animation content can still affect comparisons.
 
 ## Linux baselines and artifacts
 
-Baselines are **recorded on Linux CI only**. Each full shard first builds
-`origin/main` in a disposable copy and records its own browser/profile/language
+Baselines are **recorded on Linux CI only**. A reference job first pins main's
+commit for the entire run, so queued jobs cannot capture different revisions
+when main advances. Each full shard builds that pinned `origin/main` in a
+disposable copy and records its own browser/profile/language
 reference, then compares the candidate on the same runner using the same pinned
 browser and fonts. The manifest records the reference commit, source hashes,
 browser versions, thresholds and captured cells. A failed capture or missing

@@ -58,9 +58,25 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
 
+  reference:
+    name: Pin full-run baseline reference
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      main: ${{ steps.reference.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - id: reference
+        run: printf 'sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
   full:
     name: Full (${{ matrix.browser }}, profile ${{ matrix.shard }})
     if: github.event_name != 'pull_request'
+    needs: reference
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     strategy:
@@ -73,6 +89,7 @@ jobs:
       QA_WORKERS: '2'
       QA_SHARD: ${{ matrix.shard }}
       QA_BROWSER_SHARD: ${{ matrix.browser }}
+      QA_BASELINE_COMMIT: ${{ needs.reference.outputs.main }}
       # Long performance/leak sessions run once. --resume reruns unfinished
       # audits without promoting observations from a previous attempt.
       QA_RETRIES: '0'
@@ -80,8 +97,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Fetch reference without old QA artifact history
-        run: git fetch --no-tags --depth=1 origin main
+      - name: Fetch pinned reference without old QA artifact history
+        run: git fetch --no-tags --depth=1 origin "${QA_BASELINE_COMMIT}:refs/remotes/origin/main"
       - uses: actions/setup-node@v4
         with:
           node-version: 22
