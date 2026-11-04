@@ -54,8 +54,11 @@ Pinned Playwright cannot dispatch wheel input in mobile WebKit and has no swipe
 API for that engine. Those profiles retain mobile emulation and use explicitly
 labeled programmatic `scrollBy` for content traversal and rendering measurements.
 This covers revealed content and frame timing, not native touch-scroll/fling
-behavior. Other engines retain their native input paths. Small scroll/reveal
-fixtures run in all three installed engines during the CI harness check.
+behavior. Other engines retain their native input paths. Scroll/reveal and native
+chapter-input fixtures run in all three installed engines during the CI harness
+check, including the 28-chapter strip at its narrow 360 px layout. Chapter taps
+use integer coordinates inside the strip so native coordinate rounding cannot
+move an edge tap into the adjacent chapter.
 
 Full CI uses one browser session at a time per runner to avoid contention between
 software renderers. Reference capture has a 20-minute deadline and candidate

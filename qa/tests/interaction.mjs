@@ -30,7 +30,12 @@ export async function clickStoryChapter(page, index, touch = false) {
     if (!trail) throw new Error('Story chapter has no navigation trail');
     const r = trail.getBoundingClientRect(), d = el.getBoundingClientRect();
     if (r.width <= 2 || r.height <= 2) throw new Error('Story navigation trail has no usable layout box');
-    const x = Math.max(r.left + 1, Math.min(r.right - 1, d.left + d.width / 2));
+    // Native WebKit touch input quantizes CSS coordinates. On the 360 px
+    // layout, the 28 chapters share a roughly 64 px trail: subtracting a
+    // pixel before that quantization can hit the previous chapter. Choose an
+    // integer point inside the trail so the browser cannot shift our target.
+    const left = Math.ceil(r.left + .01), right = Math.floor(r.right - .01);
+    const x = Math.max(left, Math.min(right, Math.round(d.left + d.width / 2)));
     const y = r.top + r.height / 2, hit = document.elementFromPoint(x, y);
     if (!hit || !trail.contains(hit)) throw new Error('Story navigation trail pointer is intercepted');
     return { x, y };
