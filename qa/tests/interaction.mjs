@@ -2,7 +2,7 @@ import { click as qaClick, doubleClick as qaDoubleClick } from '../lib/input.mjs
 import { LANGUAGES, isPhone, SECTIONS } from '../lib/config.mjs';
 import { visibility } from './content.mjs';
 import { afterNavigation, closePopups, goSection, resetLanguage, settle } from '../lib/browser.mjs';
-import { POPUPS, openPopup } from './performance.mjs';
+import { POPUPS, openPopup, closePopup } from './performance.mjs';
 import { domTools } from '../lib/dom.mjs';
 
 async function step(record, name, fn) {
@@ -278,6 +278,33 @@ export async function interactions(s, cell, record, origin) {
     await record.check(previous !== last && page.url() === last, 'Back/forward did not restore the language URL');
   });
   await resetLanguage(page, origin, cell.lang);
+}
+
+// PR coverage is intentionally bounded; exhaustive chapters, games, language
+// history, stress and repeated popup cycles belong to the full run.
+export async function smokeInteractions(s, cell, record) {
+  const { page } = s;
+  record.metrics.steps = [];
+  for (const popup of POPUPS.filter(p => ['scenario', 'core', 'live-chat'].includes(p.name))) {
+    await step(record, `${popup.name}: open, focus trap and close`, async () => {
+      await openPopup(page, popup);
+      await trap(page, popup.root, record, popup.name);
+      const tabs = page.locator(`${popup.root} [role=tab]`);
+      for (const tab of await tabs.all()) {
+        await qaClick(tab);
+        await record.check(await tab.getAttribute('aria-selected') === 'true', `${popup.name}: tab did not activate`);
+      }
+      await closePopup(page, popup, { timeout: 5000 });
+    });
+    await closePopups(page);
+  }
+  await step(record, 'FAQ disclosure toggles', async () => {
+    const faq = page.locator('#faqs details').first();
+    await qaClick(faq.locator('summary'));
+    await record.check(await faq.getAttribute('open') !== null, 'FAQ did not open');
+    await qaClick(faq.locator('summary'));
+    await record.check(await faq.getAttribute('open') === null, 'FAQ did not close');
+  });
 }
 
 export async function stress(s, cell, record, origin) {

@@ -1,4 +1,33 @@
-// Runs in the browser. Never changes opacity, reveal classes or layout.
+// Runs in the browser. Scroll first, then observe actual reveal completion.
+// Only the window scrolls: scrollIntoView can move overflow:hidden card content.
+export async function waitForReveal({ selector, cue = false }) {
+  const el = document.querySelector(selector);
+  if (!el) throw new Error('Content disappeared during audit: ' + selector);
+  await new Promise(resolve => {
+    let timer;
+    const ancestors = [];
+    for (let p = el; p; p = p.parentElement) ancestors.push(p);
+    const active = () => [...el.getAnimations({ subtree: true }), ...ancestors.flatMap(p => p.getAnimations())].some(a => a.playState === 'running' && a.effect?.getTiming().iterations !== Infinity);
+    const ready = () => {
+      let opacity = 1;
+      for (const p of ancestors) opacity *= Number(getComputedStyle(p).opacity);
+      return opacity >= .9 && [...el.querySelectorAll('.xc,.w > span')].every(p => Number(getComputedStyle(p).opacity) * opacity >= .9);
+    };
+    const done = () => {
+      clearTimeout(timer);
+      for (const p of ancestors) for (const event of ['transitionend', 'animationend']) p.removeEventListener(event, check);
+      resolve();
+    };
+    const check = () => { if (!active() && ready()) done(); };
+    for (const p of ancestors) for (const event of ['transitionend', 'animationend']) p.addEventListener(event, check);
+    timer = setTimeout(done, 1500);
+    const r = el.getBoundingClientRect();
+    if (!cue && !(r.top >= 100 && r.bottom <= innerHeight - 8)) scrollTo({ top: scrollY + r.top + r.height / 2 - innerHeight / 2, behavior: 'instant' });
+    requestAnimationFrame(() => requestAnimationFrame(check));
+  });
+}
+
+// Never changes opacity, reveal classes or layout.
 export function domTools() {
   const selector = el => {
     if (el.id) return '#' + CSS.escape(el.id);

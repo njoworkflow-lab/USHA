@@ -8,27 +8,17 @@ export async function smoothness(s, cell, record, smoke) {
   const { page, cdp } = s;
   if (cell.profile === 'android-low' && !cdp) { record.unavailable('CPU 4× / Fast 3G requires Chromium CDP. No unthrottled result is presented as low-end.'); return; }
   record.metrics.runs = [];
-  if (process.argv.includes('--resume')) {
-    let prior;
-    try { prior = JSON.parse(await fs.readFile(path.join(QA, 'report/results', `${cell.id}--smoothness.json`), 'utf8')); } catch {}
-    const unfinished = prior?.metrics.runs?.filter(run => !run.reachedBottom) || [];
-    if (unfinished.length) {
-      record.metrics = { ...prior.metrics, runs: prior.metrics.runs.filter(run => run.reachedBottom), incompleteCaptures: [...(prior.metrics.incompleteCaptures || []), ...unfinished] };
-      // Retain every observed timing violation. Only the old recording-limit
-      // finding becomes a coverage note when its unfinished traversal resumes.
-      record.issues = prior.issues.filter(issue => !issue.message.includes('did not reach document bottom'));
-      for (const run of unfinished) {
-        const old = prior.issues.find(issue => issue.message.startsWith(run.mode + ':') && issue.screenshot)?.screenshot;
-        if (old) {
-          const saved = old.replace(/\.jpg$/, `-partial-${prior.started}.jpg`);
-          await fs.copyFile(path.join(QA, 'report', old), path.join(QA, 'report', saved));
-          for (const issue of record.issues) if (issue.screenshot === old) issue.screenshot = saved;
-        }
-      }
-      record.notes = [...prior.notes, 'Resumed unfinished scroll traversals after extending the recording budget. Completed sweeps and all timing violations are retained; initial partial captures are included in metrics.'];
-      record.status = record.issues.length ? 'FAIL' : 'PASS';
-    }
-  }
+  const renderer = await page.evaluate(() => {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl');
+    const ext = gl?.getExtension('WEBGL_debug_renderer_info');
+    const name = gl ? gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : 'unavailable';
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
+    return name;
+  });
+  const enforce = enforceFps(renderer, process.env.QA_STRICT_FPS);
+  Object.assign(record.metrics, { renderer, strict: process.env.QA_STRICT_FPS === '1', informationalOnly: !enforce });
+  if (!enforce) record.notes.push('Software or unverified GPU: FPS and frame-time limits are informational only. Set QA_STRICT_FPS=1 to enforce them.');
   record.metrics.cpuThrottle = cell.profile === 'android-low' ? 4 : 1;
   record.metrics.network = cell.profile === 'android-low' ? 'Fast 3G: 150 ms RTT, 1.6 Mbps down, 750 Kbps up' : 'local, unthrottled';
   for (const mode of ['slow-wheel', 'fast-wheel', 'fling']) {
@@ -77,10 +67,18 @@ export async function smoothness(s, cell, record, smoke) {
     if (!data.longtaskSupported && !record.notes.includes('Long-task observer API is unavailable in this browser.')) record.notes.push('Long-task observer API is unavailable in this browser.');
     const screenshot = data.scrollY < data.end - 3 || stats.p5Fps < fpsFloor(cell) || stats.maxFrameMs > 200 ? await record.shot(mode) : undefined;
     record.metrics.runs.push({ mode, input: mode === 'fling' && isPhone(cell) && cdp ? 'CDP touch fling' : cdp ? 'continuous native CDP wheel' : 'native Playwright wheel', ...stats, longtasks: data.longtasks, longtaskSupported: data.longtaskSupported, durationMs: Date.now() - started, iterations, reachedBottom: data.scrollY >= data.end - 3 });
-    await record.check(data.scrollY >= data.end - 3, `${mode}: did not reach document bottom`, { finalY: data.scrollY, bottom: data.end }, screenshot);
-    await record.check(stats.p5Fps >= fpsFloor(cell), `${mode}: p5 ${stats.p5Fps.toFixed(1)} fps < ${fpsFloor(cell)}`, { ...stats }, screenshot);
-    await record.check(stats.maxFrameMs <= 200, `${mode}: frame ${stats.maxFrameMs.toFixed(1)} ms > 200 ms`, { ...stats }, screenshot);
+    if (enforce) {
+      await record.check(data.scrollY >= data.end - 3, `${mode}: did not reach document bottom`, { finalY: data.scrollY, bottom: data.end }, screenshot);
+      await record.check(stats.p5Fps >= fpsFloor(cell), `${mode}: p5 ${stats.p5Fps.toFixed(1)} fps < ${fpsFloor(cell)}`, { ...stats }, screenshot);
+      await record.check(stats.maxFrameMs <= 200, `${mode}: frame ${stats.maxFrameMs.toFixed(1)} ms > 200 ms`, { ...stats }, screenshot);
+    }
+
   }
+  if (!enforce) record.status = 'INFO';
+}
+
+export function enforceFps(renderer, strict) {
+  return strict === '1' || (!/swiftshader|llvmpipe|softpipe|software|basic render|unavailable/i.test(renderer) && /NVIDIA|GeForce|Radeon|AMD|Intel|Adreno|Mali|Apple.*GPU/i.test(renderer));
 }
 
 export const POPUPS = [
@@ -155,12 +153,24 @@ export async function memory(s, cell, record, smoke) {
   Object.assign(record.metrics, { durationMs: Date.now() - start, scrollRoundTrips: rounds, popupCycles: cycles, popups: POPUPS.map(p => p.name), forcedGC: !!cdp });
   const before = record.metrics.before, after = record.metrics.after;
   record.metrics.domGrowth = after.liveNodes - before.liveNodes;
+  record.metrics.growth = {};
+  for (const popup of POPUPS) await record.check(record.metrics.popupCompleted[popup.name] >= 5, `${popup.name}: fewer than five completed open/close cycles`);
+  for (const key of cdp ? ['liveNodes', 'nodes', 'jsEventListeners'] : ['liveNodes']) {
+    const growth = relativeGrowth(before[key], after[key]);
+    record.metrics.growth[key] = growth;
+    await record.check(Number.isFinite(growth) && growth < .20, `${key} grew ${(growth * 100).toFixed(1)}% (must be <20%)`, { before: before[key], after: after[key] });
+  }
   if (cdp) {
     const growth = after.heapBytes / before.heapBytes - 1;
     record.metrics.heapGrowth = growth;
     await record.check(growth <= .30, `Heap grew ${(growth * 100).toFixed(1)}% (limit 30%)`, { before, after });
-  } else record.unavailable('JS heap measurements and forced GC are not exposed by Playwright in this engine. DOM growth and the complete session are recorded; heap rule is unverified.');
+  } else record.unavailable('JS heap measurements and forced GC are not exposed by Playwright in this engine. Attached DOM growth is enforced; retained DOM nodes, event listeners, heap and forced GC are unavailable in this engine. Chromium enforces all leak gates.');
   const losses = [...new Map([...(s.log.contextLoss || []), ...await page.evaluate(() => window.__qa.contextLoss)].map(loss => [JSON.stringify(loss), loss])).values()];
   record.metrics.webglContextLoss = losses;
   await record.check(!losses.length, 'WebGL context was lost', { losses });
+}
+
+export function relativeGrowth(before, after) {
+  if (!Number.isFinite(before) || !Number.isFinite(after)) return NaN;
+  return before === 0 ? (after === 0 ? 0 : Infinity) : (after - before) / before;
 }

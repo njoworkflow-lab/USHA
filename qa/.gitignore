@@ -4,5 +4,5 @@ test-results/
 playwright-report/
 report/*
 !report/summary.md
-!report/index.html
-!report/evidence/
+baseline/
+.lighthouseci/

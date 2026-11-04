@@ -7,6 +7,8 @@ export const ROOT = path.dirname(QA);
 export const SECTIONS = ['hero', 'noise', 'signal', 'talk', 'why', 'month', 'plans', 'control', 'free', 'faqs', 'game'];
 export const LANGUAGES = { ru: '/', en: '/en/', ar: '/ar/' };
 export const CATEGORIES = ['wake', 'smoothness', 'memory', 'visibility', 'layout', 'interaction', 'stress', 'accessibility', 'console-network', 'visual'];
+export const SMOKE_CATEGORIES = ['wake', 'interaction', 'console-network', 'layout', 'accessibility'];
+export const smokeMatrix = () => matrix(['chromium']).filter(c => ['desktop-1440', 'iphone-13'].includes(c.profile));
 export const PROFILES = {
   'desktop-1440': { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
   'desktop-1280': { viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 },

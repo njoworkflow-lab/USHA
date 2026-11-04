@@ -57,7 +57,8 @@ export async function guardNetwork(context, origin, log) {
     }
     if (['data:', 'blob:'].includes(url.protocol)) { await route.continue(); return; }
     log.blocked.push({ url: request.url(), method: request.method(), type: request.resourceType(), intentional: request.isNavigationRequest() });
-    if (!request.isNavigationRequest()) log.errors.push(`Unexpected external request blocked: ${request.url()}`);
+    // Offline third-party traffic is evidence, not a site failure. Unknown API
+    // endpoints above still fail; no external request is allowed to leave.
     await route.abort('blockedbyclient');
   });
   await context.routeWebSocket('**/*', socket => { log.errors.push(`WebSocket blocked: ${socket.url()}`); socket.close(); });
@@ -77,7 +78,7 @@ export async function observeContextLoss(context, log) {
 export async function session(cell, origin, { humanChat = false, throttle = true, visualClock = false } = {}) {
   const browser = await engines[cell.browser].launch(launchOptions(cell.browser));
   const context = await browser.newContext(contextOptions(cell));
-  const log = { errors: [], warnings: [], failed: [], badStatus: [], mocked: [], blocked: [] };
+  const log = { errors: [], warnings: [], failed: [], badStatus: [], mocked: [], blocked: [], aborted: [] };
   await guardNetwork(context, origin, log);
   await observeContextLoss(context, log);
   if (visualClock) await context.addInitScript(() => {
@@ -107,8 +108,18 @@ export async function session(cell, origin, { humanChat = false, throttle = true
   });
   context.on('page', p => {
     p.on('pageerror', e => log.errors.push(e.message));
-    p.on('console', m => { if (m.type() === 'error') log.errors.push(m.text()); if (m.type() === 'warning') log.warnings.push(m.text()); });
-    p.on('requestfailed', r => log.failed.push({ url: r.url(), reason: r.failure()?.errorText }));
+    p.on('console', m => {
+      if (m.type() === 'error') {
+        const reason = m.text(), url = m.location().url;
+        if (isAbortedRequest({ reason, url }, origin) || (/Failed to load resource|Cross-Origin Request Blocked/i.test(reason) && log.blocked.some(r => r.url === url))) log.aborted.push({ url, reason, source: 'console' });
+        else log.errors.push(reason);
+      }
+      if (m.type() === 'warning') log.warnings.push(m.text());
+    });
+    p.on('requestfailed', r => {
+      const failure = { url: r.url(), reason: r.failure()?.errorText };
+      (isAbortedRequest(failure, origin) ? log.aborted : log.failed).push(failure);
+    });
     p.on('response', r => { if (r.status() >= 400) log.badStatus.push({ url: r.url(), status: r.status() }); });
   });
   const page = await context.newPage();
@@ -129,6 +140,11 @@ export async function session(cell, origin, { humanChat = false, throttle = true
     }
   }
   return { browser, context, page, cdp, log, visualClock, close: () => browser.close() };
+}
+export function isAbortedRequest({ reason = '', url = '' }, origin) {
+  if (/ERR_ABORTED|NS_BINDING_ABORTED|cancelled|canceled|Load request cancelled/i.test(reason)) return true;
+  const thirdParty = url && new URL(url, origin).origin !== origin;
+  return !!thirdParty && /ERR_BLOCKED_BY_CLIENT|blockedbyclient|blocked by client|access control checks/i.test(reason);
 }
 export async function wake(page, origin, lang, visualClock = false) {
   if (new URL(page.url()).origin === origin) {

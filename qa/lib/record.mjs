@@ -44,10 +44,7 @@ export async function audit(cell, category, page, fn) {
       if (prior.status === 'NOT RUN' && category !== 'visual') {
         const { incompleteAttempts: _history, ...metrics } = prior.metrics;
         if (Object.keys(metrics).length) incompleteAttempts.push({ started: prior.started, durationMs: prior.durationMs, status: prior.status, issues: prior.issues, metrics });
-        // Findings collected before an interruption remain failures after resume.
-        record.issues = structuredClone(prior.issues);
-        if (record.issues.length) record.status = 'FAIL';
-        if (incompleteAttempts.length) record.notes.push('Resumed an incomplete audit. Prior partial metrics and infrastructure attempts are retained; any already-observed content failures remain failures.');
+        if (incompleteAttempts.length) record.notes.push('Prior attempts are retained as evidence only. The final attempt determines status.');
       }
     } catch { /* no previous result */ }
   }

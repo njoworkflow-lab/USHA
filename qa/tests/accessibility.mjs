@@ -23,11 +23,15 @@ export function phoneTapTargets({ scope, header }) {
   }).map(el => ({ selector: window.__qaDOM.selector(el), rect: el.getBoundingClientRect().toJSON() }));
 }
 
-export async function accessibility(s, cell, record) {
+export function tapTargetLevel(width, height) {
+  return width < 24 || height < 24 ? 'FAIL' : width < 44 || height < 44 ? 'WARNING' : 'PASS';
+}
+export async function accessibility(s, cell, record, { smoke = false } = {}) {
   const { page } = s;
   await page.evaluate(domTools);
   record.metrics.scans = [];
   record.metrics.tapTargets = [];
+  record.metrics.tapWarnings = [];
   const scan = async (name, scope, header = false) => {
     let screenshot;
     const finding = async (message, details) => {
@@ -44,11 +48,15 @@ export async function accessibility(s, cell, record) {
     if (isPhone(cell)) {
       const targets = await page.evaluate(phoneTapTargets, { scope, header });
       record.metrics.tapTargets.push({ state: name, targets });
-      for (const target of targets.filter(t => t.rect.width < 44 || t.rect.height < 44)) await finding(`Phone tap target smaller than 44×44 px (${target.rect.width.toFixed(1)}×${target.rect.height.toFixed(1)})`, { state: name, ...target });
+      for (const target of targets) {
+        const level = tapTargetLevel(target.rect.width, target.rect.height);
+        if (level === 'FAIL') await finding(`Phone tap target smaller than 24×24 px (WCAG 2.2 AA; ${target.rect.width.toFixed(1)}×${target.rect.height.toFixed(1)})`, { state: name, ...target });
+        if (level === 'WARNING') record.metrics.tapWarnings.push({ state: name, ...target, message: 'advice: 44 px' });
+      }
     }
   };
-  for (const id of SECTIONS) { await goSection(page, id); await scan(id, '#' + id, true); }
-  for (const popup of POPUPS) {
+  for (const id of (smoke ? ['hero', 'plans', 'faqs'] : SECTIONS)) { await goSection(page, id); await scan(id, '#' + id, true); }
+  for (const popup of (smoke ? [] : POPUPS)) {
     if (popup.name === 'live-chat') await page.evaluate(() => localStorage.removeItem('usha-live'));
     try { await openPopup(page, popup); await scan(popup.name, popup.root); }
     catch (e) { await record.fail(`Accessibility scan could not reach ${popup.name}`, { error: e.message }); }
@@ -74,13 +82,10 @@ export async function accessibility(s, cell, record) {
 
 export async function consoleNetwork(s, cell, record) {
   const { page } = s;
-  const priorLogs = (record.metrics.incompleteAttempts || []).map(attempt => attempt.metrics).filter(metrics => metrics?.errors);
-  const logs = [...priorLogs, s.log];
-  const log = Object.fromEntries(['errors', 'warnings', 'failed', 'badStatus', 'mocked', 'blocked', 'contextLoss'].map(key => [key, logs.flatMap(value => value[key] || [])]));
-  if (priorLogs.length) record.notes.push('Console and network observations from interrupted phases remain subject to the same gates after resume.');
-  const intentional = new Set(log.blocked.filter(r => r.intentional).map(r => r.url));
+  const log = Object.fromEntries(['errors', 'warnings', 'failed', 'badStatus', 'mocked', 'blocked', 'contextLoss', 'aborted'].map(key => [key, s.log[key] || []]));
+  const intentional = new Set(log.blocked.map(r => r.url));
   const failures = log.failed.filter(r => !intentional.has(r.url));
-  record.metrics = { ...log, failed: failures, intentionallyBlockedNavigation: [...intentional] };
+  record.metrics = { ...log, failed: failures, intentionallyBlockedRequests: [...intentional] };
   // These are accumulated observations from one session, assessed at its end.
   // One final-state image accompanies the complete log; taking an identical
   // screenshot for every repeated request obscures the useful evidence.

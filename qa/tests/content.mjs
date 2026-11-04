@@ -5,7 +5,7 @@ import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import { QA, SECTIONS } from '../lib/config.mjs';
 import { goSection, settle, visualTicks, wake } from '../lib/browser.mjs';
-import { domTools } from '../lib/dom.mjs';
+import { domTools, waitForReveal } from '../lib/dom.mjs';
 
 async function wheelTo(page, target, cdp) {
   const started = Date.now();
@@ -89,33 +89,15 @@ export async function visibility(s, cell, record, sections = SECTIONS, modes = [
             }
           }
           activeCue = cueKey;
-          const initial = await page.evaluate(({ selector, cue }) => {
-            const el = document.querySelector(selector);
-            if (!el) return { missing: true };
-            const r = el.getBoundingClientRect();
-            if (!cue && !(r.top >= 100 && r.bottom <= innerHeight - 8)) {
-              // scrollIntoView also scrolls overflow:hidden card ancestors and
-              // can leave their headings clipped in later checks.
-              scrollTo({ top: scrollY + r.top + r.height / 2 - innerHeight / 2, behavior: 'instant' });
-              return { scrolled: true };
-            }
-            return { detail: window.__qaDOM.visible(el) };
-          }, { selector, cue: state.cue });
-          if (initial.missing) { await record.fail('Content disappeared during audit', { selector, mode }); continue; }
-          if (initial.scrolled) {
-            await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-          }
+          await page.evaluate(waitForReveal, { selector, cue: state.cue });
           const read = () => page.evaluate(selector => window.__qaDOM.visible(document.querySelector(selector)), selector);
-          let detail = initial.detail || await read();
+          let detail = await read();
           if (state.timed) {
             // The footer appears at the end of the documented automatic 8→1 cycle.
             try { await page.waitForFunction(selector => window.__qaDOM.visible(document.querySelector(selector)).opacity >= .9, selector, {timeout: 12000}); }
             catch { /* retain the measured failure below */ }
             detail = await read();
           }
-          // Already revealed content needs two rendered frames, not another full
-          // transition delay. Give any failing reveal the complete 1.45 s to settle.
-          if (detail.reasons.length) { await settle(page, 1450); detail = await read(); }
           // Large cards are inspected through their own heading, paragraph and CTA.
           detail.reasons = detail.reasons.filter(reason => reason !== 'under fixed header');
           record.metrics.checked[mode]++;
@@ -129,11 +111,11 @@ export async function visibility(s, cell, record, sections = SECTIONS, modes = [
   }
 }
 
-export async function layout(s, cell, record) {
+export async function layout(s, cell, record, { smoke = false } = {}) {
   const { page } = s;
   await page.evaluate(domTools);
   record.metrics.sections = [];
-  for (const id of SECTIONS) {
+  for (const id of (smoke ? ['hero', 'plans', 'faqs'] : SECTIONS)) {
     console.log(`LAYOUT      ${cell.id} ${id}`);
     await goSection(page, id, { anchor: true });
     const result = await page.evaluate(id => {
@@ -154,7 +136,7 @@ export async function layout(s, cell, record) {
     if (cell.lang === 'ar') await record.check(result.direction === 'rtl', 'Arabic section is not RTL', { section: id, direction: result.direction });
     // The canvas covers the entire viewport. Its DOM rectangle is NOT the character.
     // Use the site's real 3D raycast hit state while moving over actual text glyphs.
-    for (const text of result.texts) {
+    for (const text of (smoke ? [] : result.texts)) {
       let hit = false;
       for (const rect of text.rects.slice(0, 3)) {
         await page.mouse.move(rect.left + rect.width / 2, rect.top + rect.height / 2);
@@ -177,16 +159,14 @@ export async function visual(s, cell, record, baseline) {
   const { page } = s;
   record.metrics.threshold = { pixelmatch: .25, maxDifferentPixelRatio: .02 };
   record.metrics.sections = [];
-  let previous;
-  if (baseline && process.argv.includes('--resume')) {
-    try { previous = JSON.parse(await fs.readFile(path.join(QA, 'report/results', `${cell.id}--visual.json`), 'utf8')); } catch {}
-  }
-  const completedSections = new Map((previous?.metrics.sections || []).map(section => [section.section, section]));
-  if (completedSections.size) {
-    record.metrics.previousCaptureAttempts = [...(previous.metrics.previousCaptureAttempts || []), { started: previous.started, issues: previous.issues, sections: [...completedSections.keys()] }];
-    record.issues = previous.issues.filter(issue => issue.message.startsWith('Visual change:') || issue.message === 'Screenshot dimensions changed');
-    record.status = record.issues.length ? 'FAIL' : 'PASS';
-    record.notes.push('Resuming an incomplete capture. Earlier images and completed comparison failures are preserved. Replayed checkpoints verify continuity before recording missing images.');
+  if (!baseline) {
+    let manifest;
+    try { manifest = JSON.parse(await fs.readFile(path.join(QA, 'baseline/manifest.json'), 'utf8')); }
+    catch { await record.fail('Missing CI baseline manifest; record the reference on Linux CI'); return; }
+    record.metrics.baseline = { sourceCommit: manifest.build?.sourceCommit, sourceHash: manifest.build?.sourceHash, platform: manifest.platform };
+    if (!manifest.platform?.startsWith('linux ') || !manifest.capturedCells?.includes(cell.id) || manifest.browsers?.[cell.browser]?.version !== s.browser.version()) {
+      await record.fail('Incompatible or incomplete CI baseline', { reference: record.metrics.baseline, browserVersion: s.browser.version() }); return;
+    }
   }
   const checkpoint = async () => {
     if (!baseline || record.metrics.sections.length === SECTIONS.length) return;
@@ -200,13 +180,10 @@ export async function visual(s, cell, record, baseline) {
     else await settle(page, 500);
     const filename = path.join(QA, 'baseline', cell.id, `${id}.png`);
     const current = await page.screenshot({ animations: 'disabled', caret: 'hide', scale: 'css', timeout: 60000 });
-    let preserve = baseline && completedSections.has(id);
-    if (preserve) try { await fs.access(filename); } catch { preserve = false; }
-    if (baseline && !preserve) {
+    if (baseline) {
       await fs.mkdir(path.dirname(filename), { recursive: true }); await fs.writeFile(filename, current);
       record.metrics.sections.push({ section: id, status: 'RECORDED', screenshot: `../baseline/${cell.id}/${id}.png` }); await checkpoint(); continue;
     }
-    if (preserve && completedSections.get(id).status === 'FAIL') { record.metrics.sections.push(completedSections.get(id)); await checkpoint(); continue; }
     let expected;
     try { expected = PNG.sync.read(await fs.readFile(filename)); }
     catch { await record.fail('Missing baseline; record and review it explicitly', { section: id }); continue; }

@@ -12,7 +12,7 @@ test('CI aggregation requires all 18 distinct browser/device jobs and all matrix
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'usha-qa-report-test-'));
   const fixture = path.join(dir, 'qa'), artifacts = path.join(fixture, '.work/shards');
   try {
-    for (const file of ['lib/config.mjs', 'lib/record.mjs', 'scripts/report.mjs', 'scripts/merge-reports.mjs']) {
+    for (const file of ['lib/config.mjs', 'lib/record.mjs', 'lib/lighthouse.mjs', 'scripts/report.mjs', 'scripts/merge-reports.mjs']) {
       await fs.mkdir(path.dirname(path.join(fixture, file)), { recursive: true });
       await fs.copyFile(path.join(QA, file), path.join(fixture, file));
     }

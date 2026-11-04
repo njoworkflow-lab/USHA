@@ -25,9 +25,15 @@ function differences(a, b) { return [...new Set([...Object.keys(a), ...Object.ke
 export async function prepareSite() {
   const site = path.join(QA, '.work/site'), control = path.join(QA, '.work/control');
   const paths = sourcePaths(), before = await hashes(ROOT, paths);
+  const sourceRef = process.env.QA_SOURCE_REF;
+  const sourceCommit = sourceRef ? git('rev-parse', '--verify', `${sourceRef}^{commit}`) : git('rev-parse', 'HEAD');
   for (const dir of [site, control]) {
     await fs.rm(dir, { recursive: true, force: true });
-    for (const file of paths) { await fs.mkdir(path.dirname(path.join(dir, file)), { recursive: true }); await fs.copyFile(path.join(ROOT, file), path.join(dir, file)); }
+    if (sourceRef) {
+      await fs.mkdir(dir, { recursive: true });
+      const archive = execFileSync('git', ['archive', sourceCommit], { cwd: ROOT, maxBuffer: 100 * 1024 * 1024 });
+      execFileSync('tar', ['-x', '-C', dir, '--exclude=qa', '--exclude=.github', '--exclude=AGENTS.md'], { input: archive });
+    } else for (const file of paths) { await fs.mkdir(path.dirname(path.join(dir, file)), { recursive: true }); await fs.copyFile(path.join(ROOT, file), path.join(dir, file)); }
   }
   // A copy of the actual dev tooling is present only in the experiment build.
   await fs.mkdir(path.join(site, 'qa'), { recursive: true });
@@ -44,7 +50,7 @@ export async function prepareSite() {
   logs.push(execFileSync(process.execPath, ['tools/seo/build.mjs'], { cwd: site, env, encoding: 'utf8', timeout: 120000 }));
   const second = await hashes(site, await files(site));
   const qaChanges = differences(reference, first), idempotenceChanges = differences(first, second), checkoutChanges = differences(before, await hashes(ROOT, paths));
-  const result = { sourceCommit: git('rev-parse', 'HEAD'), mainCommit: git('rev-parse', 'origin/main'), node: process.version, sourceHash: createHash('sha256').update(JSON.stringify(before)).digest('hex'), files: Object.keys(first).length, qaChanges, idempotenceChanges, checkoutChanges, logs };
+  const result = { sourceCommit, mainCommit: git('rev-parse', 'origin/main'), node: process.version, sourceHash: createHash('sha256').update(JSON.stringify(reference)).digest('hex'), files: Object.keys(first).length, qaChanges, idempotenceChanges, checkoutChanges, logs };
   await fs.writeFile(path.join(QA, 'report/build.json'), JSON.stringify(result, null, 2));
   if (qaChanges.length || idempotenceChanges.length || checkoutChanges.length) throw new Error(`Build changed unexpectedly: ${JSON.stringify(result)}`);
   return { site, result };
