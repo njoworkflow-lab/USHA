@@ -9,26 +9,46 @@ export function loadPass(mode, data) {
   return [data.lcpMs, data.cls, data.tbtMs].every(Number.isFinite) && !data.runtimeError && data.cls <= .1 && data.lcpMs <= (mode === 'mobile' ? 4000 : 2500) && (mode !== 'mobile' || data.tbtMs <= 600);
 }
 
+export function denyProxy() {
+  const sockets = new Set();
+  const evidence = { denied: 0, disconnects: [] };
+  const proxy = http.createServer((_req, res) => { evidence.denied++; res.writeHead(403); res.end('QA external traffic disabled'); });
+  proxy.on('connection', socket => {
+    sockets.add(socket);
+    // Chrome can reset a denied CONNECT while it is being closed. This is
+    // offline transport evidence, not an uncaught exception in the QA runner.
+    socket.on('error', error => { evidence.disconnects.push(error.code || error.message); });
+    socket.on('close', () => sockets.delete(socket));
+  });
+  proxy.on('clientError', (error, socket) => { evidence.disconnects.push(error.code || error.message); socket.destroy(); });
+  proxy.on('connect', (_req, socket) => { evidence.denied++; socket.end('HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\nConnection: close\r\n\r\n'); });
+  return { proxy, evidence, close: async () => {
+    for (const socket of sockets) socket.destroy();
+    await new Promise(resolve => proxy.close(resolve));
+  } };
+}
+
 async function command(args, env, cwd) {
   return new Promise(resolve => {
     const child = spawn(process.execPath, [path.join(QA, 'node_modules/@lhci/cli/src/cli.js'), ...args], { cwd, env });
     let output = ''; child.stdout.on('data', b => { output += b; }); child.stderr.on('data', b => { output += b; });
     const timer = setTimeout(() => { output += '\nQA: Lighthouse command exceeded its 30-minute deadline.\n'; child.kill('SIGTERM'); }, 1800000);
     child.on('close', code => { clearTimeout(timer); resolve({ code: code ?? 1, output }); });
+    child.on('error', error => { clearTimeout(timer); resolve({ code: 1, output: output + '\n' + error.message }); });
   });
 }
 export async function lighthouse(origin, browsers, smoke, completed = new Set()) {
   const results = [];
   // Chrome sends any non-loopback traffic to a deny-only proxy. The proxy has no
   // forwarding implementation, so even a newly added live API cannot be reached.
-  const proxy = http.createServer((_req, res) => { res.writeHead(403); res.end('QA external traffic disabled'); });
-  proxy.on('connect', (_req, socket) => { socket.end('HTTP/1.1 403 Forbidden\r\n\r\n'); });
+  const guard = denyProxy(), { proxy } = guard;
   await new Promise(resolve => proxy.listen(0, '127.0.0.1', resolve));
   try {
     for (const mode of ['desktop', 'mobile']) {
       const cell = { id: `lighthouse--${mode}`, browser: 'chromium', profile: mode, lang: 'all' };
       if (completed.has(`${cell.id}/load`)) continue;
       results.push(await audit(cell, 'load', null, async record => {
+        record.metrics.proxy = guard.evidence;
         if (!browsers.chromium.available) { record.unavailable('Lighthouse needs Chromium'); return; }
         const folder = path.join(QA, '.work/lighthouse', mode); await fs.mkdir(folder, { recursive: true });
         const config = {
@@ -78,6 +98,6 @@ export async function lighthouse(origin, browsers, smoke, completed = new Set())
         record.notes.push('Cold navigation measures the real hold-to-wake intro. Post-wake rendering is measured by the separate real-input smoothness tests. One collection per URL; no median cherry-picking.');
       }));
     }
-  } finally { await new Promise(resolve => proxy.close(resolve)); }
+  } finally { await guard.close(); }
   return results;
 }

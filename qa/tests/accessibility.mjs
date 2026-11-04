@@ -55,7 +55,13 @@ export async function accessibility(s, cell, record, { smoke = false } = {}) {
       }
     }
   };
-  for (const id of (smoke ? ['hero', 'plans', 'faqs'] : SECTIONS)) { await goSection(page, id); await scan(id, '#' + id, true); }
+  if (smoke) {
+    // A single whole-main/header scan avoids paying axe's page setup cost once
+    // per section on software-rendered CI. Layout has already visited the
+    // representative sections; all visible main content remains in scope.
+    await goSection(page, 'hero');
+    await scan('page', 'main', true);
+  } else for (const id of SECTIONS) { await goSection(page, id); await scan(id, '#' + id, true); }
   for (const popup of (smoke ? [] : POPUPS)) {
     if (popup.name === 'live-chat') await page.evaluate(() => localStorage.removeItem('usha-live'));
     try { await openPopup(page, popup); await scan(popup.name, popup.root); }

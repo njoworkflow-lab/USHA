@@ -39,6 +39,7 @@ const unavailableShards = metas.filter(m => !m.browsers?.[m.browserShard]?.avail
 if (unavailableShards.length) meta.error = [meta.error, `Scheduled browser unavailable: ${unavailableShards.join(', ')}`].filter(Boolean).join('; ');
 await fs.writeFile(path.join(QA, 'report/run.json'), JSON.stringify(meta, null, 2));
 const report = await generateReport();
+console.log(JSON.stringify({ counts: report.counts, durationMinutes: report.duration, error: meta.error || null, missing: missing.length, shards: metas.length }));
 const loadFiles = report.results.filter(r => r.category === 'load');
 const loadComplete = loadFiles.length === 2 && ['desktop', 'mobile'].every(profile => loadFiles.some(r => r.profile === profile));
 const seoComplete = report.results.some(r => r.id === 'site' && r.category === 'seo' && r.status === 'PASS');

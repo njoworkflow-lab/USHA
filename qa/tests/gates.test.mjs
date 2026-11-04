@@ -1,11 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import net from 'node:net';
+import { once } from 'node:events';
 import { chromium } from '@playwright/test';
 import { isAbortedRequest, launchOptions } from '../lib/browser.mjs';
 import { waitForReveal, domTools } from '../lib/dom.mjs';
 import { tapTargetLevel } from './accessibility.mjs';
 import { enforceFps, relativeGrowth } from './performance.mjs';
-import { loadPass } from '../lib/lighthouse.mjs';
+import { loadPass, denyProxy } from '../lib/lighthouse.mjs';
 import { smokeMatrix, SMOKE_CATEGORIES } from '../lib/config.mjs';
 import { rollupMatrix } from '../scripts/report.mjs';
 
@@ -47,6 +49,32 @@ test('smoke requires all six cells and all requested categories', () => {
   assert.ok(rollup().every(r => r.status === 'PASS'));
   results.pop();
   assert.equal(rollup().filter(r => r.status === 'NOT RUN').length, 1);
+});
+
+test('Lighthouse deny proxy survives reset CONNECT clients and never forwards traffic', { timeout: 5000 }, async () => {
+  const guard = denyProxy();
+  guard.proxy.listen(0, '127.0.0.1');
+  await once(guard.proxy, 'listening');
+  try {
+    const client = net.connect(guard.proxy.address().port, '127.0.0.1');
+    client.on('error', () => {});
+    client.write('CONNECT blocked.example.invalid:443 HTTP/1.1\r\nHost: blocked.example.invalid:443\r\n\r\n');
+    const [response] = await once(client, 'data');
+    assert.match(response.toString(), /^HTTP\/1.1 403/);
+    client.destroy();
+    const connection = once(guard.proxy, 'connection');
+    const resetClient = net.connect(guard.proxy.address().port, '127.0.0.1');
+    resetClient.on('error', () => {});
+    const [socket] = await connection;
+    // Inject the exact asynchronous socket reset that terminated CI. Node's
+    // HTTP parser can destroy this connection; the next one must still work.
+    socket.emit('error', Object.assign(new Error('read ECONNRESET'), { code: 'ECONNRESET' }));
+    resetClient.destroy();
+    const denied = await fetch(`http://127.0.0.1:${guard.proxy.address().port}/still-alive`);
+    assert.equal(denied.status, 403);
+    assert.ok(guard.evidence.denied >= 2);
+    assert.ok(guard.evidence.disconnects.includes('ECONNRESET'));
+  } finally { await guard.close(); }
 });
 
 test('visibility waits for delayed ancestor/word reveals and still detects invisible content', async () => {

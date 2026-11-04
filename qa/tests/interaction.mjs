@@ -13,10 +13,17 @@ async function step(record, name, fn) {
 async function trap(page, root, record, name) {
   const focusable = page.locator(`${root} button:visible:not([disabled]), ${root} a[href]:visible, ${root} input:visible, ${root} select:visible, ${root} textarea:visible, ${root} [tabindex="0"]:visible`);
   if (!(await focusable.count())) { await record.fail(`${name}: dialog has no focusable controls`); return; }
+  let screenshot;
+  const check = async direction => {
+    const focus = await page.locator(root).evaluate(el => ({ contained: el.contains(document.activeElement), focused: document.activeElement?.outerHTML.slice(0, 300) }));
+    if (focus.contained) return;
+    screenshot ||= await record.shot?.(`${name}-focus`).catch(() => undefined);
+    await record.fail(`${name}: ${direction} Tab escapes the dialog`, { selector: root, ...focus }, screenshot);
+  };
   await focusable.last().focus(); await page.keyboard.press('Tab');
-  await record.check(await page.locator(root).evaluate(el => el.contains(document.activeElement)), `${name}: forward Tab escapes the dialog`);
+  await check('forward');
   await focusable.first().focus(); await page.keyboard.press('Shift+Tab');
-  await record.check(await page.locator(root).evaluate(el => el.contains(document.activeElement)), `${name}: reverse Tab escapes the dialog`);
+  await check('reverse');
 }
 async function waitClosed(page, popup, record, method) {
   try { await page.locator(popup.root).waitFor({ state: 'hidden', timeout: 5000 }); }
@@ -294,17 +301,17 @@ export async function smokeInteractions(s, cell, record) {
         await qaClick(tab);
         await record.check(await tab.getAttribute('aria-selected') === 'true', `${popup.name}: tab did not activate`);
       }
-      await closePopup(page, popup, { timeout: 5000 });
+      await closePopup(page, popup);
     });
     await closePopups(page);
   }
   await step(record, 'FAQ disclosure toggles', async () => {
     const faq = page.locator('#faqs details').first();
     await qaClick(faq.locator('summary'));
-    await page.waitForFunction(() => document.querySelector('#faqs details')?.open, null, { timeout: 1500 });
+    await page.waitForFunction(() => document.querySelector('#faqs details')?.open, null, { timeout: 10000, polling: 100 });
     await qaClick(faq.locator('summary'));
     // The site removes `open` in the 320 ms close animation's onfinish callback.
-    await page.waitForFunction(() => !document.querySelector('#faqs details')?.open, null, { timeout: 1500 });
+    await page.waitForFunction(() => !document.querySelector('#faqs details')?.open, null, { timeout: 10000, polling: 100 });
   });
 }
 

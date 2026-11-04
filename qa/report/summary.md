@@ -5,8 +5,9 @@ Website source is unchanged. All generated reports, screenshots and baselines
 have been removed from the proposed tree; they belong only in CI artifacts
 (retention 14 days). This file is the sole tracked QA report.
 
-- Harness: 16 checks passed, including network isolation, final-attempt status,
-  delayed reveals, exact tap/Lighthouse/leak boundaries and complete smoke/matrix
+- Harness: 17 checks passed, including network isolation, final-attempt status,
+  delayed reveals, deny-proxy connection resets, exact tap/Lighthouse/leak
+  boundaries and complete smoke/matrix
   coverage enforcement.
 - Disposable production builds: 99 files, zero byte differences with/without QA,
   zero differences on a repeat build and zero changes to the checkout.

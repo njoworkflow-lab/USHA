@@ -30,8 +30,9 @@ complete smoke result, never a full-matrix result.
 
 Smoke opens/closes scenario, Core and mocked live chat, checks focus trapping
 and modal tabs, toggles a FAQ, inspects layout/RTL at hero/plans/FAQ, runs
-axe on those three sections and the header, checks
-phone tap sizing, and checks the keyboard path and console/network log. The full
+one axe scan over all visible main content and the header, checks
+phone tap sizing, and checks the keyboard path and console/network log. Focus failures share one screenshot per popup, retaining both keyboard directions
+and the actual focused element. The full
 suite adds exhaustive popup states, story chapters, video/game controls,
 language/history navigation, popup axe, character raycasts, visibility, stress,
 performance, leaks and visual comparisons. Smoke does not change site animation
