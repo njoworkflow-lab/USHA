@@ -2802,7 +2802,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     c.setTransform(dpr, 0, 0, dpr, 0, 0);
     c.clearRect(0, 0, W, Hh);
     if (!atlas) makeAtlas();
-    const arrive = ss(F, -0.02, 0.06), leave = 1 - ss(F, B.out, B.out + 0.08);
+    const arrive = ss(F, -0.3, 0.03), leave = 1 - ss(F, B.out, B.out + 0.08);
     const base = arrive * leave;
     if (base <= 0.001) return;
     const N = NL + ND, span = W + 320, cx = have ? px : W * 0.75, cy = have ? py : Hh * 0.3;
@@ -2957,14 +2957,14 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   function state(F, dt, reduce) {
     const awake = !H.classList.contains('locked');
     // eyes follow the incoming signals, then the card she is writing
-    X.on = awake && F > -0.15 && F < 1.05;
+    X.on = awake && F > -0.4 && F < 1.05;
     const pull = ss(F, B.pullA, B.pullA + 0.04) * (1 - ss(F, B.pullB - 0.04, B.pullB));
     X.think = ss(F, B.thinkA, B.thinkA + 0.03) * (1 - ss(F, B.thinkB - 0.03, B.thinkB));
     X.look = pull > 0.05 ? (rtl ? -0.5 : 0.5) * pull : null;
     X.lookY = pull > 0.05 ? 0.12 * pull : 0;
     X.glow = 0.35 * absorbS;
     X.light = 0.35 * absorbS + 0.25 * ss(F, B.threadA, B.threadB) * (1 - ss(F, B.typeB, B.end));
-    X.dim = 1 - 0.62 * ss(F, B.thinkA, B.cardB);
+    X.dim = 1 - 0.62 * ss(F, B.thinkA, B.cardB) * (1 - ss(F, B.out, B.out + 0.09));
     window.__xmHold = F > 0.3 && F < 1.05;
     if (F > 0.3 && window.__xmXl) window.__xmXl(0);
     // the card: hidden until the thread reaches it, then revealed from the top
