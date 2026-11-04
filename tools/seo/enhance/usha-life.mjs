@@ -29,7 +29,7 @@ addEventListener("pointermove",e=>{if(e.pointerType==="mouse"){px=e.clientX;py=e
 ["pointerdown","keydown","wheel","scroll","touchmove"].forEach(n=>addEventListener(n,reset,{passive:!0}));
 document.addEventListener("pointerleave",()=>{px=-1e4;since=0});
 return function(){const t=performance.now();if(t<next)return;next=t+100;
- if(!je||Mt<vn||Xt.active||document.hidden||document.documentElement.classList.contains("x-modal-on")||de.asleep||Um_s||Ge.group.scale.x<.05){since=0;idle=t;return}
+ if(!je||Mt<vn||Xt.active||window.__xm&&window.__xm.on||document.hidden||document.documentElement.classList.contains("x-modal-on")||de.asleep||Um_s||Ge.group.scale.x<.05){since=0;idle=t;return}
  let near=!1;
  if(fine.matches){p.copy(Ge.group.position).project(cn);const x=(p.x+1)*innerWidth/2,y=(1-p.y)*innerHeight/2;
  p.copy(Ge.group.position);p.y+=Ge.group.scale.x;p.project(cn);const r=Math.max(24,Math.abs((1-p.y)*innerHeight/2-y))+18;
@@ -60,7 +60,7 @@ var Ul_=(()=>{const acts=[
  ()=>{const t0=performance.now();(function f(){const k=(performance.now()-t0)/1600;if(k>=1){Ge.tgt.sq=1;Ge.tgt.stretch=1;return}const e=Math.sin(k*Math.PI);Ge.tgt.sq=1+Math.sin(k*Math.PI*6)*.06*e;Ge.tgt.stretch=1-Math.sin(k*Math.PI*6)*.04*e;requestAnimationFrame(f)})();Object.assign(Ge.tgt,{happy:1,blush:.6});de.exprT=1.8;Ae.voice("laugh");tn("dance",2.2)},
  ()=>{Object.assign(Ge.tgt,{happy:.6,eyeH:.9});de.exprT=2;Ae.voice("hum");tn("hum",2.2)}];
 let lastAct=0;addEventListener("pointerdown",()=>lastAct=performance.now(),{passive:!0});
-(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},3e4+Math.random()*3e4)})()})();
+(function go(){setTimeout(()=>{try{if(document.visibilityState==="visible"&&!(window.__xm&&window.__xm.on)&&je&&!de.asleep&&!Xt.active&&Ge.group.scale.x>.05&&performance.now()-lastAct>7e3&&!Gn&&!Um_s)acts[Math.floor(Math.random()*acts.length)]()}catch(e){}go()},3e4+Math.random()*3e4)})()})();
 // Invitations: now and then, while the visitor reads past the first screen, she hops and offers to talk.
 var Uinv_=(()=>{let t0=0;const coarse=matchMedia("(pointer:coarse)").matches,reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
 let n=0,last=0,lastMove=performance.now(),lastY=scrollY,lastT=performance.now(),fast=0;
@@ -68,7 +68,7 @@ addEventListener("scroll",()=>{const t=performance.now(),dy=Math.abs(scrollY-las
 const hop=(k,max)=>{Ge.tgt.sq=.86;Ge.tgt.stretch=1.15;setTimeout(()=>{Ge.tgt.sq=1.06;Ge.tgt.stretch=.95},130);setTimeout(()=>{Ge.tgt.sq=1;Ge.tgt.stretch=1},270);if(k+1<max)setTimeout(()=>hop(k+1,max),340)};
 setInterval(()=>{try{const t=performance.now();
  if(!t0){if(je&&!document.documentElement.classList.contains("locked"))t0=t;return}
- if(n>=4||document.hidden||!je||Xt.active||Um_s||(!de.asleep&&de.exprT>0)||document.documentElement.classList.contains("x-modal-on")||Ge.group.scale.x<.05)return;
+ if(n>=4||document.hidden||!je||Xt.active||Um_s||window.__xm&&window.__xm.on||(!de.asleep&&de.exprT>0)||document.documentElement.classList.contains("x-modal-on")||Ge.group.scale.x<.05)return;
  if(scrollY<innerHeight*.85||t-t0<25e3||(n&&t-last<75e3))return;
  const still=t-lastMove,afterFast=fast&&t-fast<8e3&&still>1500;
  if(!(afterFast||still>9e3))return;

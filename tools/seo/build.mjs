@@ -25,6 +25,7 @@ import { plansHTML } from './enhance/ui.mjs';
 import { applyBrief } from './enhance/brief.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
+import { applyMind, MIND } from './enhance/mind.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -226,6 +227,8 @@ src = applyLife(src);
 src = applySound(src);
 src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
 src = applyBrief(src);
+// "Her mind" in section 02: her screen position, thinking glow, card hold (enhance/mind.mjs)
+src = applyMind(src);
 
 // Keep the existing scene and shaders; bound render cost and pause behind dialogs.
 src = patch(src, /var ui=zl\?\.75:Math\.min\(devicePixelRatio\|\|1,(?:Wn\(\)\?1\.25:1\.75|1\.25)\)/,
@@ -375,8 +378,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css', 'mind.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'mind.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -395,7 +398,7 @@ function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
   const story = { ...storyCfg(), cover: Object.fromEntries(Object.keys(xs).map((l) => [l, STORY_TEXT[l].cover])) };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_MIND=${JSON.stringify(lang === 'ar' ? { ar: MIND.ar } : { en: MIND.en, ru: MIND.ru }).replace(/</g, '\\u003c')};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {
