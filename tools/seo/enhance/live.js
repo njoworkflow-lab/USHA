@@ -729,11 +729,10 @@
     $('.xl-open', cta).addEventListener('click', open);
   }
   // ---------- the invitation in the first screen, right after she wakes ----------
-  // Stage 1 copy: "Ask USHA live · 4 free questions"; the part after the dot drops to a second line on phones.
   const HX = {
-    en: { b: 'Ask USHA live', s: '4 free questions', k: '', a: '→' },
-    ru: { b: 'Спросить USHA вживую', s: '4 вопроса бесплатно', k: '', a: '→' },
-    ar: { b: 'اسأل USHA مباشرة', s: '4 أسئلة مجانية', k: '', a: '←' },
+    en: { b: 'Get a free consultation', k: 'Live', a: '→' },
+    ru: { b: 'Бесплатная консультация', k: 'Онлайн', a: '→' },
+    ar: { b: 'احصل على استشارة مجانية', k: '', a: '←' },
   };
   function heroUI() {
     const row = $('#hero .hero-t .cta'); if (!row) return;
@@ -746,7 +745,7 @@
     }
     if (b.dataset.lang !== H.lang) {
       b.dataset.lang = H.lang;
-      b.innerHTML = `<span class="xl-hero-face" aria-hidden="true"><i></i><i></i></span><span class="xl-hero-b"><span class="xl-hero-m">${esc(h.b)}</span>${h.s ? `<span class="xl-hero-s"><span class="xl-hero-sep"> · </span>${esc(h.s)}</span>` : ''}</span>${h.k ? `<span class="xl-hero-k"><span class="xl-hero-dot" aria-hidden="true"></span>${esc(h.k)}</span>` : ''}<span class="xl-hero-a" aria-hidden="true">${h.a}</span>`;
+      b.innerHTML = `<span class="xl-hero-face" aria-hidden="true"><i></i><i></i></span><span class="xl-hero-b">${esc(h.b)}</span>${h.k ? `<span class="xl-hero-k"><span class="xl-hero-dot" aria-hidden="true"></span>${esc(h.k)}</span>` : ''}<span class="xl-hero-a" aria-hidden="true">${h.a}</span>`;
     }
     const nav = $('header a[href="#talk"]'); if (nav) nav.classList.add('xl-nav-live');
   }

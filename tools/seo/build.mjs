@@ -25,8 +25,6 @@ import { plansHTML } from './enhance/ui.mjs';
 import { applyBrief } from './enhance/brief.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
-import { CASES } from './enhance/cases-data.mjs';
-import { xcWallHTML } from './enhance/cases-ui.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -42,7 +40,6 @@ const LANGS = {
     imageAlt: 'USHA by NJO — движок бизнес-аналитики',
     serviceType: 'Движок бизнес-аналитики и маркетинга',
     freeWeek: 'Бесплатная первая неделя: стратегия, четыре готовых поста и собственный чат с USHA.',
-    offer: 'Первая неделя бесплатно',
   },
   en: {
     idx: 0, url: `${SITE}/en/`, file: 'en/index.html', locale: 'en_US',
@@ -52,7 +49,6 @@ const LANGS = {
     imageAlt: 'USHA by NJO — business intelligence engine',
     serviceType: 'Business intelligence and marketing engine',
     freeWeek: 'Free first week: your strategy, four ready posts and your own USHA chat.',
-    offer: 'First week free',
   },
   // Arabic reuses the bundle's English slot (index 0) with translated text.
   ar: {
@@ -63,7 +59,6 @@ const LANGS = {
     imageAlt: 'USHA by NJO — محرّك ذكاء الأعمال',
     serviceType: 'محرّك ذكاء الأعمال والتسويق',
     freeWeek: 'الأسبوع الأول مجاني: استراتيجيتك، وأربعة منشورات جاهزة لعلامتك، ومحادثتك الخاصة مع USHA.',
-    offer: 'الأسبوع الأول مجاني',
   },
 };
 const X_DEFAULT = LANGS.en.url;
@@ -225,23 +220,6 @@ if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/bu
 src = src.replace('us:e?.62:1,ch:.25', 'us:e?.42:.66,ch:.25').replace('us:e?.62:.78,ch:.5', 'us:e?.5:.6,ch:.5');
 if (!src.includes('us:e?.42:.66,ch:.25') && !src.includes('us:e?.6:.66,ch:e?.1:.25')) throw new Error('Bundle changed: USHA scene sizes not found');
 
-// Stage 1 hero: one live button (live.js adds it), the free week as the quiet
-// button, the trust strip, her signature line and a small case card that leads
-// to the case wall. Owned block, rebuilt on every run.
-src = patch(src, /<div class="cta" data-in="0,-1,\.8">[^]*?<\/div>\s*<div class="trust" data-in="0,-1,\.8">[^]*?<\/div>(?:<!--xhero-->[^]*?<!--\/xhero-->)?/, () =>
-  '<div class="cta" data-in="0,-1,.8"><a class="btn btn-g x-hfree" href="#free"><span data-t="b1"></span></a></div>\n      ' +
-  '<div class="trust" data-in="0,-1,.8"><span data-t="tr1"></span><span data-t="tr2"></span><span data-t="tr3"></span></div>' +
-  '<!--xhero--><p class="x-sig" data-in="0,-1,.8" data-t="hx_sig"></p>' +
-  '<a class="x-hcase" href="#cases" data-in="0,-1,.8" aria-describedby="x-hc-tip"><span class="x-hc-t" data-t="hx_ct"></span>' +
-  '<span class="x-hc-l" data-t="hx_c1"></span><span class="x-hc-l" data-t="hx_c2"></span><span class="x-hc-l x-hc-w" data-t="hx_c3"></span>' +
-  '<span class="x-hc-f" data-t="hx_cf"></span><span class="x-vh" id="x-hc-tip" data-t="hx_tip"></span></a><!--/xhero-->', 'hero buttons and trust strip');
-
-// The case wall sits right after section 02; render() adds it per language.
-src = src.replace(/<!--xcases-->[^]*?<!--\/xcases-->\n?/g, '');
-const casesSection = (lang) => '<!--xcases--><section class="sec x-cases" id="cases" aria-labelledby="xc-h"><div class="wrap">' +
-  '<div class="xc-head"><h2 class="big" id="xc-h" data-t="cw_h"></h2><p class="xc-disc" data-t="cw_d"></p></div>' +
-  `<div class="xc-app">${xcWallHTML(CASES[lang], lang)}</div></div></section><!--/xcases-->\n`;
-
 // USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
 src = applyLife(src);
 // the soundtrack replaces the engine hum (enhance/sound.mjs, player in sound.js)
@@ -340,7 +318,7 @@ function jsonLd(lang) {
     provider: { '@id': `${SITE}/#njo` }, brand: { '@type': 'Brand', name: 'USHA' },
     image: `${SITE}/og.jpg`, areaServed: org.areaServed,
     availableChannel: { '@type': 'ServiceChannel', serviceUrl: CONTACT.telegram, name: 'Telegram' },
-    offers: { '@type': 'Offer', name: L.offer, description: L.freeWeek, price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
+    offers: { '@type': 'Offer', name: strip(d.tr1), description: L.freeWeek, price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
     hasOfferCatalog: {
       '@type': 'OfferCatalog', name: strip(d.p_k.replace(/^\d+\s*·\s*/, '')),
       itemListElement: PLANS.map((p) => ({
@@ -397,8 +375,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css', 'cases.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'cases-ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'cases.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -417,7 +395,7 @@ function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
   const story = { ...storyCfg(), cover: Object.fromEntries(Object.keys(xs).map((l) => [l, STORY_TEXT[l].cover])) };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_CASES=${JSON.stringify(lang === 'ar' ? { ar: CASES.ar } : { en: CASES.en, ru: CASES.ru }).replace(/</g, '\\u003c')};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {
@@ -485,10 +463,6 @@ function render(lang) {
     hd = hd.replace(/(<meta name="viewport"[^>]*>\n?)/, (m) => `${m}${head(lang)}\n`);
     h = hd + h.slice(headEnd);
   }
-
-  // the case wall, after section 02
-  h = h.replace(/(<section class="ch" id="signal">[^]*?<\/section>\n?)/, (m) => m + casesSection(lang));
-  if (!h.includes('<!--xcases-->')) throw new Error('Bundle changed: #signal not found');
 
   // the layer's CSS sits last in <head> so it outranks the page's own rules
   h = h.replace(/<!--xcss-->[^]*?<!--\/xcss-->\n?/, '');

@@ -7,20 +7,10 @@
 // Dictionary keys that change. Anything not listed keeps the site's wording.
 export const DICT_PATCH = {
   en: {
-    // Stage 1 hero (owner decisions, 4 Nov 2026): headline D, signature line A, case 1 card.
-    kicker: 'USHA by NJO · AI marketing director',
-    h1: 'Every morning: what changed in your market, why, and the move to make. You say yes. She does the work.',
-    sub: 'For brands and marketplace sellers in the Gulf, Egypt and Russia. Built by NJO, since 2016.',
-    tr1: 'Nothing spent without your yes', tr2: 'NJO checks every output', tr3: 'Works in WhatsApp or Telegram',
-    hx_sig: 'The algorithm that understands algorithms.',
-    hx_ct: 'A snack brand on noon, KSA',
-    hx_c1: '<b>02:40</b> · A rival cut its six-pack from SAR 42 to SAR 31.',
-    hx_c2: '<b>08:02</b> · Her move: hold SAR 39 and add SAR 1,200 of Arabic search ads.',
-    hx_c3: '<b>Week 6</b> · Back to #3, with no price cut.',
-    hx_cf: '<b>Modelled case</b> · See the whole night →',
-    hx_tip: 'Modelled case: a typical situation and numbers from this market. Real client stories are added with permission.',
-    cw_h: 'Businesses like yours.',
-    cw_d: 'Modelled cases: typical situations and numbers from each market. Real client stories are added with permission.',
+    // Hero (owner direction, 4 Nov 2026): the slogan stays the headline; the sub-line carries her full value.
+    kicker: 'USHA · AI marketing director',
+    sub: 'She reads your market, plans your growth and does the work: strategy, content, video, ads and creators. A whole marketing department in one AI director.',
+    tr1: 'From strategy to finished work', tr2: 'Senior experts behind every move', tr3: 'Your first week is free',
     bf_send: "Prepare brief",
     bf_doneH: "Brief prepared",
     bf_doneP: "Copy your brief, then send it to your project manager in Telegram or by email. Nothing has been sent yet.",
@@ -51,20 +41,10 @@ export const DICT_PATCH = {
     g_done: 'You beat the noise. She’s proud of you.',
   },
   ru: {
-    // Stage 1 hero: headline D, signature line A, case 21 card.
-    kicker: 'USHA by NJO · ИИ-директор по маркетингу',
-    h1: 'Каждое утро: что изменилось на вашем рынке, почему и какой ход сделать. Вы говорите «да». Дальше работает она.',
-    sub: 'Для брендов и селлеров маркетплейсов в России, странах Залива и Египте. Её создала NJO, на рынке с 2016 года.',
-    tr1: 'Ни рубля без вашего «да»', tr2: 'NJO проверяет каждый результат', tr3: 'Работает в Telegram, MAX или WhatsApp',
-    hx_sig: 'Алгоритм, который понимает алгоритмы.',
-    hx_ct: 'Протеиновые батончики на Wildberries и Ozon',
-    hx_c1: '<b>1 июня</b> · WB снизил СПП с 18% до 3%. Цена для покупателя выросла с 976 до 1 154 ₽.',
-    hx_c2: '<b>08:06</b> · Её ход: считать экономику без СПП, набор из 6 за 649 ₽, 30% рекламы на Ozon.',
-    hx_c3: '<b>6-я неделя</b> · Вернули 36% потерянной маржи.',
-    hx_cf: '<b>Смоделированный кейс</b> · Смотреть всю ночь →',
-    hx_tip: 'Смоделированный кейс: типичная ситуация и цифры этого рынка, а не история конкретного клиента. Реальные истории добавляем с согласия клиентов.',
-    cw_h: 'Бизнес, похожий на ваш.',
-    cw_d: 'Смоделированные кейсы: типичные ситуации и цифры российского рынка, а не истории конкретных клиентов. Реальные истории добавляем с согласия клиентов.',
+    // Hero: слоган остаётся заголовком, подзаголовок говорит о её полной ценности.
+    kicker: 'USHA · ИИ-директор по маркетингу',
+    sub: 'Она изучает ваш рынок, строит план роста и делает всю работу: стратегию, контент, видео, рекламу и работу с блогерами. Целый отдел маркетинга в одном ИИ-директоре.',
+    tr1: 'От стратегии до готовой работы', tr2: 'Опытные эксперты за каждым шагом', tr3: 'Первая неделя бесплатно',
     bf_send: "Подготовить бриф",
     bf_doneH: "Бриф подготовлен",
     bf_doneP: "Скопируйте бриф и отправьте его проджект-менеджеру в Telegram или по почте. Пока ничего не отправлено.",
