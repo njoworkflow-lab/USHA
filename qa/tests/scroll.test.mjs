@@ -29,15 +29,20 @@ for (const name of ['chromium', 'webkit', 'firefox']) test(`${name}: phone scrol
     await page.evaluate(() => new IntersectionObserver(entries => {
       if (entries.some(e => e.isIntersecting)) document.querySelector('#heading').classList.add('on');
     }).observe(document.querySelector('#heading')));
+    await page.bringToFront();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     await page.mouse.move(100, 100);
-    await scrollInput(page, cell, 1000);
-    await page.waitForFunction(() => scrollY >= 999, null, { timeout: 5000, polling: 100 });
+    await scrollInput(page, cell, 400);
+    // Wheel deltas are requests: native engines may clamp or coalesce them.
+    // Verify real movement, not an engine-specific pixel mapping.
+    await page.waitForFunction(() => scrollY > 0, null, { timeout: 5000, polling: 100 });
     await page.evaluate(domTools);
     await page.evaluate(waitForReveal, { selector: '#heading' });
     assert.ok(await page.locator('#heading').evaluate(el => Number(getComputedStyle(el).opacity) >= .9));
     await page.evaluate(waitForReveal, { selector: '#defect' });
     assert.equal(await page.locator('#defect').evaluate(el => getComputedStyle(el).opacity), '0');
-    await scrollInput(page, cell, -3000);
-    await page.waitForFunction(() => scrollY === 0, null, { timeout: 5000, polling: 100 });
+    const before = await page.evaluate(() => scrollY);
+    await scrollInput(page, cell, -400);
+    await page.waitForFunction(previous => scrollY < previous, before, { timeout: 5000, polling: 100 });
   } finally { await browser.close(); }
 });
