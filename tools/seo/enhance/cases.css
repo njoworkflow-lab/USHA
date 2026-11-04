@@ -111,3 +111,5 @@ html[lang=ar] .xc-t{font-size:18px;line-height:1.5}
 .xc-panel .xm-ft{flex-wrap:wrap}
 .xc-panel .xm-ft p{flex:1 1 220px}
 .xc-mbtns{flex:0 1 auto}
+@media (max-width:820px){.xc-panel .xm-ft p{flex:none}}
+@media (max-width:600px){.xc-mtop .xc-spark-l{width:132px;height:52px;align-self:flex-start}}

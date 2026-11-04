@@ -880,3 +880,20 @@ html[lang=ar] .x-hc-l b,html[lang=ar] .x-hc-t{font-family:var(--body)}
 /* short phones: the card keeps the title, her move and the link */
 @media (max-width:600px) and (max-height:800px){.x-hcase [data-t=hx_c1]{display:none}}
 @media (max-width:600px) and (max-height:700px){.x-hcase .x-hc-w{display:none}#hero .hero-t .trust{gap:2px 10px}}
+/* short phones: the hero block sits lower and tighter so USHA keeps her space */
+@media (max-width:600px) and (max-height:820px){
+ #hero .hero-t{bottom:3.5vh}
+ #hero .hero-t .cta>.btn,#hero .hero-t .cta>.xl-hero{height:48px;min-height:48px}
+ #hero .hero-t .cta>.xl-hero .xl-hero-face{width:34px;height:34px}
+}
+@media (max-width:600px) and (max-height:700px){
+ #hero .hero-t{bottom:2vh}
+ #hero .hero-t h1{font-size:clamp(19px,5.4vw,22px)}
+ #hero .hero-t .sub{font-size:13.5px;margin-top:8px}
+ #hero .hero-t .cta{margin-top:10px}
+ .x-hcase [data-t=hx_c2]{display:none}
+}
+#hero .hero-t .trust{row-gap:8px}
+/* smaller desktops: the card keeps her move and the result, so it stays clear of USHA; the scroll hint gives way */
+@media (min-width:821px) and (max-width:1199px),(min-width:821px) and (max-height:800px){.x-hcase [data-t=hx_c1]{display:none}}
+@media (min-width:821px) and (max-height:820px){#hero .foot{display:none}}
