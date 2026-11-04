@@ -2643,7 +2643,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const outExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
   // ---------- the beats (fractions of the pinned scroll) ----------
-  const B = { pullA: 0.05, pullB: 0.33, thinkA: 0.33, thinkB: 0.45, threadA: 0.42, threadB: 0.47, cardA: 0.45, cardB: 0.505, typeA: 0.48, typeB: 0.74, end: 0.75, out: 0.86 };
+  const B = { pullA: 0.08, pullB: 0.33, thinkA: 0.33, thinkB: 0.45, threadA: 0.42, threadB: 0.47, cardA: 0.45, cardB: 0.505, typeA: 0.48, typeB: 0.74, end: 0.75, out: 0.86 };
 
   // ---------- DOM: canvas, rail, cta ----------
   const cv = D.createElement('canvas');
@@ -2651,7 +2651,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   stick.prepend(cv);
   const ctx = cv.getContext('2d');
   const rail = D.createElement('div'); rail.className = 'mi-rail'; rail.setAttribute('aria-hidden', 'true');
-  st.append(rail);
+  stick.append(rail);
   const sr = D.createElement('p'); sr.className = 'mi-sr';
   st.append(sr);
   const ctaD = D.createElement('div'); ctaD.className = 'mi-cta mi-cta-d';
@@ -2680,7 +2680,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     if (it === item && it.dataset.mi === H.lang) return it;
     const c = C(), m = c.money;
     it.querySelectorAll('.mi-money,.mi-stop').forEach((e) => e.remove());
-    it.insertAdjacentHTML('beforeend', `<div class="mi-money"><div class="mi-h">${esc(m.h)}</div>${m.rows.map((r) => `<div class="mi-row"><span>${esc(r[0])}</span><span class="mi-q">${esc(r[1])}</span><b>${esc(r[2])}</b></div>`).join('')}<div class="mi-row mi-sum"><span>${esc(m.sum[0])}</span><b>${esc(m.sum[1])}</b></div></div><div class="mi-stop"><div class="mi-h">${esc(c.stop[0])}</div><p>${esc(c.stop[1])}</p></div>`);
+    it.insertAdjacentHTML('beforeend', `<div class="mi-money"><div class="mi-h">${esc(m.h)}</div>${m.rows.map((r) => `<div class="mi-row"><span>${esc(r[0])}</span><span class="mi-q">${esc(r[1])}</span><b>${esc(r[2])}</b></div>`).join('')}<div class="mi-row mi-sum"><span>${esc(m.sum[0])}</span><b>${esc(m.sum[1])}</b></div></div><p class="mi-stop"><span class="mi-h">${esc(c.stop[0])}</span> <span>${esc(c.stop[1])}</span></p>`);
     it.classList.add('mi-it'); it.dataset.mi = H.lang;
     units = []; blocks = [];
     const words = H.lang === 'ar';
@@ -2732,24 +2732,31 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   let W = 0, Hh = 0, dpr = 1, P = null, NL = 0, ND = 0, atlas = null;
   let seed = 7;
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  // the market flows in lanes: price, search, ads, reviews, creators, stock, buyers
+  let LANES = [];
   function build() {
     const small = innerWidth < 820;
-    NL = small ? 120 : 320; ND = small ? 900 : 2600;
-    if (coarse && !small) { NL = 200; ND = 1600; }
+    NL = small ? 60 : 130; ND = small ? 1100 : 3000;
+    if (coarse && !small) { NL = 120; ND = 1800; }
     const N = NL + ND; seed = 7;
-    P = { x0: new Float32Array(N), y0: new Float32Array(N), z: new Float32Array(N), v: new Float32Array(N), ph: new Float32Array(N), c0: new Float32Array(N), lab: new Uint8Array(N) };
+    LANES = (small ? [[0.36, 0.05, 1.1, 0.02], [0.47, 0.06, 0.8, 0.03], [0.58, 0.05, 1.3, 0.025], [0.7, 0.07, 0.9, 0.03], [0.82, 0.05, 1.2, 0.02], [0.93, 0.04, 0.7, 0.02]]
+      : [[0.12, 0.04, 0.8, 0.018], [0.27, 0.06, 1.1, 0.03], [0.42, 0.05, 0.7, 0.024], [0.55, 0.08, 1.3, 0.04], [0.68, 0.05, 0.9, 0.028], [0.8, 0.06, 1.2, 0.034], [0.92, 0.04, 0.8, 0.02]])
+      .map(([b, a, k, w], j) => ({ b, a, k, w, ph: j * 1.7 + 0.4 }));
+    P = { x0: new Float32Array(N), y0: new Float32Array(N), z: new Float32Array(N), v: new Float32Array(N), ph: new Float32Array(N), c0: new Float32Array(N), lab: new Uint8Array(N), ln: new Uint8Array(N) };
     for (let i = 0; i < N; i++) {
       const z = rnd();
-      P.z[i] = i < NL ? 0.25 + z * 0.75 : z;
+      P.z[i] = i < NL ? Math.pow(z, 1.6) : z;
       P.x0[i] = rnd();
-      // signals flow in a broad band, densest through the middle of the night
-      const g = (rnd() + rnd() + rnd()) / 3;
-      P.y0[i] = i < NL ? 0.1 + g * 0.85 : 0.04 + (0.35 * rnd() + 0.65 * g) * 0.94;
-      P.v[i] = 14 + 54 * P.z[i] + rnd() * 10;
+      // a fifth of the dots are loose dust between the lanes
+      const loose = i >= NL && rnd() < 0.2;
+      P.ln[i] = loose ? 255 : Math.floor(rnd() * LANES.length);
+      const g = (rnd() + rnd() + rnd()) / 1.5 - 1;
+      P.y0[i] = loose ? rnd() : g;
+      P.v[i] = 16 + 46 * P.z[i] + rnd() * 12;
       P.ph[i] = rnd() * 6.283;
       // capture order: a few signals are never pulled in (the quiet that stays)
       const q = rnd();
-      P.c0[i] = q > 0.965 ? 2 : B.pullA + Math.pow(q / 0.965, 0.9) * (B.pullB - B.pullA - 0.07);
+      P.c0[i] = q > 0.97 ? 2 : B.pullA + Math.pow(q / 0.97, 0.85) * (B.pullB - B.pullA - 0.07);
       P.lab[i] = Math.floor(rnd() * 255);
     }
   }
@@ -2783,7 +2790,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   // ---------- frame ----------
   let f = 0, fs = 0, t = 0, last = 0, raf = 0, visible = false, still = -1, absorbS = 0;
   const tR = { left: 0, top: 0, right: 0, bottom: 0 };
-  let cR = null, sR = null;
+  let cR = null; const rR = { l: 0, r: 0, t: 0, b: 0 };
   function progress() {
     const r = sec.getBoundingClientRect();
     return clamp(-r.top / Math.max(1, r.height - innerHeight), -0.2, 1.2);
@@ -2813,44 +2820,48 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       const z = P.z[i];
       let x = ((P.x0[i] * span + P.v[i] * T) % span) - 160;
       if (sx < 0) x = W - x;
-      let y = P.y0[i] * Hh + Math.sin(T * 0.35 + P.ph[i]) * (6 + 10 * z);
+      const L = LANES[P.ln[i]];
+      let y = L ? (L.b + L.a * Math.sin((x / W) * L.k * 6.283 + L.ph + T * 0.05)) * Hh + P.y0[i] * L.w * Hh * (0.6 + z) : P.y0[i] * Hh + Math.sin(T * 0.35 + P.ph[i]) * 10;
       const cc = lin(F, P.c0[i], P.c0[i] + 0.075);
       if (cc >= 1) continue;
-      let e = 0, ex = x, ey = y;
+      let e = 0, ex = x, ey = y, mx = x, my = y;
       if (cc > 0) {
         e = Math.pow(cc, 1.7);
         const dx = x - cx, dy = y - cy, r0 = Math.hypot(dx, dy), a0 = Math.atan2(dy, dx);
-        const q = (k) => { const r = r0 * (1 - k), a = a0 + dir * 2.3 * k; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r * (1 - 0.62 * k)]; };
+        const q = (k) => { const r = r0 * (1 - k), a = a0 + dir * 1.15 * k; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r * (1 - 0.45 * k)]; };
         [x, y] = q(e);
-        if (e > 0.02) [ex, ey] = q(Math.max(0, e - 0.09));
+        if (e > 0.02) { [ex, ey] = q(Math.max(0, e - 0.24)); [mx, my] = q(Math.max(0, e - 0.12)); }
         pulling++;
       }
       if (x < -40 || x > W + 40 || y < -20 || y > Hh + 20) continue;
-      let a = (0.22 + 0.7 * z) * base;
-      if (x > tl && x < tr && y > tt && y < tb && e < 0.3) a *= 0.16;
-      const em = ss(e, 0.35, 0.85), fade = 1 - ss(e, 0.82, 1);
+      let a = (i < NL ? 0.18 + 0.78 * z : 0.22 + 0.7 * z) * base;
+      const lw = i < NL ? 140 : 0;
+      if (e < 0.4 && ((x + lw > tl && x - lw < tr && y > tt && y < tb) || (x + lw > rR.l && x - lw < rR.r && y > rR.t && y < rR.b))) a *= 0.1;
+      // a signal disappears into her rim, never across her face
+      const dd = Math.hypot((x - cx) / 1.3, y - cy);
+      const em = ss(e, 0.3, 0.8), fade = (1 - ss(e, 0.85, 1)) * ss(dd, pr * 0.9, pr * 2.8);
       a *= fade;
       if (a < 0.01) continue;
       if (i < NL) { lab.push(i, x, y, a, em, e); continue; }
       const s = 0.7 + 1.5 * z * (1 - 0.5 * e);
       const bk = Math.min(BK - 1, Math.floor(a * BK));
       (em > 0.5 ? pE : pT)[bk].rect(x - s / 2, y - s / 2, s, s);
-      if (e > 0.02) { const p = em > 0.5 ? sE : sT; p.moveTo(ex, ey); p.lineTo(x, y); }
+      if (e > 0.12 && z > 0.35) { const p = em > 0.5 ? sE : sT; p.moveTo(ex, ey); p.lineTo(mx, my); p.lineTo(x, y); }
     }
     for (let k = 0; k < BK; k++) {
       const al = (k + 0.5) / BK;
-      c.fillStyle = teal(al); c.fill(pT[k]);
+      c.fillStyle = `rgba(${k > 2 ? '120,236,222' : '38,180,166'},${Math.min(1, al * 1.15).toFixed(3)})`; c.fill(pT[k]);
       c.fillStyle = `rgba(255,150,96,${al.toFixed(3)})`; c.fill(pE[k]);
     }
-    c.lineWidth = 0.8;
-    c.strokeStyle = teal(0.35 * base); c.stroke(sT);
-    c.strokeStyle = `rgba(255,140,80,${(0.45 * base).toFixed(3)})`; c.stroke(sE);
+    c.lineWidth = 0.7;
+    c.strokeStyle = teal(0.3 * base); c.stroke(sT);
+    c.strokeStyle = `rgba(255,140,80,${(0.4 * base).toFixed(3)})`; c.stroke(sE);
     // labels: sprite copies
     c.globalCompositeOperation = 'source-over';
     const A = atlas, s0 = 1 / A.s;
     for (let j = 0; j < lab.length; j += 6) {
       const i = lab[j], x = lab[j + 1], y = lab[j + 2], a = lab[j + 3], em = lab[j + 4], e = lab[j + 5];
-      const r = A.rect[P.lab[i] % A.n], sc = (0.78 + 0.34 * P.z[i]) * (1 - 0.55 * e) * s0;
+      const r = A.rect[P.lab[i] % A.n], sc = (0.72 + 0.5 * P.z[i]) * (1 - 0.55 * e) * s0;
       const w = r[2] * sc, h = r[3] * sc, ox = rtl ? x - w : x;
       if (em < 0.98) { c.globalAlpha = a * (1 - em); c.drawImage(A.teal, r[0], r[1], r[2], r[3], ox, y - h / 2, w, h); }
       if (em > 0.02) { c.globalAlpha = a * em; c.drawImage(A.ember, r[0], r[1], r[2], r[3], ox, y - h / 2, w, h); }
@@ -2866,8 +2877,8 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     c.globalCompositeOperation = 'lighter';
     if (g > 0.01) {
       const rg = c.createRadialGradient(cx, cy, pr * 0.2, cx, cy, pr * 2.8);
-      rg.addColorStop(0, `rgba(255,150,90,${(0.28 * g).toFixed(3)})`);
-      rg.addColorStop(0.4, `rgba(255,106,43,${(0.12 * g).toFixed(3)})`);
+      rg.addColorStop(0, `rgba(255,150,90,${(0.2 * g).toFixed(3)})`);
+      rg.addColorStop(0.4, `rgba(255,106,43,${(0.08 * g).toFixed(3)})`);
       rg.addColorStop(1, 'rgba(255,106,43,0)');
       c.fillStyle = rg; c.fillRect(cx - pr * 3, cy - pr * 3, pr * 6, pr * 6);
       // the inflow settles into a thin disc around her
@@ -2985,8 +2996,13 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       railV[0].textContent = fmt(n); railV[1].textContent = causeN; railV[2].textContent = done || shown > 0 ? '1' : '—';
       railS.forEach((s, i) => s.classList.toggle('on', i === step));
     }
-    const ra = ss(F, 0.03, 0.1) * (1 - ss(F, B.out, B.out + 0.08));
+    const small = W < 820;
+    // phones: the rail waits at the foot of the stage and gives way to the card
+    const ra = ss(F, 0.03, 0.1) * (1 - ss(F, B.out, B.out + 0.08)) * (small ? 1 - ss(F, B.threadA, B.cardA) : 1);
     rail.style.opacity = ra.toFixed(3);
+    rail.style.visibility = ra < 0.01 ? 'hidden' : '';
+    const top = small ? '' : Math.round(tR.bottom + 26) + 'px';
+    if (rail.style.top !== top) rail.style.top = top;
     const ea = ss(F, B.end, B.end + 0.04) * (1 - ss(F, B.out, B.out + 0.06));
     if (Math.abs(ea - endQ) > 0.004) {
       endQ = ea;
@@ -2999,6 +3015,10 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     const a = h2 ? h2.getBoundingClientRect() : null, b = p && p.offsetParent ? p.getBoundingClientRect() : null;
     if (a) { tR.left = a.left; tR.top = a.top; tR.right = Math.max(a.right, b ? b.right : 0); tR.bottom = b && b.height ? b.bottom : a.bottom; }
     const r = card.getBoundingClientRect(), s = stick.getBoundingClientRect();
+    // the 3D scene places her on phones from this cached rect; keep it current
+    if (W < 820) window.__fc = r;
+    const rr = rail.getBoundingClientRect();
+    rR.l = rr.left - 16; rR.r = rr.right + 16; rR.t = rr.top - s.top - 10; rR.b = rr.bottom - s.top + 10;
     cR = { left: r.left - s.left, top: r.top - s.top, right: r.right - s.left, bottom: r.bottom - s.top };
     tR.top -= s.top; tR.bottom -= s.top;
   }

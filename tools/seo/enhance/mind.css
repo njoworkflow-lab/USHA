@@ -8,7 +8,7 @@
 .mi-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* the rail: how she thinks, counted */
-.mi-rail{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:26px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0;color:rgba(243,238,232,.66);opacity:0}
+.mi-rail{position:absolute;z-index:1;inset-inline-start:var(--g);max-width:calc(100% - 2 * var(--g));display:flex;flex-wrap:wrap;gap:6px 22px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:0;color:rgba(243,238,232,.66);opacity:0}
 .mi-rail span{display:flex;align-items:baseline;gap:8px;transition:color .5s cubic-bezier(.16,1,.3,1)}
 .mi-rail i{align-self:center;width:6px;height:6px;border-radius:50%;background:rgba(46,196,182,.9);box-shadow:0 0 0 0 rgba(46,196,182,0);transition:background .5s,box-shadow .5s}
 .mi-rail span:nth-child(n+2) i{background:rgba(243,238,232,.3)}
@@ -26,10 +26,11 @@
 .mi-cta-m{display:none}
 
 /* the card, written out of her */
-.fcard.mi-on{width:min(468px,40vw)}
+.fcard.mi-on{width:min(540px,42vw)}
+#signal .fitem .xf-price{display:flex}
 .fitem.mi-it{display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:end}
 .fitem.mi-it>*{grid-column:1/-1}
-.fitem.mi-it>.fv{grid-column:1;font-size:clamp(44px,3.9vw,64px)!important;margin:6px 0 4px!important}
+.fitem.mi-it>.fv{grid-column:1;font-size:clamp(40px,3.5vw,56px)!important;margin:6px 0 4px!important}
 .fitem.mi-it>.xf{grid-column:2;margin:0 0 10px!important;font-size:16px}
 .fitem.mi-it>*:not(.mi-go){opacity:0}
 .fitem.mi-it>*{transition:opacity .35s cubic-bezier(.16,1,.3,1)}
@@ -38,7 +39,7 @@
 .mi-cur::after{content:'';display:inline-block;width:.5em;height:.9em;margin-inline-start:1px;vertical-align:-.08em;background:#FF6A2B;box-shadow:0 0 10px rgba(255,106,43,.8)}
 .fv .mi-cur::after{width:.12em;height:.75em}
 .mi-money{margin-top:14px;padding-top:12px;border-top:1px solid rgba(243,238,232,.16)}
-.mi-h{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;color:rgba(243,238,232,.66);margin-bottom:6px}
+.mi-h{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;color:rgba(243,238,232,.66);margin-bottom:3px}
 .mi-row{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:baseline;padding:3px 0;font-size:14px;color:rgba(243,238,232,.84)}
 .mi-row .mi-q{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:rgba(243,238,232,.6);direction:ltr;unicode-bidi:isolate}
 .mi-row b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;font-weight:600;color:#F3EEE8;font-variant-numeric:tabular-nums;text-align:end;direction:ltr;unicode-bidi:isolate;min-width:10ch}
@@ -47,33 +48,36 @@
 .mi-row.mi-sum b::after{content:'';position:absolute;inset-inline:0;bottom:-5px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,106,43,0),#FF6A2B);transform:scaleX(0);transform-origin:right;transition:transform .9s cubic-bezier(.16,1,.3,1)}
 html[dir=rtl] .mi-row.mi-sum b::after{transform-origin:left;background:linear-gradient(270deg,rgba(255,106,43,0),#FF6A2B)}
 .fcard.mi-done .mi-sum b::after{transform:scaleX(1)}
-.mi-stop{margin-top:12px}
-.mi-stop .mi-h{color:#FF9A6B}
-.mi-stop p{margin:0!important;font-size:13.5px!important;line-height:1.45;color:rgba(243,238,232,.84)}
+.fitem .mi-stop{margin-top:10px!important;font-size:13.5px!important;line-height:1.45;color:rgba(243,238,232,.84)}
+.mi-stop .mi-h{display:inline;margin:0 6px 0 0;color:#FF9A6B}
+html[dir=rtl] .mi-stop .mi-h{margin:0 0 0 6px}
 html[dir=rtl] .mi-rail,html[dir=rtl] .mi-h{font-family:var(--body)}
 
-@media (min-width:821px) and (max-height:880px){.fitem.mi-it>.fv{font-size:clamp(40px,3.4vw,54px)!important}.fitem.mi-it p{font-size:14px}.mi-money{margin-top:10px;padding-top:9px}}
+@media (min-width:821px) and (max-height:880px){.fitem.mi-it>.fv{font-size:clamp(38px,3.2vw,50px)!important}.fitem.mi-it p{font-size:14px}.mi-money{margin-top:10px;padding-top:9px}}
 @media (max-width:820px){
   .fcard.mi-on{width:auto;padding:16px 18px 14px!important;bottom:3vh!important}
   .fcard.mi-on .top{font-size:12px}
   .fcard.mi-on .fbody{margin-top:10px}
   .fitem.mi-it>.fv{font-size:36px!important;margin:4px 0 2px!important}
   .fitem.mi-it>.xf{font-size:14px}
-  .fitem.mi-it h3{font-size:16px}
-  .fitem.mi-it p{font-size:13.5px}
+  .fitem.mi-it>p:not(.mi-stop),.fcard.mi-on .fdots,.mi-money .mi-h{display:none}
+  .fitem.mi-it h3{font-size:15.5px}
   .fitem.mi-it .mv{font-size:14px;margin-top:10px;padding-top:10px}
   .mi-money{margin-top:10px;padding-top:9px}
   .mi-row{font-size:13px;gap:10px}
   .mi-row .mi-q{display:none}
   .mi-row{grid-template-columns:1fr auto}
   .mi-row.mi-sum b{font-size:19px}
-  .mi-stop p{font-size:13px!important}
+  .fitem .mi-stop{font-size:13px!important}
   .fcard.mi-on .fdots{margin-top:12px}
   .fcard.mi-on .fill{margin-top:8px}
   .mi-cta-d{display:none}
   .mi-cta-m{display:block;margin-top:12px}
   .mi-cta-m .xl-hero{width:100%;min-height:52px}
   .mi-cta-m .xl-hero-b{flex:1;text-align:start}
-  .mi-rail{margin-top:14px;font-size:11px;gap:4px 14px}
+  .mi-cta-m .xl-hero-k{display:none}
+  .mi-rail{top:auto;bottom:calc(3vh + 6px);font-size:11.5px;gap:6px 16px}
+  #signal .fitem .xf-price s,#signal .fitem .xf-price span{white-space:nowrap}
+  #signal .fitem .xf-price i{flex-basis:22px}
 }
 @media (prefers-reduced-motion:reduce){.mi-rail span,.mi-rail i,.fitem.mi-it>*,.mi-row.mi-sum b::after{transition:none}}

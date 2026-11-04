@@ -137,8 +137,8 @@ export function applyLife(src) {
   // swaps that match both the original and an earlier applied version
   const live = [
     [/st:"talk",dim:(?:1|\.32|\.8)\}/, 'st:"talk",dim:.8}'],
-    // the light stream ends above the card (desktop)
-    [/function Sl\(i\)\{return i\?\[\.35,\.25,0\]:\[[-.\d]+,[-.\d]+,0\]\}/, 'function Sl(i){return i?[.35,.25,0]:[2.45,1.55,0]}'],
+    // the light stream ends above the card (desktop), high enough for the written decision
+    [/function Sl\(i\)\{return i\?\[\.35,\.25,0\]:\[[-.\d]+,[-.\d]+,0\]\}/, 'function Sl(i){return i?[.35,.25,0]:[2.45,1.86,0]}'],
     // phones: USHA between the headline and the card (cached measurements)
     [/u:e\?\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),h=(?:window\.__sh\|\|)?document\.querySelector\("#signal h2"\)\.getBoundingClientRect\(\),/, 'u:e?(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),h=window.__sh||document.querySelector("#signal h2").getBoundingClientRect(),'],
     // "Try her": no glow disc behind her
