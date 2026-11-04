@@ -25,6 +25,8 @@ import { plansHTML } from './enhance/ui.mjs';
 import { applyBrief } from './enhance/brief.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
+import { CASES } from './enhance/cases-data.mjs';
+import { xcWallHTML } from './enhance/cases-ui.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -234,6 +236,12 @@ src = patch(src, /<div class="cta" data-in="0,-1,\.8">[^]*?<\/div>\s*<div class=
   '<span class="x-hc-l" data-t="hx_c1"></span><span class="x-hc-l" data-t="hx_c2"></span><span class="x-hc-l x-hc-w" data-t="hx_c3"></span>' +
   '<span class="x-hc-f" data-t="hx_cf"></span><span class="x-vh" id="x-hc-tip" data-t="hx_tip"></span></a><!--/xhero-->', 'hero buttons and trust strip');
 
+// The case wall sits right after section 02; render() adds it per language.
+src = src.replace(/<!--xcases-->[^]*?<!--\/xcases-->\n?/g, '');
+const casesSection = (lang) => '<!--xcases--><section class="sec x-cases" id="cases" aria-labelledby="xc-h"><div class="wrap">' +
+  '<div class="xc-head"><h2 class="big" id="xc-h" data-t="cw_h"></h2><p class="xc-disc" data-t="cw_d"></p></div>' +
+  `<div class="xc-app">${xcWallHTML(CASES[lang], lang)}</div></div></section><!--/xcases-->\n`;
+
 // USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
 src = applyLife(src);
 // the soundtrack replaces the engine hum (enhance/sound.mjs, player in sound.js)
@@ -389,8 +397,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css', 'cases.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'cases-ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'cases.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -409,7 +417,7 @@ function enhBlock(lang) {
   ENH_URL ||= emit(`enhance-${hash(ENH_JS)}.js`, ENH_JS);
   const xs = lang === 'ar' ? { ar: XL.ar } : { en: XL.en, ru: XL.ru };
   const story = { ...storyCfg(), cover: Object.fromEntries(Object.keys(xs).map((l) => [l, STORY_TEXT[l].cover])) };
-  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
+  return `<!--enh--><script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_CASES=${JSON.stringify(lang === 'ar' ? { ar: CASES.ar } : { en: CASES.en, ru: CASES.ru }).replace(/</g, '\\u003c')};window.USHA_STORY=${JSON.stringify(story).replace(/</g, '\\u003c')}</script><script src="${ENH_URL}"></script><!--/enh-->\n`;
 }
 
 function head(lang) {
@@ -477,6 +485,10 @@ function render(lang) {
     hd = hd.replace(/(<meta name="viewport"[^>]*>\n?)/, (m) => `${m}${head(lang)}\n`);
     h = hd + h.slice(headEnd);
   }
+
+  // the case wall, after section 02
+  h = h.replace(/(<section class="ch" id="signal">[^]*?<\/section>\n?)/, (m) => m + casesSection(lang));
+  if (!h.includes('<!--xcases-->')) throw new Error('Bundle changed: #signal not found');
 
   // the layer's CSS sits last in <head> so it outranks the page's own rules
   h = h.replace(/<!--xcss-->[^]*?<!--\/xcss-->\n?/, '');

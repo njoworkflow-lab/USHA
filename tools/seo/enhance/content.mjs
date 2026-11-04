@@ -9,7 +9,7 @@ export const DICT_PATCH = {
   en: {
     // Stage 1 hero (owner decisions, 4 Nov 2026): headline D, signature line A, case 1 card.
     kicker: 'USHA by NJO · AI marketing director',
-    h1: 'Every morning: what changed in your market, why, and <i>the move to make.</i> You say yes. She does the work.',
+    h1: 'Every morning: what changed in your market, why, and the move to make. You say yes. She does the work.',
     sub: 'For brands and marketplace sellers in the Gulf, Egypt and Russia. Built by NJO, since 2016.',
     tr1: 'Nothing spent without your yes', tr2: 'NJO checks every output', tr3: 'Works in WhatsApp or Telegram',
     hx_sig: 'The algorithm that understands algorithms.',
@@ -19,7 +19,7 @@ export const DICT_PATCH = {
     hx_c3: '<b>Week 6</b> · Back to #3, with no price cut.',
     hx_cf: '<b>Modelled case</b> · See the whole night →',
     hx_tip: 'Modelled case: a typical situation and numbers from this market. Real client stories are added with permission.',
-    cw_h: 'Businesses <i>like yours.</i>',
+    cw_h: 'Businesses like yours.',
     cw_d: 'Modelled cases: typical situations and numbers from each market. Real client stories are added with permission.',
     bf_send: "Prepare brief",
     bf_doneH: "Brief prepared",
@@ -53,7 +53,7 @@ export const DICT_PATCH = {
   ru: {
     // Stage 1 hero: headline D, signature line A, case 21 card.
     kicker: 'USHA by NJO · ИИ-директор по маркетингу',
-    h1: 'Каждое утро: что изменилось на вашем рынке, почему и <i>какой ход сделать.</i> Вы говорите «да». Дальше работает она.',
+    h1: 'Каждое утро: что изменилось на вашем рынке, почему и какой ход сделать. Вы говорите «да». Дальше работает она.',
     sub: 'Для брендов и селлеров маркетплейсов в России, странах Залива и Египте. Её создала NJO, на рынке с 2016 года.',
     tr1: 'Ни рубля без вашего «да»', tr2: 'NJO проверяет каждый результат', tr3: 'Работает в Telegram, MAX или WhatsApp',
     hx_sig: 'Алгоритм, который понимает алгоритмы.',
@@ -63,7 +63,7 @@ export const DICT_PATCH = {
     hx_c3: '<b>6-я неделя</b> · Вернули 36% потерянной маржи.',
     hx_cf: '<b>Смоделированный кейс</b> · Смотреть всю ночь →',
     hx_tip: 'Смоделированный кейс: типичная ситуация и цифры этого рынка, а не история конкретного клиента. Реальные истории добавляем с согласия клиентов.',
-    cw_h: 'Бизнес, <i>похожий на ваш.</i>',
+    cw_h: 'Бизнес, похожий на ваш.',
     cw_d: 'Смоделированные кейсы: типичные ситуации и цифры российского рынка, а не истории конкретных клиентов. Реальные истории добавляем с согласия клиентов.',
     bf_send: "Подготовить бриф",
     bf_doneH: "Бриф подготовлен",
