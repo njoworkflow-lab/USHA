@@ -557,5 +557,14 @@
  "Got two minutes? Tap me, I’ll read your market.": "عندك دقيقتان؟ اضغط عليّ وسأقرأ سوقك.",
  "Ask me about your sales. Just tap me.": "اسألني عن مبيعاتك. فقط اضغط عليّ.",
  "I’m not just cute. Tap me and test me.": "لستُ لطيفة فقط. اضغط عليّ وجرّبني.",
- "Scrolling fast? Tap me and just ask.": "تتصفح بسرعة؟ اضغط عليّ واسألني مباشرة."
+ "Scrolling fast? Tap me and just ask.": "تتصفح بسرعة؟ اضغط عليّ واسألني مباشرة.",
+ "Prepare brief": "تجهيز الموجز",
+ "Brief prepared": "تم تجهيز الموجز",
+ "Copy your brief, then send it to your project manager in Telegram or by email. Nothing has been sent yet.": "انسخ الموجز، ثم أرسله إلى مدير مشروعك عبر Telegram أو البريد الإلكتروني. لم يتم إرسال أي شيء بعد.",
+ "It is on your clipboard. Send it to your project manager in Telegram or by email. Sending is not confirmed here.": "الموجز في الحافظة. أرسله إلى مدير مشروعك عبر Telegram أو البريد الإلكتروني. لا يمكن تأكيد الإرسال هنا.",
+ "Copy brief": "نسخ الموجز",
+ "The brief is prepared, but copying failed. Try Copy brief again, or open email to send it. Nothing has been sent yet.": "تم تجهيز الموجز، لكن تعذّر نسخه. حاول الضغط على «نسخ الموجز» مجددًا، أو افتح البريد الإلكتروني لإرساله. لم يتم إرسال أي شيء بعد.",
+ "Choose what you sell.": "اختر ما تبيعه.",
+ "Choose your main challenge.": "اختر التحدي الرئيسي.",
+ "Enter a Telegram contact, phone number or email.": "أدخل حساب Telegram أو رقم الهاتف أو البريد الإلكتروني."
 }

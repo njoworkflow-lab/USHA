@@ -327,32 +327,33 @@
     $$('.alg b').forEach((b, i) => b.dataset.n = '0' + (i + 1));
   }
 
-  // ---------- phones: the industry chips run in a loop, like the partners strip ----------
+  // ---------- phones: glide only the visible scenario choices ----------
   function chipsGlide() {
-    const row = $('#ichips'); if (!row || reduce) return;
-    const orig = $$('button:not(.x-clone)', row);
-    if (!orig.length) return;
-    if (!row.querySelector('.x-clone')) {
-      orig.forEach((b, i) => { const c = b.cloneNode(true); c.classList.add('x-clone'); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; c.addEventListener('click', () => orig[i].click()); row.append(c); });
-      const sync = () => $$('.x-clone', row).forEach((c, i) => c.classList.toggle('on', orig[i].classList.contains('on')));
-      orig.forEach((b) => new MutationObserver(sync).observe(b, { attributes: true, attributeFilter: ['class'] })); sync();
-    }
-    if (row.dataset.xg) return; row.dataset.xg = 1;
-    let touched = 0, last = performance.now(), cycleT = performance.now(), x = 0;
+    const row = $('#ichips'); if (!row || reduce || row.dataset.xg) return;
+    row.dataset.xg = 1;
+    let touched = 0, last = performance.now(), x = 0;
     const stop = () => { touched = performance.now(); x = Math.abs(row.scrollLeft); };
     ['pointerdown', 'touchstart', 'wheel'].forEach((ev) => row.addEventListener(ev, stop, { passive: true }));
     (function tick(now) {
       requestAnimationFrame(tick);
       const dt = Math.min(64, now - last); last = now;
-      if (innerWidth > 900 || now - touched < 2500) return;
+      if (!row.offsetParent || row.closest('[hidden]') || innerWidth > 900 || now - touched < 2500) return;
       const r = row.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-      const half = row.scrollWidth / 2;
-      x += dt * 0.035; if (x >= half) x -= half;
-      row.scrollLeft = x * (rtl ? -1 : 1);
-      if (now - cycleT > 9000 && now - touched > 9000) {
-        cycleT = now; const i = orig.findIndex((b) => b.classList.contains('on'));
-        orig[(i + 1) % orig.length].click();
+      // Language/scenario rendering replaces these buttons; never retain stale nodes.
+      const buttons = $$('button:not(.x-clone)', row);
+      if (!buttons.length) return;
+      if (!row.querySelector('.x-clone')) {
+        buttons.forEach((b, i) => {
+          const c = b.cloneNode(true); c.classList.add('x-clone'); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1;
+          c.addEventListener('click', () => $$('button:not(.x-clone)', row)[i]?.click()); row.append(c);
+        });
       }
+      $$('.x-clone', row).forEach((c, i) => c.classList.toggle('on', !!buttons[i]?.classList.contains('on')));
+      const half = row.scrollWidth / 2;
+      if (!half) return;
+      x = (x + dt * 0.035) % half;
+      row.scrollLeft = x * (rtl ? -1 : 1);
+      // Choosing a scenario is always a visitor action, never a timed click.
     })(performance.now());
   }
 
@@ -423,11 +424,11 @@
   }
 
   // the floating screen for a plan: it grows out of its card
-  let lastFocus = null;
+  let planModal = null, lastFocus = null, keepY = 0;
   function openPlan(k, card) {
     closePlan(true);
-    lastFocus = D.activeElement;
-    const m = D.createElement('div'); m.className = 'x-modal';
+    lastFocus = D.activeElement; keepY = scrollY;
+    const m = D.createElement('div'); m.className = 'x-modal'; planModal = m;
     m.innerHTML = `<div class="xm-scrim"></div>${planScreenHTML(X(), dictLike(), k)}`;
     D.body.append(m); H.classList.add('x-modal-on');
     const panel = $('.xm-panel', m);
@@ -437,7 +438,7 @@
       panel.animate([{ transform: `translate(${dx}px,${dy}px) scale(${sx},${sy})`, opacity: .4 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.16,1,.3,1)' });
     }
     requestAnimationFrame(() => m.classList.add('on'));
-    $('.xm-x', m).focus();
+    $('.xm-x', m).focus({ preventScroll: true });
     $('.xm-x', m).addEventListener('click', () => closePlan());
     $('.xm-scrim', m).addEventListener('click', () => closePlan());
     $$('a[data-plan]', m).forEach((a) => a.addEventListener('click', (e) => {
@@ -447,12 +448,25 @@
     }));
   }
   function closePlan(now) {
-    const m = $('.x-modal'); if (!m) return;
+    const m = planModal; if (!m) return; planModal = null;
+    m.inert = true;
     H.classList.remove('x-modal-on');
     if (now || reduce) m.remove(); else { m.classList.remove('on'); setTimeout(() => m.remove(), 380); }
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (Math.abs(scrollY - keepY) > 1) scrollTo({ top: keepY, behavior: 'instant' });
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('.x-modal')) closePlan(); });
+  D.addEventListener('keydown', (e) => {
+    if (!planModal) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closePlan(); return; }
+    if (e.key !== 'Tab') return;
+    const f = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', planModal)
+      .filter((el) => !el.disabled && el.offsetParent !== null && !el.closest('[inert],.ghost'));
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (!planModal.contains(D.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus({ preventScroll: true }); }
+    else if (e.shiftKey && D.activeElement === first) { e.preventDefault(); last.focus({ preventScroll: true }); }
+    else if (!e.shiftKey && D.activeElement === last) { e.preventDefault(); first.focus({ preventScroll: true }); }
+  }, true);
 
   // the month toggle drives the meters and the plans switch
   D.addEventListener('click', (e) => {

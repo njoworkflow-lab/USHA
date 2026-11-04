@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
+import { applyBrief } from './enhance/brief.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
@@ -153,6 +154,14 @@ const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slic
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
 AREAS = patchPairs(patchPairs(AREAS, PAIR_PATCH), AREA_LABELS);
+// The month counters share the plan table's limits instead of a second copy.
+for (const [area, counter, group, row] of [[0, 0, 0, 0], [0, 1, 0, 1], [3, 2, 1, 1]]) {
+  for (const col of [1, 2]) {
+    const limit = X.plansGroups[group][1][row][col][0].match(/\d+/);
+    if (!limit) throw new Error('Plan limit missing for a month counter');
+    AREAS[area].n[counter][col] = Number(limit[0]);
+  }
+}
 for (const add of PRO_ONLY_ADD) if (!PRO_ONLY.some((x) => x[0] === add[0])) PRO_ONLY = [...PRO_ONLY, add];
 for (const [marker, value] of [['var wl={', { en: DICT.en, ru: DICT.ru }], ['Al=[', COMPARE], ['iu=[', AREAS], ['su=[', PRO_ONLY],
   [FEED, patchPairs(grab(src, FEED), PAIR_PATCH)], [CHATS, patchPairs(grab(src, CHATS), PAIR_PATCH)], [WEEK, patchPairs(grab(src, WEEK), PAIR_PATCH)]]) {
@@ -203,7 +212,7 @@ function patch(s, re, to, what) {
 }
 src = patch(src, DETECT, DETECT_NEW, 'language detection');
 src = patch(src, SWITCH, SWITCH_NEW, 'language switch');
-src = patch(src, JUMP, jump('if(i.dataset.l==="ar"){try{localStorage.setItem("usha-lang","ar")}catch{}location.href="/ar/"+location.hash;return}'), 'language buttons');
+src = patch(src, JUMP, jump('if(i.dataset.l===document.documentElement.lang)return;if(i.dataset.l==="ar"){try{localStorage.setItem("usha-lang","ar")}catch{}location.href="/ar/"+location.hash;return}'), 'language buttons');
 if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/button>)/, '$1<button data-l="ar">AR</button>', 'language pill');
 
 // USHA's size per scene: smaller in "Try her" and the game so she sits beside
@@ -216,6 +225,25 @@ src = applyLife(src);
 // the soundtrack replaces the engine hum (enhance/sound.mjs, player in sound.js)
 src = applySound(src);
 src = applyGame(src, fs.readFileSync(path.join(ROOT, 'tools/seo/enhance/game.js'), 'utf8'));
+src = applyBrief(src);
+
+// Keep the existing scene and shaders; bound render cost and pause behind dialogs.
+src = patch(src, /var ui=zl\?\.75:Math\.min\(devicePixelRatio\|\|1,(?:Wn\(\)\?1\.25:1\.75|1\.25)\)/,
+  'var ui=zl?.75:Math.min(devicePixelRatio||1,1.25)', 'renderer pixel ratio');
+src = patch(src, /new Pt\(innerWidth\*ui,innerHeight\*ui,\{samples:(?:zl\|\|Wn\(\)\?0:4|0),type:Kt\}\)/,
+  'new Pt(innerWidth*ui,innerHeight*ui,{samples:0,type:Kt})', 'post-processing multisampling');
+// Refresh these owned blocks on every build, including a build of our own output.
+src = src.replace(/\/\*render-pause\*\/[^]*?\/\*\/render-pause\*\//g, '');
+const renderClock = `/*render-pause*/(()=>{
+  const root=document.documentElement;
+  let blocked=document.hidden||root.classList.contains('x-modal-on');
+  const sync=()=>{const next=document.hidden||root.classList.contains('x-modal-on');if(next!==blocked){y_.getDelta();blocked=next;}};
+  document.addEventListener('visibilitychange',sync);
+  new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['class']});
+})();/*/render-pause*/`;
+const renderGuard = `/*render-pause*/if(document.hidden||document.documentElement.classList.contains('x-modal-on')){y_.getDelta();requestAnimationFrame(Pu);return}/*/render-pause*/`;
+src = patch(src, /function Pu\(\)\{/, renderClock + 'function Pu(){' + renderGuard, 'render loop');
+
 
 // The Arabic page runs its own copy of the bundle: English slot → Arabic.
 let srcAr = src;
@@ -235,7 +263,7 @@ for (const [a, b] of [['new ve(i/innerWidth*2-1,', 'new ve(1-i/innerWidth*2,'], 
   if (!srcAr.includes(a)) throw new Error(`Bundle changed: ${a}`);
   srcAr = srcAr.split(a).join(b);
 }
-srcAr = patch(srcAr, JUMP, jump('if(i.dataset.l!=="ar"){try{localStorage.setItem("usha-lang",i.dataset.l)}catch{}location.href=(i.dataset.l==="en"?"/en/":"/")+location.hash;return}'), 'language buttons');
+srcAr = patch(srcAr, JUMP, jump('if(i.dataset.l==="ar")return;if(i.dataset.l!=="ar"){try{localStorage.setItem("usha-lang",i.dataset.l)}catch{}location.href=(i.dataset.l==="en"?"/en/":"/")+location.hash;return}'), 'language buttons');
 
 // Arabic glyphs: Hacen Saudi Arabia, served exactly as supplied (its licence
 // forbids modifying the file, so no subsetting or woff2 conversion). It sits
