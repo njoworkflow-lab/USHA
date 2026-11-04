@@ -220,6 +220,8 @@
       const dd = Math.hypot((x - cx) / 1.3, y - cy);
       const em = ss(e, 0.3, 0.8), fade = (1 - ss(e, 0.85, 1)) * ss(dd, pr * 0.9, pr * 2.8);
       a *= fade;
+      // the few signals never pulled in go quiet once the decision is being written
+      if (P.c0[i] > 1) a *= 1 - 0.75 * ss(F, B.cardA, B.typeB);
       if (a < 0.01) continue;
       if (i < NL) { lab.push(i, x, y, a, em, e); continue; }
       const s = 0.7 + 1.5 * z * (1 - 0.5 * e);

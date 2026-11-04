@@ -48,6 +48,7 @@
 .mi-row.mi-sum{grid-template-columns:1fr auto;margin-top:6px;padding-top:9px;border-top:1px dashed rgba(243,238,232,.18);color:#F3EEE8}
 .mi-row.mi-sum b{position:relative;font-family:var(--head);font-size:clamp(19px,1.6vw,24px);font-weight:700;letter-spacing:-.03em}
 .mi-row.mi-sum b::after{content:'';position:absolute;inset-inline:0;bottom:-5px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,106,43,0),#FF6A2B);transform:scaleX(0);transform-origin:right;transition:transform .9s cubic-bezier(.16,1,.3,1)}
+html[dir=rtl] .mi-row.mi-sum b{direction:rtl}
 html[dir=rtl] .mi-row.mi-sum b::after{transform-origin:left;background:linear-gradient(270deg,rgba(255,106,43,0),#FF6A2B)}
 .fcard.mi-done .mi-sum b::after{transform:scaleX(1)}
 .fitem .mi-stop{margin-top:10px!important;font-size:13.5px!important;line-height:1.45;color:rgba(243,238,232,.84)}
