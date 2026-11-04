@@ -42,7 +42,7 @@ leaving time for installation and artifact upload. A timeout is failure, never a
 pass. CI does not retry known site findings automatically; optional fresh-session retries use only the final status.
 
 **Full matrix:** `workflow_dispatch` or nightly **02:17 UTC**. There are 18
-browser/profile jobs (up to six concurrent, 180-minute cap each), covering all
+browser/profile jobs (up to six concurrent), covering all
 54 browser × viewport × language cells. Engines: Chromium, WebKit and Firefox.
 Profiles: 1440×900, 1280×720, 1024×768, iPhone 13, Pixel 7 and low-end Android
 360×740. The low-end profile uses Chromium CDP 4× CPU slowdown and Fast 3G.
@@ -62,9 +62,12 @@ move an edge tap into the adjacent chapter.
 
 Full CI uses one browser session at a time per runner to avoid contention between
 software renderers. Reference capture has a 20-minute deadline and candidate
-tests have 150 minutes, leaving time for installation and artifact upload. These
-full-run budgets do not apply to PR smoke. Deadlines produce incomplete coverage
-and a failing result; they never waive an unfinished check.
+tests have 150 minutes within a 180-minute job cap. Chromium at 1440×900 also runs
+both Lighthouse profiles; its observed audits exceeded that budget, so only this
+shard gets 210 minutes within a 240-minute job cap. These caps leave time for
+installation and artifact upload. The increased budget has not yet been verified
+by a full rerun. These full-run budgets do not apply to PR smoke. Deadlines
+produce incomplete coverage and a failing result; they never waive an unfinished check.
 
 The aggregate job requires every shard and primary result, both Lighthouse
 profiles and SEO checks. An unlaunchable WebKit or Firefox is a failed CI run,

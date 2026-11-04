@@ -78,7 +78,7 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: reference
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: ${{ matrix.browser == 'chromium' && matrix.shard == 0 && 240 || 180 }}
     strategy:
       fail-fast: false
       max-parallel: 6
@@ -90,6 +90,9 @@ jobs:
       QA_SHARD: ${{ matrix.shard }}
       QA_BROWSER_SHARD: ${{ matrix.browser }}
       QA_BASELINE_COMMIT: ${{ needs.reference.outputs.main }}
+      # The 1440px Chromium shard also runs both Lighthouse profiles.
+      # Its measured audits exceeded 150 minutes; other shards keep that limit.
+      QA_FULL_TIMEOUT_MINUTES: ${{ matrix.browser == 'chromium' && matrix.shard == 0 && 210 || 150 }}
       # Long performance/leak sessions run once. --resume reruns unfinished
       # audits without promoting observations from a previous attempt.
       QA_RETRIES: '0'
@@ -125,7 +128,7 @@ jobs:
           if [ -d qa/report ]; then cp -a qa/report qa/.work/baseline-report; fi
       - name: Run scheduled engine, profile and all three languages
         if: success() || steps.baseline.outcome == 'failure'
-        run: timeout --signal=TERM --kill-after=30s 150m npm --prefix qa test
+        run: timeout --signal=TERM --kill-after=30s "${QA_FULL_TIMEOUT_MINUTES}m" npm --prefix qa test
       - name: Upload reports, baselines, diffs and installation logs
         if: always()
         uses: actions/upload-artifact@v4
