@@ -9,8 +9,8 @@ export const DICT_PATCH = {
   en: {
     // Hero (owner direction, 4 Nov 2026): the slogan stays the headline; the sub-line carries her full value.
     kicker: 'USHA · AI marketing director',
-    sub: 'She reads your market, plans your growth and does the work: strategy, content, video, ads and creators. A whole marketing department in one AI director.',
-    tr1: 'From strategy to finished work', tr2: 'Senior experts behind every move', tr3: 'Your first week is free',
+    sub: 'She understands what moves your sales, decides what grows your profit, and leads the work until your numbers prove it.',
+    tr1: 'Decisions backed by your numbers', tr2: 'Senior experts behind every move', tr3: 'Your first week is free',
     bf_send: "Prepare brief",
     bf_doneH: "Brief prepared",
     bf_doneP: "Copy your brief, then send it to your project manager in Telegram or by email. Nothing has been sent yet.",
@@ -43,8 +43,8 @@ export const DICT_PATCH = {
   ru: {
     // Hero: слоган остаётся заголовком, подзаголовок говорит о её полной ценности.
     kicker: 'USHA · ИИ-директор по маркетингу',
-    sub: 'Она изучает ваш рынок, строит план роста и делает всю работу: стратегию, контент, видео, рекламу и работу с блогерами. Целый отдел маркетинга в одном ИИ-директоре.',
-    tr1: 'От стратегии до готовой работы', tr2: 'Опытные эксперты за каждым шагом', tr3: 'Первая неделя бесплатно',
+    sub: 'Она понимает, что двигает ваши продажи, решает, что вырастит прибыль, и ведёт работу, пока это не подтвердят ваши цифры.',
+    tr1: 'Решения, подтверждённые вашими цифрами', tr2: 'Опытные эксперты за каждым шагом', tr3: 'Первая неделя бесплатно',
     bf_send: "Подготовить бриф",
     bf_doneH: "Бриф подготовлен",
     bf_doneP: "Скопируйте бриф и отправьте его проджект-менеджеру в Telegram или по почте. Пока ничего не отправлено.",
