@@ -22,12 +22,14 @@
 .mi-cta{opacity:0;visibility:hidden;pointer-events:none}
 .mi-cta.mi-show{visibility:visible}
 .mi-cta.mi-show .xl-hero{pointer-events:auto}
-.mi-cta-d{margin-top:30px}
+.mi-cta-d{margin-top:78px}
 .mi-cta-m{display:none}
 
 /* the card, written out of her */
-.fcard.mi-on{width:min(540px,42vw)}
+/* glass only where nothing moves beneath: over the live canvas the card is a near-opaque night panel (also spares the blur every frame) */
+.fcard.mi-on{width:min(540px,42vw);-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(150deg,rgba(34,28,33,.95),rgba(17,14,18,.97))}
 #signal .fitem .xf-price{display:flex}
+#fnum{direction:ltr;unicode-bidi:isolate}
 .fitem.mi-it{display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:end}
 .fitem.mi-it>*{grid-column:1/-1}
 .fitem.mi-it>.fv{grid-column:1;font-size:clamp(40px,3.5vw,56px)!important;margin:6px 0 4px!important}
@@ -76,6 +78,7 @@ html[dir=rtl] .mi-rail,html[dir=rtl] .mi-h{font-family:var(--body)}
   .mi-cta-m .xl-hero{width:100%;min-height:52px}
   .mi-cta-m .xl-hero-b{flex:1;text-align:start}
   .mi-cta-m .xl-hero-k{display:none}
+  .mi-cta-m .xl-hero-b{white-space:normal;overflow:visible;line-height:1.15;font-size:15.5px}
   .mi-rail{top:auto;bottom:calc(3vh + 6px);font-size:11.5px;gap:6px 16px}
   #signal .fitem .xf-price s,#signal .fitem .xf-price span{white-space:nowrap}
   #signal .fitem .xf-price i{flex-basis:22px}

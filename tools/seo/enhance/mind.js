@@ -115,8 +115,8 @@
   let LANES = [];
   function build() {
     const small = innerWidth < 820;
-    NL = small ? 60 : 130; ND = small ? 1100 : 3000;
-    if (coarse && !small) { NL = 120; ND = 1800; }
+    NL = small ? 60 : 130; ND = small ? 850 : 2200;
+    if (coarse && !small) { NL = 110; ND = 1500; }
     const N = NL + ND; seed = 7;
     LANES = (small ? [[0.36, 0.05, 1.1, 0.02], [0.47, 0.06, 0.8, 0.03], [0.58, 0.05, 1.3, 0.025], [0.7, 0.07, 0.9, 0.03], [0.82, 0.05, 1.2, 0.02], [0.93, 0.04, 0.7, 0.02]]
       : [[0.12, 0.04, 0.8, 0.018], [0.27, 0.06, 1.1, 0.03], [0.42, 0.05, 0.7, 0.024], [0.55, 0.08, 1.3, 0.04], [0.68, 0.05, 0.9, 0.028], [0.8, 0.06, 1.2, 0.034], [0.92, 0.04, 0.8, 0.02]])
@@ -332,6 +332,7 @@
 
   // ---------- state per frame ----------
   let railQ = '', clipQ = '', endQ = -1;
+  let dtR = 0.016;
   function state(F, dt, reduce) {
     const awake = !H.classList.contains('locked');
     // eyes follow the incoming signals, then the card she is writing
@@ -357,7 +358,7 @@
       if (reduce) k = F >= B.typeA ? total : 0;
       else {
         const diff = tgt - shown, words = H.lang === 'ar';
-        const rate = Math.max(words ? 22 : 120, Math.abs(diff) * 5) * dt;
+        const rate = Math.max(words ? 22 : 120, Math.abs(diff) * 5) * dtR;
         k = Math.abs(diff) <= rate ? tgt : shown + Math.sign(diff) * rate;
       }
       paint(k);
@@ -392,7 +393,8 @@
   function measure() {
     const h2 = st.querySelector('h2'), p = st.querySelector('p:not(.mi-sr)');
     const a = h2 ? h2.getBoundingClientRect() : null, b = p && p.offsetParent ? p.getBoundingClientRect() : null;
-    if (a) { tR.left = a.left; tR.top = a.top; tR.right = Math.max(a.right, b ? b.right : 0); tR.bottom = b && b.height ? b.bottom : a.bottom; }
+    const kk = st.querySelector('.kick'), k = kk ? kk.getBoundingClientRect() : a;
+    if (a) { tR.left = a.left; tR.top = Math.min(a.top, k.top); tR.right = Math.max(a.right, b ? b.right : 0); tR.bottom = b && b.height ? b.bottom : a.bottom; }
     const r = card.getBoundingClientRect(), s = stick.getBoundingClientRect();
     // the 3D scene places her on phones from this cached rect; keep it current
     if (W < 820) window.__fc = r;
@@ -405,7 +407,9 @@
   function frame(now) {
     raf = 0;
     if (!visible || D.hidden || H.classList.contains('x-modal-on')) { last = 0; X.on = false; return; }
-    const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016; last = now;
+    const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016;
+    // typing keeps real time even when frames drop
+    dtR = last ? Math.min(0.25, (now - last) / 1000) : 0.016; last = now;
     const reduce = reduceQ.matches;
     f = progress();
     if (reduce) {
@@ -417,9 +421,12 @@
       if (Math.abs(f - fs) < 0.0004) fs = f;
       t += dt;
     }
+    const t0 = performance.now();
     measure();
     state(fs, dt, reduce);
     if (!reduce || still !== fs || !X.pt) { draw(fs, t, reduce); still = fs; }
+    // the layer's own cost per frame (ms), for the smoothness checks
+    X.cost = (X.cost || 0) * 0.9 + (performance.now() - t0) * 0.1;
     raf = requestAnimationFrame(frame);
   }
   const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
