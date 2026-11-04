@@ -78,7 +78,7 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: reference
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       max-parallel: 6
@@ -86,7 +86,7 @@ jobs:
         shard: [0, 1, 2, 3, 4, 5]
         browser: [chromium, webkit, firefox]
     env:
-      QA_WORKERS: '2'
+      QA_WORKERS: '1'
       QA_SHARD: ${{ matrix.shard }}
       QA_BROWSER_SHARD: ${{ matrix.browser }}
       QA_BASELINE_COMMIT: ${{ needs.reference.outputs.main }}
@@ -118,14 +118,14 @@ jobs:
         id: baseline
         env:
           QA_SOURCE_REF: origin/main
-        run: npm --prefix qa run baseline
+        run: timeout --signal=TERM --kill-after=30s 20m npm --prefix qa run baseline
       - name: Preserve baseline capture evidence
         if: always() && steps.baseline.outcome != 'skipped'
         run: |
           if [ -d qa/report ]; then cp -a qa/report qa/.work/baseline-report; fi
       - name: Run scheduled engine, profile and all three languages
         if: success() || steps.baseline.outcome == 'failure'
-        run: timeout --signal=TERM --kill-after=30s 75m npm --prefix qa test
+        run: timeout --signal=TERM --kill-after=30s 150m npm --prefix qa test
       - name: Upload reports, baselines, diffs and installation logs
         if: always()
         uses: actions/upload-artifact@v4
