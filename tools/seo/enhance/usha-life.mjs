@@ -104,8 +104,6 @@ export function applyLife(src) {
     ['[[-4.1,-.25,0],[-1.35,-1.55,0],[1.35,-.25,0],[4.1,-1.55,0]]', '[[-4.3,-1.05,0],[-1.45,-1.05,0],[1.45,-1.05,0],[4.3,-1.05,0]]'],
     // their labels always stay on screen
     ['p.style.top=((1-bs.y)/2*innerHeight).toFixed(1)+"px",p.classList.toggle("on",v===d)', 'p.style.top=Math.min((1-bs.y)/2*innerHeight,innerHeight-(p._h||(p._h=p.offsetHeight))-24).toFixed(1)+"px",p.classList.toggle("on",v===d)'],
-    // phones: hero USHA a little higher so the label clears her
-    ['u:e?[0,2.98,0]:[2.75,.1,1.2],us:e?1.02:.95', 'u:e?[0,3.32,0]:[2.75,.1,1.2],us:e?.9:.95'],
     // phones: "Try her" USHA larger and clear, the ring calmer
     ['us:e?.42:.66,ch:', 'us:e?.6:.66,ch:'],
     // "Try her": the particle ring forms behind her, so it frames her instead of hazing over her
@@ -141,6 +139,8 @@ export function applyLife(src) {
     [/function Sl\(i\)\{return i\?\[\.35,\.25,0\]:\[[-.\d]+,[-.\d]+,0\]\}/, 'function Sl(i){return i?[.35,.25,0]:[2.45,1.55,0]}'],
     // phones: USHA between the headline and the card (cached measurements)
     [/u:e\?\(\(\)=>\{const c=(?:window\.__fc\|\|)?document\.querySelector\("\.fcard"\)\.getBoundingClientRect\(\),h=(?:window\.__sh\|\|)?document\.querySelector\("#signal h2"\)\.getBoundingClientRect\(\),/, 'u:e?(()=>{const c=window.__fc||document.querySelector(".fcard").getBoundingClientRect(),h=window.__sh||document.querySelector("#signal h2").getBoundingClientRect(),'],
+    // phones: hero USHA smaller and higher, under the header, so the stage 1 headline, trust strip and case card fit
+    [/u:e\?\[0,[\d.]+,0\]:\[2\.75,\.1,1\.2\],us:e\?[\d.]+:\.95/, 'u:e?[0,4.45,0]:[2.75,.1,1.2],us:e?.56:.95'],
     // "Try her": no glow disc behind her
     [/ch:\.25,g:\.5,gp:\[\(s\.left|ch:e\?\.1:\.25,g:e\?0:\.2,gp:\[\(s\.left|ch:e\?\.1:\.25,g:0,gp:\[\(s\.left/, 'ch:e?.1:.25,g:0,gp:[(s.left'],
     // findings: USHA always in one place, just above the card where the light stream arrives

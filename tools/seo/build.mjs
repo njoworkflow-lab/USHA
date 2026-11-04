@@ -40,6 +40,7 @@ const LANGS = {
     imageAlt: 'USHA by NJO — движок бизнес-аналитики',
     serviceType: 'Движок бизнес-аналитики и маркетинга',
     freeWeek: 'Бесплатная первая неделя: стратегия, четыре готовых поста и собственный чат с USHA.',
+    offer: 'Первая неделя бесплатно',
   },
   en: {
     idx: 0, url: `${SITE}/en/`, file: 'en/index.html', locale: 'en_US',
@@ -49,6 +50,7 @@ const LANGS = {
     imageAlt: 'USHA by NJO — business intelligence engine',
     serviceType: 'Business intelligence and marketing engine',
     freeWeek: 'Free first week: your strategy, four ready posts and your own USHA chat.',
+    offer: 'First week free',
   },
   // Arabic reuses the bundle's English slot (index 0) with translated text.
   ar: {
@@ -59,6 +61,7 @@ const LANGS = {
     imageAlt: 'USHA by NJO — محرّك ذكاء الأعمال',
     serviceType: 'محرّك ذكاء الأعمال والتسويق',
     freeWeek: 'الأسبوع الأول مجاني: استراتيجيتك، وأربعة منشورات جاهزة لعلامتك، ومحادثتك الخاصة مع USHA.',
+    offer: 'الأسبوع الأول مجاني',
   },
 };
 const X_DEFAULT = LANGS.en.url;
@@ -220,6 +223,17 @@ if (!src.includes('data-l="ar"')) src = patch(src, /(<button data-l="ru">RU<\/bu
 src = src.replace('us:e?.62:1,ch:.25', 'us:e?.42:.66,ch:.25').replace('us:e?.62:.78,ch:.5', 'us:e?.5:.6,ch:.5');
 if (!src.includes('us:e?.42:.66,ch:.25') && !src.includes('us:e?.6:.66,ch:e?.1:.25')) throw new Error('Bundle changed: USHA scene sizes not found');
 
+// Stage 1 hero: one live button (live.js adds it), the free week as the quiet
+// button, the trust strip, her signature line and a small case card that leads
+// to the case wall. Owned block, rebuilt on every run.
+src = patch(src, /<div class="cta" data-in="0,-1,\.8">[^]*?<\/div>\s*<div class="trust" data-in="0,-1,\.8">[^]*?<\/div>(?:<!--xhero-->[^]*?<!--\/xhero-->)?/, () =>
+  '<div class="cta" data-in="0,-1,.8"><a class="btn btn-g x-hfree" href="#free"><span data-t="b1"></span></a></div>\n      ' +
+  '<div class="trust" data-in="0,-1,.8"><span data-t="tr1"></span><span data-t="tr2"></span><span data-t="tr3"></span></div>' +
+  '<!--xhero--><p class="x-sig" data-in="0,-1,.8" data-t="hx_sig"></p>' +
+  '<a class="x-hcase" href="#cases" data-in="0,-1,.8" aria-describedby="x-hc-tip"><span class="x-hc-t" data-t="hx_ct"></span>' +
+  '<span class="x-hc-l" data-t="hx_c1"></span><span class="x-hc-l" data-t="hx_c2"></span><span class="x-hc-l x-hc-w" data-t="hx_c3"></span>' +
+  '<span class="x-hc-f" data-t="hx_cf"></span><span class="x-vh" id="x-hc-tip" data-t="hx_tip"></span></a><!--/xhero-->', 'hero buttons and trust strip');
+
 // USHA's personality: moods, tears, new sounds, surprises (enhance/usha-life.mjs)
 src = applyLife(src);
 // the soundtrack replaces the engine hum (enhance/sound.mjs, player in sound.js)
@@ -318,7 +332,7 @@ function jsonLd(lang) {
     provider: { '@id': `${SITE}/#njo` }, brand: { '@type': 'Brand', name: 'USHA' },
     image: `${SITE}/og.jpg`, areaServed: org.areaServed,
     availableChannel: { '@type': 'ServiceChannel', serviceUrl: CONTACT.telegram, name: 'Telegram' },
-    offers: { '@type': 'Offer', name: strip(d.tr1), description: L.freeWeek, price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
+    offers: { '@type': 'Offer', name: L.offer, description: L.freeWeek, price: '0', priceCurrency: lang === 'ru' ? 'RUB' : 'USD', url: `${L.url}#free` },
     hasOfferCatalog: {
       '@type': 'OfferCatalog', name: strip(d.p_k.replace(/^\d+\s*·\s*/, '')),
       itemListElement: PLANS.map((p) => ({
