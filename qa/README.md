@@ -33,7 +33,8 @@ and modal tabs, toggles a FAQ, inspects layout/RTL at hero/plans/FAQ, runs
 one axe scan over all visible main content and the header, checks
 phone tap sizing, and checks the keyboard path and console/network log. Focus failures share one screenshot per popup, retaining both keyboard directions
 and the actual focused element. The full
-suite adds exhaustive popup states, story chapters, video/game controls,
+suite adds exhaustive popup states, story chapters (native strip input in compact
+layouts and individual dot input on desktop), video/game controls,
 language/history navigation, popup axe, character raycasts, visibility, stress,
 performance, leaks and visual comparisons. Smoke does not change site animation
 or opacity. Its command has a 15-minute deadline; the job has a 20-minute cap,

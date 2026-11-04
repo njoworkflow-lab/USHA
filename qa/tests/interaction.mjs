@@ -17,6 +17,27 @@ export async function waitForDisclosure(summary, open, timeout = 10000) {
       { summary: handle, open }, { timeout, polling: 100 });
   } finally { await handle?.dispose(); }
 }
+export async function clickStoryChapter(page, index, touch = false) {
+  const dot = page.locator('.ns-dot').nth(index);
+  if (await dot.evaluate(el => getComputedStyle(el).pointerEvents) !== 'none') {
+    await qaClick(dot, { timeout: 60000, noWaitAfter: true });
+    return;
+  }
+  // Compact layouts delegate pointer navigation to the shared trail. The dots
+  // remain keyboard controls, but intentionally do not receive pointer input.
+  const point = await dot.evaluate(el => {
+    const trail = el.closest('.ns-trail');
+    if (!trail) throw new Error('Story chapter has no navigation trail');
+    const r = trail.getBoundingClientRect(), d = el.getBoundingClientRect();
+    if (r.width <= 2 || r.height <= 2) throw new Error('Story navigation trail has no usable layout box');
+    const x = Math.max(r.left + 1, Math.min(r.right - 1, d.left + d.width / 2));
+    const y = r.top + r.height / 2, hit = document.elementFromPoint(x, y);
+    if (!hit || !trail.contains(hit)) throw new Error('Story navigation trail pointer is intercepted');
+    return { x, y };
+  });
+  if (touch) await page.touchscreen.tap(point.x, point.y);
+  else await page.mouse.click(point.x, point.y);
+}
 async function trap(page, root, record, name) {
   const focusable = page.locator(`${root} button:visible:not([disabled]), ${root} a[href]:visible, ${root} input:visible, ${root} select:visible, ${root} textarea:visible, ${root} [tabindex="0"]:visible`);
   if (!(await focusable.count())) { await record.fail(`${name}: dialog has no focusable controls`); return; }
@@ -144,7 +165,7 @@ export async function interactions(s, cell, record, origin) {
     await openPopup(page, POPUPS.find(p => p.name === 'story'));
     const dots = page.locator('.ns-dot'), count = await dots.count();
     for (let i = 0; i < count; i++) {
-      try { await qaClick(dots.nth(i), { timeout: 60000, noWaitAfter: true }); }
+      try { await clickStoryChapter(page, i, isPhone(cell)); }
       catch (error) {
         const hitTest = await page.evaluate(index => {
           const el = document.querySelector(`.ns-dot[data-i="${index}"]`), r = el.getBoundingClientRect();
