@@ -301,9 +301,10 @@ export async function smokeInteractions(s, cell, record) {
   await step(record, 'FAQ disclosure toggles', async () => {
     const faq = page.locator('#faqs details').first();
     await qaClick(faq.locator('summary'));
-    await record.check(await faq.getAttribute('open') !== null, 'FAQ did not open');
+    await page.waitForFunction(() => document.querySelector('#faqs details')?.open, null, { timeout: 1500 });
     await qaClick(faq.locator('summary'));
-    await record.check(await faq.getAttribute('open') === null, 'FAQ did not close');
+    // The site removes `open` in the 320 ms close animation's onfinish callback.
+    await page.waitForFunction(() => !document.querySelector('#faqs details')?.open, null, { timeout: 1500 });
   });
 }
 
