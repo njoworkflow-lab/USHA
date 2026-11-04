@@ -2921,7 +2921,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
       // a fine line ties each cause to her
       c.strokeStyle = 'rgba(255,140,90,.35)'; c.lineWidth = 1;
       c.beginPath(); c.moveTo(x + (rtl ? 6 : -6), y); c.quadraticCurveTo(x + (cx - x) * 0.2, cy + (y - cy) * 0.2, cx, cy + pr * 0.3); c.stroke();
-      c.fillStyle = '#FF6A2B'; c.beginPath(); c.arc(x + (rtl ? 6 : -6) * 0 - (rtl ? -2 : 2), y, 2.4, 0, 6.283); c.fill();
+      c.fillStyle = '#FF6A2B'; c.beginPath(); c.arc(x + (rtl ? 2 : -2), y, 2.4, 0, 6.283); c.fill();
       c.fillStyle = '#F3EEE8'; c.fillText(txt, x + (rtl ? -10 : 10), y);
     });
     c.globalAlpha = 1;
@@ -2933,13 +2933,13 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     const x0 = cx, y0 = cy + pr * 0.62;
     const k1x = x0, k1y = y0 + (ay - y0) * 0.55, k2x = ax, k2y = y0 + (ay - y0) * 0.45;
     const pt = (u) => { const v = 1 - u; return [v * v * v * x0 + 3 * v * v * u * k1x + 3 * v * u * u * k2x + u * u * u * ax, v * v * v * y0 + 3 * v * v * u * k1y + 3 * v * u * u * k2y + u * u * u * ay]; };
-    const n = 40, m = Math.max(1, Math.round(n * d));
+    const m = Math.max(1, Math.round(40 * d));
     const fadeAfter = 1 - 0.5 * ss(F, B.typeB, B.end + 0.02);
     c.globalCompositeOperation = 'lighter';
     for (const [lw, al] of [[7, 0.08], [3, 0.18], [1.2, 0.9]]) {
       c.lineWidth = lw; c.strokeStyle = `rgba(255,106,43,${(al * base * fadeAfter).toFixed(3)})`;
       c.beginPath(); c.moveTo(x0, y0);
-      for (let i = 1; i <= m; i++) { const [x, y] = pt((i / n) * (d * n / m) * (i <= m ? 1 : 1)); c.lineTo(x, y); }
+      for (let i = 1; i <= m; i++) { const [x, y] = pt((i / m) * d); c.lineTo(x, y); }
       c.stroke();
     }
     // the head of the thread, then pulses that carry the writing into the card
