@@ -68,7 +68,7 @@ html.xn-on,html.xn-on body{overflow:hidden}
 .l-tgh i{font-weight:800;color:var(--pg-ember)}
 .l-tgsub{margin:18px auto 0;max-width:62ch;font-size:clamp(14px,1.05vw,16.5px);line-height:1.55;color:rgba(243,238,232,.72);transition:opacity 1s .25s,transform 1.2s .25s var(--pg-ease)}
 html[lang=ar] .l-tgh{line-height:1.35;letter-spacing:0}
-.l-js .l-tgh{opacity:.08;transform:translateY(22px);filter:blur(6px)}
+.l-js .l-tgh{opacity:0;transform:translateY(22px);filter:blur(6px)}
 .l-js .l-tgsub{opacity:0;transform:translateY(12px)}
 .l-js.l-land .l-tgh{opacity:1;transform:none;filter:none}
 .l-js.l-land .l-tgsub{opacity:1;transform:none}
@@ -80,7 +80,7 @@ html[lang=ar] .l-tgh{line-height:1.35;letter-spacing:0}
 .l-tgk div{display:grid;gap:6px;max-width:16ch}
 .l-tgk dt{margin:0}
 .l-num{display:block;font:500 clamp(24px,2.3vw,38px)/1 var(--pg-mono);letter-spacing:-.04em;color:var(--pg-cream);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;text-align:start}
-.l-tgk dd{margin:0;font-size:12.5px;line-height:1.4;color:rgba(243,238,232,.62)}
+.l-tgk dd{margin:0;font-size:13px;line-height:1.4;color:rgba(243,238,232,.7)}
 .l-tgmore{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px;border-radius:99px;font:500 15px var(--body);white-space:nowrap;color:var(--pg-cream);box-shadow:inset 0 0 0 1px rgba(255,180,138,.4);background:rgba(10,9,12,.6);transition:box-shadow .3s,background .3s}
 .l-tgmore:hover{box-shadow:inset 0 0 0 1px var(--pg-ember);background:rgba(255,106,43,.12)}
 .l-tgmore i{font-style:normal;color:var(--pg-ember);transition:transform .4s var(--pg-ease)}.l-tgmore:hover i{transform:translateX(4px)}
@@ -226,3 +226,14 @@ html[lang=ar] .pg-ht h1{line-height:1.3;letter-spacing:0}
 .pg-people .l-tg{padding-top:0}
 .pg-people #njo{padding-top:clamp(40px,8vh,90px)}
 @media (prefers-reduced-motion:reduce){.pg-soon-b::before{animation:none}}
+.pg-h a,.xn-menu a,.pg-f a{text-decoration:none}
+.pg-cta h2.big{font:300 clamp(34px,4.5vw,80px)/1 var(--head);letter-spacing:-.055em;max-width:17ch;text-wrap:balance;color:var(--pg-cream)}
+.pg-cta h2.big i{font-weight:800;color:var(--pg-ember)}
+html[lang=ar] .pg-cta h2.big{line-height:1.3;letter-spacing:0}
+/* the cases page: the same opening as the other pages, USHA beside it */
+.xc-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);align-items:center;gap:clamp(20px,4vw,60px)}
+.xc-hero .pg-me{width:min(100%,380px)}
+@media (max-width:900px){.xc-hero{grid-template-columns:1fr}.xc-hero .pg-me{order:-1;width:min(52vw,230px);justify-self:start;margin:0 0 -4px}}
+#cases .xc-head.xc-hero{max-width:none}
+.xc-ht{max-width:880px}
+.pg-cases .xc-main{padding-top:clamp(104px,15vh,150px)}

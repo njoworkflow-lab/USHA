@@ -856,8 +856,8 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     const a = c ? c.a + gauss() * c.s * 2.2 : rnd() * Math.PI * 2;
     const r = c ? clamp(c.r + gauss() * c.s, 0.24, 1.15) : 0.24 + rnd() * 0.9;
     const kind = i < BRIGHT ? 2 : rnd() < 0.24 ? 0 : 1; // 2 bright, 1 normal, 0 dim
-    stars.push({ a, r, kind, sz: kind === 2 ? 2.2 : kind === 1 ? 0.7 + rnd() * 0.9 : 0.5 + rnd() * 0.5,
-      al: kind === 2 ? 1 : kind === 1 ? 0.45 + rnd() * 0.4 : 0.14 + rnd() * 0.14, fl: kind === 0 && rnd() < 0.3, ph: rnd() * 6.28, sp: 0.6 + rnd() * 1.6,
+    stars.push({ a, r, kind, sz: kind === 2 ? 2.4 : kind === 1 ? 1.1 + rnd() * 1.1 : 0.9 + rnd() * 0.5,
+      al: kind === 2 ? 1 : kind === 1 ? 0.55 + rnd() * 0.4 : 0.2 + rnd() * 0.15, fl: kind === 0 && rnd() < 0.3, ph: rnd() * 6.28, sp: 0.6 + rnd() * 1.6,
       app: 0, thr: rnd(), drift: (rnd() - 0.5) * 0.012 });
   }
   // arrival: one by one, then faster, then in waves (a decade arriving)
@@ -894,6 +894,10 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   let p = reduce ? 1 : 0, t = 0;
   function draw() {
     ctx.clearRect(0, 0, W, Ht);
+    // a deep, near-black field over the galaxy behind, open where she sits
+    const field = ctx.createRadialGradient(P.x, P.y, R * 1.02, P.x, P.y, R * 1.9);
+    field.addColorStop(0, 'rgba(3,3,4,0)'); field.addColorStop(1, 'rgba(3,3,4,.9)');
+    ctx.fillStyle = field; ctx.fillRect(0, 0, W, Ht);
     const threadK = clamp((p - 0.5) / 0.32);
     // threads: faint at the edges, brighter where they converge
     ctx.globalCompositeOperation = 'lighter';
@@ -901,7 +905,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     for (const s of stars) {
       const f = clamp((p - 0.5 - s.thr * 0.2) / 0.12);
       if (f <= 0 || p < s.app) continue;
-      ctx.strokeStyle = s.kind === 2 ? 'rgba(255,140,90,.22)' : s.kind === 1 ? 'rgba(255,106,43,.075)' : 'rgba(255,106,43,.045)';
+      ctx.strokeStyle = s.kind === 2 ? 'rgba(255,150,100,.34)' : s.kind === 1 ? 'rgba(255,106,43,.12)' : 'rgba(255,106,43,.07)';
       ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x + (s.ex - s.x) * f, s.y + (s.ey - s.y) * f); ctx.stroke();
     }
     // her point: an ember ring that grows as the threads arrive
@@ -929,7 +933,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
         ctx.fillStyle = `rgba(255,106,43,${0.25 * al})`; ctx.beginPath(); ctx.arc(s.x, s.y, s.sz * 3, 0, Math.PI * 2); ctx.fill();
       } else {
         ctx.fillStyle = `rgba(255,${s.kind ? 240 : 214},${s.kind ? 228 : 196},${al})`;
-        ctx.fillRect(s.x - s.sz / 2, s.y - s.sz / 2, s.sz, s.sz);
+        if (s.sz > 1.5) { ctx.beginPath(); ctx.arc(s.x, s.y, s.sz * 0.62, 0, 6.283); ctx.fill(); } else ctx.fillRect(s.x - s.sz / 2, s.y - s.sz / 2, s.sz, s.sz);
       }
     }
     // the counters tick with the arrivals and stop exactly on their facts
@@ -949,7 +953,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     if (home) { const r = tg.getBoundingClientRect(); return clamp(-r.top / Math.max(1, r.height - innerHeight)); }
     // /people/: it plays once, over a few seconds, the first time it is seen
     if (!played) return 0;
-    return clamp((performance.now() - played) / 6500);
+    return clamp((performance.now() - played) / 4200);
   }
   function frame(now) {
     raf = 0;
