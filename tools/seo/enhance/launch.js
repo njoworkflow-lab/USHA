@@ -83,5 +83,15 @@
       $('.l-again', end).addEventListener('click', () => { end.hidden = true; $('#game').classList.remove('l-ended'); const g = $('#gstart'); if (g) g.click(); });
     }
   }
+  // RU and EN share one page and switch in place: the cases page and the guides follow the language
+  function links() {
+    if (H.lang !== 'en' && H.lang !== 'ru') return;
+    const en = H.lang === 'en';
+    $$('a[href^="/"],a[href^="https://usha.one/"]').forEach((a) => {
+      const u = a.getAttribute('href'), m = u.match(/^(https:\/\/usha\.one)?\/(en\/)?((?:cases|guides)\/.*)$/);
+      if (m) a.setAttribute('href', `${m[1] || ''}/${en ? 'en/' : ''}${m[3]}`);
+    });
+  }
+  new MutationObserver(links).observe(H, { attributes: true, attributeFilter: ['lang'] });
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', boot); else boot();
 })();

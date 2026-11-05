@@ -144,7 +144,7 @@ ${t('fw_dl', 'p', 'l-lab l-declab rv')}`;
 }
 
 function footerGuides(c) {
-  return `<div class="l-guides">${t('ft_gt', 'small')}${t('ft_gs', 'p')}<div class="l-gcards">${c.guides.map((g, i) => `<a class="l-gcard" href="${g}"${c.guideLang ? ` hreflang="${c.guideLang}"` : ''}>${t(`ft_g${i + 1}t`, 'b')}${t(`ft_g${i + 1}p`)}${t('ft_read', 'em')}</a>`).join('')}</div><a class="l-cases" href="${c.cases}">${t('ft_cases')} →</a></div>`;
+  return `<div class="l-guides">${t('ft_gt', 'small')}${t('ft_gs', 'p')}<div class="l-gcards">${c.guides.map((g, i) => `<a class="l-gcard" href="${g}"${c.guideLang ? ` hreflang="${c.guideLang}"` : ''}>${t(`ft_g${i + 1}t`, 'b')}${t(`ft_g${i + 1}p`)}${t('ft_read', 'em')}</a>`).join('')}</div><a class="l-cases" href="${c.cases}">${t('ft_cases')}</a></div>`;
 }
 
 // c: { cases: url of this language's cases page, guides: [3 urls], guideLang, ask: href of the consultation }

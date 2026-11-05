@@ -245,7 +245,7 @@ html[lang=ar] .l-terms h3{font-family:var(--body)}
 html[lang=ar] .l-gcard b{font-family:var(--body)}
 .l-gcard span{font-size:14px;line-height:1.5;color:var(--ink3)}
 .l-gcard em{font-style:normal;font-size:14px;color:var(--peach)}
-.l-cases{display:inline-block;margin-top:16px;color:var(--peach)}
+.l-cases{display:inline-block;margin-top:16px;color:var(--peach)}.l-cases::after{content:' →'}html[dir=rtl] .l-cases::after{content:' ←'}
 
 @media (max-width:1100px){
  .l-desks{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -288,7 +288,7 @@ html[lang=ar] .l-gcard b{font-family:var(--body)}
  .l-cal{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
 }
 @media (prefers-reduced-motion:reduce){
- .l-track{animation:none;flex-wrap:wrap;width:auto}.l-dup{display:none}
+ .l-track,html[dir=rtl] .l-track{animation:none;flex-wrap:wrap;width:auto}.l-dup{display:none}
  .l-dart .e{transition:none;stroke-dashoffset:0}
  .l-glyph,.l-gopen{transition:none;opacity:1;transform:none}
  .l-core i,.l-op.go .l-ring::after{animation:none}
@@ -297,3 +297,4 @@ html[lang=ar] .l-gcard b{font-family:var(--body)}
 .ctrl>div{min-width:0}.ctrl .xw-auto,.ctrl .xw-feed{max-width:100%;overflow:hidden}
 .ctrl .xw-top{max-width:100%;flex-wrap:wrap}.ctrl .xw-chips{display:flex;flex-wrap:wrap;max-width:100%;height:auto!important}
 .l-row .btn,.l-gend .btn{white-space:normal;height:auto;min-height:48px;padding-block:12px;line-height:1.3}
+@media (max-width:440px){#hero .xl-hero-k{display:none}}

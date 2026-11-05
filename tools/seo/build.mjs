@@ -484,7 +484,7 @@ function render(lang) {
   // footer guides as cards; all before the data-t pass so their copy is pre-rendered
   const gl = GUIDES_HUB[lang] ? lang : 'en';
   const slugs = ['agency-vs-in-house-vs-usha', 'competitor-monitoring', 'marketplace-analytics'];
-  const lc = { cases: casesUrl(lang), ask: LIVE.api ? '#ask' : '#talk', guides: slugs.map((g) => guideUrl(gl, g)), guideLang: gl === lang ? '' : gl };
+  const lc = { cases: new URL(casesUrl(lang)).pathname, ask: LIVE.api ? '#ask' : '#talk', guides: slugs.map((g) => guideUrl(gl, g)), guideLang: gl === lang ? '' : gl };
   h = launchHTML(h, lc);
   h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => `${a}<!--seo:guides-->${footerGuides(lc)}<!--/seo:guides-->`);
 
@@ -648,7 +648,8 @@ for (const lang of Object.keys(LANGS)) {
     { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
     crumbsLd([['USHA', L.url], [strip(d.cs_k), url]]),
   ];
-  const langs = Object.keys(LANGS).filter((l) => l !== lang).map((l) => `<a href="${casesUrl(l)}" hreflang="${l}" lang="${l}">${l.toUpperCase()}</a>`).join('');
+  const rel = (u) => new URL(u).pathname;
+  const langs = Object.keys(LANGS).filter((l) => l !== lang).map((l) => `<a href="${rel(casesUrl(l))}" hreflang="${l}" lang="${l}">${l.toUpperCase()}</a>`).join('');
   const html = `<!doctype html>
 <html lang="${lang}"${L.dir ? ` dir="${L.dir}"` : ''}>
 <head>
@@ -674,11 +675,11 @@ ${Object.entries(alt).map(([l, u]) => `<link rel="alternate" hreflang="${l}" hre
 ${lang === 'ar' ? AR_CSS + '\n' : ''}<style>${FONT_FACES}${GUIDE_CSS}${CASES_CSS}</style>
 </head>
 <body class="xc-page">
-<header class="g-h"><a class="logo" href="${L.url}" aria-label="USHA by NJO">${LOGO}</a><nav><a href="${L.url}">${d.cs_back}</a>${langs}<a class="btn" href="${L.url}#ask">${strip(d.cta)}</a></nav></header>
+<header class="g-h"><a class="logo" href="${rel(L.url)}" aria-label="USHA by NJO">${LOGO}</a><nav><a href="${rel(L.url)}">${d.cs_back}</a>${langs}<a class="btn" href="${rel(L.url)}#ask">${strip(d.cta)}</a></nav></header>
 <main id="cases" class="xc-main"><div class="xc-head"><p class="kick">${d.cs_k}</p><h1>${d.cs_h}</h1><p class="lead">${d.cs_p}</p><p class="xc-disc">${d.pr_note}</p><p class="xc-plan">${C.ui.plan}</p></div>
 <div class="xc-app">${xcWallHTML(C, lang)}</div></main>
-<footer><span>${strip(d.ft_made)}</span><span><a href="${L.url}">usha.one</a> · <a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a></span></footer>
-<script>window.USHA_CASES=${JSON.stringify({ [lang]: C }).replace(/</g, '\\u003c')};window.USHA_CASES_ASK=${JSON.stringify(`${L.url}#ask`)}</script><script src="${CASES_JS_URL}"></script>
+<footer><span>${strip(d.ft_made)}</span><span><a href="${rel(L.url)}">usha.one</a> · <a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a> · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a></span></footer>
+<script>window.USHA_CASES=${JSON.stringify({ [lang]: C }).replace(/</g, '\\u003c')};window.USHA_CASES_ASK=${JSON.stringify(`${rel(L.url)}#ask`)}</script><script src="${CASES_JS_URL}"></script>
 </body></html>
 `;
   const file = path.join(ROOT, new URL(url).pathname, 'index.html');

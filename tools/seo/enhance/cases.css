@@ -142,3 +142,5 @@ html[lang=ar] .xc-ex,html[lang=ar] .xc-code{font-family:var(--body);letter-spaci
 .xc-main .xc-grid{padding:0}
 .xc-main .xc-in p{color:var(--ink2)}
 html[lang=ar] .xc-page h1{line-height:1.3;letter-spacing:0}
+.xc-page .xc-mbtns .btn,.xc-page .xc-empty .btn{height:auto;min-height:44px;padding-block:10px;line-height:1.3;white-space:normal;text-align:center;justify-content:center}
+.xc-page .xc-mres p{font-weight:450}.xc-page .xc-mres p b{font-weight:650;color:var(--ink)}
