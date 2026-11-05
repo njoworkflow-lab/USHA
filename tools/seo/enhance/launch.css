@@ -114,13 +114,15 @@ html[lang=ar] .l-track b{font-family:var(--body);font-weight:400}
 @keyframes l-mq{to{transform:translateX(-50%)}}
 html[dir=rtl] .l-track{animation-name:l-mqr}
 @keyframes l-mqr{to{transform:translateX(50%)}}
-#njo .eng{display:block;margin-top:40px}
+#njo .eng{display:block;margin-top:44px!important;padding:28px 0 0;border-top:1px solid var(--line)}
+#njo .x-story{margin-top:28px!important;padding-top:0!important;border-top:0!important}
 .l-brand{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
 .l-brand>span{font:300 clamp(24px,2.4vw,36px)/1 var(--head);letter-spacing:-.04em;color:var(--ink)}
 #njo .partners{margin-top:40px}
 
 /* 06 try her */
-.t3-bring{margin-top:10px!important;font-size:13.5px!important;line-height:1.5;color:var(--ink3)!important}
+.t3-bring{display:block;margin-top:10px;font-size:13.5px;line-height:1.5;color:var(--ink3)}
+.t3-cards .k-live h3{font-size:clamp(22px,1.9vw,28px)}
 .t3-tag{display:inline-block;margin-inline-start:8px;padding:3px 8px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line);font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);vertical-align:middle}
 html[lang=ar] .t3-tag{font-family:var(--body);font-size:12px;letter-spacing:0}
 #talk .l-ho{margin-top:40px}
@@ -132,14 +134,14 @@ html[lang=ar] .t3-tag{font-family:var(--body);font-size:12px;letter-spacing:0}
 html[lang=ar] .l-opt h3{font-family:var(--body);font-weight:400;line-height:1.35}
 .l-opt p{margin-top:16px;max-width:480px;color:var(--ink2)}
 .l-orbw{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-.l-orb{position:relative;width:min(100%,460px);aspect-ratio:1;margin:0 auto}
+.l-orb{position:relative;width:440px;max-width:100%;aspect-ratio:1;margin:0 auto;--r:158px}
 .l-ring{position:absolute;inset:14%;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(243,238,232,.14)}
 .l-ring::after{content:'';position:absolute;inset:-1px;border-radius:50%;border:1px solid transparent;border-top-color:rgba(255,106,43,.6);opacity:0;transition:opacity .6s}
 .l-op.go .l-ring::after{opacity:1;animation:x-spin 6s linear infinite}
 .l-core{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:9px;background:radial-gradient(circle at 50% 35%,#FFE3D2,#FFB48A 45%,#FF6A2B 100%);box-shadow:0 0 60px -10px rgba(255,106,43,.7)}
 .l-core i{width:9px;height:17px;border-radius:9px;background:#140c08;animation:l-blink 5s infinite}
 @keyframes l-blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
-.l-o{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--a)) translate(0,calc(min(230px,50%) * -.72)) rotate(calc(var(--a) * -1));max-width:150px;padding:8px 12px;border-radius:99px;font:500 13px/1.25 var(--body);color:var(--ink2);text-align:center;background:rgba(10,10,12,.92);box-shadow:inset 0 0 0 1px var(--line);transition:color .3s,box-shadow .3s,background .3s}
+.l-o{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--a)) translate(0,calc(var(--r) * -1)) rotate(calc(var(--a) * -1));max-width:150px;padding:8px 12px;border-radius:99px;font:500 13px/1.25 var(--body);color:var(--ink2);text-align:center;background:rgba(10,10,12,.92);box-shadow:inset 0 0 0 1px var(--line);transition:color .3s,box-shadow .3s,background .3s}
 .l-o:hover{color:var(--ink);box-shadow:inset 0 0 0 1px rgba(255,180,138,.5)}
 .l-o.on{color:#0b0a0f;background:var(--ink);box-shadow:0 0 0 6px rgba(243,238,232,.06)}
 .l-op.go .l-o::before{content:'';position:absolute;top:-3px;inset-inline-end:-3px;width:8px;height:8px;border-radius:50%;background:#9FE3DC}
@@ -220,7 +222,7 @@ html[lang=ar] .l-terms h3{font-family:var(--body)}
 .l-terms ul{list-style:none;display:grid;gap:10px;margin-top:12px}
 .l-terms li{display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:var(--ink2)}
 .l-terms li::before{content:'✓';flex:none;color:var(--peach)}
-.l-declab{margin-top:26px;color:var(--peach)}
+#free .l-declab{margin-top:26px;color:var(--peach)}
 .l-declab+.then{margin-top:8px}
 #free>.wrap:last-child .l-ho,#talk>.wrap:last-child .l-ho{margin-top:48px}
 
@@ -234,7 +236,7 @@ html[lang=ar] .l-terms h3{font-family:var(--body)}
 #game.l-ended #gstart{display:none}
 
 /* footer: the guides as cards */
-.fgrid>.l-guides{flex:1 1 100%;display:block;margin-top:24px;padding-top:28px;border-top:1px solid var(--line)}
+.fgrid>.l-guides{grid-column:1/-1;display:block!important;margin-top:8px;padding-top:28px!important;border-top:1px solid var(--line)}
 .l-guides>p{margin-top:6px;color:var(--ink2)}
 .l-gcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
 .l-gcard{display:grid!important;gap:8px;align-content:start;padding:20px;border-radius:18px;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .3s}
@@ -291,3 +293,7 @@ html[lang=ar] .l-gcard b{font-family:var(--body)}
  .l-glyph,.l-gopen{transition:none;opacity:1;transform:none}
  .l-core i,.l-op.go .l-ring::after{animation:none}
 }
+/* phones: the live feed in "She runs it" never widens its card */
+.ctrl>div{min-width:0}.ctrl .xw-auto,.ctrl .xw-feed{max-width:100%;overflow:hidden}
+.ctrl .xw-top{max-width:100%;flex-wrap:wrap}.ctrl .xw-chips{display:flex;flex-wrap:wrap;max-width:100%;height:auto!important}
+.l-row .btn,.l-gend .btn{white-space:normal;height:auto;min-height:48px;padding-block:12px;line-height:1.3}

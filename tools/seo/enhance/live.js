@@ -737,7 +737,7 @@
   function heroUI() {
     const row = $('#hero .hero-t .cta'); if (!row) return;
     const h = HX[H.lang] || HX.en;
-    let b = $('.xl-hero');
+    let b = $('.xl-hero', row);
     if (!b) {
       b = D.createElement('button'); b.type = 'button'; b.className = 'xl-hero'; b.setAttribute('translate', 'no');
       row.prepend(b);
