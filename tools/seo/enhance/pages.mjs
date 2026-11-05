@@ -39,25 +39,23 @@ export function menuHTML(u, cur, { langs, cta, contact }) {
 </div></div>`;
 }
 
-// ---------- the "taught her" moment ----------
-// Five teachers on an arc around her. On the home page the stage is pinned and
-// scroll lights them one by one while the real 3D USHA sits in #lTher; on
-// /people/ the same moment opens the page with her likeness and plays once.
-const ARC = [205, 155, 90, 25, -25];
+// ---------- the "trained on" moment (control-room/plans/taught-her.md) ----------
+// A constellation of 700+ project stars drawn into one point: USHA. On the
+// home page the stage is pinned and scroll builds it (stars arrive, counters
+// tick, threads draw, the headline lands) while the real 3D USHA sits on the
+// point (#lTher); on /people/ it opens the page with her likeness and plays
+// once. The canvas is drawn by pages.js; text stays real text.
+const COUNTERS = [[700, '+'], [10, '+'], [20, '+'], [55, '+'], [18, '']];
 export function taughtHTML(u, { home }) {
-  const nodes = range(1, 5).map((k) => {
-    const a = ARC[k - 1] * Math.PI / 180;
-    const x = (50 + Math.cos(a) * 40).toFixed(1), y = (50 + Math.sin(a) * 38).toFixed(1);
-    return `<li class="l-tn" style="--x:${x}%;--y:${y}%;--k:${k - 1}">${t(`nj_d${k}n`, 'b')}${t(`nj_d${k}g`, 'span', 'l-tng')}</li>`;
-  }).join('');
-  const stats = [1, 3, 2].map((n) => `<div>${t(`nj_s${n}n`, 'b')}${t(`nj_s${n}l`)}</div>`).join('');
-  const head = home ? t('nj_h', 'h2', 'l-tgh') : t('nj_h', 'h1', 'l-tgh');
+  const head = t('tg_h', home ? 'h2' : 'h1', 'l-tgh');
   const me = home ? '<div class="l-tgu" id="lTher" aria-hidden="true"></div>' : `<div class="l-tgu" aria-hidden="true">${likeness('l-tgme')}</div>`;
+  const nums = COUNTERS.map(([n, s], i) => `<div><dt><b class="l-num" data-n="${n}" data-s="${s}">${n}${s}</b></dt>${t(`tg_c${i + 1}`, 'dd')}</div>`).join('');
   const more = home ? `<a class="l-tgmore" href="${u.people}" data-pg="people">${t('tg_more')}<i aria-hidden="true">→</i></a>` : '';
   return `<section class="ch sec l-tg${home ? ' l-tg-home' : ''}" id="taught"><div class="l-tgs">
-<div class="l-tgt">${t('nj_k', 'div', 'kick')}${head}${home ? '' : t('nj_p', 'p', 'lead')}</div>
-<div class="l-tgc"><svg class="l-tgl" aria-hidden="true"></svg><span class="l-tgr" aria-hidden="true"><i></i><i></i><i></i></span>${me}<ol class="l-tgn">${nodes}</ol></div>
-<div class="l-tgf"><div class="l-tgst">${stats}</div>${home ? t('nj_p', 'p', 'l-tgp') : ''}${more}</div>
+<canvas class="l-tgcv" role="img" aria-labelledby="tgAlt"></canvas>${t('tg_alt', 'span', '', ' id="tgAlt" hidden')}
+<div class="l-tgt">${t('tg_k', 'div', 'kick')}${head}${t('tg_p', 'p', 'l-tgsub')}</div>
+<div class="l-tgc">${me}</div>
+<div class="l-tgf"><dl class="l-tgk">${nums}</dl>${more}</div>
 </div></section>`;
 }
 

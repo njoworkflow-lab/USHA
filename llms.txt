@@ -8,6 +8,10 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 - [USHA — Russian (main)](https://usha.one/): USHA — движок бизнес-аналитики от NJO. Каждый день читает Wildberries, Ozon, Яндекс Маркет, конкурентов и покупателей, объясняет, что изменилось, и делает работу: стратегия, контент, реклама. Первая неделя бесплатно.
 - [USHA — English](https://usha.one/en/): USHA by NJO reads your marketplaces, competitors and buyers every day, tells you what changed and why, and does the work: strategy, content, ads. Russia, GCC, Egypt. First week free.
 - [USHA — Arabic](https://usha.one/ar/): كل يوم تتابع USHA ما يجري في منصات البيع ولدى منافسيك وعملائك، فتخبرك بما تغيّر ولماذا، ثم تتولّى التنفيذ: الاستراتيجية والمحتوى والإعلانات. روسيا ودول الخليج ومصر. الأسبوع الأول مجاني.
+- [How she works](https://usha.one/en/how/): How USHA, the AI marketing director by NJO, works with owners: you approve every budget, one mind replaces a department of eight, and a modelled month with her, day by day.
+- [The people behind her](https://usha.one/en/people/): USHA learned at the desks of NJO’s strategists, art directors, analysts, engineers and project managers: 700+ projects in 20+ countries since 2016. Her origin story and partners.
+- [Plans, the free first week and FAQ](https://usha.one/en/plans/): USHA Core, Pro and Enterprise: what each plan covers, where she works, the free first week day by day, and answers to the questions owners ask first.
+- [Cases](https://usha.one/en/cases/): Twelve cases from established businesses in the Gulf and Egypt: the decision, the arithmetic, what moved, what didn’t, and the stop rule.
 - [Full text of the site](https://usha.one/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
 
 ## Guides

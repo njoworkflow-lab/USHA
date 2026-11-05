@@ -5,15 +5,20 @@
 // English string lives in ../ar.json (the build stops if one is missing).
 // The section copy itself is not repeated here: the detail pages reuse the
 // sections that used to sit on the home page, with their own strings.
-// The "taught her" moment uses the section 05 strings (nj_*); when the new copy
-// from control-room/plans/taught-her.md arrives, swap nj_h, nj_p and tg_more.
+// The "trained on" moment (tg_*) follows control-room/plans/taught-her.md.
 
 export const PAGES = {
   en: {
     // header and menu
     nav_home: 'Home', nav_how: 'How she works', nav_new: 'New', nav_try: 'Try now', nav_menu: 'Menu', nav_close: 'Close',
     // home: the "taught her" moment and the hints row
-    tg_more: 'Meet the people who taught her',
+    // the "trained on" moment (control-room/plans/taught-her.md)
+    tg_k: 'What she was trained on',
+    tg_h: 'AI models learn from what the world wrote. <i>USHA learned from what NJO did.</i>',
+    tg_p: 'Every decision, campaign, launch and failure behind those projects, encoded into her by NJO’s strategists, art directors, analysts and engineers.',
+    tg_c1: 'projects behind her judgement', tg_c2: 'years of real operating work', tg_c3: 'countries where the work was done', tg_c4: 'industries seen from the inside', tg_c5: 'long-term brands, about five years each on average',
+    tg_alt: 'A constellation of more than 700 NJO projects flowing into USHA.',
+    tg_more: 'Meet the people who trained her',
     hn_h: 'The rest of her story, <i>one step away.</i>',
     hn_how_p: 'Who decides what, why one mind replaces a department of eight, and a month with her, day by day.',
     hn_ppl_p: 'The strategists, art directors, analysts and engineers who taught her, and the story of how she was born.',
@@ -46,7 +51,12 @@ export const PAGES = {
   },
   ru: {
     nav_home: 'Главная', nav_how: 'Как она работает', nav_new: 'Новое', nav_try: 'Попробовать', nav_menu: 'Меню', nav_close: 'Закрыть',
-    tg_more: 'Познакомьтесь с теми, кто её учил',
+    tg_k: 'На чём она обучена',
+    tg_h: 'Нейросети учатся на том, что написал мир. <i>USHA училась на том, что сделала NJO.</i>',
+    tg_p: 'Каждое решение, кампания, запуск и провал за этими проектами: стратеги, арт-директора, аналитики и инженеры NJO перенесли их в её мышление.',
+    tg_c1: 'проектов за её суждениями', tg_c2: 'лет реальной операционной работы', tg_c3: 'стран, где шла работа', tg_c4: 'отраслей, увиденных изнутри', tg_c5: 'брендов, с которыми NJO работает в среднем около пяти лет',
+    tg_alt: 'Созвездие из более чем 700 проектов NJO, которые сходятся в USHA.',
+    tg_more: 'Познакомьтесь с теми, кто её обучал',
     hn_h: 'Остальное — <i>в одном шаге.</i>',
     hn_how_p: 'Кто что решает, почему один ум заменяет отдел из восьми человек и как проходит месяц с ней, день за днём.',
     hn_ppl_p: 'Стратеги, арт-директора, аналитики и инженеры, которые её учили, и история о том, как она появилась.',

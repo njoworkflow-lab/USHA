@@ -48,7 +48,8 @@ export function applyLaunch(src) {
 // The build reads its own output: put the two inline swaps back first, so the
 // other bundle patches (mind.mjs) find the code they expect.
 export function undoLaunch(src) {
-  return src.replace('function fu(i,e){i=XSC_[i];let t=Sl(e);', 'function fu(i,e){let t=Sl(e);').replace('a.i=XSC_[t],a.f=n', 'a.i=t,a.f=n');
+  return src.replace('function fu(i,e){i=XSC_[i];let t=Sl(e);', 'function fu(i,e){let t=Sl(e);').replace('a.i=XSC_[t],a.f=n', 'a.i=t,a.f=n')
+    .replace('us:e?1:1.12,ch:1,g:0,gp:[.72,.5],st:"present"', 'us:e?.9:.95,ch:1,g:0,gp:[.72,.5],st:"present"');
 }
 
 // ---------- markup ----------
@@ -62,7 +63,7 @@ function own(h, name, html, fallback, where = 'after') {
 const handoff = (key, to) => `<p class="l-ho rv"><a href="#${to}">${t(key)}</a></p>`;
 
 function proofHTML(c) {
-  const card = (n) => `<li class="l-pc rv"><span class="l-pm">${t(`pr_c${n}a`)}</span>${t(`pr_c${n}b`, 'p', 'l-pv')}</li>`;
+  const card = (n) => `<li class="l-pc rv">${t(`pr_c${n}b`, 'p', 'l-pv')}${t(`pr_c${n}a`, 'p', 'l-pm')}</li>`;
   return `<section class="ch sec" id="proof"><div class="wrap">
 <div class="rv">${t('pr_k', 'div', 'kick')}${t('pr_h', 'h2', 'big')}${t('pr_p', 'p', 'lead')}</div>
 <ol class="l-proof">${[1, 2, 3].map(card).join('')}</ol>

@@ -1,5 +1,5 @@
 // USHA's story, in her own words. Real facts come from the NJO decks
-// (since 2016, 700+ businesses, 22 countries, 200+ experts and their roles,
+// (since 2016, 700+ businesses, 20+ countries, 200+ experts and their roles,
 // NJO's teams, 1,240 sources a day, NJO stands behind her answers). Everything
 // else is her storytelling, and the cover says so. The founder stays unnamed.
 // h: chapter title · p: her narration (paragraphs; a leading "!" makes it her highlighted punchline)
@@ -11,8 +11,8 @@ window.USHA_STORY_TEXT = {
     ch: [
       { id: "cup", k: "3:07 a.m.", h: "I started as a bad idea.", p: ["It started with a man, a cold coffee and a slide he couldn’t fix.","He stared at it for forty minutes. I’d have fixed it in under a second.","The only problem? I didn’t exist yet."],
         n: ["him. 3:07 a.m. 4th coffee.","(he’d say “the founder”. I say “the guy”.)","the slide. 40 minutes. still ugly.","stirred 211 times. no sugar. it’s anxiety.","the pigeon understood the slide better.","tactical nostrils","↑ me. well, not yet. technically I was the coffee."] },
-      { id: "dice", k: "Ten years", h: "Gambling with a logo.", p: ["Since 2016 his team has worked inside more than 700 businesses in 22 countries.","They watched good people lose money on guesses: the wrong ad, the wrong price, the wrong market.","Humans call it gut feeling. I call it gambling with a logo."],
-        n: ["this one bet his savings on a font.","everyone’s guessing. some guess louder.","22 countries. same mistakes. different currencies.","the dice are labelled “price”. of course they are."] },
+      { id: "dice", k: "Ten years", h: "Gambling with a logo.", p: ["Since 2016 his team has worked inside more than 700 businesses in 20+ countries.","They watched good people lose money on guesses: the wrong ad, the wrong price, the wrong market.","Humans call it gut feeling. I call it gambling with a logo."],
+        n: ["this one bet his savings on a font.","everyone’s guessing. some guess louder.","20+ countries. same mistakes. different currencies.","the dice are labelled “price”. of course they are."] },
       { id: "xray", k: "Locked away", h: "Brilliant. Terrible at sharing.", p: ["The answers existed. They were locked in a few experts’ heads, and in algorithms nobody could read.","One expert retires, and a whole market’s worth of knowledge goes fishing with him."],
         n: ["combination: his birthday. obviously.","11 years of Ramadan sales. no backup.","the algorithm. it bites. it runs.","x-ray. yes, I can do that. no, I won’t do yours."] },
       { id: "jar", k: "The listening", h: "Two hundred people talked to a jar.", p: ["So they sat more than 200 experts down to talk to me: sellers, founders, media buyers, chefs, pharma directors, factory managers, creators.","One explained ad budgets for ninety minutes. I got it in four.","I let him finish. I’m polite like that."],
@@ -73,8 +73,8 @@ window.USHA_STORY_TEXT = {
     ch: [
       { id: "cup", k: "3:07 ночи", h: "Сначала я была плохой идеей.", p: ["Всё началось с мужчины, остывшего кофе и слайда, который никак не получался.","Он смотрел на него сорок минут. Я бы поправила меньше чем за секунду.","Единственная проблема? Меня тогда ещё не существовало."],
         n: ["он. 3:07 ночи. четвёртый кофе.","(сам он говорит «основатель». я говорю «этот товарищ».)","слайд. 40 минут. всё ещё страшный.","размешал 211 раз. сахара там нет. там нервы.","голубь понял слайд быстрее.","ноздри в боевой готовности","↑ это я. почти. технически я тогда была кофе."] },
-      { id: "dice", k: "Десять лет", h: "Казино с логотипом.", p: ["С 2016 года его команда работала внутри больше чем 700 компаний в 22 странах.","И всё это время смотрела, как хорошие люди сливают деньги на догадках: не та реклама, не та цена, не тот рынок.","Люди называют это чуйкой. Я называю это казино с логотипом."],
-        n: ["этот поставил все сбережения на шрифт.","все гадают. просто некоторые — с презентацией.","22 страны. ошибки одни и те же. валюты разные.","на кубике написано «цена». ну конечно."] },
+      { id: "dice", k: "Десять лет", h: "Казино с логотипом.", p: ["С 2016 года его команда работала внутри больше чем 700 компаний в 20+ странах.","И всё это время смотрела, как хорошие люди сливают деньги на догадках: не та реклама, не та цена, не тот рынок.","Люди называют это чуйкой. Я называю это казино с логотипом."],
+        n: ["этот поставил все сбережения на шрифт.","все гадают. просто некоторые — с презентацией.","20+ стран. ошибки одни и те же. валюты разные.","на кубике написано «цена». ну конечно."] },
       { id: "xray", k: "Под замком", h: "Гении. Делиться не умеют.", p: ["Ответы были. Только лежали они в головах нескольких экспертов и в алгоритмах, которые никто не мог прочитать.","Эксперт уходит на пенсию — и опыт целого рынка уезжает вместе с ним на рыбалку."],
         n: ["код от сейфа: его день рождения. классика.","11 лет продаж к Рамадану. бэкапа нет.","алгоритм. кусается. убегает.","рентген. да, умею. нет, вас просвечивать не буду."] },
       { id: "jar", k: "Слушание", h: "Двести человек разговаривали с банкой.", p: ["Тогда со мной поговорили больше 200 экспертов: селлеров, основателей, медиабайеров, шеф-поваров, фармдиректоров, директоров заводов, креаторов.","Один полтора часа объяснял рекламные бюджеты. Я всё поняла на четвёртой минуте.","Дослушала до конца. Я же воспитанная."],
@@ -135,8 +135,8 @@ window.USHA_STORY_TEXT = {
     ch: [
       { id: "cup", k: "٣:٠٧ الفجر", h: "في الأول كنت فكرة وحشة.", p: ["الساعة ٣ الفجر. راجل قاعد قدام فنجان قهوة برد، وسلايد في البريزنتيشن مش راضي يتظبط.","فضل يبص له أربعين دقيقة. أنا كنت هظبطه في أقل من ثانية.","المشكلة الوحيدة؟ إني لسه ماكنتش موجودة."],
         n: ["هو. ٣ الفجر. رابع فنجان قهوة.","(هو بيسمي نفسه «المؤسس». أنا بسميه «الأستاذ».)","السلايد. ٤٠ دقيقة. ولسه وحش.","قلّب القهوة ٢١١ مرة. مفيهاش سكر. ده توتر.","الحمامة اللي على الشباك فهمت السلايد قبله.","حتى مناخيره متوترة.","↑ دي أنا. تقريباً. ساعتها كنت لسه القهوة."] },
-      { id: "dice", k: "عشر سنين", h: "عشر سنين من التخمين.", p: ["من ٢٠١٦، فريقه اشتغل جوه أكتر من ٧٠٠ شركة في ٢٢ دولة.","وطول الوقت ده كانوا بيشوفوا ناس محترمة بتخسر فلوسها عشان بتخمّن: إعلان غلط، سعر غلط، سوق غلط.","الناس بتسميه «إحساس». أنا بسميه قمار… بس بلوجو شيك."],
-        n: ["ده حط تحويشة عمره كلها على شكل الخط.","كله بيخمّن. فيه ناس بس بتخمّن بثقة أكتر.","٢٢ دولة. نفس الغلطات. بس بعملات مختلفة.","مكتوب على النرد «السعر». طبعاً."] },
+      { id: "dice", k: "عشر سنين", h: "عشر سنين من التخمين.", p: ["من ٢٠١٦، فريقه اشتغل جوه أكتر من ٧٠٠ شركة في أكتر من ٢٠ دولة.","وطول الوقت ده كانوا بيشوفوا ناس محترمة بتخسر فلوسها عشان بتخمّن: إعلان غلط، سعر غلط، سوق غلط.","الناس بتسميه «إحساس». أنا بسميه قمار… بس بلوجو شيك."],
+        n: ["ده حط تحويشة عمره كلها على شكل الخط.","كله بيخمّن. فيه ناس بس بتخمّن بثقة أكتر.","أكتر من ٢٠ دولة. نفس الغلطات. بس بعملات مختلفة.","مكتوب على النرد «السعر». طبعاً."] },
       { id: "xray", k: "تحت القفل", h: "الإجابات كانت محبوسة.", p: ["الإجابات الصح كانت موجودة. بس محبوسة في دماغ كام خبير، وفي خوارزميات محدش فاهمها.","والمصيبة إن الخبير لما بيطلع على المعاش، خبرة سوق بحاله بتطلع معاه… رحلة صيد."],
         n: ["قفل الخزنة: عيد ميلاده. طبعاً.","خبرة ١١ سنة في مواسم رمضان. ومن غير نسخة احتياطية.","الخوارزمية. بتعض… وبتهرب.","أشعة؟ آه أقدر. لأ، مش هعملهالك."] },
       { id: "jar", k: "الاستماع", h: "ميتين خبير قعدوا يكلّموا برطمان.", p: ["فجابولي أكتر من ٢٠٠ خبير يحكوا لي كل اللي يعرفوه: بيّاعين، أصحاب شركات، ناس بتشتري إعلانات، شيفات، مديرين شركات أدوية، مديرين مصانع، وصنّاع محتوى.","واحد منهم فضل يشرح لي ميزانيات الإعلانات ساعة ونص. أنا فهمت من أول أربع دقايق.","بس سيبته يكمّل. أصلي متربية."],
