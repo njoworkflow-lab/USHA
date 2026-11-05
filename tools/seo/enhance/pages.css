@@ -237,3 +237,7 @@ html[lang=ar] .pg-cta h2.big{line-height:1.3;letter-spacing:0}
 #cases .xc-head.xc-hero{max-width:none}
 .xc-ht{max-width:880px}
 .pg-cases .xc-main{padding-top:clamp(104px,15vh,150px)}
+/* home: the forces, compact */
+#noise{height:270vh}
+@media (max-width:820px){#noise{height:190vh}}
+.pg-cases main{overflow-x:clip}
