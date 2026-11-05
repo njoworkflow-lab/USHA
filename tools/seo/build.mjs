@@ -32,6 +32,10 @@ import { COMPARE_ROWS, DETAIL, ORDER } from './enhance/launch-copy.mjs';
 import { pageUrls, PAGE_IDS, SECTION_PAGE, navMid, burger, menuHTML, taughtHTML, pageHero, likeness } from './enhance/pages.mjs';
 import { CASES2 } from './enhance/cases-v2.mjs';
 import { xcWallHTML } from './enhance/cases-ui.mjs';
+import { BRAINS, B_FIELDS, B_INDUSTRIES, B_MARKETS, B_LANGS, B_HOME, B_YEARS, B_BANDS } from './enhance/brains-data.mjs';
+import { BRAINS_COPY } from './enhance/brains-copy.mjs';
+import { brPageHTML } from './enhance/brains-page.mjs';
+import { brPrice } from './enhance/brains-ui.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const SITE = 'https://usha.one';
@@ -792,6 +796,62 @@ const SITE_CSS = BUNDLE_CSS.replace(/@font-face\{font-family:'(?:Geist|Golos Tex
 const SITE_CSS_URL = emit(`site-${hash(SITE_CSS)}.css`, SITE_CSS);
 const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
 const DETAIL_JS_URL = emit(`pages-${hash(DETAIL_JS)}.js`, DETAIL_JS);
+// ---------- the product pages: /brains/ and /premiere/ (and /en/…, /ar/…) ----------
+// Each is its own light page on the shared chrome (header, menu, galaxy,
+// USHA's likeness): a page body pre-rendered for crawlers (brains-page.mjs,
+// premiere-page.mjs), its styles inline (prod.css + the page's own) and one
+// cached script (prod.js, the page's markup helpers, its behaviour). Copy in
+// three languages lives in brains-copy.mjs and premiere-copy.mjs; the
+// consultant profiles in brains-data.mjs. Reservations never leave the page.
+const minCss = (f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const PROD_CSS = minCss('prod.css');
+const LI = { en: 0, ar: 1, ru: 2 };
+const loc = (o, lang) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, v[LI[lang]]]));
+function brainsLocal(lang) {
+  const i = LI[lang];
+  const L = {
+    fields: loc(B_FIELDS, lang), ind: loc(B_INDUSTRIES, lang), markets: loc(B_MARKETS, lang), langs: loc(B_LANGS, lang), home: loc(B_HOME, lang),
+    years: B_YEARS, bands: B_BANDS.map((x) => ({ id: x.id, min: x.min, max: x.max, n: x.n[i], line: x.line[i], range: `${brPrice(x.min, lang)}–${brPrice(x.max, lang)}` })),
+  };
+  const list = BRAINS.map(({ en, ar, ru, ...b }) => ({ ...b, t: { en, ar, ru }[lang] }));
+  return { L, list };
+}
+const BRAINS_JS = ['prod.js', 'brains-ui.mjs', 'brains.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
+const BRAINS_JS_URL = emit(`brains-${hash(BRAINS_JS)}.js`, BRAINS_JS);
+const BRAINS_CSS = minCss('brains.css');
+function productHead(lang, { title, description, url, alt, ld, css }) {
+  return pageHead(lang, { title, description, url, alt, ld, css: `<style id="x-type">${TYPE_FACES}</style>\n<style>${PROD_CSS}${css}</style>\n<link rel="stylesheet" href="${CHROME_CSS_URL}">\n<script>document.documentElement.classList.add('pd-js')</script>` });
+}
+const PRODUCT_PAGES = {
+  brains(lang) {
+    const C = BRAINS_COPY[lang], L0 = LANGS[lang], { L, list } = brainsLocal(lang), ch = chrome(lang, 'brains');
+    const url = `${SITE}${pageUrls(lang).brains}`, alt = Object.fromEntries(Object.keys(LANGS).map((l) => [l, `${SITE}${pageUrls(l).brains}`]));
+    const me = likeness('pg-u').replace('{{USHA_BODY}}', BODY_URL);
+    const ld = [
+      { '@type': 'WebPage', '@id': `${url}#page`, url, name: C.title, description: C.desc, inLanguage: lang, isPartOf: { '@id': `${SITE}/#website` }, publisher: { '@id': `${SITE}/#njo` },
+        mainEntity: { '@type': 'ItemList', name: 'BRAINS', itemListElement: list.map((b, n) => ({ '@type': 'ListItem', position: n + 1, name: b.t.title })) } },
+      { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
+      crumbsLd([['USHA', L0.url], ['BRAINS', url]]),
+      { '@type': 'FAQPage', '@id': `${url}#faq`, inLanguage: lang, mainEntity: C.faq.list.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+    ];
+    const data = { lang, C, L, list, me };
+    const html = productHead(lang, { title: C.title, description: C.desc, url, alt, ld, css: BRAINS_CSS }) + `
+<body class="pd pg pg-brains">
+<a class="pd-skip" href="#browse">${C.hero.cta1}</a>
+<canvas class="pg-sky" data-tone="teal" aria-hidden="true"></canvas>
+${ch.header}
+<main id="brains">
+${brPageHTML({ C, L, list, lang, me, ask: ch.ask })}
+</main>
+${ch.footer}
+<script>window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_BRAINS=${JSON.stringify(data).replace(/</g, '\\u003c')}</script><script src="${BRAINS_JS_URL}" defer></script><script src="${CHROME_JS_URL}" defer></script>
+</body></html>
+`;
+    const file = path.join(ROOT, pageUrls(lang).brains, 'index.html');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, html);
+  },
+};
 const PAGE_KEY = { how: 'how', people: 'ppl', plans: 'pl', brains: 'br', premiere: 'pr' };
 const PAGE_TONE = { how: 'ember', people: 'peach', plans: 'teal', brains: 'teal', premiere: 'ember' };
 function detailBody(lang, id, ch) {
@@ -819,6 +879,7 @@ function detailBody(lang, id, ch) {
 for (const lang of Object.keys(LANGS)) {
   const d = DICT[lang], L = LANGS[lang];
   for (const id of PAGE_IDS) {
+    if (PRODUCT_PAGES[id]) { PRODUCT_PAGES[id](lang); continue; }
     const k = PAGE_KEY[id], url = `${SITE}${pageUrls(lang)[id]}`, ch = chrome(lang, id);
     const alt = Object.fromEntries(Object.keys(LANGS).map((l) => [l, `${SITE}${pageUrls(l)[id]}`]));
     const title = d[`pg_${k}_title`], description = d[`pg_${k}_desc`];
