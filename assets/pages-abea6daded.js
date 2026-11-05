@@ -953,7 +953,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
     if (home) { const r = tg.getBoundingClientRect(); return clamp(-r.top / Math.max(1, r.height - innerHeight)); }
     // /people/: it plays once, over a few seconds, the first time it is seen
     if (!played) return 0;
-    return clamp((performance.now() - played) / 4200);
+    return clamp((performance.now() - played) / 2800);
   }
   function frame(now) {
     raf = 0;
