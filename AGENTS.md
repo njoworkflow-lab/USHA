@@ -21,7 +21,7 @@ You are the implementer. A separate reviewer checks every pull request before it
 ## Checks before a pull request
 
 1. Build in a disposable copy and serve it locally.
-2. All 11 sitemap pages return 200 with the right `lang`, canonical link, an `<h1>` and JSON-LD; `robots.txt`, `llms.txt`, `llms-full.txt` and `sw.js` load.
+2. All 29 sitemap pages return 200 with the right `lang`, canonical link, an `<h1>` and JSON-LD; `robots.txt`, `llms.txt`, `llms-full.txt` and `sw.js` load.
 3. Browser check in Russian, English and Arabic: no JavaScript errors, no failed asset requests, no horizontal scroll at phone width (about 390 px) or desktop, Arabic stays right-to-left.
 4. Put the results in the pull request.
 

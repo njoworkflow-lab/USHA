@@ -10,6 +10,9 @@ small, fast, multilingual site:
 | `/en/` | English (pre-rendered) |
 | `/ar/` | Arabic, right-to-left, from `ar.json`, font Hacen Saudi Arabia |
 | `/guides/…`, `/en/guides/…` | Guides from `guides.mjs` |
+| `/how/`, `/people/`, `/plans/` (+ `/en/…`, `/ar/…`) | Detail pages: the sections that left the short home page (`enhance/pages.mjs`, `pages.css`, `pages.js`, `galaxy.js`); their bundle source is kept in `enhance/sections.html` |
+| `/brains/`, `/premiere/` (+ `/en/…`, `/ar/…`) | "Opening soon" stubs for the two new products |
+| `/cases/`, `/en/cases/`, `/ar/cases/` | The case library (`enhance/cases-v2.mjs`, generated from `case-library-v3.md`) |
 | `/assets/…` | Fonts and script, content-hashed and shared by all pages |
 | `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` | Crawler and AI-assistant files |
 
