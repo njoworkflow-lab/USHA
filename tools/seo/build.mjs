@@ -28,7 +28,8 @@ import { applySound } from './enhance/sound.mjs';
 import { applyMind, MIND } from './enhance/mind.mjs';
 import { GUIDES, GUIDES_HUB } from './guides.mjs';
 import { applyLaunch, undoLaunch, launchHTML, footerGuides } from './enhance/launch.mjs';
-import { COMPARE_ROWS } from './enhance/launch-copy.mjs';
+import { COMPARE_ROWS, DETAIL } from './enhance/launch-copy.mjs';
+import { pageUrls, PAGE_IDS, SECTION_PAGE, navMid, burger, menuHTML, taughtHTML, pageHero, likeness } from './enhance/pages.mjs';
 import { CASES2 } from './enhance/cases-v2.mjs';
 import { xcWallHTML } from './enhance/cases-ui.mjs';
 
@@ -155,6 +156,9 @@ for (const l of ['en', 'ru']) for (const [k, v] of Object.entries(DICT_PATCH[l])
   if (k === 'faq3') DICT[l].faq[3] = v; else DICT[l][k] = v;
 }
 for (const l of ['en', 'ru']) Object.assign(DICT[l].bub, LIFE_BUB[l]);
+// The short home page (5 Nov 2026): 01–03 stay a numbered story; the sections
+// that moved, or now sit after the hints, lose their running number.
+for (const l of ['en', 'ru']) for (const k of ['c_k', 'nj_k', 't_k', 'w_k', 'm_k', 'p_k', 'fr_k']) DICT[l][k] = DICT[l][k].replace(/^\d+\s*·\s*/, '');
 const patchPairs = (v, map) => isPair(v) ? (map[v[0]] ? [...map[v[0]], ...v.slice(2)] : v) : Array.isArray(v) ? v.map((x) => patchPairs(x, map))
   : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, patchPairs(x, map)])) : v;
 COMPARE = patchPairs(COMPARE, PAIR_PATCH);
@@ -386,8 +390,8 @@ self.addEventListener('fetch',e=>{const r=e.request,u=new URL(r.url);if(r.method
 
 // ---------- enhancement layer (tools/seo/enhance) ----------
 const ENH = path.join(ROOT, 'tools/seo/enhance');
-const ENH_CSS = ['enhance.css', 'try.css', 'mind.css', 'launch.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
-const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'mind.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'launch.js'), 'utf8');
+const ENH_CSS = ['enhance.css', 'try.css', 'mind.css', 'launch.css', 'pages.css'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+const ENH_JS = fs.readFileSync(path.join(ENH, 'ui.mjs'), 'utf8').replace(/^export /gm, '') + '\n' + fs.readFileSync(path.join(ENH, 'enhance.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'live.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'game-sound.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'story/cover.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'try.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'mind.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'launch.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'pages.js'), 'utf8');
 // USHA's story (point 9): loaded only when someone opens it from the cover
 const STORY_DIR = path.join(ENH, 'story');
 const STORY_JS = ['text.js', 'art.js', 'art2.js', 'art3.js', 'art4.js', 'art5.js', 'art6.js', 'story.js'].map((f) => fs.readFileSync(path.join(STORY_DIR, f), 'utf8')).join('\n');
@@ -441,6 +445,23 @@ ${lang === 'ar' ? AR_CSS + '\n' : ''}<!-- seo:end -->`;
 }
 
 // ---------- pre-rendered body content ----------
+// data-t elements: values only contain <b>, <i>, <br>, so the first matching
+// closing tag is the element's own. The easter-egg popup stays out of the
+// static HTML so search engines do not give the secret away.
+function fillT(h, d) {
+  h = h.replace(/(<([a-z0-9]+)\b[^>]*\bdata-t="([^"]+)"[^>]*>)([^]*?)(<\/\2>)/g, (m, open, tag, key, _inner, close) => {
+    const v = SECRET.test(key) ? '' : d[key];
+    if (typeof v !== 'string') return m;
+    if (v.includes(`</${tag}>`)) throw new Error(`Cannot pre-render ${key}: value nests <${tag}>`);
+    return open + v + close;
+  });
+  return h.replace(/(<[a-z]+\b[^>]*\bdata-ph="([^"]+)")(?: placeholder="[^"]*")?/g, (m, open, key) =>
+    typeof d[key] === 'string' ? `${open} placeholder="${esc(d[key])}"` : m);
+}
+// the sections that left the home page keep their source here (launch.mjs)
+const SECTIONS_PATH = path.join(ROOT, 'tools/seo/enhance/sections.html');
+const MOVED_IO = { load: () => fs.readFileSync(SECTIONS_PATH, 'utf8'), save: (html) => fs.writeFileSync(SECTIONS_PATH, html + '\n') };
+const CONTACT_LINE = `<a href="${CONTACT.telegram}" rel="noopener">Telegram · @njo_manager</a><a href="mailto:${CONTACT.email}">${CONTACT.email}</a>`;
 function containers(lang) {
   const d = DICT[lang], i = LANGS[lang].idx, { PLANS, COMPARE, AREAS, PRO_ONLY } = data(lang);
   return {
@@ -484,21 +505,14 @@ function render(lang) {
   // footer guides as cards; all before the data-t pass so their copy is pre-rendered
   const gl = GUIDES_HUB[lang] ? lang : 'en';
   const slugs = ['agency-vs-in-house-vs-usha', 'competitor-monitoring', 'marketplace-analytics'];
-  const lc = { cases: new URL(casesUrl(lang)).pathname, ask: LIVE.api ? '#ask' : '#talk', guides: slugs.map((g) => guideUrl(gl, g)), guideLang: gl === lang ? '' : gl };
+  const lc = { cases: new URL(casesUrl(lang)).pathname, ask: LIVE.api ? '#ask' : '#talk', guides: slugs.map((g) => guideUrl(gl, g)), guideLang: gl === lang ? '' : gl, u: pageUrls(lang), moved: MOVED_IO, contact: CONTACT_LINE };
   h = launchHTML(h, lc);
   h = h.replace(/(<a href="#" id="totop"[^>]*>[^<]*<\/a><\/div>)(?:<!--seo:guides-->[^]*?<!--\/seo:guides-->)?/, (m, a) => `${a}<!--seo:guides-->${footerGuides(lc)}<!--/seo:guides-->`);
 
   // data-t elements: values only contain <b>, <i>, <br>, so the first matching
   // closing tag is the element's own. The easter-egg popup stays out of the
   // static HTML so search engines do not give the secret away.
-  h = h.replace(/(<([a-z0-9]+)\b[^>]*\bdata-t="([^"]+)"[^>]*>)([^]*?)(<\/\2>)/g, (m, open, tag, key, _inner, close) => {
-    const v = SECRET.test(key) ? '' : d[key];
-    if (typeof v !== 'string') return m;
-    if (v.includes(`</${tag}>`)) throw new Error(`Cannot pre-render ${key}: value nests <${tag}>`);
-    return open + v + close;
-  });
-  h = h.replace(/(<[a-z]+\b[^>]*\bdata-ph="([^"]+)")(?: placeholder="[^"]*")?/g, (m, open, key) =>
-    typeof d[key] === 'string' ? `${open} placeholder="${esc(d[key])}"` : m);
+  h = fillT(h, d);
   h = h.replace(/(id="holdBtn" aria-label=")[^"]*"/, `$1${esc(strip(d.hold))}"`);
 
   // eight roles now (decks): the department stat

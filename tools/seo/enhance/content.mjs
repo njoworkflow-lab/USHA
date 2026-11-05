@@ -5,6 +5,7 @@
 // one is missing.
 
 import { LAUNCH } from './launch-copy.mjs';
+import { PAGES } from './pages-copy.mjs';
 
 // Dictionary keys that change. Anything not listed keeps the site's wording.
 // The launch copy (launch-copy.mjs) is merged in last and wins.
@@ -76,7 +77,7 @@ const BASE_PATCH = {
     g_done: 'Вы победили шум. Она вами гордится.',
   },
 };
-export const DICT_PATCH = { en: { ...BASE_PATCH.en, ...LAUNCH.en }, ru: { ...BASE_PATCH.ru, ...LAUNCH.ru } };
+export const DICT_PATCH = { en: { ...BASE_PATCH.en, ...LAUNCH.en, ...PAGES.en }, ru: { ...BASE_PATCH.ru, ...LAUNCH.ru, ...PAGES.ru } };
 
 // [en, ru] pairs inside the bundle's data arrays, keyed by the current English.
 export const PAIR_PATCH = {

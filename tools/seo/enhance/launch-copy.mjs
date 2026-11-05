@@ -110,7 +110,7 @@ export const LAUNCH = {
     nj_d4n: 'The engineer', nj_d4s: 'Two screens of signal streams; a keyboard, a cold coffee.', nj_d4l: 'Built the mind that reads millions of signals, and makes it sharper every month.', nj_d4g: '+ THE MIND',
     nj_d5n: 'The project manager', nj_d5s: 'A wall calendar with dates in ember; a phone face-down beside it.', nj_d5l: 'Taught her that a plan counts only when it lands on the date, at the agreed cost.', nj_d5g: '+ DELIVERY',
     nj_s1n: 'Since 2016', nj_s1l: 'a decade of building brands across the Gulf, Egypt and Russia',
-    nj_s2n: '22 countries', nj_s2l: 'where the team has done the work',
+    nj_s2n: '20+ countries', nj_s2l: 'where the team has done the work',
     nj_s3n: '700+ projects', nj_s3l: 'every one a lesson she carries',
     nj_s4n: '55+ industries', nj_s4l: 'patterns she recognises on sight',
     nj_s5n: '7 branches', nj_s5l: 'people on the ground',
@@ -212,7 +212,7 @@ export const LAUNCH = {
       ['Will she replace my agency or my team?', 'Only if you want her to. Most owners keep both and give them her direction: what to make, where to spend, what to stop. She works alongside your agency, and your team gets decisions instead of guesses.'],
       ['What happens to my data, and can I leave?', 'An NDA is signed before you share any data, and access stays in your name. You can export your work as PDF and CSV at any time. On a written request, your data is deleted within 30 days. A paid plan stops with 7 days’ notice.'],
       ['How much of my time does it take?', 'In the month you clicked through above, 62 minutes. She asks you for at most three decisions a day, each with its arithmetic, and you answer Approve or Not now. There’s no new system to learn.'],
-      ['Isn’t this the same AI everyone has?', 'Everyone has the same models. She was trained on what others don’t have: the methods, decisions and market knowledge behind 700+ projects in 22 countries. Every move passes a check before it reaches you: numbers recalculated, sources dated within 30 days, brand style matched, claims backed, the right language.'],
+      ['Isn’t this the same AI everyone has?', 'Everyone has the same models. She was trained on what others don’t have: the methods, decisions and market knowledge behind 700+ projects in 20+ countries. Every move passes a check before it reaches you: numbers recalculated, sources dated within 30 days, brand style matched, claims backed, the right language.'],
       ['Which markets and sectors?', 'The Gulf (Saudi Arabia, the UAE, Kuwait, Qatar, Bahrain, Oman), Egypt and Russia, in English, Arabic and Russian. Any sector that sells: retail, consumer goods, beauty, fashion, food, real estate, automotive, health, services and B2B. The full platform list is in Plans.'],
     ],
     faq_cta: 'Ask her this in a free consultation',
@@ -333,7 +333,7 @@ export const LAUNCH = {
     nj_d4n: 'Инженер', nj_d4s: 'Два экрана с потоками сигналов, клавиатура, остывший кофе.', nj_d4l: 'Построил разум, который читает миллионы сигналов, и каждый месяц делает его точнее.', nj_d4g: '+ РАЗУМ',
     nj_d5n: 'Менеджер проекта', nj_d5s: 'Настенный календарь с датами в оранжевом, телефон экраном вниз.', nj_d5l: 'Научил её, что план считается, только когда сделан в срок и в оговорённый бюджет.', nj_d5g: '+ СРОКИ',
     nj_s1n: 'С 2016 года', nj_s1l: 'десять лет строим бренды в России, странах Залива и Египте',
-    nj_s2n: '22 страны', nj_s2l: 'где команда работала сама',
+    nj_s2n: '20+ стран', nj_s2l: 'где команда работала сама',
     nj_s3n: '700+ проектов', nj_s3l: 'и каждый стал для неё уроком',
     nj_s4n: '55+ отраслей', nj_s4l: 'закономерности, которые она узнаёт сразу',
     nj_s5n: '7 филиалов', nj_s5l: 'люди на месте',
@@ -428,7 +428,7 @@ export const LAUNCH = {
       ['Она заменит моё агентство или команду?', 'Только если вы сами этого захотите. Большинство собственников оставляют и то и другое и дают им её направление: что делать, куда тратить, что остановить. Она работает вместе с вашим агентством, а команда получает решения вместо догадок.'],
       ['Что будет с моими данными и можно ли уйти?', 'До передачи данных подписывается NDA, доступы остаются на вас. Работу можно выгрузить в PDF и CSV в любой момент. По письменному запросу данные удаляются в течение 30 дней. Платный тариф останавливается с уведомлением за 7 дней.'],
       ['Сколько это займёт моего времени?', 'В месяце, который вы пролистали выше, 62 минуты. Она просит не больше трёх решений в день, у каждого свой расчёт, и вы отвечаете «Утвердить» или «Не сейчас». Осваивать новую систему не нужно.'],
-      ['Это же тот самый ИИ, который есть у всех?', 'Модели есть у всех. Она училась на том, чего нет у других: на методах, решениях и знании рынков за 700+ проектами в 22 странах. Каждый ход до вас проходит проверку: цифры пересчитаны, источники не старше 30 дней, стиль бренда соблюдён, утверждения подкреплены, язык правильный.'],
+      ['Это же тот самый ИИ, который есть у всех?', 'Модели есть у всех. Она училась на том, чего нет у других: на методах, решениях и знании рынков за 700+ проектами в 20+ странах. Каждый ход до вас проходит проверку: цифры пересчитаны, источники не старше 30 дней, стиль бренда соблюдён, утверждения подкреплены, язык правильный.'],
       ['Какие рынки и отрасли?', 'Россия, страны Залива (ОАЭ, Саудовская Аравия, Кувейт, Катар, Бахрейн, Оман) и Египет, на русском, английском и арабском. Любая отрасль, которая продаёт: ритейл, FMCG, косметика, одежда, еда, недвижимость, авто, медицина, услуги и B2B. Полный список площадок в разделе «Тарифы».'],
     ],
     faq_cta: 'Задайте ей этот вопрос на бесплатной консультации',
@@ -464,8 +464,13 @@ export const COMPARE_ROWS = [
   [['Ready', 'Готова'], ['Instantly, for generic answers', 'Сразу, для общих ответов'], ['After a pitch and a brief', 'После тендера и брифа'], ['After months of hiring', 'После месяцев найма'], ['In one week', 'За неделю']],
 ];
 
-// Ids of the sections in the visitor's order (launch-direction.md §7).
-export const ORDER = ['hero', 'noise', 'signal', 'proof', 'control', 'njo', 'talk', 'why', 'month', 'plans', 'free', 'faqs', 'game'];
+// Ids of the home page's sections in the visitor's order (the short home page, 5 Nov 2026).
+export const ORDER = ['hero', 'noise', 'signal', 'proof', 'taught', 'hints', 'talk', 'free', 'game'];
 // The bundle's 3D scene for each of them, by the scene's old index:
-// 0 hero, 1 noise, 2 signal, 3 talk, 10 game; every other index is "companion".
-export const SCENE = [0, 1, 2, 4, 7, 7, 3, 4, 5, 6, 8, 9, 10];
+// 0 hero, 1 noise, 2 signal, 3 talk, 10 game, 11 the "taught her" moment
+// (launch.mjs); every other index is "companion".
+export const SCENE = [0, 1, 2, 4, 11, 4, 3, 8, 10];
+// The sections that left the home page, by detail page (built by build.mjs).
+export const DETAIL = { how: ['control', 'why', 'month'], people: ['njo'], plans: ['plans', 'free', 'faqs'] };
+// The bundle's own sections among them: their source is kept in sections.html.
+export const MOVED = ['why', 'month', 'plans', 'free', 'faqs'];

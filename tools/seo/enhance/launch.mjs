@@ -5,7 +5,8 @@
 // pre-renders every string and the bundle re-renders it on a language switch.
 // Every block here is owned: the build removes and writes it again on every
 // run, so a second build changes nothing.
-import { ORDER, SCENE } from './launch-copy.mjs';
+import { ORDER, SCENE, MOVED, DETAIL } from './launch-copy.mjs';
+import { navMid, burger, menuHTML, taughtHTML, hintsHTML } from './pages.mjs';
 
 const t = (key, tag = 'span', cls = '', attrs = '') => `<${tag}${cls ? ` class="${cls}"` : ''} data-t="${key}"${attrs}></${tag}>`;
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
@@ -29,6 +30,13 @@ export function applyLaunch(src) {
   const blend = /let t=hn\(Math\.floor\(i\),0,\d+\),n=i-t,s=fu\(t,e\),r=fu\(Math\.min\(t\+1,\d+\),e\)/;
   if (!blend.test(src)) throw new Error('Bundle changed (launch): a_');
   src = src.replace(blend, `let t=hn(Math.floor(i),0,${last}),n=i-t,s=fu(t,e),r=fu(Math.min(t+1,${last}),e)`);
+  // scene 11: the "taught her" moment; she sits in its stage (#lTher), like the game's scene 10
+  const game = 'if(i===10){let s=r_.getBoundingClientRect();';
+  if (!src.includes(game)) throw new Error('Bundle changed (launch): game scene');
+  src = src.replace(game, `/*launch*/if(i===11){let s=document.getElementById("lTher");if(s){s=s.getBoundingClientRect();let m=innerWidth<820;return{u:Ca(s.left+s.width/2,s.top+s.height/2,m?.6:1),us:m?.5:.62,ch:.4,g:.25,gp:[.5,.55],st:"present",dim:1}}}/*/launch*/${game}`);
+  // the hero: USHA bigger and more present (desktop, phone)
+  src = src.replace('us:e?.9:.95,ch:1,g:0,gp:[.72,.5],st:"present"', 'us:e?1:1.12,ch:1,g:0,gp:[.72,.5],st:"present"');
+  if (!src.includes('us:e?1:1.12,ch:1,g:0,gp:[.72,.5],st:"present"')) throw new Error('Bundle changed (launch): hero scene');
   for (const [a, b] of [['function fu(i,e){let t=Sl(e);', 'function fu(i,e){i=XSC_[i];let t=Sl(e);'], ['a.i=t,a.f=n', 'a.i=XSC_[t],a.f=n']]) {
     if (src.includes(b)) continue;
     if (!src.includes(a)) throw new Error(`Bundle changed (launch): ${a}`);
@@ -147,11 +155,17 @@ function footerGuides(c) {
   return `<div class="l-guides">${t('ft_gt', 'small')}${t('ft_gs', 'p')}<div class="l-gcards">${c.guides.map((g, i) => `<a class="l-gcard" href="${g}"${c.guideLang ? ` hreflang="${c.guideLang}"` : ''}>${t(`ft_g${i + 1}t`, 'b')}${t(`ft_g${i + 1}p`)}${t('ft_read', 'em')}</a>`).join('')}</div><a class="l-cases" href="${c.cases}">${t('ft_cases')}</a></div>`;
 }
 
-// c: { cases: url of this language's cases page, guides: [3 urls], guideLang, ask: href of the consultation }
+// c: { cases: url of this language's cases page, guides: [3 urls], guideLang, ask: href of the consultation,
+//      u: the page addresses (pages.mjs pageUrls), moved: { load(), save(html) } for the sections that left the home page }
 export function launchHTML(h, c) {
-  // header: the six chapters a visitor looks for, and the consultation
-  h = h.replace(/<nav class="mid">[^]*?<\/nav>/, () => `<nav class="mid">${[['signal', 1], ['proof', 2], ['control', 3], ['njo', 4], ['plans', 5]].map(([id, n]) => `<a href="#${id}" data-t="nav${n}"></a>`).join('')}<a href="${c.cases}" data-t="nav6"></a></nav>`);
+  // header: the pages, the two new products, the consultation; a full-screen menu on phones
+  h = h.replace(/<nav class="mid[^"]*"[^>]*>[^]*?<\/nav>/, () => navMid(c.u, 'home'));
   h = h.replace(/(<div class="right">[^]*?<a class="btn btn-p" href=")[^"]*("><span class="d"><\/span><span data-t="cta">)/, `$1${c.ask}$2`);
+  h = h.replace(/<button type="button" class="xn-burger"[^]*?<\/button>/, '');
+  h = h.replace(/(<a class="btn btn-p" href="[^"]*"><span class="d"><\/span><span data-t="cta">[^<]*<\/span><\/a>)(\s*<\/div>\s*<\/header>)/, (m, a, b) => a + burger() + b);
+  if (!h.includes('class="xn-burger"')) throw new Error('Launch: cannot place the menu button');
+  const langs = '<div class="lang pill xn-lang"><button data-l="en">EN</button><button data-l="ru">RU</button><button data-l="ar">AR</button></div>';
+  h = own(h, 'menu', menuHTML(c.u, 'home', { langs, cta: c.ask, contact: c.contact }), /<\/header>/);
   // gate: why it is worth the second, and a visible way in
   h = own(h, 'gate', `${t('gate_sub', 'p', 'l-gsub')}<button type="button" class="l-enter" id="lEnter">${t('gate_enter')} <i aria-hidden="true">→</i></button>`, /<p data-t="holdS">[^<]*<\/p>/);
   // hero: two buttons (the consultation is added by live.js, then the free week)
@@ -168,13 +182,19 @@ export function launchHTML(h, c) {
     inner.replace(/<section class="ch[^"]*" id="([a-z]+)">[^]*?<\/section>/g, (s, id) => { secs[id] = s; return ''; });
     return '<main>\n<!--l:main-->\n</main>';
   });
+  // the sections that moved to the detail pages keep their source in
+  // enhance/sections.html: refreshed from a full upload, read back otherwise
+  if (MOVED.every((id) => secs[id] && /class="ch sec"/.test(secs[id]) && !secs[id].includes('<!--l:frcompact-->'))) c.moved.save(MOVED.map((id) => secs[id]).join('\n\n'));
+  else c.moved.load().replace(/<section class="ch[^"]*" id="([a-z]+)">[^]*?<\/section>/g, (s, id) => { secs[id] = s; return ''; });
   secs.proof = proofHTML(c);
   secs.control = controlHTML();
   secs.njo = njoHTML();
-  for (const id of ORDER) if (!secs[id]) throw new Error(`Launch: section #${id} not found`);
+  secs.taught = taughtHTML(c.u, { home: true });
+  secs.hints = hintsHTML(c.u);
+  for (const id of [...ORDER, ...Object.values(DETAIL).flat()]) if (!secs[id]) throw new Error(`Launch: section #${id} not found`);
   // 06: the hand-off under the stage
   secs.talk = own(secs.talk, 'talk', `<div class="wrap">${handoff('t_ho', 'why')}</div>`, /<\/section>$/, 'before');
-  // 07: one line under the headline, the orbits instead of the eight roles, the close and the hand-off
+  // 07: one line under the headline, the orbits after the eight roles, the close and the hand-off
   secs.why = own(secs.why, 'wsub', t('w_sub', 'p', 'lead'), /<h2 class="big" data-t="w_h">[^]*?<\/h2>/);
   secs.why = own(secs.why, 'orbit', orbitHTML(), /<p class="sick rv"/, 'before');
   secs.why = own(secs.why, 'whyho', handoff('w_ho', 'month'), /<p class="sick rv"[^>]*>[^]*?<\/p>/);
@@ -191,7 +211,14 @@ export function launchHTML(h, c) {
   secs.faqs = own(secs.faqs, 'faq', `<div class="l-row rv"><button type="button" class="btn btn-p l-ask"><span class="d"></span>${t('faq_cta')}</button></div>`, /<div class="faq rv" id="faq">(?:<!--seo:faq-->[^]*?<!--\/seo:faq-->)?<\/div>/);
   // the break: its end screen leads to a consultation
   secs.game = own(secs.game, 'game', `<div class="l-gend" hidden><h3 class="l-gt"></h3>${t('g_end_t', 'span', 'l-gtpl', ' hidden')}${t('g_end_l', 'p')}<div class="l-row"><button type="button" class="btn btn-p l-ask"><span class="d"></span>${t('g_end_c')}</button><button type="button" class="btn btn-g l-again">${t('g_end_a')}</button></div></div>`, /<small id="gkeys"[^>]*>[^<]*<\/small>/);
-  h = h.replace('<!--l:main-->', () => ORDER.map((id) => secs[id]).join('\n\n'));
+  // the home page keeps the free week short: the headline, the form and a way to the seven days
+  const home = { ...secs };
+  home.free = secs.free.replace(/<!--l:free-->[^]*?<!--\/l:free-->/, `<!--l:frcompact--><p class="l-frmore rv"><a href="${c.u.plans}#free" data-pg="plans">${t('fr_more')}<i aria-hidden="true">→</i></a></p><!--/l:frcompact-->`)
+    .replace(/<!--l:freeho-->[^]*?<!--\/l:freeho-->/, '').replace('<section class="ch sec" id="free">', '<section class="ch sec l-frc" id="free">');
+  // the detail pages' sections ride along in a hidden block, so the build
+  // pre-renders their copy; build.mjs cuts them out after rendering
+  const detail = Object.values(DETAIL).flat().map((id) => `<!--x:sec:${id}-->${secs[id]}<!--/x:sec:${id}-->`).join('\n');
+  h = h.replace('<!--l:main-->', () => ORDER.map((id) => home[id]).join('\n\n') + `\n<!--x:detail--><div hidden>${detail}</div><!--/x:detail-->`);
   return h;
 }
 
