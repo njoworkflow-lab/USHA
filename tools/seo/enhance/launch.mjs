@@ -54,7 +54,7 @@ function own(h, name, html, fallback, where = 'after') {
 const handoff = (key, to) => `<p class="l-ho rv"><a href="#${to}">${t(key)}</a></p>`;
 
 function proofHTML(c) {
-  const card = (n) => `<li class="l-pc rv"><span class="l-pm">${t(`pr_c${n}a`)}<em>${t('pr_ex')}</em></span>${t(`pr_c${n}b`, 'p', 'l-pv')}</li>`;
+  const card = (n) => `<li class="l-pc rv"><span class="l-pm">${t(`pr_c${n}a`)}</span>${t(`pr_c${n}b`, 'p', 'l-pv')}</li>`;
   return `<section class="ch sec" id="proof"><div class="wrap">
 <div class="rv">${t('pr_k', 'div', 'kick')}${t('pr_h', 'h2', 'big')}${t('pr_p', 'p', 'lead')}</div>
 <ol class="l-proof">${[1, 2, 3].map(card).join('')}</ol>
