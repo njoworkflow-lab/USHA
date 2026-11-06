@@ -691,7 +691,7 @@ const BODY_IMG = fs.readFileSync(path.join(ENH, 'usha-body.webp'));
 const BODY_URL = emit(`usha-body-${hash(BODY_IMG)}.webp`, BODY_IMG);
 const PAGES_CSS = fs.readFileSync(path.join(ENH, 'pages.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
 const CHROME_CSS_URL = emit(`chrome-${hash(PAGES_CSS)}.css`, PAGES_CSS);
-const CHROME_JS = fs.readFileSync(path.join(ENH, 'pages.js'), 'utf8') + '\n' + fs.readFileSync(path.join(ENH, 'galaxy.js'), 'utf8');
+const CHROME_JS = ['pages.js', 'galaxy.js', 'likeness.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n');
 const CHROME_JS_URL = emit(`chrome-${hash(CHROME_JS)}.js`, CHROME_JS);
 const pageUrlOf = (l, id) => id === 'cases' ? pageUrls(l).cases : pageUrls(l)[id];
 function chrome(lang, id) {
@@ -796,7 +796,7 @@ ${ch.footer}
 // /people/. The free week's form and the live chat stay on the home page.
 const SITE_CSS = BUNDLE_CSS.replace(/@font-face\{font-family:'(?:Geist|Golos Text)'[^}]*\}/g, '') + ENH_CSS;
 const SITE_CSS_URL = emit(`site-${hash(SITE_CSS)}.css`, SITE_CSS);
-const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
+const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js', 'likeness.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
 const DETAIL_JS_URL = emit(`pages-${hash(DETAIL_JS)}.js`, DETAIL_JS);
 // ---------- the product pages: /brains/ and /premiere/ (and /en/…, /ar/…) ----------
 // Each is its own light page on the shared chrome (header, menu, galaxy,

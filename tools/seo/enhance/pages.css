@@ -153,17 +153,28 @@ html[dir=rtl] .l-frmore i{transform:scaleX(-1)}
 html[lang=ar] .l-frmore a{font-family:var(--body)}
 #free.l-frc{padding-bottom:10vh}
 
-/* ---------- USHA's likeness off the home page ---------- */
-.xu{position:relative;display:block;width:100%;aspect-ratio:480/336}
-.xu-glow{position:absolute;inset:-34% -26%;background:radial-gradient(48% 46% at 50% 56%,rgba(255,90,31,.46),rgba(255,90,31,.14) 48%,transparent 72%);pointer-events:none}
+/* ---------- USHA's likeness off the home page ----------
+   Her real body (a render from the home scene) with the home character's
+   proportions: tall dark eyes with a glint in the lower half of her face,
+   blush under them, an ember core that brightens when she thinks. likeness.js
+   drives the variables; the breath and the float stay in CSS. */
+.xu{--ex:0%;--ey:0%;--ew:1;--eh:1;--bl:1;--lid:0%;--ch:0;--in:.12;--tl:0deg;--lf:0%;--sx:1;--sy:1;position:relative;display:block;width:100%;aspect-ratio:480/336;-webkit-tap-highlight-color:transparent}
+.xu-glow{position:absolute;inset:-34% -26%;background:radial-gradient(48% 46% at 50% 58%,rgba(255,90,31,.46),rgba(255,90,31,.14) 48%,transparent 72%);pointer-events:none;opacity:calc(.82 + var(--in) * .5);transform:scale(calc(.97 + var(--in) * .1))}
 .xu-b{position:absolute;inset:0;animation:xu-float 7s ease-in-out infinite}
-.xu-b img{display:block;width:100%;height:100%}
-.xu-eyes{position:absolute;inset:0;transform:translate(var(--ex,0%),var(--ey,0%));transition:transform .6s var(--pg-ease)}
-.xu-eyes i{position:absolute;top:44%;width:4.8%;height:10.4%;border-radius:50%;background:radial-gradient(circle at 62% 28%,#fff 0 13%,transparent 15%),radial-gradient(ellipse at 50% 62%,#24191d,#050405 72%);box-shadow:0 1px 1px rgba(255,255,255,.18);animation:xu-blink 6s infinite}
-.xu-eyes i:first-child{left:40%}.xu-eyes i:last-child{left:54.5%}
-@keyframes xu-blink{0%,92%,100%{transform:scaleY(1)}94%{transform:scaleY(.1)}}
-@keyframes xu-float{50%{transform:translateY(-3.5%) rotate(-1.6deg) scale(1.012)}}
-@media (prefers-reduced-motion:reduce){.xu-b,.xu-eyes i{animation:none}}
+.xu-s{position:absolute;inset:0;transform-origin:50% 90%;transform:translateY(var(--lf)) rotate(var(--tl)) scale(var(--sx),var(--sy));animation:xu-breath 4.4s ease-in-out infinite}
+.xu-s img{position:absolute;inset:0;display:block;width:100%;height:100%;filter:drop-shadow(0 0 1px rgba(255,150,105,.5)) drop-shadow(0 6px 22px rgba(255,90,31,.22))}
+.xu-s .xu-hot{filter:brightness(1.32) saturate(1.75) hue-rotate(-6deg);-webkit-mask-image:radial-gradient(56% 52% at 50% 70%,#000 22%,transparent 76%);mask-image:radial-gradient(56% 52% at 50% 70%,#000 22%,transparent 76%);mix-blend-mode:screen;opacity:var(--in);pointer-events:none}
+.xu-eyes{position:absolute;inset:0;transform:translate(var(--ex),var(--ey))}
+.xu-eyes i{position:absolute;top:51.2%;width:6.6%;height:15.4%;border-radius:50%;background:radial-gradient(circle at 66% 27%,#fff 0 14%,transparent 17%),radial-gradient(ellipse at 50% 60%,#1d1519,#060507 70%);box-shadow:0 1px 1.5px rgba(255,255,255,.16);transform:scale(var(--ew),calc(var(--eh) * var(--bl)));transform-origin:50% 60%;clip-path:inset(var(--lid) -20% -20% -20%)}
+.xu-eyes i:first-child{left:29.2%}.xu-eyes i:last-child{left:55.2%}
+.xu-ch{position:absolute;inset:0;opacity:var(--ch);transform:translate(calc(var(--ex) * .5),calc(var(--ey) * .5));pointer-events:none}
+.xu-ch i{position:absolute;top:63%;width:15%;height:11%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,128,118,.62),rgba(255,128,118,0))}
+.xu-ch i:first-child{left:19.5%}.xu-ch i:last-child{left:58.5%}
+.xu.xu-sleep .xu-s{animation-duration:6.8s}
+@keyframes xu-float{50%{transform:translateY(-3.5%) rotate(-1.6deg)}}
+@keyframes xu-breath{0%,100%{scale:1 1}50%{scale:1.016 .984}}
+/* reduced motion: still, eyes open and present */
+@media (prefers-reduced-motion:reduce){.xu-b,.xu-s{animation:none}}
 
 /* ---------- detail pages: the shell ---------- */
 body.pg{background:#030304;overflow-x:clip}

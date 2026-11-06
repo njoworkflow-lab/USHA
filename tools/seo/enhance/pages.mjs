@@ -60,8 +60,10 @@ export function taughtHTML(u, { home }) {
 }
 
 // USHA's likeness off the home page: her real body, captured from the home
-// scene (usha-body.webp), with live eyes drawn on top so she blinks and looks.
-export const likeness = (cls = '') => `<span class="xu ${cls}"><span class="xu-glow"></span><span class="xu-b"><img src="{{USHA_BODY}}" alt="" width="480" height="336" decoding="async"><span class="xu-eyes"><i></i><i></i></span></span></span>`;
+// scene (usha-body.webp), with live eyes, cheeks and an inner ember glow on
+// top. likeness.js brings her to life: breath, float, gaze, blinks and moods.
+// Layers: .xu-b floats, .xu-s carries the mood (tilt, lift, squash) and breathes.
+export const likeness = (cls = '') => `<span class="xu ${cls}"><span class="xu-glow"></span><span class="xu-b"><span class="xu-s"><img src="{{USHA_BODY}}" alt="" width="480" height="336" decoding="async"><span class="xu-ch"><i></i><i></i></span><span class="xu-eyes"><i></i><i></i></span></span></span></span>`;
 
 // ---------- the hints row ----------
 const GLYPH = {

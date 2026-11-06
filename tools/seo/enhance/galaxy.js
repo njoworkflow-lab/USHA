@@ -1,7 +1,7 @@
 // The detail pages' world (how, people, plans, the stubs and the cases page):
 // one light Canvas2D galaxy shared by every page instead of the home page's
 // 3D bundle (depth stars, slow drift, an ember and teal nebula per page, a
-// faint galaxy arm), USHA's likeness looking around, and the section reveals.
+// faint galaxy arm) and the section reveals. USHA's likeness: likeness.js.
 // It pauses when the tab is hidden and draws one still frame for reduced motion.
 (() => {
   const D = document;
@@ -14,18 +14,6 @@
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
     rv.forEach((el) => io.observe(el));
   } else rv.forEach((el) => el.classList.add('in'));
-
-  // ---------- her eyes: they follow the pointer, and wander on a phone ----------
-  const faces = $$('.xu');
-  if (faces.length && !reduce) {
-    const look = (x, y) => faces.forEach((f) => {
-      const r = f.getBoundingClientRect(); if (!r.width) return;
-      const dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height * 0.5), d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 400);
-      f.style.setProperty('--ex', `${(dx / d * 3.2 * k).toFixed(2)}%`); f.style.setProperty('--ey', `${(dy / d * 2.4 * k).toFixed(2)}%`);
-    });
-    if (matchMedia('(hover:hover)').matches) addEventListener('pointermove', (e) => look(e.clientX, e.clientY), { passive: true });
-    else setInterval(() => { if (!D.hidden) look(Math.random() * innerWidth, Math.random() * innerHeight); }, 3200);
-  }
 
   // ---------- the galaxy ----------
   const c = D.querySelector('.pg-sky');
