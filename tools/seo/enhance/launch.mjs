@@ -91,7 +91,7 @@ ${t('c_cd_l', 'span', 'l-lab l-ap-l')}${t('c_cd_ask', 'h3')}${t('c_cd_why', 'p',
 <div class="l-acc rv">${t('c_acc_t', 'h3')}<dl>${acc}</dl></div>
 <div class="l-risk"><div class="rv">${t('c_rk_t', 'h3')}<ul>${range(1, 4).map((n) => `<li>${t(`c_rk${n}`)}</li>`).join('')}</ul></div>
 <div class="rv">${t('c_rl_t', 'h3')}${t('c_rl_s', 'p', 'l-rls')}<ol class="l-ladder">${range(1, 4).map((n) => `<li>${t(`c_rl${n}`)}</li>`).join('')}</ol></div></div>
-<div class="guar glass rv">${t('c_g', 'h3')}<ul>${range(1, 4).map((n) => t(`c_g${n}`, 'li')).join('')}</ul></div>
+<div class="guar glass rv">${t('c_g', 'h3')}<ul>${range(1, 5).map((n) => t(`c_g${n}`, 'li')).join('')}</ul></div>
 ${handoff('c_ho', 'njo')}
 </div></section>`;
 }
@@ -142,7 +142,7 @@ function monthHTML() {
 
 function plansExtra() {
   const row = (n) => `<details class="l-cv"><summary>${t(`p_cv${n}c`)}</summary><dl><div>${t('p_cov_h1', 'dt')}${t(`p_cv${n}m`, 'dd')}</div><div>${t('p_cov_h2', 'dt')}${t(`p_cv${n}a`, 'dd')}</div><div>${t('p_cov_h3', 'dt')}${t(`p_cv${n}s`, 'dd')}</div></dl></details>`;
-  return `${t('p_price', 'p', 'l-price rv')}<div class="l-cov rv">${t('p_cov_t', 'h3')}<div class="l-cvs">${[1, 2, 3, 4, 5].map(row).join('')}</div>${t('p_cov_n', 'p', 'l-note')}</div>${handoff('p_ho', 'free')}`;
+  return `${t('p_price', 'p', 'l-price rv')}<div class="l-cov rv">${t('p_cov_t', 'h3')}<div class="l-cvs">${[1, 2, 3, 4, 5].map(row).join('')}</div>${t('p_b2b', 'p', 'l-note')}${t('p_cov_n', 'p', 'l-note')}</div>${handoff('p_ho', 'free')}`;
 }
 
 function freeHTML() {
@@ -171,6 +171,8 @@ export function launchHTML(h, c) {
   h = own(h, 'gate', `${t('gate_sub', 'p', 'l-gsub')}<button type="button" class="l-enter" id="lEnter">${t('gate_enter')} <i aria-hidden="true">→</i></button>`, /<p data-t="holdS">[^<]*<\/p>/);
   // hero: two buttons (the consultation is added by live.js, then the free week)
   h = h.replace(/<a class="btn btn-g" href="#signal"><span data-t="b2">[^<]*<\/span> ↓<\/a>/, '');
+  h = h.replace(/<(?:span|a)[^>]*data-t="tr2"[^>]*>[^<]*<\/(?:span|a)>/, `<a href="${c.u.how}#why" data-pg="how" data-t="tr2"></a>`);
+  h = own(h, 'credit', t('ft_credit', 'small'), /<small data-t="ft_made">[^<]*<\/small>/);
   // 01: each force in money, and the sector picker
   for (let k = 0; k < 4; k++) {
     h = own(h, `alg${k}`, `${t(`a${k}m`, 'em', 'l-m')}${range(1, 9).map((s) => `<em class="l-m l-sx" data-s="${s}" data-t="f_s${s}_${k}" hidden></em>`).join('')}`, new RegExp(`<small data-t="a${k}d">[^<]*</small>`));
@@ -197,16 +199,18 @@ export function launchHTML(h, c) {
   secs.talk = own(secs.talk, 'talk', `<div class="wrap">${handoff('t_ho', 'why')}</div>`, /<\/section>$/, 'before');
   // 07: one line under the headline, the orbits after the eight roles, the close and the hand-off
   secs.why = own(secs.why, 'wsub', t('w_sub', 'p', 'lead'), /<h2 class="big" data-t="w_h">[^]*?<\/h2>/);
-  secs.why = own(secs.why, 'orbit', orbitHTML(), /<p class="sick rv"/, 'before');
+  secs.why = secs.why.replace(/<!--l:orbit-->[^]*?<!--\/l:orbit-->/, '');
+  secs.why = own(secs.why, 'orbit', orbitHTML(), /<p class="sick rv"[^>]*>[^]*?<\/p>/);
   secs.why = own(secs.why, 'whyho', handoff('w_ho', 'month'), /<p class="sick rv"[^>]*>[^]*?<\/p>/);
   // 08: the month, day by day; the counters live in Plans only
   secs.month = own(secs.month, 'month', monthHTML() + handoff('mo_ho', 'plans'), /<div class="tog pill rv" id="mtog">/, 'before');
   secs.month = secs.month.replace(/<div class="(tog pill rv|areas|proonly rv)" id="(mtog|areas|proonly)"(?: hidden)?>/g, '<div class="$1" id="$2" hidden>');
   // 09: the price model, the coverage, the hand-off
   secs.plans = own(secs.plans, 'plans', plansExtra(), /<p class="pnote rv" data-t="p_note">[^<]*<\/p>/);
-  // 10: seven gifts and the terms instead of three deliverables; no scarcity line
+  // 10: seven gifts and terms, with the owner's limited-opening commitment.
   secs.free = own(secs.free, 'free', freeHTML(), /<ol class="deliv rv">[^]*?<\/ol>/, 'replace');
   secs.free = secs.free.replace(/<p class="lim rv" data-t="fr_lim">[^<]*<\/p>/, '');
+  secs.free = own(secs.free, 'limited', t('fr_lim', 'p', 'lim rv'), /<p[^>]*data-t="fr_then"[^>]*>[^]*?<\/p>/);
   secs.free = own(secs.free, 'freeho', `<div class="wrap">${handoff('fw_ho', 'faqs')}</div>`, /<\/section>$/, 'before');
   // FAQ: ask her in a consultation
   secs.faqs = own(secs.faqs, 'faq', `<div class="l-row rv"><button type="button" class="btn btn-p l-ask"><span class="d"></span>${t('faq_cta')}</button></div>`, /<div class="faq rv" id="faq">(?:<!--seo:faq-->[^]*?<!--\/seo:faq-->)?<\/div>/);
@@ -214,7 +218,7 @@ export function launchHTML(h, c) {
   secs.game = own(secs.game, 'game', `<div class="l-gend" hidden><h3 class="l-gt"></h3>${t('g_end_t', 'span', 'l-gtpl', ' hidden')}${t('g_end_l', 'p')}<div class="l-row"><button type="button" class="btn btn-p l-ask"><span class="d"></span>${t('g_end_c')}</button><button type="button" class="btn btn-g l-again">${t('g_end_a')}</button></div></div>`, /<small id="gkeys"[^>]*>[^<]*<\/small>/);
   // the home page keeps the free week short: the headline, the form and a way to the seven days
   const home = { ...secs };
-  home.free = secs.free.replace(/<!--l:free-->[^]*?<!--\/l:free-->/, `<!--l:frcompact--><p class="l-frmore rv"><a href="${c.u.plans}#free" data-pg="plans">${t('fr_more')}<i aria-hidden="true">→</i></a></p><!--/l:frcompact-->`)
+  home.free = secs.free.replace(/<!--l:free-->[^]*?<!--\/l:free-->/, `<!--l:frcompact--><ul class="l-free-gifts rv">${range(1, 3).map((n) => t(`fr_${n}`, 'li')).join('')}</ul><p class="l-frmore rv"><a href="${c.u.plans}#free" data-pg="plans">${t('fr_more')}<i aria-hidden="true">→</i></a></p><!--/l:frcompact-->`)
     .replace(/<!--l:freeho-->[^]*?<!--\/l:freeho-->/, '').replace('<section class="ch sec" id="free">', '<section class="ch sec l-frc" id="free">');
   // the detail pages' sections ride along in a hidden block, so the build
   // pre-renders their copy; build.mjs cuts them out after rendering

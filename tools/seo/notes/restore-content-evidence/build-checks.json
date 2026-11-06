@@ -1,0 +1,40 @@
+{
+  "runtime": {
+    "node": "22.23.4",
+    "browser": "Chromium 154.0.8037.57"
+  },
+  "build": {
+    "command": "node tools/seo/build.mjs",
+    "runtime_invocation": "npx --yes --package=node@22 node tools/seo/build.mjs",
+    "live_overrides": false,
+    "generated_files": 74,
+    "second_build_changes": []
+  },
+  "content": {
+    "command": "node tools/seo/check-restored-content.mjs",
+    "assertions_passed": 194,
+    "languages": [
+      "ru",
+      "en",
+      "ar"
+    ],
+    "live_enabled_pages": 29
+  },
+  "brief_form": {
+    "command": "node --test tools/seo/enhance/brief.test.mjs",
+    "tests_passed": 3,
+    "tests_failed": 0
+  },
+  "protected": {
+    "comparison_base": "5cc92a5",
+    "app_bundle_executable_code": "unchanged outside dictionary, area and comparison content data",
+    "mind_and_live_abuse_region_team_sources": "unchanged",
+    "brains_and_premiere_pages": "all six byte-identical"
+  },
+  "publication": {
+    "merged": false,
+    "published": false,
+    "pages_requested": false,
+    "indexnow_requested": false
+  }
+}

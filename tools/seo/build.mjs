@@ -22,6 +22,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DICT_PATCH, PAIR_PATCH, AREA_LABELS, PRO_ONLY_ADD, X } from './enhance/content.mjs';
 import { plansHTML } from './enhance/ui.mjs';
+import { monthlyHTML } from './enhance/monthly.mjs';
 import { applyBrief } from './enhance/brief.mjs';
 import { applyLife, applyGame, LIFE_BUB } from './enhance/usha-life.mjs';
 import { applySound } from './enhance/sound.mjs';
@@ -475,7 +476,7 @@ function containers(lang) {
     plancards: PLANS.map((t) => `<div class="plan glass rv in${t.hot ? ' hot' : ''}">${t.hot ? `<span class="badge">${d.p_rec}</span>` : ''}<h3>${t.n}</h3><p>${t.t[i]}</p><ul>${t.pts.map((s) => `<li>${s[i]}</li>`).join('')}</ul><a class="btn ${t.hot ? 'btn-p' : 'btn-g'}" href="#free" data-plan="${t.n}">${t.hot ? '<span class="d"></span>' : ''}${d.p_cta}</a></div>`).join(''),
     cmp: `<tr><th></th><th>${d.w_c1}</th><th>${d.w_c2}</th><th>${d.w_c3}</th><th class="u">${d.w_c4}</th></tr>` + COMPARE.map((r) => `<tr>${r.map((n, s) => `<td class="${s === 4 ? 'u' : ''}">${n[i]}</td>`).join('')}</tr>`).join(''),
     roles: d.w_roles.map((t) => `<span>${t}</span>`).join('') + '<span class="one">USHA</span>',
-    // the month's counters and the Pro-only row now live in Plans only; the bundle still fills these hidden hooks
+    // Plans renders the full monthly block separately; keep hidden bundle hooks here.
     areas: '',
     proonly: '',
     track: PARTNERS.map((t) => `<span>${t}</span>`).join(''),
@@ -628,6 +629,7 @@ ${GUIDE_LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${alt[l]}"
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>
 <style>${FONT_FACES}${GUIDE_CSS}</style>
+<script>window.USHA_LIVE=${JSON.stringify(LIVE)}</script>
 </head>
 <body>`;
 }
@@ -804,7 +806,7 @@ ${ch.footer}
 // /people/. The free week's form and the live chat stay on the home page.
 const SITE_CSS = BUNDLE_CSS.replace(/@font-face\{font-family:'(?:Geist|Golos Text)'[^}]*\}/g, '') + ENH_CSS;
 const SITE_CSS_URL = emit(`site-${hash(SITE_CSS)}.css`, SITE_CSS);
-const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js', 'likeness.js', 'live.js', 'plans-brief.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
+const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js', 'likeness.js', 'live.js', 'plans-brief.js', 'monthly.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
 const DETAIL_JS_URL = emit(`pages-${hash(DETAIL_JS)}.js`, DETAIL_JS);
 // ---------- the product pages: /brains/ and /premiere/ (and /en/…, /ar/…) ----------
 // Each is its own light page on the shared chrome (header, menu, galaxy,
@@ -927,12 +929,14 @@ function detailBody(lang, id, ch) {
   const hero = (o) => pageHero(o).replace('{{USHA_BODY}}', BODY_URL);
   if (id === 'how') return hero({ kick: d.nav_how, h1: d.pg_how_h, lead: d.pg_how_p, index: [['#control', d.pg_i_ctrl], ['#why', d.pg_i_why], ['#month', d.pg_i_month]] }) + fix(P.control + P.why + P.month) + cta;
   if (id === 'plans') {
-    // the free week's seven days, its terms and the brief itself (plans-brief.js runs it here)
-    return hero({ kick: d.nav5, h1: d.pg_pl_h, lead: d.pg_pl_p, index: [['#plans', d.pg_i_plans], ['#free', d.pg_i_free], ['#faqs', d.pg_i_faq]] }) + fix(P.plans + P.free + P.faqs) + cta;
+    // the free week's seven days, its terms and the brief itself (plans-brief.js runs it here); the monthly deliverables first
+    const { AREAS, PRO_ONLY } = data(lang);
+    const monthly = monthlyHTML(d, AREAS, PRO_ONLY, LANGS[lang].idx);
+    return hero({ kick: d.nav5, h1: d.pg_pl_h, lead: d.pg_pl_p, index: [['#deliverables', strip(d.mn_h)], ['#plans', d.pg_i_plans], ['#free', d.pg_i_free], ['#faqs', d.pg_i_faq]] }) + monthly + fix(P.plans + P.free + P.faqs) + cta;
   }
   if (id === 'people') {
     // the moment opens the page; the desks, the numbers, her story and the partners follow
-    const njo = P.njo.replace(/<div class="rv"><div class="kick" data-t="nj_k">([^]*?)<\/div><h2 class="big" data-t="nj_h">[^]*?<\/h2>/, '<div class="rv"><h2 class="big" data-t="nj_k">$1</h2>');
+    const njo = P.njo;
     return fillT(taughtHTML(u, { home: false }), d).replace('{{USHA_BODY}}', BODY_URL) + fix(njo) + cta;
   }
   const name = id === 'brains' ? 'BRAINS' : 'PREMIERE';
