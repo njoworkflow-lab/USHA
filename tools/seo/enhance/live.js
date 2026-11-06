@@ -17,7 +17,7 @@
 
   const T = {
     en: {
-      cta_k: 'Live · a brief + 4 questions', cta_h: 'Consult your new <i>Marketing Director</i>.', cta_p: 'Brief her on your business, then ask four questions. Real answers on your market and your numbers.', cta_b: 'Ask USHA live',
+      cta_k: 'Live now', cta_h: 'A free consultation with your new <i>marketing director</i>', cta_p: 'She tells you where the money is in your market, where it’s leaking from your business, and the first move she’d make.', cta_b: 'Get a free consultation',
       k: 'USHA · live', h: 'Your business. <b>Her answer.</b>', p: 'Tell her who she is talking to. Then brief her and ask up to 4 questions. Your project manager follows up on these details, so please use real ones.',
       name: 'Your name', email: 'Work email', phone: 'Mobile number', country: 'Country code', business: 'Business name', size: 'Business size', industry: 'Industry', market: 'Main market', team: 'Team code',
       team_hint: 'For the NJO team: unlimited testing.', team_open: 'Have a team code?',
@@ -55,7 +55,7 @@
       close: 'Close',
     },
     ru: {
-      cta_k: 'Вживую · бриф + 4 вопроса', cta_h: 'Консультация вашего нового <i>директора по маркетингу</i>.', cta_p: 'Расскажите о бизнесе и задайте четыре вопроса. Настоящие ответы про ваш рынок и ваши цифры.', cta_b: 'Спросить USHA',
+      cta_k: 'Онлайн', cta_h: 'Бесплатная консультация с вашим новым <i>директором по маркетингу</i>', cta_p: 'Она скажет, где на вашем рынке деньги, где они утекают из бизнеса и какой ход она сделает первым.', cta_b: 'Получить бесплатную консультацию',
       k: 'USHA · вживую', h: 'Ваш бизнес. <b>Её ответ.</b>', p: 'Расскажите, с кем она говорит. Потом дайте ей бриф и задайте до 4 вопросов. Менеджер проекта свяжется с вами по этим данным, поэтому укажите настоящие.',
       name: 'Ваше имя', email: 'Рабочий email', phone: 'Мобильный номер', country: 'Код страны', business: 'Название бизнеса', size: 'Размер бизнеса', industry: 'Сфера', market: 'Основной рынок', team: 'Код команды',
       team_hint: 'Для команды NJO: безлимитный тест.', team_open: 'Есть код команды?',
@@ -93,7 +93,7 @@
       close: 'Закрыть',
     },
     ar: {
-      cta_k: 'مباشر · brief + ٤ أسئلة', cta_h: 'استشر <i>مديرة التسويق</i> الجديدة لديك.', cta_p: 'عرّفها على نشاطك ثم اسأل أربعة أسئلة. إجابات حقيقية عن سوقك وأرقامك.', cta_b: 'اسأل USHA مباشرة',
+      cta_k: 'متاحة الآن', cta_h: 'استشارة مجانية مع <i>مديرة التسويق</i> الجديدة لديك', cta_p: 'تخبرك أين المال في سوقك، ومن أين يتسرّب من نشاطك، وما أول خطوة ستتخذها.', cta_b: 'احصل على استشارتك المجانية',
       k: 'USHA · مباشر', h: 'نشاطك. <b>وإجابتها.</b>', p: 'عرّفها بمن تتحدث معه، ثم اكتب لها الـbrief واسأل حتى ٤ أسئلة. مدير المشروع سيتواصل معك على هذه البيانات، فاكتب بياناتك الحقيقية.',
       name: 'اسمك', email: 'البريد الإلكتروني للعمل', phone: 'رقم الجوال', country: 'رمز الدولة', business: 'اسم النشاط التجاري', size: 'حجم النشاط', industry: 'القطاع', market: 'السوق الرئيسي', team: 'رمز الفريق',
       team_hint: 'لفريق NJO: تجربة بلا حدود.', team_open: 'لديك رمز الفريق؟',
@@ -730,14 +730,14 @@
   }
   // ---------- the invitation in the first screen, right after she wakes ----------
   const HX = {
-    en: { b: 'Talk to USHA now', k: 'Live', a: '→' },
-    ru: { b: 'Поговорить с USHA', k: 'Онлайн', a: '→' },
-    ar: { b: 'تحدّث مع USHA الآن', k: '', a: '←' },
+    en: { b: 'Get a free consultation', k: 'Live', a: '→' },
+    ru: { b: 'Получить бесплатную консультацию', k: 'Онлайн', a: '→' },
+    ar: { b: 'احصل على استشارتك المجانية', k: '', a: '←' },
   };
   function heroUI() {
     const row = $('#hero .hero-t .cta'); if (!row) return;
     const h = HX[H.lang] || HX.en;
-    let b = $('.xl-hero');
+    let b = $('.xl-hero', row);
     if (!b) {
       b = D.createElement('button'); b.type = 'button'; b.className = 'xl-hero'; b.setAttribute('translate', 'no');
       row.prepend(b);
@@ -753,6 +753,15 @@
   const wake = () => { if (!H.classList.contains('locked')) { H.classList.add('xl-awake'); return true; } return false; };
   if (!wake()) { const mo = new MutationObserver(() => { if (wake()) mo.disconnect(); }); mo.observe(H, { attributes: true, attributeFilter: ['class'] }); }
   addEventListener('usha:talk', () => open());
+  // every link to the consultation ("…/#ask": the header, the menu, the pages'
+  // own buttons) opens it in place, on whichever page the visitor is
+  D.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href*="#ask"]');
+    if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const u = new URL(a.getAttribute('href'), location.href);
+    if (u.origin !== location.origin || u.hash !== '#ask') return;
+    e.preventDefault(); open();
+  });
   addEventListener('hashchange', () => { if (location.hash === '#ask') { history.replaceState(null, '', location.pathname + location.search); open(); } });
 
   const later = () => setTimeout(() => { ctaUI(); heroUI(); }, 60);

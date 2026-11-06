@@ -638,7 +638,7 @@ html[lang=ar] .ctrl .xw-lab{font-family:var(--body);font-size:13px;letter-spacin
 .xl-f label{font-size:12.5px;font-weight:500;color:var(--ink2)}
 .xl-f input,.xl-f select,.xl-in textarea{width:100%;min-width:0;height:46px;padding:0 14px;border-radius:14px;border:0;outline:0;font:400 15px var(--body);color:var(--ink);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:box-shadow .25s,background .25s;-webkit-appearance:none;appearance:none}
 .xl-f select{padding-inline-end:34px;background-image:linear-gradient(45deg,transparent 50%,var(--ink3) 50%),linear-gradient(135deg,var(--ink3) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
-html[dir=rtl] .xl-f select{background-position:18px 50%,13px 50%}
+html[dir=rtl] .xl-f select{background-position:13px 50%,18px 50%}
 .xl-f select option{background:#16131a;color:var(--ink)}
 .xl-f input:focus,.xl-f select:focus,.xl-in textarea:focus{box-shadow:inset 0 0 0 1.5px var(--peach),0 0 0 4px rgba(255,140,90,.12);background:rgba(255,255,255,.07)}
 .xl-f.bad input,.xl-f.bad select{box-shadow:inset 0 0 0 1.5px #ff6b5a}

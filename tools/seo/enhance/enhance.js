@@ -144,6 +144,8 @@
   let dept = null, done = -1;
   function rolesUI() {
     const seven = $('.seven'), box = $('#roles'), x = X().hand; if (!seven || !box || !x) return;
+    // the launch replaced the eight roles with the orbits (launch.js); the hidden block stays still
+    if (seven.closest('[hidden]') || getComputedStyle(seven).display === 'none') { dept = null; clearInterval(loopT); return; }
     const roles = $$('span:not(.one)', box).map((r) => r.textContent);
     const text = $(':scope > .rv', seven) || $('.x-d1 > .rv', seven);
     seven.classList.add('x-dept');
@@ -263,14 +265,14 @@
     l.innerHTML = `<span><i></i>${esc(X().legendCore || '')}</span><span><i class="x"></i>${esc(X().legendPro || '')}</span>`;
   }
 
-  // ---------- control: three small live scenes ----------
-  let feedT = 0, askT = 0;
+  // ---------- control: three small live scenes (the approval itself is its own card, launch.js) ----------
+  let feedT = 0;
   function ctrlUI() {
     const cards = $$('.ctrl > div'), c = X().ctrl; if (cards.length < 3 || !c) return;
     $$('.x-w').forEach((w) => w.remove());
     const lockSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="sh" d="M7 11V8a5 5 0 0 1 10 0v3"/><rect x="4.5" y="11" width="15" height="10" rx="3"/><circle cx="12" cy="16" r="1.4"/></svg>';
     cards[0].insertAdjacentHTML('afterbegin', `<div class="x-w xw-auto" aria-hidden="true"><div class="xw-top"><span class="xw-ic xw-sw"><i></i></span><span class="xw-lab xw-on">${esc(c.on)}</span></div><span class="xw-feed">${c.feed.map((f, i) => `<span class="${i ? '' : 'cur'}"><b>✓</b>${esc(f)}</span>`).join('')}</span></div>`);
-    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-ask"><div class="xw-top"><span class="xw-ic xw-dot" aria-hidden="true"></span><span class="xw-q">${esc(c.ask)}</span></div><div class="xw-act"><div class="xw-btns"><button type="button" class="xw-yes">${esc(c.yes)}</button><button type="button" class="xw-no">${esc(c.later)}</button></div><p class="xw-ok" aria-live="polite">${esc(c.ok)}</p></div></div>`);
+    cards[1].insertAdjacentHTML('afterbegin', `<div class="x-w xw-wait" aria-hidden="true"><div class="xw-top"><span class="xw-ic xw-dot"></span><span class="xw-lab">${esc(c.wait)}</span></div></div>`);
     cards[2].insertAdjacentHTML('afterbegin', `<div class="x-w xw-lock" aria-hidden="true"><div class="xw-top"><span class="xw-ic">${lockSvg}</span><span class="xw-lab xw-only">${esc(c.only)}</span></div><span class="xw-chips">${c.lock.map((k) => `<span>${esc(k)}</span>`).join('')}</span></div>`);
     // feed rolls through what she did today
     clearInterval(feedT);
@@ -281,19 +283,8 @@
       setTimeout(() => items[i].classList.remove('was'), 700);
       items[(i + 1) % items.length].classList.add('cur');
     }, 2400);
-    // the yes: visitors can press it; on its own it gets pressed once in a while
-    const ask = $('.xw-ask');
-    const approve = () => { ask.classList.add('ok'); clearTimeout(askT); askT = setTimeout(() => ask.classList.remove('ok'), 4200); };
-    $('.xw-yes', ask).addEventListener('click', approve);
-    $('.xw-no', ask).addEventListener('click', () => { ask.classList.add('no'); setTimeout(() => ask.classList.remove('no'), 600); });
   }
   function ctrlCheck() {
-    const ask = $('.xw-ask'); if (!ask || ask.dataset.auto) return;
-    const r = ask.getBoundingClientRect();
-    if (r.top < innerHeight * 0.7 && r.bottom > 0) {
-      ask.dataset.auto = 1;
-      setTimeout(() => { ask.classList.add('press'); setTimeout(() => { ask.classList.remove('press'); ask.classList.add('ok'); setTimeout(() => ask.classList.remove('ok'), 4200); }, 380); }, 1400);
-    }
     $$('.xw-lock:not(.shut)').forEach((l) => { const q = l.getBoundingClientRect(); if (q.top < innerHeight * 0.75) l.classList.add('shut'); });
   }
 

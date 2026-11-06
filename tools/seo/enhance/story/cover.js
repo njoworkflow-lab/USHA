@@ -75,7 +75,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const lang = () => (CFG.cover[H.lang] ? H.lang : Object.keys(CFG.cover)[0]);
 
   function mount() {
-    const eng = D.querySelector('#control .eng');
+    const eng = D.querySelector('#njo .eng');
     if (!eng) return;
     let el = D.querySelector('.x-story');
     const L = lang(), c = CFG.cover[L];

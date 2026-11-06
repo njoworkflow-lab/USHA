@@ -1,0 +1,43 @@
+{
+  "home_360": [
+    "ru",
+    "en",
+    "ar"
+  ],
+  "normal_motion": [
+    {
+      "lang": "ru",
+      "width": 390,
+      "rapid_switches": "passed"
+    },
+    {
+      "lang": "ru",
+      "width": 1440,
+      "rapid_switches": "passed"
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "rapid_switches": "passed"
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "rapid_switches": "passed"
+    },
+    {
+      "lang": "ar",
+      "width": 390,
+      "rapid_switches": "passed"
+    },
+    {
+      "lang": "ar",
+      "width": 1440,
+      "rapid_switches": "passed"
+    }
+  ],
+  "language_switch": [
+    "RU → EN → RU: tick text and destination follow language"
+  ],
+  "errors": []
+}

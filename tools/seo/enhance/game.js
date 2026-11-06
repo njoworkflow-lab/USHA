@@ -28,6 +28,8 @@ let LVc=genLevel(0);
 let W=9,Hh=5.5;
 const w={active:!1,paused:!1,lv:0,score:0,lvScore:0,combo:1,comboT:0,best:0,bestLv:0,phase:"intro",pt:0,sig:0,burst:0,house:!1,lives:3,inv:0,shield:0,done:!1,still:0,secretOn:!1,secretGot:!1,yawn:0,hurt:0,anger:0,dance:0};
 const L={x:0,y:0,vx:0,vy:0,dash:0,tx:0,ty:0,steer:!1};
+// the end screen of the break (launch.js) reads the level and the signals caught
+window.__xgS=w;
 let sigs=[],clouds=[],devs=[],walls=[],winds=[],powers=[],orbs=[],boss=null,house=null,stars=[],sec={x:0,y:0};
 const keys={},hinted={};let toastT=0;
 const coarse=matchMedia("(pointer:coarse)").matches;
@@ -82,7 +84,7 @@ function setup(){
  Object.assign(w,{sig:0,burst:0,inv:1.5,shield:0,phase:"intro",pt:2.4,yawn:0,still:0});
  toast(tx("g_lv","Level")+" "+(w.lv+1)+" · "+lvName(c),2.4);hud()}
 function start(){
- Object.assign(w,{active:!0,paused:!1,lv:0,lives:3,done:!1,secretOn:!1,secretGot:!1,score:0});
+ Object.assign(w,{active:!0,paused:!1,lv:0,lives:3,done:!1,secretOn:!1,secretGot:!1,score:0,caught:0});
  for(const k in hinted)delete hinted[k];
  pts.visible=!0;joyBuild();joyShow(!0);setup();gsfx("wee");s([10,30,10])}
 function stop(){w.active=!1;pts.visible=!1;joyShow(!1);joy.on=!1;toastEl&&toastEl.classList.remove("on")}
@@ -183,7 +185,7 @@ function update(dt,time,ptr,moved){
  for(const g of sigs){
   if(play&&!g.got){g.x+=g.vx*dt;g.y+=g.vy*dt;if(Math.abs(g.x)>W*.9)g.vx*=-1;if(Math.abs(g.y)>Hh*.85)g.vy*=-1}
   const yy=g.y+Math.sin(time*1.6+g.ph)*.15;
-  if(!g.got&&play&&dist(L.x,L.y,g.x,yy)<.6){g.got=1;w.sig++;gsfx("collect");s(8);t.tgt.happy=1;addScore(10,1);w.combo>2&&toast("×"+w.combo,.8)}
+  if(!g.got&&play&&dist(L.x,L.y,g.x,yy)<.6){g.got=1;w.sig++;w.caught=(w.caught||0)+1;gsfx("collect");s(8);t.tgt.happy=1;addScore(10,1);w.combo>2&&toast("×"+w.combo,.8)}
   if(g.got)g.fade=Math.min(1,g.fade+dt*2);
   const v=vis(g.x,yy),f=.8+.2*Math.sin(time*5+g.ph);
   P(g.x,yy+g.fade*.8,0,1,.45+g.fade*.4,.18,(44+g.fade*40)*f,(1-g.fade)*1.2*v);
