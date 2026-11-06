@@ -65,6 +65,7 @@ export const likeness = (cls = '') => `<span class="xu ${cls}"><span class="xu-g
 
 // ---------- the hints row ----------
 const GLYPH = {
+  cases: '<path d="M12 48h40M16 44V30h8v14M28 44V22h8v22M40 44V12h8v32"/>',
   how: '<circle cx="32" cy="32" r="22"/><circle class="g-o" cx="32" cy="32" r="13"/><circle class="g-d" cx="54" cy="32" r="3"/>',
   people: '<circle cx="32" cy="34" r="7"/><g class="g-o"><circle cx="10" cy="22" r="2.5"/><circle cx="14" cy="50" r="2.5"/><circle cx="32" cy="58" r="2.5"/><circle cx="52" cy="48" r="2.5"/><circle cx="54" cy="20" r="2.5"/></g><path class="g-l" d="M12 23l14 7M16 48l11-9M32 56V41M50 47l-12-8M52 21l-14 9"/>',
   plans: '<rect x="12" y="38" width="40" height="14" rx="7"/><rect class="g-o" x="16" y="24" width="32" height="10" rx="5"/><rect class="g-d" x="21" y="12" width="22" height="8" rx="4"/>',
@@ -76,8 +77,8 @@ export function hintsHTML(u) {
   const card = (id, title, p, extra = '') => `<a class="l-hc l-hc-${id}" href="${u[id]}" data-pg="${id}">${glyph(id)}<span class="l-hct">${title}${extra}</span>${t(p, 'p')}<span class="l-hgo">${t('hn_open')}<i aria-hidden="true">→</i></span></a>`;
   return `<section class="ch sec l-hn" id="hints"><div class="wrap">
 ${t('hn_h', 'h2', 'l-hnh rv')}
-<div class="l-hnr rv">${card('how', t('nav_how', 'b'), 'hn_how_p')}${card('people', t('nav4', 'b'), 'hn_ppl_p')}${card('plans', t('nav5', 'b'), 'hn_pl_p')}</div>
-<div class="l-hnp rv">${card('brains', '<b>BRAINS</b>', 'hn_br_p', `<em class="xn-b xn-b-n" data-t="nav_new"></em>`)}${card('premiere', '<b>PREMIERE</b>', 'hn_pr_p', `<em class="xn-b xn-b-t" data-t="nav_try"></em>`)}</div>
+<div class="l-hnr rv">${card('how', t('hn_how_h', 'b'), 'hn_how_p')}${card('people', t('hn_ppl_h', 'b'), 'hn_ppl_p')}${card('plans', t('hn_pl_h', 'b'), 'hn_pl_p')}${card('cases', t('hn_cs_h', 'b'), 'hn_cs_p')}</div>
+<div class="l-hnp rv">${card('brains', t('hn_br_h', 'b'), 'hn_br_p', '<small>BRAINS</small>')}${card('premiere', t('hn_pr_h', 'b'), 'hn_pr_p', '<small>PREMIERE</small>')}</div>
 </div></section>`;
 }
 

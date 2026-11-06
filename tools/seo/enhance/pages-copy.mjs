@@ -9,6 +9,13 @@
 
 export const PAGES = {
   en: {
+    hn_pr_h: "Your yes. Her move.",
+    hn_br_h: "The engineers make the difference.",
+    hn_cs_p: "Modelled examples: the decisions, the work and the numbers behind them.",
+    hn_cs_h: "×98 sales on every pound of marketing.",
+    hn_pl_h: "Numbers, not promises.",
+    hn_ppl_h: "How I was born: 28 chapters, told by USHA.",
+    hn_how_h: "Eight roles → one mind. Ready in one week.",
     // header and menu
     nav_home: 'Home', nav_how: 'How she works', nav_new: 'New', nav_try: 'Try now', nav_menu: 'Menu', nav_close: 'Close',
     // home: the "taught her" moment and the hints row
@@ -20,9 +27,9 @@ export const PAGES = {
     tg_alt: 'A constellation of more than 700 NJO projects flowing into USHA.',
     tg_more: 'Meet the people who trained her',
     hn_h: 'The rest of her story, <i>one step away.</i>',
-    hn_how_p: 'Who decides what, why one mind replaces a department of eight, and a month with her, day by day.',
-    hn_ppl_p: 'The strategists, art directors, analysts and engineers who taught her, and the story of how she was born.',
-    hn_pl_p: 'Core, Pro and Enterprise, the free first week day by day, and the questions owners ask first.',
+    hn_how_p: "She never goes on sick leave, never says “I’m not in the right headspace”, and never leaves for a competitor with your project history.",
+    hn_ppl_p: "Trained on 700+ NJO projects, at the desks of the people who did them.",
+    hn_pl_p: "Up to 20 posts, 40 stories, 6 videos without a shoot, 30 creators, 10 competitors watched, every month.",
     hn_br_p: 'A new product from USHA by NJO.',
     hn_pr_p: 'Coming to usha.one. Be among the first to try it.',
     hn_open: 'Open',
@@ -50,6 +57,13 @@ export const PAGES = {
     pg_pr_desc: 'PREMIERE is coming to usha.one. Opening soon.',
   },
   ru: {
+    hn_pr_h: "Ваше «да». Её ход.",
+    hn_br_h: "Инженеры делают разницу.",
+    hn_cs_p: "Смоделированные примеры: решения, работа и цифры за ними.",
+    hn_cs_h: "×98 продаж на каждый фунт маркетинга.",
+    hn_pl_h: "Цифры, а не обещания.",
+    hn_ppl_h: "Как я родилась: 28 глав от USHA.",
+    hn_how_h: "Восемь ролей → один ум. Готова за неделю.",
     nav_home: 'Главная', nav_how: 'Как она работает', nav_new: 'Новое', nav_try: 'Попробовать', nav_menu: 'Меню', nav_close: 'Закрыть',
     tg_k: 'На чём она обучена',
     tg_h: 'Нейросети учатся на том, что написал мир. <i>USHA училась на том, что сделала NJO.</i>',
@@ -58,9 +72,9 @@ export const PAGES = {
     tg_alt: 'Созвездие из более чем 700 проектов NJO, которые сходятся в USHA.',
     tg_more: 'Познакомьтесь с теми, кто её обучал',
     hn_h: 'Остальное — <i>в одном шаге.</i>',
-    hn_how_p: 'Кто что решает, почему один ум заменяет отдел из восьми человек и как проходит месяц с ней, день за днём.',
-    hn_ppl_p: 'Стратеги, арт-директора, аналитики и инженеры, которые её учили, и история о том, как она появилась.',
-    hn_pl_p: 'Core, Pro и Enterprise, бесплатная первая неделя день за днём и вопросы, которые владельцы задают первыми.',
+    hn_how_p: "Она не уходит на больничный, не говорит «я не в ресурсе» и никогда не уйдёт к конкуренту вместе с историей вашего проекта.",
+    hn_ppl_p: "Обучена на 700+ проектах NJO, за столами людей, которые их делали.",
+    hn_pl_p: "До 20 постов, 40 сторис, 6 видео без съёмки, 30 креаторов, 10 конкурентов под наблюдением каждый месяц.",
     hn_br_p: 'Новый продукт USHA by NJO.',
     hn_pr_p: 'Скоро на usha.one. Попробуйте одними из первых.',
     hn_open: 'Открыть',
