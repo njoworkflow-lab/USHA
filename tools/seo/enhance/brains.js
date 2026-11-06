@@ -313,7 +313,7 @@
     const s = brState(b);
     return `<div class="pd-hd br-phd"><span class="br-phk">${esc(C.crumb)}</span><button type="button" class="pd-x" aria-label="${esc(C.profile.close)}"></button></div>
 <div class="pd-body br-pbody">${brProfileHTML(b, C, L, lang, similarOf(b))}</div>
-<div class="pd-ft br-pft"><span class="br-price num">${esc(feeOf(b))}</span><button type="button" class="btn btn-p br-consult"><span class="d"></span>${esc(s === 'matching' ? C.profile.ctaMatching : C.profile.cta)}</button></div>`;
+<div class="pd-ft br-pft"><span class="br-price">${brFeeHTML(b, C, lang)}</span><button type="button" class="btn btn-p br-consult"><span class="d"></span>${esc(s === 'matching' ? C.profile.ctaMatching : C.profile.cta)}</button></div>`;
   }
   function wireProfile(b) {
     const p = prof.panel;
@@ -402,7 +402,7 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
   function flowHTML(b, st) {
     const steps = [...F.steps, F.review];
     const last = st.step === 3, matching = brState(b) === 'matching';
-    return `<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<div><p class="br-minik" id="brFlowT">${esc(F.title)}</p><p class="br-minit">${esc(capTitle(b))} · <span class="num">${esc(feeOf(b))}</span></p></div></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
+    return `<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<div><p class="br-minik" id="brFlowT">${esc(F.title)}</p><p class="br-minit">${esc(capTitle(b))} · ${brFeeHTML(b, C, lang)}</p></div></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
 <div class="br-fprog"><p class="br-fstep">${st.step < 3 ? `${esc(fill(F.stepOf, { n: st.step + 1 }))} · ` : ''}<b>${esc(steps[st.step])}</b></p><ol class="pd-steps" aria-hidden="true">${steps.map((s, i) => `<li class="${i < st.step ? 'done' : i === st.step ? 'on' : ''}">${esc(s)}</li>`).join('')}</ol></div>
 <form class="pd-body br-fbody" novalidate>${paneHTML(b, st)}<p class="br-saved" aria-live="polite"></p></form>
 <div class="pd-ft"><button type="button" class="btn btn-g btn-s br-back"${st.step === 0 ? ' hidden' : ''}>${esc(F.back)}</button><button type="button" class="btn btn-p br-nextb"><span class="d"></span>${esc(last ? (matching ? F.reserveMatching : F.reserve) : [F.next1, F.next2, F.next3][st.step])}</button></div>`;
@@ -561,7 +561,7 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
       }).sort((x, y) => y.s - x.s || (y.b.years || 0) - (x.b.years || 0));
       const top = sc.slice(0, 3), exact = !ms.field || top[0].s >= 8;
       return shell(`<div class="pd-pane"><h2 class="br-mres" id="brMres" tabindex="-1">${esc(M.result)}</h2>${exact ? '' : `<p class="br-banner">${esc(M.none)}</p>`}
-<ol class="br-mlist">${top.map(({ b, why }) => `<li><button type="button" class="br-mpick" data-slug="${b.slug}">${brGlyph(b.slug, 'br-gl br-gl-s')}<span><b>${esc(capTitle(b))}</b><small><span class="br-mwhy">${esc(M.why)}</span> ${esc(why.join(', '))}</small><small class="num">${esc(feeOf(b))}</small></span></button></li>`).join('')}</ol></div>`,
+<ol class="br-mlist">${top.map(({ b, why }) => `<li><button type="button" class="br-mpick" data-slug="${b.slug}">${brGlyph(b.slug, 'br-gl br-gl-s')}<span><b>${esc(capTitle(b))}</b><small><span class="br-mwhy">${esc(M.why)}</span> ${esc(why.join(', '))}</small><small>${brFeeHTML(b, C, lang)}</small></span></button></li>`).join('')}</ol></div>`,
         `<button type="button" class="btn btn-g btn-s br-magain">${esc(M.again)}</button><span></span>`);
     }
     wire();

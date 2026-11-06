@@ -421,3 +421,5 @@ html[dir=rtl] .pm-tl li{padding:8px 30px 8px 0}
 .pm-tl li:first-child::before{background:var(--post);box-shadow:none}
 .pm-tl li:not(:last-child)::after{content:'';position:absolute;inset-inline-start:10.5px;top:26px;bottom:-6px;width:1px;background:var(--line2)}
 @media (max-width:520px){.pm-ticket{grid-template-columns:1fr}.pm-ticket::before,.pm-ticket::after{display:none}.pm-tk2{border-inline-start:0;border-top:2px dashed rgba(22,16,12,.25)}}
+.pm-rv{flex-wrap:wrap;gap:14px 22px}
+@media (max-width:520px){.pm-stamp-s{font-size:15px;padding:8px 12px}.pm-rarrow{width:28px}}

@@ -16,6 +16,7 @@ export function brPrice(p, lang) {
 }
 // one brain's state: a named consultant makes it live; otherwise it is being matched
 export const brFee = (b, lang) => (!b.priceHi ? brPrice(b.price, lang) : lang === 'en' ? `${brPrice(b.price, lang)}–${brPrice(b.priceHi, lang).slice(1)}` : `${brPrice(b.price, lang).replace(/\u00a0\$$/, '')}–${brPrice(b.priceHi, lang)}`);
+export const brFeeHTML = (b, C, lang) => brEsc(C.grid.perMonth).replace('{p}', `<bdi class="num">${brEsc(brFee(b, lang))}</bdi>`);
 export const brState = (b) => b.consultant && b.consultant.name ? (b.consultant.paused ? 'paused' : 'open') : 'matching';
 
 // ---------- the constellation: one per brain, drawn from its slug ----------
@@ -90,7 +91,7 @@ ${b.years ? `<span class="br-ruler" style="--y:${b.years}" aria-hidden="true"></
 <ul class="br-tags">${shown.map(([t, k]) => `<li class="br-tg-${k}">${brEsc(t)}</li>`).join('')}${more > 0 ? `<li class="br-tg-m">+${more}</li>` : ''}</ul>
 <p class="br-ind">${brEsc(b.ind.map((x) => L.ind[x]).join(' · '))}</p>
 <p class="br-mk"><span class="num">${brEsc(b.codes)}</span><span class="num">${brCodes(b.langs)}</span></p>
-<div class="br-cft"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}${b.priceHi ? ` <small>${brEsc(C.grid.est)}</small>` : ''}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
+<div class="br-cft"><span class="br-price">${brFeeHTML(b, C, lang)}${b.priceHi ? ` <small>${brEsc(C.grid.est)}</small>` : ''}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
 </article></li>`;
 }
 
@@ -141,7 +142,7 @@ export function brProfileHTML(b, C, L, lang, similar) {
 <h4>${brEsc(P.projects)}</h4><ul class="br-list">${li(t.projects)}</ul>
 <h4>${brEsc(P.seeking)}</h4><p>${brEsc(t.req)}</p></section>`;
   const price = named
-    ? `<section class="br-pb"><h3>${brEsc(P.feeL)}</h3><p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p><p class="br-muted">${brEsc(P.feeNote)}</p></section>`
+    ? `<section class="br-pb"><h3>${brEsc(P.feeL)}</h3><p class="br-pp"><span class="br-price">${brFeeHTML(b, C, lang)}</span> · ${brEsc(brBand(b.price, L).n)}</p><p class="br-muted">${brEsc(P.feeNote)}</p></section>`
     : `<section class="br-pb"><h3>${brEsc(P.price)}</h3>
 <ul class="br-fac"><li><span>${brEsc(P.factors[0])}</span><b>${brEsc(L.home[b.home])}</b></li><li><span>${brEsc(P.factors[1])}</span><b class="num">${b.years}</b></li><li><span>${brEsc(P.factors[2])}</span><b>${brEsc(P.cov[b.cov - 1])}</b></li></ul>
 <p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p></section>`;
@@ -152,7 +153,7 @@ export function brProfileHTML(b, C, L, lang, similar) {
 ${named ? `<p class="br-what">${brEsc(P.what)}</p>` : ''}</div></div>
 <dl class="br-facts">
 <div><dt>${brEsc(C.grid.g.years)}</dt><dd>${brEsc(yrs)}</dd></div>
-<div><dt>${brEsc(P.marketsL)}</dt><dd class="num">${brEsc(b.codes)}</dd></div>
+<div><dt>${brEsc(P.marketsL)}</dt><dd>${brEsc(b.codes)}</dd></div>
 <div><dt>${brEsc(P.langsL)}</dt><dd>${brEsc(b.langs.map((l) => L.langs[l]).join(', '))}</dd></div>
 <div><dt>${brEsc(C.grid.g.avail)}</dt><dd>${brStatus(b, C)}</dd></div>
 </dl>
