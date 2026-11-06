@@ -689,9 +689,17 @@ for (const lang of GUIDE_LANGS) {
 // the home page's styles.
 const BODY_IMG = fs.readFileSync(path.join(ENH, 'usha-body.webp'));
 const BODY_URL = emit(`usha-body-${hash(BODY_IMG)}.webp`, BODY_IMG);
-const PAGES_CSS = fs.readFileSync(path.join(ENH, 'pages.css'), 'utf8').replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
+// The live chat's window on pages without the home page's styles (cases,
+// BRAINS, PREMIERE): the dialog and "Ask USHA live" rules from enhance.css,
+// with the home page's tokens scoped to the window so it looks the same.
+const ENH_SRC = fs.readFileSync(path.join(ENH, 'enhance.css'), 'utf8');
+const cut = (from, to) => { const a = ENH_SRC.indexOf(from), b = ENH_SRC.indexOf(to, a); if (a < 0 || b < 0) throw new Error(`enhance.css changed: ${from}`); return ENH_SRC.slice(a, b); };
+const LIVE_CSS = ".x-modal{--ink:#F3EEE8;--ink2:rgba(243,238,232,.84);--ink3:rgba(243,238,232,.6);--line:rgba(243,238,232,.16);--ember:#FF5A1F;--ember-t:#FF6A2B;--peach:#FFB48A;--head:'Unbounded',system-ui,sans-serif;--body:'Onest','Golos Text',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--x-ease:cubic-bezier(.16,1,.3,1);color:var(--ink);font-family:var(--body);line-height:1.5}"
+  + cut('html.x-modal-on,html.x-modal-on body', '.xm-g{') + cut('@media (max-width:600px){.x-modal{', '\n')
+  + cut('/* ---------- Ask USHA live', '/* "Talk to USHA now"');
+const PAGES_CSS = (fs.readFileSync(path.join(ENH, 'pages.css'), 'utf8') + LIVE_CSS).replace(/\/\*[^]*?\*\//g, '').replace(/\s*\n\s*/g, '');
 const CHROME_CSS_URL = emit(`chrome-${hash(PAGES_CSS)}.css`, PAGES_CSS);
-const CHROME_JS = ['pages.js', 'galaxy.js', 'likeness.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n');
+const CHROME_JS = ['pages.js', 'galaxy.js', 'likeness.js', 'live.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n');
 const CHROME_JS_URL = emit(`chrome-${hash(CHROME_JS)}.js`, CHROME_JS);
 const pageUrlOf = (l, id) => id === 'cases' ? pageUrls(l).cases : pageUrls(l)[id];
 function chrome(lang, id) {
@@ -781,7 +789,7 @@ ${ch.header}
 <main id="cases" class="xc-main"><div class="xc-head xc-hero"><div class="xc-ht"><p class="kick">${d.cs_k}</p><h1>${d.cs_h}</h1><p class="lead">${d.cs_p}</p><p class="xc-disc">${d.pr_note}</p><p class="xc-plan">${C.ui.plan}</p></div><div class="pg-me" aria-hidden="true">${likeness('pg-u').replace('{{USHA_BODY}}', BODY_URL)}</div></div>
 <div class="xc-app">${xcWallHTML(C, lang)}</div></main>
 ${ch.footer}
-<script>window.USHA_CASES=${JSON.stringify({ [lang]: C }).replace(/</g, '\\u003c')};window.USHA_CASES_ASK=${JSON.stringify(ch.ask)}</script><script src="${CASES_JS_URL}"></script><script src="${CHROME_JS_URL}" defer></script>
+<script>window.USHA_CASES=${JSON.stringify({ [lang]: C }).replace(/</g, '\\u003c')};window.USHA_CASES_ASK=${JSON.stringify(LIVE.api ? null : ch.ask)};window.USHA_LIVE=${JSON.stringify(LIVE)}</script><script src="${CASES_JS_URL}"></script><script src="${CHROME_JS_URL}" defer></script>
 </body></html>
 `;
   const file = path.join(ROOT, new URL(url).pathname, 'index.html');
@@ -796,7 +804,7 @@ ${ch.footer}
 // /people/. The free week's form and the live chat stay on the home page.
 const SITE_CSS = BUNDLE_CSS.replace(/@font-face\{font-family:'(?:Geist|Golos Text)'[^}]*\}/g, '') + ENH_CSS;
 const SITE_CSS_URL = emit(`site-${hash(SITE_CSS)}.css`, SITE_CSS);
-const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js', 'likeness.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
+const DETAIL_JS = ['ui.mjs', 'enhance.js', 'story/cover.js', 'launch.js', 'pages.js', 'galaxy.js', 'likeness.js', 'live.js', 'plans-brief.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
 const DETAIL_JS_URL = emit(`pages-${hash(DETAIL_JS)}.js`, DETAIL_JS);
 // ---------- the product pages: /brains/ and /premiere/ (and /en/…, /ar/…) ----------
 // Each is its own light page on the shared chrome (header, menu, galaxy,
@@ -912,16 +920,15 @@ const PAGE_KEY = { how: 'how', people: 'ppl', plans: 'pl', brains: 'br', premier
 const PAGE_TONE = { how: 'ember', people: 'peach', plans: 'teal', brains: 'teal', premiere: 'ember' };
 function detailBody(lang, id, ch) {
   const d = DICT[lang], P = DETAIL_PARTS[lang], u = ch.u;
-  // consultation buttons go to the live chat on the home page
-  const fix = (h) => h.replace(/<button type="button" class="btn btn-p l-ask">([^]*?)<\/button>/g, `<a class="btn btn-p" href="${ch.ask}">$1</a>`);
-  const cta = `<section class="pg-cta"><div class="wrap"><h2 class="big">${d.t_h}</h2><p class="lead">${d.t_p}</p><div class="l-row"><a class="btn btn-p" href="${ch.ask}"><span class="d"></span>${d.cta}</a><a class="btn btn-g" href="${u.home}#free">${d.b1}</a></div></div></section>`;
+  // consultation buttons open the live chat in place (live.js); with the chat
+  // switched off they become links to the home page's "Try her"
+  const fix = (h) => LIVE.api ? h : h.replace(/<button type="button" class="btn btn-p l-ask">([^]*?)<\/button>/g, `<a class="btn btn-p" href="${ch.ask}">$1</a>`);
+  const cta = `<section class="pg-cta"><div class="wrap"><h2 class="big">${d.t_h}</h2><p class="lead">${d.t_p}</p><div class="l-row"><a class="btn btn-p" href="${ch.ask}"><span class="d"></span>${d.cta}</a><a class="btn btn-g" href="${id === 'plans' ? '' : u.plans}#free">${d.b1}</a></div></div></section>`;
   const hero = (o) => pageHero(o).replace('{{USHA_BODY}}', BODY_URL);
   if (id === 'how') return hero({ kick: d.nav_how, h1: d.pg_how_h, lead: d.pg_how_p, index: [['#control', d.pg_i_ctrl], ['#why', d.pg_i_why], ['#month', d.pg_i_month]] }) + fix(P.control + P.why + P.month) + cta;
   if (id === 'plans') {
-    // the free week's seven days and terms; the form lives on the home page
-    const start = `<div class="pg-start glass rv"><span class="l-lab">USHA</span><h3>${d.b1}</h3><p>${d.bf_safe}</p><a class="btn btn-p" href="${u.home}#free"><span class="d"></span>${d.b1}</a></div>`;
-    const free = P.free.replace(/<form class="brief[^]*?<\/form>/, start);
-    return hero({ kick: d.nav5, h1: d.pg_pl_h, lead: d.pg_pl_p, index: [['#plans', d.pg_i_plans], ['#free', d.pg_i_free], ['#faqs', d.pg_i_faq]] }) + fix(P.plans + free + P.faqs) + cta;
+    // the free week's seven days, its terms and the brief itself (plans-brief.js runs it here)
+    return hero({ kick: d.nav5, h1: d.pg_pl_h, lead: d.pg_pl_p, index: [['#plans', d.pg_i_plans], ['#free', d.pg_i_free], ['#faqs', d.pg_i_faq]] }) + fix(P.plans + P.free + P.faqs) + cta;
   }
   if (id === 'people') {
     // the moment opens the page; the desks, the numbers, her story and the partners follow
@@ -947,6 +954,10 @@ for (const lang of Object.keys(LANGS)) {
     if (id === 'plans') ld.push({ '@type': 'FAQPage', '@id': `${url}#faqs`, inLanguage: lang, mainEntity: d.faq.map(([q, a]) => ({ '@type': 'Question', name: strip(q), acceptedAnswer: { '@type': 'Answer', text: strip(a) } })) });
     const css = `<style id="x-type">${TYPE_FACES}</style>\n<link rel="stylesheet" href="${SITE_CSS_URL}">${lang === 'ar' ? `<style>${AR_LATE}</style>` : ''}`;
     const xs = lang === 'ar' ? { ar: XL.ar } : { [lang]: XL[lang] };
+    // the brief's copy for plans-brief.js; the manager reads the answers in English
+    const brief = id === 'plans' ? `;window.USHA_BRIEF=${JSON.stringify({ a1: d.bf_a1, a2: d.bf_a2, en1: DICT.en.bf_a1, en2: DICT.en.bf_a2, next: d.bf_next, send: d.bf_send,
+      errorSell: d.bf_errorSell, errorPain: d.bf_errorPain, errorContact: d.bf_errorContact, doneH: d.bf_doneH, doneP: d.bf_doneP, copied: d.bf_copied, doneCopied: d.bf_doneCopied,
+      copyError: d.bf_copyError, copy: d.bf_copy, tg: CONTACT.telegram, mail: CONTACT.email }).replace(/</g, '\\u003c')}` : '';
     const story = id === 'people' ? `;window.USHA_STORY=${JSON.stringify({ ...storyCfg(), cover: { [lang]: STORY_TEXT[lang].cover } }).replace(/</g, '\\u003c')}` : '';
     const body = crossLinks(detailBody(lang, id, ch), id, lang);
     const html = pageHead(lang, { title, description, url, alt, ld, css }) + `
@@ -957,7 +968,7 @@ ${ch.header}
 ${body}
 </main>
 ${ch.footer}
-<script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)}${story}</script><script src="${DETAIL_JS_URL}" defer></script>
+<script>window.USHA_X=${JSON.stringify(xs).replace(/</g, '\\u003c')};window.USHA_LIVE=${JSON.stringify(LIVE)}${brief}${story}</script><script src="${DETAIL_JS_URL}" defer></script>
 </body></html>
 `;
     const file = path.join(ROOT, pageUrls(lang)[id], 'index.html');
@@ -1043,12 +1054,20 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 - [USHA — Arabic](${LANGS.ar.url}): ${LANGS.ar.description}
 - [How she works](${SITE}${pageUrls('en').how}): ${DICT.en.pg_how_desc}
 - [The people behind her](${SITE}${pageUrls('en').people}): ${DICT.en.pg_ppl_desc}
-- [Plans, the free first week and FAQ](${SITE}${pageUrls('en').plans}): ${DICT.en.pg_pl_desc}
+- [Plans, the free first week and FAQ](${SITE}${pageUrls('en').plans}): ${DICT.en.pg_pl_desc} The free week's brief is filled in on this page.
 - [Cases](${casesUrl('en')}): ${strip(DICT.en.cs_desc)}
+- [BRAINS](${SITE}${pageUrls('en').brains}): ${strip(brainsCopy('en', brainsLocal('en').list).desc)}
+- [PREMIERE](${SITE}${pageUrls('en').premiere}): ${strip(PREMIERE_COPY.en.desc)}
+- Each English page above also exists in Russian (the same address without /en/, e.g. ${SITE}${pageUrls('ru').plans}) and Arabic (/ar/ instead of /en/, e.g. ${SITE}${pageUrls('ar').plans}). Every page opens the free live consultation with USHA in place.
 - [Full text of the site](${SITE}/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
 
 ## Guides
 ${GUIDES.map((g) => `- [${strip(g.en.h1)}](${guideUrl('en', g.slug)}): ${g.en.description} Russian: ${guideUrl('ru', g.slug)}`).join('\n')}
+
+## Products
+- USHA (Core, Pro, Enterprise): the business intelligence engine, monthly plans below.
+- BRAINS by USHA: ${strip(brainsCopy('en', brainsLocal('en').list).desc)} ${SITE}${pageUrls('en').brains}
+- PREMIERE by USHA: ${strip(PREMIERE_COPY.en.desc)} ${SITE}${pageUrls('en').premiere}
 
 ## Plans
 ${PLANS.map((p) => `- ${p.n}: ${p.t[0]} ${p.pts.map((x) => x[0]).join('; ')}.`).join('\n')}
@@ -1081,7 +1100,10 @@ function fullText(lang) {
 fs.writeFileSync(path.join(ROOT, 'llms-full.txt'),
   `# USHA by NJO — full site text\n\nSource: ${LANGS.en.url} (English), ${LANGS.ru.url} (Russian) and ${LANGS.ar.url} (Arabic). Updated ${lastmod}.\n\n---\n\n${fullText('en')}\n\n---\n\n${fullText('ru')}\n\n---\n\n${fullText('ar')}\n`);
 
-console.log(`Built ${Object.values(LANGS).map((L) => L.file).join(', ')}, ${GUIDE_LANGS.length * (GUIDES.length + 1)} guide pages, ${Object.keys(LANGS).length} cases pages, robots.txt, sitemap.xml, llms.txt, llms-full.txt (lastmod ${lastmod})`);
+{
+  const nl = Object.keys(LANGS).length, home = nl, guides = GUIDE_LANGS.length * (GUIDES.length + 1), cases = nl, detail = PAGE_IDS.length * nl;
+  console.log(`Built ${home + guides + cases + detail} pages: ${home} home (${Object.values(LANGS).map((L) => L.file).join(', ')}), ${guides} guide pages, ${cases} cases pages, ${detail} detail pages (${PAGE_IDS.join(', ')} × ${nl}); robots.txt, sitemap.xml, llms.txt, llms-full.txt, sw.js (lastmod ${lastmod})`);
+}
 if (process.env.AR_COLLECT) {
   fs.writeFileSync(path.join(ROOT, 'tools/seo/ar-missing.json'), JSON.stringify([...AR_MISSING], null, 1));
   console.log(`${AR_MISSING.size} strings need Arabic`);

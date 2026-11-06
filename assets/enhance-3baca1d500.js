@@ -1321,6 +1321,15 @@ function findingChart(i, lang) {
   const wake = () => { if (!H.classList.contains('locked')) { H.classList.add('xl-awake'); return true; } return false; };
   if (!wake()) { const mo = new MutationObserver(() => { if (wake()) mo.disconnect(); }); mo.observe(H, { attributes: true, attributeFilter: ['class'] }); }
   addEventListener('usha:talk', () => open());
+  // every link to the consultation ("…/#ask": the header, the menu, the pages'
+  // own buttons) opens it in place, on whichever page the visitor is
+  D.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href*="#ask"]');
+    if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const u = new URL(a.getAttribute('href'), location.href);
+    if (u.origin !== location.origin || u.hash !== '#ask') return;
+    e.preventDefault(); open();
+  });
   addEventListener('hashchange', () => { if (location.hash === '#ask') { history.replaceState(null, '', location.pathname + location.search); open(); } });
 
   const later = () => setTimeout(() => { ctaUI(); heroUI(); }, 60);

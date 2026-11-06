@@ -10,14 +10,22 @@ USHA is a business intelligence engine, not a chatbot or an agency. She works in
 - [USHA — Arabic](https://usha.one/ar/): كل يوم تتابع USHA ما يجري في منصات البيع ولدى منافسيك وعملائك، فتخبرك بما تغيّر ولماذا، ثم تتولّى التنفيذ: الاستراتيجية والمحتوى والإعلانات. روسيا ودول الخليج ومصر. الأسبوع الأول مجاني.
 - [How she works](https://usha.one/en/how/): How USHA, the AI marketing director by NJO, works with owners: you approve every budget, one mind replaces a department of eight, and a modelled month with her, day by day.
 - [The people behind her](https://usha.one/en/people/): USHA learned at the desks of NJO’s strategists, art directors, analysts, engineers and project managers: 700+ projects in 20+ countries since 2016. Her origin story and partners.
-- [Plans, the free first week and FAQ](https://usha.one/en/plans/): USHA Core, Pro and Enterprise: what each plan covers, where she works, the free first week day by day, and answers to the questions owners ask first.
+- [Plans, the free first week and FAQ](https://usha.one/en/plans/): USHA Core, Pro and Enterprise: what each plan covers, where she works, the free first week day by day, and answers to the questions owners ask first. The free week's brief is filled in on this page.
 - [Cases](https://usha.one/en/cases/): Twelve cases from established businesses in the Gulf and Egypt: the decision, the arithmetic, what moved, what didn’t, and the stop rule.
+- [BRAINS](https://usha.one/en/brains/): Consult a validated replica of a senior expert from your industry: a CFO, a pricing lead, a feasibility director, a head of HR. On WhatsApp or Telegram, from $300 a month.
+- [PREMIERE](https://usha.one/en/premiere/): Upload a video, a script or an idea. A simulated crowd of 50 to 500 viewers, built from real audience data, watches it and tells you where they leave, which hook holds them, and whether to post. From $10 a month.
+- Each English page above also exists in Russian (the same address without /en/, e.g. https://usha.one/plans/) and Arabic (/ar/ instead of /en/, e.g. https://usha.one/ar/plans/). Every page opens the free live consultation with USHA in place.
 - [Full text of the site](https://usha.one/llms-full.txt): every section, plan and FAQ answer in English, Russian and Arabic
 
 ## Guides
 - [Marketplace analytics that ends in a move](https://usha.one/en/guides/marketplace-analytics/): What really decides sales on Wildberries, Ozon and Yandex Market, which signals to read every day and how to turn them into a move. A guide by NJO. Russian: https://usha.one/guides/marketplace-analytics/
 - [Competitor monitoring: every day, not every quarter](https://usha.one/en/guides/competitor-monitoring/): How to watch competitors’ prices, promotions, cards, reviews and ads, and understand why the leaders win. A guide by NJO. Russian: https://usha.one/guides/competitor-monitoring/
 - [Agency, in-house or USHA: which to choose](https://usha.one/en/guides/agency-vs-in-house-vs-usha/): A fair comparison of four ways to run a brand’s marketing: business knowledge, speed, factual accuracy and availability. A guide by NJO. Russian: https://usha.one/guides/agency-vs-in-house-vs-usha/
+
+## Products
+- USHA (Core, Pro, Enterprise): the business intelligence engine, monthly plans below.
+- BRAINS by USHA: Consult a validated replica of a senior expert from your industry: a CFO, a pricing lead, a feasibility director, a head of HR. On WhatsApp or Telegram, from $300 a month. https://usha.one/en/brains/
+- PREMIERE by USHA: Upload a video, a script or an idea. A simulated crowd of 50 to 500 viewers, built from real audience data, watches it and tells you where they leave, which hook holds them, and whether to post. From $10 a month. https://usha.one/en/premiere/
 
 ## Plans
 - USHA Core: The engine for one brand, one marketplace, one ad platform. Up to 5 competitors tracked; 1 marketplace; Up to 16 posts · 32 stories; Up to 4 videos · 1 photo shoot; 1 ad platform · 1 promotion.

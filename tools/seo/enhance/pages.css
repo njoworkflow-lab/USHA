@@ -214,12 +214,6 @@ html[lang=ar] .pg-ht h1{line-height:1.3;letter-spacing:0}
 .pg-f nav{display:flex;flex-wrap:wrap;gap:8px 22px}
 .pg-f a:hover{color:var(--pg-cream)}
 .pg-f .pg-fct{display:flex;flex-wrap:wrap;gap:8px 18px}
-/* the free week on /plans/: the form lives on the home page */
-.pg-start{align-self:start;position:sticky;top:110px;display:grid;gap:16px;padding:30px}
-.pg-start .l-lab{color:var(--pg-ember)}
-.pg-start h3{font:500 clamp(22px,2vw,30px)/1.15 var(--head);letter-spacing:-.03em}
-.pg-start p{font-size:14px}
-.pg-start .btn{justify-self:start}
 /* the restored 8 → 1 on /how/ */
 .pg #why .seven.x-dept{margin-top:clamp(70px,12vh,130px)}
 /* the stubs */
