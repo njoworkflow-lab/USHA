@@ -3279,14 +3279,28 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   }
 
   const ease = (x) => 1 - Math.pow(1 - x, 3);
+  // 0 while the section is still below the fold, 1 once it fills the screen, back to 0 as it scrolls away
+  const smooth = (x) => x * x * (3 - 2 * x);
+  function fieldK() {
+    const r = tg.getBoundingClientRect(), vh = innerHeight;
+    return smooth(clamp((vh - r.top) / vh)) * smooth(clamp(r.bottom / vh));
+  }
+  // once the stage starts to scroll away the 3D USHA leaves her point, so the
+  // ring, the threads and the stars go first and leave no empty eclipse behind
+  const exitK = () => smooth(clamp((tg.getBoundingClientRect().bottom / innerHeight - 0.78) / 0.22));
   let p = reduce ? 1 : 0, t = 0;
   function draw() {
+    ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, W, Ht);
     // a deep, near-black field over the galaxy behind, open where she sits
+    // On the home page it deepens as the moment scrolls in and lifts as it
+    // leaves, so the 3D galaxy above and below reads as one continuous space.
+    const fk = home ? fieldK() : 1;
     const field = ctx.createRadialGradient(P.x, P.y, R * 1.02, P.x, P.y, R * 1.9);
-    field.addColorStop(0, 'rgba(3,3,4,0)'); field.addColorStop(1, 'rgba(3,3,4,.9)');
+    field.addColorStop(0, 'rgba(3,3,4,0)'); field.addColorStop(1, `rgba(3,3,4,${(0.9 * fk).toFixed(3)})`);
     ctx.fillStyle = field; ctx.fillRect(0, 0, W, Ht);
     const threadK = clamp((p - 0.5) / 0.32);
+    ctx.globalAlpha = home ? exitK() : 1;
     // threads: faint at the edges, brighter where they converge
     ctx.globalCompositeOperation = 'lighter';
     ctx.lineWidth = 0.6;
@@ -3355,6 +3369,7 @@ html[lang=ar] .xs-note{font-family:'USHA Arabic Hand','USHA Hand',serif}
   const go = () => { if (!raf && visible) { last = 0; raf = requestAnimationFrame(frame); } };
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible && !home && !played) played = performance.now(); if (visible) { if (reduce) { p = 1; draw(); } else go(); } }, { rootMargin: '80px' }).observe(tg);
   D.addEventListener('visibilitychange', go);
+  if (reduce && home) addEventListener('scroll', () => { if (visible) requestAnimationFrame(draw); }, { passive: true });
   let rt = 0;
   const relayout = () => { layout(); p = progress(); draw(); };
   let lw = innerWidth, lh = innerHeight;
