@@ -1,0 +1,170 @@
+name: QA
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: PR smoke (Chromium, six cells)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      QA_WORKERS: '2'
+      QA_RETRIES: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fetch reference without old QA artifact history
+        run: git fetch --no-tags --depth=1 origin main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: qa/package-lock.json
+      - run: npm ci --prefix qa --no-audit --no-fund
+      - name: Install pinned browsers and Linux dependencies
+        working-directory: qa
+        run: |
+          mkdir -p .work/install
+          npx playwright install --with-deps chromium webkit firefox 2>&1 | tee .work/install/browsers.log
+      - name: Check harness and repository artifact policy
+        run: |
+          npm --prefix qa run self-test
+          node qa/scripts/check-tracked.mjs
+      - name: Interaction, console, layout and axe in RU, EN and AR
+        run: timeout --signal=TERM --kill-after=30s 15m npm --prefix qa run smoke
+      - name: Upload smoke evidence even when site gates fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usha-qa-${{ github.run_id }}-smoke
+          path: |
+            qa/report/
+            qa/.work/install/
+          retention-days: 14
+          if-no-files-found: error
+          include-hidden-files: true
+
+  reference:
+    name: Pin full-run baseline reference
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      main: ${{ steps.reference.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - id: reference
+        run: printf 'sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  full:
+    name: Full (${{ matrix.browser }}, profile ${{ matrix.shard }})
+    if: github.event_name != 'pull_request'
+    needs: reference
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ matrix.browser == 'chromium' && matrix.shard == 0 && 240 || 180 }}
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+        browser: [chromium, webkit, firefox]
+    env:
+      QA_WORKERS: '1'
+      QA_SHARD: ${{ matrix.shard }}
+      QA_BROWSER_SHARD: ${{ matrix.browser }}
+      QA_BASELINE_COMMIT: ${{ needs.reference.outputs.main }}
+      # The 1440px Chromium shard also runs both Lighthouse profiles.
+      # Its measured audits exceeded 150 minutes; other shards keep that limit.
+      QA_FULL_TIMEOUT_MINUTES: ${{ matrix.browser == 'chromium' && matrix.shard == 0 && 210 || 150 }}
+      # Long performance/leak sessions run once. --resume reruns unfinished
+      # audits without promoting observations from a previous attempt.
+      QA_RETRIES: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fetch pinned reference without old QA artifact history
+        run: git fetch --no-tags --depth=1 origin "${QA_BASELINE_COMMIT}:refs/remotes/origin/main"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: qa/package-lock.json
+      - run: npm ci --prefix qa --no-audit --no-fund
+      - name: Install Chromium, WebKit, Firefox and Linux dependencies
+        working-directory: qa
+        run: |
+          mkdir -p .work/install
+          npx playwright install --with-deps chromium webkit firefox 2>&1 | tee .work/install/browsers.log
+      - name: Check harness and repository artifact policy
+        run: |
+          npm --prefix qa run self-test
+          node qa/scripts/check-tracked.mjs
+      - name: Record Linux visual reference from main
+        id: baseline
+        env:
+          QA_SOURCE_REF: origin/main
+        run: timeout --signal=TERM --kill-after=30s 20m npm --prefix qa run baseline
+      - name: Preserve baseline capture evidence
+        if: always() && steps.baseline.outcome != 'skipped'
+        run: |
+          if [ -d qa/report ]; then cp -a qa/report qa/.work/baseline-report; fi
+      - name: Run scheduled engine, profile and all three languages
+        if: success() || steps.baseline.outcome == 'failure'
+        run: timeout --signal=TERM --kill-after=30s "${QA_FULL_TIMEOUT_MINUTES}m" npm --prefix qa test
+      - name: Upload reports, baselines, diffs and installation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: usha-qa-${{ github.run_id }}-shard-${{ matrix.browser }}-${{ matrix.shard }}
+          path: |
+            qa/report/
+            qa/baseline/
+            qa/.work/baseline-report/
+            qa/.work/install/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
+  report:
+    name: Complete QA matrix
+    if: always() && github.event_name != 'pull_request'
+    needs: full
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --prefix qa --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: usha-qa-${{ github.run_id }}-shard-*
+          path: qa/.work/shards
+      - name: Verify all 54 cells and combine final results
+        run: node qa/scripts/merge-reports.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: usha-qa-${{ github.run_id }}-complete
+          path: qa/report/
+          if-no-files-found: error
+          retention-days: 14
