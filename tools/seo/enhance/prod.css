@@ -41,7 +41,7 @@ body.pd{margin:0;min-height:100vh;color:var(--ink);font:400 16px/1.6 var(--body)
 .pd-h2 i,.pd-h1 i{font-style:normal;font-weight:800;color:var(--acc)}
 .pd-lead{margin-top:20px;max-width:60ch;font-size:clamp(16px,1.25vw,19px);line-height:1.6;color:var(--ink2)}
 html[lang=ar] .pd-h2,html[lang=ar] .pd-h1{line-height:1.35;letter-spacing:0}
-html[lang=ar] .pd-h2 i,html[lang=ar] .pd-h1 i{font-family:var(--body);font-weight:400}
+html[lang=ar] .pd-h2 i,html[lang=ar] .pd-h1 i{font-family:var(--body);font-weight:400;color:var(--acc)}
 .num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
 
 /* sections */
@@ -100,6 +100,7 @@ html.pd-lock,html.pd-lock body{overflow:hidden}
 .pd-side{place-items:stretch end;padding:0}
 .pd-side .pd-panel{width:min(820px,100%);height:100%;max-height:none;border-radius:0;border-inline-start:1px solid var(--line);transform:translateX(40px)}
 html[dir=rtl] .pd-side .pd-panel{transform:translateX(-40px)}
+html[dir=rtl] .pd-modal.on .pd-panel{transform:none}
 .pd-hd{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px clamp(18px,3vw,32px) 18px;border-bottom:1px solid var(--line)}
 .pd-body{position:relative;flex:1;overflow:auto;overscroll-behavior:contain;padding:22px clamp(18px,3vw,32px) 28px}
 .pd-ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(18px,3vw,32px) max(16px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(12,10,14,.92)}
