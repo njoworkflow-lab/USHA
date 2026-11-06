@@ -36,6 +36,8 @@ import { BRAINS, B_FIELDS, B_INDUSTRIES, B_MARKETS, B_LANGS, B_HOME, B_YEARS, B_
 import { BRAINS_COPY } from './enhance/brains-copy.mjs';
 import { brPageHTML } from './enhance/brains-page.mjs';
 import { brPrice } from './enhance/brains-ui.mjs';
+import { PREMIERE_COPY, PR_PLANS, PR_CURVE, PR_QUOTES, PR_BUILD } from './enhance/premiere-copy.mjs';
+import { prPageHTML } from './enhance/premiere-page.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const SITE = 'https://usha.one';
@@ -851,6 +853,38 @@ ${ch.footer}
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, html);
   },
+};
+const PREMIERE_JS = ['prod.js', 'premiere.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8')).join('\n');
+const PREMIERE_JS_URL = emit(`premiere-${hash(PREMIERE_JS)}.js`, PREMIERE_JS);
+const PREMIERE_CSS = minCss('premiere.css');
+PRODUCT_PAGES.premiere = (lang) => {
+  const C = PREMIERE_COPY[lang], L0 = LANGS[lang], ch = chrome(lang, 'premiere');
+  const url = `${SITE}${pageUrls(lang).premiere}`, alt = Object.fromEntries(Object.keys(LANGS).map((l) => [l, `${SITE}${pageUrls(l).premiere}`]));
+  const me = likeness('pg-u').replace('{{USHA_BODY}}', BODY_URL);
+  const ld = [
+    { '@type': 'WebPage', '@id': `${url}#page`, url, name: C.title, description: C.desc, inLanguage: lang, isPartOf: { '@id': `${SITE}/#website` }, publisher: { '@id': `${SITE}/#njo` },
+      mainEntity: { '@type': 'Service', name: 'PREMIERE by USHA', provider: { '@id': `${SITE}/#njo` }, description: C.desc,
+        offers: PR_PLANS.map((p) => ({ '@type': 'Offer', name: p.id, price: p.price, priceCurrency: 'USD', availability: 'https://schema.org/PreOrder' })) } },
+    { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
+    crumbsLd([['USHA', L0.url], ['PREMIERE', url]]),
+    { '@type': 'FAQPage', '@id': `${url}#faq`, inLanguage: lang, mainEntity: C.faq.list.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  ];
+  const data = { lang, C, plans: PR_PLANS, curve: PR_CURVE, quotes: PR_QUOTES, build: PR_BUILD };
+  const html = productHead(lang, { title: C.title, description: C.desc, url, alt, ld, css: PREMIERE_CSS }) + `
+<body class="pd pg pg-premiere">
+<a class="pd-skip" href="#demo">${C.acts.play}</a>
+<canvas class="pg-sky" data-tone="ember" aria-hidden="true"></canvas>
+${ch.header}
+<main id="premiere">
+${prPageHTML({ C, lang, me, ask: ch.ask })}
+</main>
+${ch.footer}
+<script>window.USHA_LIVE=${JSON.stringify(LIVE)};window.USHA_PREMIERE=${JSON.stringify(data).replace(/</g, '\\u003c')}</script><script src="${PREMIERE_JS_URL}" defer></script><script src="${CHROME_JS_URL}" defer></script>
+</body></html>
+`;
+  const file = path.join(ROOT, pageUrls(lang).premiere, 'index.html');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, html);
 };
 const PAGE_KEY = { how: 'how', people: 'ppl', plans: 'pl', brains: 'br', premiere: 'pr' };
 const PAGE_TONE = { how: 'ember', people: 'peach', plans: 'teal', brains: 'teal', premiere: 'ember' };

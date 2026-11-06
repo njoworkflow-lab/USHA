@@ -5,11 +5,11 @@
 .pg-premiere{--acc:var(--ember2);--post:#7BD88F;--fix:#FFB648;--no:#FF7A6B;--paper:#F4EFE8;--pink:#16100C}
 
 /* ---------- the opening: a screening room ---------- */
-.pm-hero{position:relative;min-height:100vh;min-height:100svh;padding:clamp(120px,19vh,180px) var(--g) clamp(150px,30vh,300px);overflow:hidden;text-align:center}
+.pm-hero{--rh:clamp(190px,32vh,330px);position:relative;padding:clamp(120px,18vh,170px) var(--g) calc(var(--rh) + 24px);overflow:hidden;text-align:center}
 .pm-screen{position:absolute;left:50%;top:clamp(70px,10vh,96px);width:min(980px,84vw);height:4px;transform:translateX(-50%);border-radius:4px;background:linear-gradient(90deg,transparent,#FFE7D8 15%,#fff 50%,#FFE7D8 85%,transparent);box-shadow:0 0 30px 4px rgba(255,200,170,.35)}
 .pm-screen::after{content:'';position:absolute;left:-6%;right:-6%;top:4px;height:62vh;background:linear-gradient(180deg,rgba(255,214,190,.13),rgba(255,140,90,.04) 55%,transparent);clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);pointer-events:none}
 .pm-room{display:block;width:100%;height:100%}
-.pm-room-hero{position:absolute;left:0;right:0;bottom:0;width:100%;height:min(48vh,440px)}
+.pm-room-hero{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:min(1240px,100%);height:var(--rh);-webkit-mask-image:linear-gradient(transparent,#000 22%);mask-image:linear-gradient(transparent,#000 22%)}
 .pm-hero::after{content:'';position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,rgba(3,3,4,.55));pointer-events:none}
 .pm-hin{position:relative;z-index:2;max-width:980px;margin:0 auto}
 .pm-eye{justify-content:center}
@@ -24,9 +24,9 @@
 .pm-host{position:absolute;z-index:3;inset-inline-start:clamp(10px,4vw,70px);bottom:clamp(16px,6vh,60px);width:clamp(96px,10vw,150px)}
 .pm-bub{position:absolute;inset-inline-start:85%;bottom:70%;width:max-content;max-width:220px;padding:9px 13px;border-radius:14px 14px 14px 4px;font-size:13.5px;line-height:1.4;text-align:start;color:var(--ink);background:rgba(23,20,27,.92);box-shadow:inset 0 0 0 1px var(--line2)}
 html[dir=rtl] .pm-bub{border-radius:14px 14px 4px 14px}
-.pm-lit{position:absolute;z-index:3;inset-inline-end:clamp(16px,4vw,70px);bottom:clamp(20px,6vh,64px);font-size:13.5px;color:var(--ink3)}
+.pm-lit{position:absolute;z-index:3;padding:8px 12px;border-radius:14px;background:rgba(3,3,4,.7);inset-inline-end:clamp(16px,4vw,70px);bottom:clamp(20px,6vh,64px);font-size:13.5px;color:var(--ink3)}
 .pm-lit b{display:block;font:300 clamp(30px,3.4vw,48px)/1 var(--head);letter-spacing:-.04em;color:var(--ink)}
-@media (max-width:760px){.pm-hero{padding-bottom:230px}.pm-room-hero{height:240px}.pm-bub{display:none}.pm-host{width:88px}}
+@media (max-width:760px){.pm-hero{--rh:180px}.pm-bub{display:none}.pm-host{width:88px}}
 
 /* ---------- the value ---------- */
 .pm-stakes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(30px,5vh,48px)}
@@ -61,7 +61,7 @@ html[lang=ar] .pm-tab b{font-family:var(--body);font-weight:400}
 @media (prefers-reduced-motion:reduce){.pm-act{animation:none}}
 .pm-actf{display:flex;justify-content:flex-end}
 /* act 1 */
-.pm-doors{display:inline-flex;gap:4px;padding:4px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line2)}
+.pm-doors{justify-self:start;display:inline-flex;max-width:100%;gap:4px;padding:4px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line2)}
 .pm-door{min-height:40px;padding:0 18px;border-radius:99px;font-weight:500;font-size:14.5px;color:var(--ink2)}
 .pm-door[aria-selected=true]{background:var(--ink);color:#0b0a0f}
 .pm-doorp{display:grid;gap:16px}
@@ -330,12 +330,13 @@ html[lang=ar] .pm-xc h3,html[lang=ar] .pm-realp h3,html[lang=ar] .pm-rc h3{font-
 .pm-tg[aria-pressed=true],.pm-pk[aria-pressed=true]{background:var(--ink);color:#0b0a0f}
 .pm-pick{display:none}
 .pm-tablew{margin-top:16px;overflow-x:auto;border-radius:24px;box-shadow:inset 0 0 0 1px var(--line);background:rgba(13,11,16,.78)}
-.pm-table{width:100%;min-width:900px;border-collapse:collapse;font-size:14px}
+.pm-table{width:100%;min-width:900px;table-layout:fixed;border-collapse:collapse;font-size:14px}
+.pm-table thead td{width:24%}
 .pm-table th,.pm-table td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
 .pm-table tbody th{font-weight:400;color:var(--ink2);width:26%}
 .pm-table td{color:var(--ink)}
 .pm-table td.no{color:var(--ink4)}
-.pm-table thead th{padding-top:20px;vertical-align:bottom}
+.pm-table thead th{padding-top:20px;vertical-align:top}
 .pm-table thead th>*{display:block}
 .pm-table th.rec,.pm-table td:nth-child(4){background:rgba(255,106,43,.06)}
 .pm-pn{font:500 20px var(--head);letter-spacing:-.02em}
@@ -344,12 +345,12 @@ html[lang=ar] .pm-xc h3,html[lang=ar] .pm-realp h3,html[lang=ar] .pm-rc h3{font-
 .pm-pp{margin:10px 0;font:600 16px var(--body)}
 .pm-table[data-mode=month] .pm-t,.pm-table[data-mode=test] .pm-m{display:none}
 .pm-table[data-mode=month] .pm-rpt,.pm-table[data-mode=test] .pm-rprice{display:none}
-.pm-table .btn{width:100%;font-size:13.5px}
+.pm-table .btn{width:100%;font-size:13.5px;padding-inline:10px}
 .pm-under{margin-top:14px;font-size:14px;color:var(--ink3)}
 @media (max-width:860px){
  .pm-pick{display:inline-flex;flex-wrap:wrap;border-radius:18px}
  .pm-pk{padding:0 12px}
- .pm-table{min-width:0}
+ .pm-table{min-width:0;table-layout:auto}
  .pm-table thead td,.pm-table tbody th{width:52%}
  .pm-table[data-col] th:not([scope=row]),.pm-table[data-col] td{display:none}
  .pm-table thead td{display:table-cell!important}

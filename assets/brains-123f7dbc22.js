@@ -665,7 +665,7 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
     const steps = [...F.steps, F.review];
     const last = st.step === 3, matching = brState(b) === 'matching';
     return `<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<div><p class="br-minik" id="brFlowT">${esc(F.title)}</p><p class="br-minit">${esc(b.t.title)} · <span class="num">${esc(perMonth(b.price))}</span></p></div></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
-<div class="br-fprog"><p class="br-fstep">${esc(st.step < 3 ? fill(F.stepOf, { n: st.step + 1 }) : F.review)} · <b>${esc(steps[st.step])}</b></p><ol class="pd-steps" aria-hidden="true">${steps.map((s, i) => `<li class="${i < st.step ? 'done' : i === st.step ? 'on' : ''}">${esc(s)}</li>`).join('')}</ol></div>
+<div class="br-fprog"><p class="br-fstep">${st.step < 3 ? `${esc(fill(F.stepOf, { n: st.step + 1 }))} · ` : ''}<b>${esc(steps[st.step])}</b></p><ol class="pd-steps" aria-hidden="true">${steps.map((s, i) => `<li class="${i < st.step ? 'done' : i === st.step ? 'on' : ''}">${esc(s)}</li>`).join('')}</ol></div>
 <form class="pd-body br-fbody" novalidate>${paneHTML(b, st)}<p class="br-saved" aria-live="polite"></p></form>
 <div class="pd-ft"><button type="button" class="btn btn-g btn-s br-back"${st.step === 0 ? ' hidden' : ''}>${esc(F.back)}</button><button type="button" class="btn btn-p br-nextb"><span class="d"></span>${esc(last ? (matching ? F.reserveMatching : F.reserve) : [F.next1, F.next2, F.next3][st.step])}</button></div>`;
   }
