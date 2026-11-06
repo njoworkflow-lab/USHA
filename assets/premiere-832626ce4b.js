@@ -494,7 +494,7 @@ ${fld('contact', tg ? R.tg : R.wa, inp('contact', v.contact, `dir="ltr" ${tg ? '
       else if (el.name) v[el.name] = el.value;
     });
   }
-  function err(k, m) { const box = $(`[data-k="${k}"]`, fm.panel); if (!box) return; $('.pd-e', box).textContent = m || ''; const c = $(`#pf-${k}`, box); if (c) { if (m) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid'); } }
+  function err(k, m) { const box = $(`[data-k="${k}"]`, fm.panel); if (!box) return; const pe = $('.pd-e', box); if (pe) pe.textContent = m || ''; const c = $(`#pf-${k}`, box); if (c) { if (m) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid'); } }
   function check() {
     const v = fs.v, E = Fn.err, es = [];
     const card = (k) => { if (PD.valid.card(v[k])) es.push([k, E.card]); };
