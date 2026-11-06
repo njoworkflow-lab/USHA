@@ -18,7 +18,7 @@ const MADE_SVG = [
 export function brPageHTML({ C, L, list, lang, me, ask }) {
   const H = C.hero, plural = (f, n) => brPl(f, n, lang);
   const fieldCount = (f) => list.filter((b) => b.fields.includes(f)).length;
-  const sayBrain = (n) => list.find((b) => b.say === n);
+  const sayBrain = (n) => { const id = { 1: 'EG-01', 2: 'GC-02', 3: 'LM-05' }[n]; return list.find((b) => b.say === n) || list.find((b) => (b.spec || b.id) === id); };
 
   const hero = `<section class="br-hero" aria-labelledby="brH1"><div class="br-hin">
 <div class="br-htx">
@@ -32,7 +32,7 @@ export function brPageHTML({ C, L, list, lang, me, ask }) {
 <canvas class="br-cv" role="img" aria-label="${e(H.alt)}"></canvas>
 <div class="br-host" aria-hidden="true">${me}</div>
 <p class="br-bub" aria-hidden="true">${e(H.bubble)}</p>
-<div class="br-lit"><span class="br-litk">${e(H.lit)}</span><button type="button" class="br-litb" aria-haspopup="dialog"><span class="br-litt">${e(list[0].t.title)}</span><span class="br-lits num">${e(plural(C.grid.years, list[0].years))} · ${e(L.home[list[0].home])}</span></button>
+<div class="br-lit"><span class="br-litk">${e(H.lit)}</span><button type="button" class="br-litb" aria-haspopup="dialog"><span class="br-litt">${e(list[0].consultant && list[0].consultant.name ? `${list[0].consultant.name} · ${list[0].t.title}` : list[0].t.title)}</span><span class="br-lits num">${e([list[0].years ? plural(C.grid.years, list[0].years) : '', list[0].consultant && list[0].consultant.name ? list[0].codes : L.home[list[0].home]].filter(Boolean).join(' · '))}</span></button>
 <span class="br-litc"><button type="button" class="br-pause" aria-pressed="false" aria-label="${e(H.pause)}"><i></i></button><button type="button" class="br-next" aria-label="${e(H.next)}"><i></i></button></span></div>
 </div></div></section>`;
 
@@ -93,15 +93,16 @@ export function brPageHTML({ C, L, list, lang, me, ask }) {
 
   // pricing: a log rail from $75 to $3,000, one dot per brain, the five bands on it
   const PR = C.pricing;
-  const lo = Math.log(75), span = Math.log(3000) - lo, X = (p) => ((Math.log(p) - lo) / span) * 100;
+  const pmin = Math.min(...list.map((b) => b.price)), pmax = Math.max(...list.map((b) => b.priceHi || b.price)), p0 = Math.min(pmin, 250), lo = Math.log(p0), span = Math.log(pmax) - lo, X = (p) => ((Math.log(p) - lo) / span) * 100;
   const stack = {};
-  const dots = list.map((b) => { const k = b.price; stack[k] = (stack[k] || 0) + 1; return `<circle class="rd rd-${brBand(b.price, L).id}" cx="${X(b.price).toFixed(2)}%" cy="${62 - (stack[k] - 1) * 12}" r="5"><title>${e(b.t.title)} · ${e(brPrice(b.price, lang))}</title></circle>`; }).join('');
-  const segs = L.bands.map((x) => `<rect class="rs rs-${x.id}" x="${X(x.min).toFixed(2)}%" y="72" width="${(X(Math.min(x.max + 1, 3000)) - X(x.min)).toFixed(2)}%" height="4" rx="2"/>`).join('');
-  const ticks = [75, 250, 600, 1200, 2000, 3000].map((p) => `<text x="${X(p).toFixed(2)}%" y="100" text-anchor="${p === 75 ? 'start' : p === 3000 ? 'end' : 'middle'}">${e(brPrice(p, lang))}</text>`).join('');
+  const dots = list.map((b) => { const k = b.price; stack[k] = (stack[k] || 0) + 1; const y = 62 - (stack[k] - 1) * 7, band = brBand(b.price, L).id, ttl = `<title>${e(b.consultant && b.consultant.name ? b.consultant.name : b.t.title)} · ${e(brPrice(b.price, lang))}${b.priceHi ? `–${e(brPrice(b.priceHi, lang))}` : ''}</title>`;
+    return (b.priceHi ? `<line class="rl rd-${band}" x1="${X(b.price).toFixed(2)}%" x2="${X(b.priceHi).toFixed(2)}%" y1="${y}" y2="${y}"/>` : '') + `<circle class="rd rd-${band}" cx="${X(b.price).toFixed(2)}%" cy="${y}" r="3.6">${ttl}</circle>`; }).join('');
+  const segs = L.bands.filter((x) => x.max >= p0).map((x) => `<rect class="rs rs-${x.id}" x="${X(Math.max(x.min, p0)).toFixed(2)}%" y="72" width="${(X(Math.min(x.max + 1, pmax)) - X(Math.max(x.min, p0))).toFixed(2)}%" height="4" rx="2"/>`).join('');
+  const tk = [p0, 600, 1200, 2000, pmax].filter((p, i, a) => a.indexOf(p) === i), ticks = tk.map((p, i) => `<text x="${X(p).toFixed(2)}%" y="100" text-anchor="${i === 0 ? 'start' : i === tk.length - 1 ? 'end' : 'middle'}">${e(brPrice(p, lang))}</text>`).join('');
   const pricing = `<section class="pd-sec br-pricing" id="pricing"><div class="pd-in">
 <p class="kick">${e(PR.kick)}</p><h2 class="pd-h2">${PR.h}</h2><p class="pd-lead">${e(PR.body)}</p>
 <figure class="br-rail" dir="ltr"><svg class="br-railsv" width="100%" height="108" role="img" aria-label="${e(PR.rail)}">${segs}${dots}${ticks}</svg><figcaption dir="auto">${e(PR.rail)}</figcaption></figure>
-<ul class="br-bands">${L.bands.map((x) => { const n = list.filter((b) => brBand(b.price, L).id === x.id).length; return `<li class="br-band" data-band="${x.id}" tabindex="0"><span class="br-bn">${e(x.n)}</span><span class="br-br num">${e(x.range)}</span><p>${e(x.line)}</p><button type="button" class="pd-link br-bandgo" data-band="${x.id}">${e(plural(PR.brains, n))}</button></li>`; }).join('')}</ul>
+<ul class="br-bands">${L.bands.map((x) => { const n = list.filter((b) => brBand(b.price, L).id === x.id).length; if (!n) return ''; return `<li class="br-band" data-band="${x.id}" tabindex="0"><span class="br-bn">${e(x.n)}</span><span class="br-br num">${e(x.range)}</span><p>${e(x.line)}</p><button type="button" class="pd-link br-bandgo" data-band="${x.id}">${e(plural(PR.brains, n))}</button></li>`; }).join('')}</ul>
 <ul class="br-pf">${PR.factors.map(([t, p], i) => `<li><span class="num">${i + 1}</span><b>${e(t)}</b><p>${e(p)}</p></li>`).join('')}</ul>
 </div></section>`;
 

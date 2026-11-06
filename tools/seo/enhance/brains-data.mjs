@@ -97,7 +97,7 @@ export const B_BANDS = [
   { id: 'senior', min: 250, max: 599, n: ['Senior', 'خبير أول', 'Старший'], line: ['Two decades of practice, often across a region.', 'عقدان من الممارسة، وغالبًا على مستوى منطقة كاملة.', 'Двадцать лет практики, часто по всему региону.'] },
   { id: 'principal', min: 600, max: 1199, n: ['Principal', 'خبير رئيسي', 'Ведущий'], line: ['The leader who ran the department in markets like yours.', 'القائد الذي أدار هذه الإدارة في أسواق تشبه سوقك.', 'Руководитель, который вёл это направление на похожих рынках.'] },
   { id: 'partner', min: 1200, max: 1999, n: ['Partner', 'شريك', 'Партнёр'], line: ['Advisory-partner judgement from the world’s most expensive markets.', 'حُكم شريك استشاري من أغلى الأسواق في العالم.', 'Уровень партнёра консалтинга с самых дорогих рынков мира.'] },
-  { id: 'board', min: 2000, max: 3000, n: ['Board', 'مستوى مجلس الإدارة', 'Уровень совета директоров'], line: ['Decades of decisions at board level.', 'عقودٌ من القرارات على مستوى مجالس الإدارة.', 'Десятилетия решений на уровне совета директоров.'] },
+  { id: 'board', min: 2000, max: 4000, n: ['Board', 'مستوى مجلس الإدارة', 'Уровень совета директоров'], line: ['Decades of decisions at board level.', 'عقودٌ من القرارات على مستوى مجالس الإدارة.', 'Десятилетия решений на уровне совета директоров.'] },
 ];
 
 // ---------- the 25 profiles ----------
@@ -927,3 +927,1322 @@ export const BRAINS = [
     },
   },
 ];
+
+// ---------- the consultants (usha-brain control-room/brains/consultant-database.md) ----------
+// 42 real consultants matched to the specs above, 6 November 2026. The owner
+// confirmed all 42 are verified and licensed (usha-brain control-room/
+// DECISIONS.md, 2026-11-06), so each has licensed: true.
+// THE LICENCE GATE: a consultant's name, profile link and role render only
+// when licensed is true. With licensed: false the page shows the spec card for
+// their ID instead ("Profile verification in progress", no name, no link).
+// A private review build can show unlicensed names, marked "Licence pending":
+//   BRAINS_PREVIEW_NAMES=1 node tools/seo/build.mjs   (never for the live site)
+// fit: how well the profile fits its spec, from the database. It is NOT the
+// brain's fidelity to the consultant and is never shown on the page.
+// fee: the database's estimated USD fees (hourly, and monthly for 4 advisory
+// hours). years: stated in the database, or counted from a stated start year;
+// null where the database says "not specified".
+// Profile texts (role, brief, creds, exp) are in English as supplied.
+export const CONSULTANTS = [
+ {
+  "id": "C01",
+  "spec": "EG-01",
+  "name": "Sherif Sheta",
+  "url": "https://eg.linkedin.com/in/sherifsheta",
+  "base": "Egypt",
+  "groups": [
+   "egypt"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    100,
+    200
+   ],
+   "month": [
+    400,
+    800
+   ]
+  },
+  "years": 27,
+  "licensed": true,
+  "role": "Commercial Excellence Director, Juhayna",
+  "brief": "FMCG commercial leader specialising in pricing, promotion effectiveness, trade terms and revenue growth. His experience includes commercial leadership roles at Juhayna, Egypt Foods and Coca-Cola in the Egyptian consumer market.",
+  "creds": "Economics degree, Cairo University; applied computer science minor.",
+  "exp": "27+ years.",
+  "profile": "https://eg.linkedin.com/in/sherifsheta"
+ },
+ {
+  "id": "C02",
+  "spec": "EG-01",
+  "name": "Sumner Makin",
+  "url": "https://uk.linkedin.com/in/sumnermakin",
+  "base": "UK / global",
+  "groups": [
+   "europe"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://cdn.aifirstmindset.ai/wp-content/uploads/2025/12/AIFM-Company-Brochure_Digital_Non-Enterprise-Version-2.pdf"
+  },
+  "fee": {
+   "hour": [
+    500,
+    1000
+   ],
+   "month": [
+    2000,
+    4000
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Partner and UK AI Lead, Bain & Company",
+  "brief": "Bain pricing and AI specialist working with consumer brands, retailers and technology companies. His consulting covers pricing, promotions, commercial transformation and the practical use of data and artificial intelligence in business decisions.",
+  "creds": "PhD in Physics, University of Cambridge.",
+  "exp": "20 years of client work.",
+  "profile": "https://cdn.aifirstmindset.ai/wp-content/uploads/2025/12/AIFM-Company-Brochure_Digital_Non-Enterprise-Version-2.pdf"
+ },
+ {
+  "id": "C03",
+  "spec": "EG-02",
+  "name": "Lamy Riad Makary",
+  "url": "https://eg.linkedin.com/in/lamy-riad-makary-cfa-2146b543",
+  "base": "Egypt",
+  "groups": [
+   "egypt"
+  ],
+  "fit": 85,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    150,
+    300
+   ],
+   "month": [
+    600,
+    1200
+   ]
+  },
+  "years": 30,
+  "licensed": true,
+  "role": "Executive Partner / Senior Project Director, HLB Makary Consulting",
+  "brief": "Financial and economic feasibility adviser at HLB Makary Consulting. His work covers market studies, investment decisions and project evaluation, drawing on a finance career that began in 1996.",
+  "creds": "Economics, American University in Cairo, 1996; CFA.",
+  "exp": "Career beginning in 1996; approximately 30 years.",
+  "profile": "https://www.hlbegypt.com/employee/ben-johnson/"
+ },
+ {
+  "id": "C04",
+  "spec": "EG-03",
+  "name": "Hazem Kassem",
+  "url": "https://eg.linkedin.com/in/hazemkassem",
+  "base": "Egypt",
+  "groups": [
+   "egypt"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    100,
+    200
+   ],
+   "month": [
+    400,
+    800
+   ]
+  },
+  "years": 27,
+  "licensed": true,
+  "role": "Founder / Managing Director, Axcell; consulting CFO",
+  "brief": "Fractional CFO advising trading and distribution businesses on cash flow, working capital, financial controls and capital structure. His work also includes ERP implementation, financial reporting and business turnaround support.",
+  "creds": "BCom in Accounting, Cairo University; CMA, Institute of Management Accountants.",
+  "exp": "27–28 completed professional years.",
+  "profile": "https://axcellservice.com/about/founder"
+ },
+ {
+  "id": "C05",
+  "spec": "EG-04",
+  "name": "Mark Eaton",
+  "url": "https://uk.linkedin.com/in/mark-eaton-932219b",
+  "base": "UK / Middle East",
+  "groups": [
+   "europe",
+   "gcc"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.talentcapitalme.com/ourteam.php"
+  },
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 33,
+  "licensed": true,
+  "role": "Associate Director, Talent Capital; human-capital and organisational-effectiveness consultant",
+  "brief": "Human-capital consultant and former Hay Group Middle East managing director. His work covers job evaluation, grading, remuneration, HR infrastructure and the implementation of changes to organisational structures and effectiveness.",
+  "creds": "PhD in Natural Sciences, University of Cambridge.",
+  "exp": "33+ years in human-capital consulting.",
+  "profile": "https://www.talentcapitalme.com/ourteam.php"
+ },
+ {
+  "id": "C06",
+  "spec": "EG-04",
+  "name": "Nehal Abdel Aziz",
+  "url": "https://eg.linkedin.com/in/nehal-abdel-aziz-shrm-scp-a59a01206",
+  "base": "Egypt",
+  "groups": [
+   "egypt"
+  ],
+  "fit": 80,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    75,
+    150
+   ],
+   "month": [
+    300,
+    600
+   ]
+  },
+  "years": 22,
+  "licensed": true,
+  "role": "HR consultant and trainer associated with AmCham Egypt",
+  "brief": "HR consultant and trainer with banking-sector experience. Her work combines HR systems, workforce capability and organisation development, supported by professional HR training and experience working with business teams in Egypt.",
+  "creds": "SHRM-SCP; HR diploma, American University in Cairo; Pharmacy degree, Cairo University.",
+  "exp": "22+ years.",
+  "profile": "https://eg.linkedin.com/in/nehal-abdel-aziz-shrm-scp-a59a01206"
+ },
+ {
+  "id": "C07",
+  "spec": "EG-05",
+  "name": "Mahmoud El-Tahan",
+  "url": "https://eg.linkedin.com/in/mahmoud-el-tahan-402a7930",
+  "base": "Egypt",
+  "groups": [
+   "egypt"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    100,
+    200
+   ],
+   "month": [
+    400,
+    800
+   ]
+  },
+  "years": 19,
+  "licensed": true,
+  "role": "Director Talent Acquisition, Capgemini Egypt",
+  "brief": "Technology and BPO talent-acquisition leader at Capgemini Egypt, with earlier experience at Amazon, Concentrix and Raya. His work centres on recruitment and talent acquisition for technology, service and growth businesses.",
+  "creds": "Ain Shams University studies; management certificate, American University in Cairo; PHR training.",
+  "exp": "Nearly 20 years.",
+  "profile": "https://cltrsummit.com/speaker/mahmoud-el-tahan-2/"
+ },
+ {
+  "id": "C08",
+  "spec": "GC-01",
+  "name": "Scott Whalan",
+  "url": "https://ae.linkedin.com/in/scott-whalan-66a3ab15",
+  "base": "UAE / Gulf",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 23,
+  "licensed": true,
+  "role": "Partner, Valuation & Modeling; Deloitte Private Middle East leader",
+  "brief": "Deloitte partner advising family enterprises and corporate clients on business valuation, mergers and acquisitions, restructuring and financial modelling. His work combines transaction analysis with the financial priorities of Middle Eastern businesses.",
+  "creds": "CFA; degree in Mathematics and Finance.",
+  "exp": "At Deloitte since 2003.",
+  "profile": "https://www.deloitte.com/middle-east/en/services/consulting/services/valuation-modeling.html"
+ },
+ {
+  "id": "C09",
+  "spec": "GC-02",
+  "name": "Timothy (Tim) Millard",
+  "url": "https://ae.linkedin.com/in/tim-millard-b2540a22",
+  "base": "UAE / Gulf",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Head of Value and Risk Advisory – MENA, JLL",
+  "brief": "JLL MENA valuation leader with experience involving Saudi Arabia, major developers and hospitality assets. His work brings together property valuation, investment analysis and advisory perspectives across emerging real-estate markets.",
+  "creds": "MBA, Business School Lausanne; MA in Land Economics, University of Cambridge; RICS member.",
+  "exp": "20+ years in emerging markets.",
+  "profile": "https://www.jll.com/en-us/people/bio-broker/tim.millard"
+ },
+ {
+  "id": "C10",
+  "spec": "GC-02",
+  "name": "Victoria Ormond",
+  "url": "https://www.knightfrank.es/en/contact/people/victoria-ormond-00007849",
+  "base": "UK / Europe",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.knightfrank.es/en/contact/people/victoria-ormond-00007849"
+  },
+  "fee": {
+   "hour": [
+    300,
+    600
+   ],
+   "month": [
+    1200,
+    2400
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Partner; Head of Capital Markets Research / Insight, Knight Frank",
+  "brief": "Knight Frank partner specialising in real-estate capital markets, property finance, investment analysis and market intelligence. Her professional background includes Savills and RBS, alongside teaching real-estate subjects at Cambridge.",
+  "creds": "CFA.",
+  "exp": "20+ years in real estate.",
+  "profile": "https://www.knightfrank.es/en/contact/people/victoria-ormond-00007849"
+ },
+ {
+  "id": "C11",
+  "spec": "GC-03",
+  "name": "Mark Fadel",
+  "url": "https://ae.linkedin.com/in/mark-fadel",
+  "base": "UAE / Gulf",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 25,
+  "licensed": true,
+  "role": "Founder and Managing Director, Sourcing Connections",
+  "brief": "Founder of Sourcing Connections, advising on procurement transformation, category strategy and supplier management. His work focuses on helping organisations structure purchasing activity and manage suppliers across their procurement operations.",
+  "creds": "Executive MBA, INSEAD; Chartered Fellow, CIPS; BA in Financial Services, London Guildhall; sustainable-supply-chain course, Cambridge.",
+  "exp": "25+ years.",
+  "profile": "https://www.sourcingconnections.com/about-us/our-core-team/mark-fadel"
+ },
+ {
+  "id": "C12",
+  "spec": "GC-04",
+  "name": "Sandeep Ganediwalla",
+  "url": "https://ae.linkedin.com/in/sandeepganediwalla",
+  "base": "UAE / Saudi Arabia",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Partner, Redseer Strategy Consultants",
+  "brief": "Gulf strategy adviser specialising in consumer markets, retail and the digital economy. His work covers market sizing, ecommerce, channel economics and commercial due diligence for businesses assessing growth and investment opportunities.",
+  "creds": "MBA, HEC Paris; exchange studies, London Business School; Production Engineering, VJTI/Mumbai University.",
+  "exp": "20+ years in consulting and technology.",
+  "profile": "https://redseer.com/author/sandeep-ganediwalla-redseer-consulting-com/"
+ },
+ {
+  "id": "C13",
+  "spec": "GC-04",
+  "name": "Andi Davids",
+  "url": "https://www.linkedin.com/in/andidavids",
+  "base": "USA / international",
+  "groups": [
+   "usa"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jbs.cam.ac.uk/students-alumni/andi-davids-driving-strategic-growth-through-creativity/"
+  },
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Chief Growth Officer, Bulletproof",
+  "brief": "Consumer-brand strategy and growth adviser with experience across food, beverage and other consumer brands. This work combines customer insight, brand positioning and commercial strategy through a leadership role at Bulletproof.",
+  "creds": "Executive MBA, University of Cambridge; BA in Mass Communications; MA in Global Communications.",
+  "exp": "Not specified.",
+  "profile": "https://www.jbs.cam.ac.uk/students-alumni/andi-davids-driving-strategic-growth-through-creativity/"
+ },
+ {
+  "id": "C14",
+  "spec": "GC-04",
+  "name": "Omar Merlo",
+  "url": "https://uk.linkedin.com/in/omarmerlo",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://profiles.imperial.ac.uk/o.merlo"
+  },
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Marketing-strategy consultant; Associate Professor, Imperial College London",
+  "brief": "Marketing-strategy consultant and Imperial associate professor with previous teaching at Cambridge. He advises businesses on customer insight, commercial decisions and marketing effectiveness, with experience across consumer, industrial and financial organisations.",
+  "creds": "Degrees in Business and Political Science; honours postgraduate qualification in Business Strategy; PhD in Marketing Strategy, University of Melbourne.",
+  "exp": "Not specified.",
+  "profile": "https://profiles.imperial.ac.uk/o.merlo"
+ },
+ {
+  "id": "C15",
+  "spec": "GC-05",
+  "name": "Suhail Khan",
+  "url": "https://ae.linkedin.com/in/suhail-khan-fcca-aca-mba-5447b762",
+  "base": "UAE / international",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Fractional CFO, CFO Centre UAE",
+  "brief": "Fractional CFO with conglomerate-finance experience covering debt restructuring, mergers and acquisitions, board advice and treasury. His sector background includes automotive retail, home appliances and real estate, supporting businesses with complex finance needs.",
+  "creds": "FCCA; ACA; MBA.",
+  "exp": "20+ years.",
+  "profile": "https://www.cfocentre.com/ae/meet-the-fds-and-cfos/suhail-khan/"
+ },
+ {
+  "id": "C16",
+  "spec": "LM-01",
+  "name": "Luma Fawaz",
+  "url": "https://jo.linkedin.com/in/luma-fawaz-44091242",
+  "base": "Jordan / MENA",
+  "groups": [
+   "levant",
+   "gcc"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    200,
+    400
+   ],
+   "month": [
+    800,
+    1600
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Managing Director, Manara Ventures; former CEO, Oasis500",
+  "brief": "Managing Director of Manara Ventures and former Oasis500 CEO, working on venture evaluation, founder readiness and investment decisions. Her experience connects startup development with the investment landscape of Jordan and MENA.",
+  "creds": "MBA.",
+  "exp": "20+ years.",
+  "profile": "https://www.manaravc.com/"
+ },
+ {
+  "id": "C17",
+  "spec": "LM-01",
+  "name": "Mohamed (Mark) Khater",
+  "url": "https://www.linkedin.com/in/mohamed-mark-k",
+  "base": "UK / Egypt / MENA",
+  "groups": [
+   "europe",
+   "egypt"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.ifm.eng.cam.ac.uk/people/mark2/"
+  },
+  "fee": {
+   "hour": [
+    300,
+    600
+   ],
+   "month": [
+    1200,
+    2400
+   ]
+  },
+  "years": 30,
+  "licensed": true,
+  "role": "Head, Cambridge Centre for Strategy and Performance; investment and strategy adviser",
+  "brief": "Strategy and investment adviser combining Cambridge IfM work with operating and investment roles. His experience spans industrial capabilities, software, telecom and Middle Eastern businesses, including technology-company development in Egypt.",
+  "creds": "BSc in Systems/Biomedical Engineering; MSc in Artificial Intelligence; PhD, University of Cambridge.",
+  "exp": "30+ years.",
+  "profile": "https://www.ifm.eng.cam.ac.uk/people/mark2/"
+ },
+ {
+  "id": "C18",
+  "spec": "LM-02",
+  "name": "Dr. Brahim Allali",
+  "url": "https://ma.linkedin.com/in/dr-brahim-allali-phd-5355631",
+  "base": "Morocco / Francophone Africa",
+  "groups": [
+   "maghreb"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    150,
+    300
+   ],
+   "month": [
+    600,
+    1200
+   ]
+  },
+  "years": 32,
+  "licensed": true,
+  "role": "Managing Partner, Reload Consulting",
+  "brief": "Export and international-market-entry consultant leading Reload Consulting. His experience includes international-trade leadership at ISCAE and ASMEX export programmes, supporting businesses exploring commercial opportunities in Morocco, Francophone Africa and Europe.",
+  "creds": "PhD, HEC Montréal; international-trade studies, ISCAE; AfCFTA export certificate, International Trade Centre.",
+  "exp": "Consulting practice since 1994.",
+  "profile": "https://asmex.org/wp-content/uploads/2024/02/DBW-Benelux_.pdf"
+ },
+ {
+  "id": "C19",
+  "spec": "LM-03",
+  "name": "Fethi Derbeli",
+  "url": "https://tn.linkedin.com/in/fethi-derbeli-18a3a622",
+  "base": "Tunisia / North Africa",
+  "groups": [
+   "maghreb"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    100,
+    200
+   ],
+   "month": [
+    400,
+    800
+   ]
+  },
+  "years": 36,
+  "licensed": true,
+  "role": "Industrial operations and Lean Six Sigma consultant; founder, Smart Solutions Consulting Tunisia",
+  "brief": "Manufacturing and lean consultant with automotive-supplier experience. His work combines industrial operations, engineering and continuous-improvement methods, drawing on a background in manufacturing leadership, business management and Six Sigma.",
+  "creds": "Engineering studies, ENIS, 1989; Executive MBA, Mediterranean School of Business, 2009; Six Sigma Black Belt, Sequa Corporation Six Sigma School, 2006.",
+  "exp": "Professional career beginning in 1990.",
+  "profile": "https://viadeo.journaldunet.com/p/derbeli-fethi-6447191"
+ },
+ {
+  "id": "C20",
+  "spec": "LM-03",
+  "name": "Christoph H. Loch",
+  "url": "https://es.linkedin.com/in/christoph-loch-8378b740",
+  "base": "Spain / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jbs.cam.ac.uk/2014/new-cambridge-centre-will-spearhead-research-in-the-middle-east-for-the-middle-east/"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 40,
+  "licensed": true,
+  "role": "Professor of Operations, Information and Technology, IESE Business School; non-executive chairman, Prendo",
+  "brief": "Operations and project-management adviser with earlier Siemens and McKinsey experience. His industrial consulting and academic work focus on project execution, innovation and operational performance, alongside leadership at simulation provider Prendo.",
+  "creds": "PhD in Decision Sciences and Operations Management, Stanford; MBA, University of Tennessee; joint Mechanical Engineering/Business Diplom, Darmstadt; diploma in Clinical Organisational Psychology, INSEAD.",
+  "exp": "Siemens, 1986–1989; McKinsey, 1991–1993; subsequent operations teaching and consulting.",
+  "profile": "https://www.iese.edu/faculty-research/faculty/christoph-loch/"
+ },
+ {
+  "id": "C21",
+  "spec": "LM-03",
+  "name": "Duncan McFarlane",
+  "url": "https://uk.linkedin.com/in/duncan-mcfarlane-88682982",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.ifm.eng.cam.ac.uk/people/dm114/"
+  },
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": 46,
+  "licensed": true,
+  "role": "Professor of Industrial Information Engineering, Cambridge; co-founder, RedBite Solutions",
+  "brief": "Manufacturing-systems adviser and RedBite co-founder working on industrial engineering, logistics automation and tracking systems. His Cambridge IfM activity includes practical digitalisation for SMEs, connecting engineering research with business operations.",
+  "creds": "BEng, University of Melbourne, 1984; PhD in Robust Control-System Design, University of Cambridge, 1988.",
+  "exp": "BHP engineering and research, 1980–1994; Cambridge since 1995; RedBite co-founder since 2006.",
+  "profile": "https://www.ifm.eng.cam.ac.uk/people/dm114/"
+ },
+ {
+  "id": "C22",
+  "spec": "LM-04",
+  "name": "Yendy Nasr Khayat",
+  "url": "https://ae.linkedin.com/in/yendy-nasr-khayat-075b674",
+  "base": "UAE / Middle East and Africa",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    200,
+    400
+   ],
+   "month": [
+    800,
+    1600
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Founder and Managing Director, The Franchizery",
+  "brief": "Founder of The Franchizery, advising food-and-beverage businesses on franchise expansion, master-franchise structures and unit economics. Her work includes regional partner development and the commercial arrangements needed to expand restaurant brands.",
+  "creds": "MBA; Certified Franchise Broker.",
+  "exp": "Founder of The Franchizery since 2012.",
+  "profile": "https://www.thefranchizery.com/"
+ },
+ {
+  "id": "C23",
+  "spec": "LM-05",
+  "name": "Ghassan Ali",
+  "url": "https://jo.linkedin.com/in/ghassanali",
+  "base": "Jordan / Gulf",
+  "groups": [
+   "levant",
+   "gcc"
+  ],
+  "fit": 80,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    150,
+    300
+   ],
+   "month": [
+    600,
+    1200
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Founder / executive-search leader, Vision International",
+  "brief": "Executive-search and leadership adviser at Vision International, focused on senior recruitment for financial institutions, family offices and conglomerates. His work connects leadership hiring with the needs of regional businesses.",
+  "creds": "Bachelor-level studies, University of Redlands, 1986–1990.",
+  "exp": "Not specified.",
+  "profile": "https://jo.linkedin.com/company/visioninternational"
+ },
+ {
+  "id": "C24",
+  "spec": "US-01",
+  "name": "James D. Wilton",
+  "url": "https://www.linkedin.com/in/jamesdwilton",
+  "base": "USA / global",
+  "groups": [
+   "usa"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Founder, Senior Partner and CEO, Monevate",
+  "brief": "Founder and CEO of Monevate, specialising in SaaS pricing and monetisation. Previously led McKinsey pricing work for startups and scale-ups, helping technology businesses develop pricing approaches and commercial growth strategies.",
+  "creds": "Columbia Business School studies; MSci, University of Cambridge.",
+  "exp": "Not specified.",
+  "profile": "https://www.monevate.com/about"
+ },
+ {
+  "id": "C25",
+  "spec": "US-01",
+  "name": "Lucien Bowater",
+  "url": "https://uk.linkedin.com/in/lucien-bowater",
+  "base": "UK",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.linkedin.com/posts/lucien-bowater_having-studied-at-cambridge-judge-business-activity-7301635233353801729-AzHF"
+  },
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 25,
+  "licensed": true,
+  "role": "Chief Operating Officer, E-ACT; National Theatre Digital Advisory Committee member",
+  "brief": "Pricing operator with ten years of pricing work at Sky and subsequent leadership at Olex.AI. Now E-ACT COO and a National Theatre digital adviser, he also teaches pricing to Cambridge MBA students.",
+  "creds": "MBA, Cambridge Judge Business School; executive education at Stanford and INSEAD.",
+  "exp": "10 years in Sky pricing; 15+ years in senior Sky roles; three years building Olex.AI.",
+  "profile": "https://uk.linkedin.com/in/lucien-bowater"
+ },
+ {
+  "id": "C26",
+  "spec": "US-02",
+  "name": "Iñaki Berenguer",
+  "url": "https://www.linkedin.com/in/inakiberenguer",
+  "base": "USA / international",
+  "groups": [
+   "usa"
+  ],
+  "fit": 90,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://lifex.vc/team"
+  },
+  "fee": {
+   "hour": [
+    500,
+    1000
+   ],
+   "month": [
+    2000,
+    4000
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Founding Partner, LifeX Ventures",
+  "brief": "LifeX Ventures founding partner and founder of Pixable, Contactive and CoverWallet. He combines technology-company building, fundraising, exits and venture investing, bringing operating experience to discussions with founders and investors.",
+  "creds": "Master’s and PhD in Engineering, University of Cambridge; MBA, MIT.",
+  "exp": "Not specified.",
+  "profile": "https://lifex.vc/team"
+ },
+ {
+  "id": "C27",
+  "spec": "US-02",
+  "name": "Andrew Williamson",
+  "url": "https://uk.linkedin.com/in/andrewwilliamson",
+  "base": "UK / prior US practice",
+  "groups": [
+   "europe",
+   "usa"
+  ],
+  "fit": 85,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.cic.vc/team/andrew-williamson/"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Managing Partner, Cambridge Innovation Capital",
+  "brief": "Cambridge Innovation Capital managing partner with venture-investment experience in the UK and US. He works with technology businesses and university spinouts, combining scientific understanding with commercial assessment and company development.",
+  "creds": "PhD in Physics, University of Cambridge; MBA, Haas School of Business, University of California, Berkeley.",
+  "exp": "20 years in venture capital.",
+  "profile": "https://www.cic.vc/team/andrew-williamson/"
+ },
+ {
+  "id": "C28",
+  "spec": "US-02",
+  "name": "Nicky Dee",
+  "url": "https://uk.linkedin.com/in/nickydee",
+  "base": "UK / climate ventures",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.homerton.cam.ac.uk/sites/default/files/2022-09/pdp_generic_programme.pdf"
+  },
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Co-founder and Chief Executive Officer, Carbon13",
+  "brief": "Carbon13 co-founder and CEO working on venture building, startup evaluation and climate-technology commercialisation. Her work combines founder support with investment readiness, helping early-stage teams develop commercially viable climate businesses.",
+  "creds": "PhD in Environmental Technology Management, University of Cambridge, 2008.",
+  "exp": "20+ years working with startups and stakeholders.",
+  "profile": "https://carbonthirteen.ventures/community/our-team/dr-nicky-dee/"
+ },
+ {
+  "id": "C29",
+  "spec": "US-03",
+  "name": "Peter Krusic",
+  "url": "https://www.linkedin.com/in/peterkrusic",
+  "base": "USA",
+  "groups": [
+   "usa"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    200,
+    400
+   ],
+   "month": [
+    800,
+    1600
+   ]
+  },
+  "years": 25,
+  "licensed": true,
+  "role": "Independent fractional CFO, CFOPeter.com",
+  "brief": "Independent fractional CFO serving consumer-goods and manufacturing businesses. His work covers turnarounds, mergers and acquisitions, finance systems and financial leadership, drawing on more than 25 years in finance and operations.",
+  "creds": "CPA; PMP; MBA; USC Marshall studies.",
+  "exp": "25+ years.",
+  "profile": "https://www.cfopeter.com/about"
+ },
+ {
+  "id": "C30",
+  "spec": "US-03",
+  "name": "David Weiss",
+  "url": "https://uk.linkedin.com/in/davidweissphd",
+  "base": "UK",
+  "groups": [
+   "europe"
+  ],
+  "fit": 70,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://goldwhite.co.uk/team/david-weiss"
+  },
+  "fee": {
+   "hour": [
+    200,
+    400
+   ],
+   "month": [
+    800,
+    1600
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Director, Fundraising & Commercial Strategy, GoldWhite",
+  "brief": "GoldWhite director providing fractional CFO, fundraising and commercial-strategy advice to early-stage technology businesses. His background includes investment banking, financial markets and founding two technology companies that subsequently achieved exits.",
+  "creds": "PhD in Engineering, University of Cambridge; MPhil with distinction, Cambridge Judge Business School.",
+  "exp": "Not specified.",
+  "profile": "https://goldwhite.co.uk/team/david-weiss"
+ },
+ {
+  "id": "C31",
+  "spec": "US-04",
+  "name": "Philip Stiles",
+  "url": "https://uk.linkedin.com/in/philip-stiles-3889a5a",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 85,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jbs.cam.ac.uk/wp-content/uploads/2020/05/flyer-creatinghighperformanceteams.pdf"
+  },
+  "fee": {
+   "hour": [
+    300,
+    600
+   ],
+   "month": [
+    1200,
+    2400
+   ]
+  },
+  "years": 25,
+  "licensed": true,
+  "role": "Associate Professor in Corporate Governance; Director, Cambridge Centre for International Human Resource Management",
+  "brief": "HR and organisation-design consultant delivering culture-change, performance-management and succession programmes for international companies. He combines corporate advisory work with academic leadership of Cambridge’s Centre for International Human Resource Management.",
+  "creds": "BA, University of Kent; MPhil and PhD, University of London.",
+  "exp": "25 years at Cambridge, following London Business School.",
+  "profile": "https://www.jbs.cam.ac.uk/people/philip-stiles/"
+ },
+ {
+  "id": "C32",
+  "spec": "US-04",
+  "name": "Andreas Richter",
+  "url": "https://uk.linkedin.com/in/andreas-richter-b1656ab",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jbs.cam.ac.uk/people/andreas-richter/"
+  },
+  "fee": {
+   "hour": [
+    300,
+    600
+   ],
+   "month": [
+    1200,
+    2400
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Professor of Organisational Behaviour, Cambridge Judge Business School",
+  "brief": "Organisational psychologist and corporate consultant specialising in leadership, executive teams and organisational effectiveness. He teaches at Cambridge Judge Business School and contributes to its leadership programme for family businesses.",
+  "creds": "BSc and MSc, Giessen University; PhD in Management, Aston University; training in Industrial and Organisational Psychology; certified client-centred counsellor.",
+  "exp": "Not specified.",
+  "profile": "https://www.jbs.cam.ac.uk/people/andreas-richter/"
+ },
+ {
+  "id": "C33",
+  "spec": "US-04",
+  "name": "David De Cremer",
+  "url": "https://www.linkedin.com/in/david-de-cremer-5648249",
+  "base": "Saudi Arabia / international",
+  "groups": [
+   "gcc"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.clearadmit.com/2017/01/cambridge-judge-professor-talks-ethics-in-the-workplace/"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Chair Professor, KFUPM Business School; corporate consultant and organisational transformation adviser",
+  "brief": "Corporate adviser on organisational transformation, leadership and technology adoption. A former Cambridge management professor and current KFUPM chair professor, he combines business consulting with research and executive development.",
+  "creds": "PhD, University of Southampton.",
+  "exp": "Not specified.",
+  "profile": "https://kbs.kfupm.edu.sa/profile/david-de-cremer/"
+ },
+ {
+  "id": "C34",
+  "spec": "US-04",
+  "name": "Thomas Roulet",
+  "url": "https://uk.linkedin.com/in/thomasroulet",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 75,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jbs.cam.ac.uk/people/thomas-roulet/"
+  },
+  "fee": {
+   "hour": [
+    300,
+    600
+   ],
+   "month": [
+    1200,
+    2400
+   ]
+  },
+  "years": null,
+  "licensed": true,
+  "role": "Professor of Organisational Sociology and Leadership, Cambridge Judge Business School",
+  "brief": "Organisation and leadership adviser working on culture, workplace change and integration. He combines corporate consulting and executive development with his role as Cambridge professor of organisational sociology and leadership.",
+  "creds": "Master in Management, Audencia; MPhil, Sciences Po Paris; PhD in Management, HEC Paris; honorary MA, University of Cambridge.",
+  "exp": "Academic appointments since 2013; Cambridge faculty since August 2018.",
+  "profile": "https://www.jbs.cam.ac.uk/people/thomas-roulet/"
+ },
+ {
+  "id": "C35",
+  "spec": "US-05",
+  "name": "Jagjit Singh Srai",
+  "url": "https://uk.linkedin.com/in/jagjit-singh-srai-94451212",
+  "base": "UK / global",
+  "groups": [
+   "europe"
+  ],
+  "fit": 85,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://tigr2ess.globalfood.cam.ac.uk/files/speaker_biogs_2022.pdf"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 17,
+  "licensed": true,
+  "role": "Professor of Research and Head of the Centre for International Manufacturing, University of Cambridge",
+  "brief": "Former Unilever supply-chain and technical director, now advising through Cambridge IfM on manufacturing footprints, sourcing networks and digital supply chains. His work combines front-line industrial experience with global supply-network research.",
+  "creds": "BEng in Chemical Process Engineering, Aston; MPhil and PhD, University of Cambridge; Chartered Engineer; Fellow, Institution of Chemical Engineers.",
+  "exp": "17+ years of industrial operations before Cambridge.",
+  "profile": "https://engage.ifm.eng.cam.ac.uk/project/jagjit-singh-srai/"
+ },
+ {
+  "id": "C36",
+  "spec": "AE-01",
+  "name": "Costas Constantinou",
+  "url": "https://nl.linkedin.com/in/costas-constantinou",
+  "base": "Netherlands / UK",
+  "groups": [
+   "europe"
+  ],
+  "fit": 90,
+  "cambridge": {
+   "type": "PhD",
+   "url": "https://www.oaklins.com/nl/en/team/21725/"
+  },
+  "fee": {
+   "hour": [
+    350,
+    700
+   ],
+   "month": [
+    1400,
+    2800
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Managing Partner and Co-founder, Oaklins Valuation Advisory; Partner, Oaklins Netherlands",
+  "brief": "Oaklins partner leading company and intellectual-property valuations, fairness opinions and restructuring-related valuation work. His professional background spans London and Amsterdam, including valuation roles at Teneo, FTI Consulting, EY and Kroll.",
+  "creds": "PhD in Finance, University of Cambridge; MSc in Economics and Finance, University of Warwick; BSc in Economics, University of Cyprus; RICS and Academy of Experts member.",
+  "exp": "20+ years in valuation.",
+  "profile": "https://www.oaklins.com/nl/en/team/21725/"
+ },
+ {
+  "id": "C37",
+  "spec": "AE-01",
+  "name": "Fernando Da Cruz Vasconcellos",
+  "url": "https://uk.linkedin.com/in/fernando-da-cruz-vasconcellos",
+  "base": "UK / international",
+  "groups": [
+   "europe"
+  ],
+  "fit": 90,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.pace.cam.ac.uk/dr-fernando-da-cruz-vasconcellos"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 25,
+  "licensed": true,
+  "role": "Partner, Valuations, S&W",
+  "brief": "S&W valuation partner advising on company value, intellectual property, investment structuring and transactions. His experience includes more than 200 valuation and advisory engagements involving technology-led businesses and intangible assets.",
+  "creds": "Chemical Engineering, UC Santa Barbara; master’s and PhD in Materials Science and Engineering, University of Campinas; postdoctoral research, Cambridge; MRICS; RICS Registered Business Valuer.",
+  "exp": "25+ professional years, including 20 years of valuation and advisory projects.",
+  "profile": "https://www.pace.cam.ac.uk/dr-fernando-da-cruz-vasconcellos"
+ },
+ {
+  "id": "C38",
+  "spec": "AE-02",
+  "name": "Patrick C. Raab",
+  "url": "https://de.linkedin.com/in/patrick-c-raab",
+  "base": "Germany / Europe",
+  "groups": [
+   "europe"
+  ],
+  "fit": 95,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Independent pricing and commercial transformation adviser, PCR Consulting",
+  "brief": "Independent industrial B2B pricing and commercial-transformation consultant with BCG and Syngenta experience. His work covers pricing and commercial effectiveness across chemicals, packaging, building materials and other industrial business settings.",
+  "creds": "Diplom-Kaufmann, University of Mannheim.",
+  "exp": "20+ years.",
+  "profile": "https://pcr-experts.com/"
+ },
+ {
+  "id": "C39",
+  "spec": "AE-03",
+  "name": "Shahnawaaz Aashiruddin",
+  "url": "https://in.linkedin.com/in/shahnawaaz",
+  "base": "India / global sourcing",
+  "groups": [
+   "india"
+  ],
+  "fit": 90,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    150,
+    300
+   ],
+   "month": [
+    600,
+    1200
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Senior Director, Global Sourcing, News Corp; procurement adviser",
+  "brief": "Procurement-transformation and global-sourcing leader at News Corp who also offers short advisory mandates. His experience includes industrial, FMCG and BPO settings, alongside sourcing-centre design and procurement operations.",
+  "creds": "CPSM; IIM Mumbai studies.",
+  "exp": "20+ years.",
+  "profile": "https://shahn.pro/"
+ },
+ {
+  "id": "C40",
+  "spec": "AE-04",
+  "name": "Peter Williamson",
+  "url": "https://uk.linkedin.com/in/prof-peter-williamson-589b3bb",
+  "base": "UK / Asia",
+  "groups": [
+   "europe",
+   "china",
+   "sea"
+  ],
+  "fit": 80,
+  "cambridge": {
+   "type": "Teaching",
+   "url": "https://www.jesus.cam.ac.uk/people/peter-williamson"
+  },
+  "fee": {
+   "hour": [
+    400,
+    800
+   ],
+   "month": [
+    1600,
+    3200
+   ]
+  },
+  "years": 43,
+  "licensed": true,
+  "role": "International-strategy consultant and non-executive director; Honorary Professor, Cambridge Judge",
+  "brief": "International-strategy consultant and board adviser with extensive China and Asian business experience. His work covers market-entry approaches, partnerships, international expansion and acquisitions, supported by previous BCG and Merrill Lynch roles.",
+  "creds": "BA, Macquarie University; MA, University of Cambridge; PhD in Business Economics, Harvard University.",
+  "exp": "China business involvement since 1983.",
+  "profile": "https://www.jbs.cam.ac.uk/people/peter-williamson/"
+ },
+ {
+  "id": "C41",
+  "spec": "AE-04",
+  "name": "Marc Silberstein",
+  "url": "https://sg.linkedin.com/in/marc-silberstein",
+  "base": "Singapore / Southeast Asia",
+  "groups": [
+   "sea"
+  ],
+  "fit": 75,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    250,
+    500
+   ],
+   "month": [
+    1000,
+    2000
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Managing Partner, Silberstein + Partners; Singapore Partner, Asian Insiders",
+  "brief": "Singapore-based market-entry and expansion adviser with previous McKinsey associate-partner experience. His work covers partnerships, regional growth and transactions, helping businesses assess opportunities and develop commercial strategies across Southeast Asia.",
+  "creds": "Studies at the University of Warwick, Cass Business School and IE Business School.",
+  "exp": "20+ years, including nearly a decade at McKinsey.",
+  "profile": "https://asianinsiders.com/partners/marc-silberstein/"
+ },
+ {
+  "id": "C42",
+  "spec": "AE-05",
+  "name": "Alexandre Halpérin",
+  "url": "https://fr.linkedin.com/in/ahalperin",
+  "base": "France / Europe",
+  "groups": [
+   "europe"
+  ],
+  "fit": 85,
+  "cambridge": null,
+  "fee": {
+   "hour": [
+    200,
+    400
+   ],
+   "month": [
+    800,
+    1600
+   ]
+  },
+  "years": 20,
+  "licensed": true,
+  "role": "Founder, Aulne Retail Conseil",
+  "brief": "Founder of Aulne Retail Conseil, advising beauty, lifestyle and fashion businesses on store networks and locations. His work also covers franchise development and operational due diligence for retail businesses.",
+  "creds": "ESSEC programme studies, 2017.",
+  "exp": "20 years of field experience; 15 years in operational management before founding the practice.",
+  "profile": "https://retailconseil.fr/"
+ }
+];
+
+// the consultant's base, word by word: [en, ar, ru]
+export const B_BASE = {
+  Egypt: ['Egypt', 'مصر', 'Египет'], UK: ['UK', 'المملكة المتحدة', 'Великобритания'], global: ['global', 'عالمي', 'весь мир'], 'Middle East': ['Middle East', 'الشرق الأوسط', 'Ближний Восток'],
+  UAE: ['UAE', 'الإمارات', 'ОАЭ'], Gulf: ['Gulf', 'الخليج', 'страны Залива'], Europe: ['Europe', 'أوروبا', 'Европа'], 'Saudi Arabia': ['Saudi Arabia', 'السعودية', 'Саудовская Аравия'],
+  USA: ['USA', 'الولايات المتحدة', 'США'], international: ['international', 'دولي', 'международно'], Jordan: ['Jordan', 'الأردن', 'Иордания'], MENA: ['MENA', 'الشرق الأوسط وشمال أفريقيا', 'MENA'],
+  Morocco: ['Morocco', 'المغرب', 'Марокко'], 'Francophone Africa': ['Francophone Africa', 'أفريقيا الفرنكوفونية', 'франкоязычная Африка'], Tunisia: ['Tunisia', 'تونس', 'Тунис'], 'North Africa': ['North Africa', 'شمال أفريقيا', 'Северная Африка'],
+  Spain: ['Spain', 'إسبانيا', 'Испания'], 'Middle East and Africa': ['Middle East and Africa', 'الشرق الأوسط وأفريقيا', 'Ближний Восток и Африка'], 'prior US practice': ['earlier US practice', 'خبرة سابقة في الولايات المتحدة', 'ранее практика в США'],
+  'climate ventures': ['climate ventures', 'مشاريع المناخ', 'климатические стартапы'], Netherlands: ['Netherlands', 'هولندا', 'Нидерланды'], Germany: ['Germany', 'ألمانيا', 'Германия'], India: ['India', 'الهند', 'Индия'],
+  'global sourcing': ['global sourcing', 'التوريد العالمي', 'глобальные закупки'], Asia: ['Asia', 'آسيا', 'Азия'], Singapore: ['Singapore', 'سنغافورة', 'Сингапур'], 'Southeast Asia': ['Southeast Asia', 'جنوب شرق آسيا', 'Юго-Восточная Азия'], France: ['France', 'فرنسا', 'Франция'],
+};
+// the base country that matches a spec's home market (then the spec's languages apply)
+export const B_BASE_HOME = { Egypt: 'EG', UAE: 'GCC', 'Saudi Arabia': 'GCC', Jordan: 'JO', Morocco: 'MA', Tunisia: 'TN', USA: 'US', UK: 'UK', Germany: 'DE', India: 'IN', Singapore: 'SG', France: 'FR' };

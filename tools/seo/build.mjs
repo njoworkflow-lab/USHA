@@ -32,7 +32,7 @@ import { COMPARE_ROWS, DETAIL, ORDER } from './enhance/launch-copy.mjs';
 import { pageUrls, PAGE_IDS, SECTION_PAGE, navMid, burger, menuHTML, taughtHTML, pageHero, likeness } from './enhance/pages.mjs';
 import { CASES2 } from './enhance/cases-v2.mjs';
 import { xcWallHTML } from './enhance/cases-ui.mjs';
-import { BRAINS, B_FIELDS, B_INDUSTRIES, B_MARKETS, B_LANGS, B_HOME, B_YEARS, B_BANDS } from './enhance/brains-data.mjs';
+import { BRAINS, B_FIELDS, B_INDUSTRIES, B_MARKETS, B_LANGS, B_HOME, B_YEARS, B_BANDS, CONSULTANTS, B_BASE, B_BASE_HOME } from './enhance/brains-data.mjs';
 import { BRAINS_COPY } from './enhance/brains-copy.mjs';
 import { brPageHTML } from './enhance/brains-page.mjs';
 import { brPrice } from './enhance/brains-ui.mjs';
@@ -815,8 +815,30 @@ function brainsLocal(lang) {
     fields: loc(B_FIELDS, lang), ind: loc(B_INDUSTRIES, lang), markets: loc(B_MARKETS, lang), langs: loc(B_LANGS, lang), home: loc(B_HOME, lang),
     years: B_YEARS, bands: B_BANDS.map((x) => ({ id: x.id, min: x.min, max: x.max, n: x.n[i], line: x.line[i], range: `${brPrice(x.min, lang)}–${brPrice(x.max, lang)}` })),
   };
-  const list = BRAINS.map(({ en, ar, ru, ...b }) => ({ ...b, t: { en, ar, ru }[lang] }));
-  return { L, list };
+  const specs = BRAINS.map(({ en, ar, ru, ...b }) => ({ ...b, t: { en, ar, ru }[lang] }));
+  const bySpec = Object.fromEntries(specs.map((b) => [b.id, b]));
+  // the licence gate: only a licensed consultant's name, link and role render
+  // (BRAINS_PREVIEW_NAMES=1 shows unlicensed ones too, marked, for a private review)
+  const slug = (n) => n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const named = CONSULTANTS.filter((c) => c.licensed || BRAINS_PREVIEW).map((c) => {
+    const s = bySpec[c.spec], parts = c.base.split(' / ');
+    return { ...s, id: c.id, spec: c.spec, slug: slug(c.name), years: c.years, price: c.fee.month[0], priceHi: c.fee.month[1], groups: c.groups,
+      codes: parts.map((w) => (B_BASE[w] || [w, w, w])[i]).join(' · '), langs: B_BASE_HOME[parts[0]] === s.home ? s.langs : ['en'], say: 0,
+      consultant: { name: c.name, url: c.url, role: c.role, brief: c.brief, creds: c.creds, exp: c.exp, cambridge: c.cambridge, pending: !c.licensed, version: null, validated: null, checked: [] } };
+  });
+  const covered = new Set(named.map((b) => b.spec));
+  const list = [...named, ...specs.filter((b) => !covered.has(b.id))];
+  return { L, list, named: named.length };
+}
+const BRAINS_PREVIEW = process.env.BRAINS_PREVIEW_NAMES === '1';
+// with named consultants, the price range on the page follows their estimated fees
+function brainsCopy(lang, list) {
+  const C0 = BRAINS_COPY[lang], lo = Math.min(...list.map((b) => b.price)), hi = Math.max(...list.map((b) => b.priceHi || b.price));
+  if (lo === 75 && hi === 3000) return C0;
+  const rep = (str, a, b) => [brPrice(a, lang), brPrice(a, lang).replace(/\u00a0/g, ' ')].reduce((x, k) => x.split(k).join(brPrice(b, lang)), str);
+  const sw = (v) => typeof v === 'string' ? rep(rep(v, 75, lo), 3000, hi)
+    : Array.isArray(v) ? v.map(sw) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, sw(x)])) : v;
+  return sw(C0);
 }
 const BRAINS_JS = ['prod.js', 'brains-ui.mjs', 'brains.js'].map((f) => fs.readFileSync(path.join(ENH, f), 'utf8').replace(/^export /gm, '')).join('\n');
 const BRAINS_JS_URL = emit(`brains-${hash(BRAINS_JS)}.js`, BRAINS_JS);
@@ -826,12 +848,12 @@ function productHead(lang, { title, description, url, alt, ld, css }) {
 }
 const PRODUCT_PAGES = {
   brains(lang) {
-    const C = BRAINS_COPY[lang], L0 = LANGS[lang], { L, list } = brainsLocal(lang), ch = chrome(lang, 'brains');
+    const L0 = LANGS[lang], { L, list } = brainsLocal(lang), C = brainsCopy(lang, list), ch = chrome(lang, 'brains');
     const url = `${SITE}${pageUrls(lang).brains}`, alt = Object.fromEntries(Object.keys(LANGS).map((l) => [l, `${SITE}${pageUrls(l).brains}`]));
     const me = likeness('pg-u').replace('{{USHA_BODY}}', BODY_URL);
     const ld = [
       { '@type': 'WebPage', '@id': `${url}#page`, url, name: C.title, description: C.desc, inLanguage: lang, isPartOf: { '@id': `${SITE}/#website` }, publisher: { '@id': `${SITE}/#njo` },
-        mainEntity: { '@type': 'ItemList', name: 'BRAINS', itemListElement: list.map((b, n) => ({ '@type': 'ListItem', position: n + 1, name: b.t.title })) } },
+        mainEntity: { '@type': 'ItemList', name: 'BRAINS', itemListElement: list.map((b, n) => ({ '@type': 'ListItem', position: n + 1, name: b.consultant && b.consultant.name ? `${b.consultant.name}: ${b.t.title}` : b.t.title })) } },
       { '@type': 'Organization', '@id': `${SITE}/#njo`, name: 'NJO Business Solutions', url: CONTACT.njo, logo: `${SITE}/njo-logo.png` },
       crumbsLd([['USHA', L0.url], ['BRAINS', url]]),
       { '@type': 'FAQPage', '@id': `${url}#faq`, inLanguage: lang, mainEntity: C.faq.list.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },

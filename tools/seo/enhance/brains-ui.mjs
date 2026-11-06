@@ -15,6 +15,7 @@ export function brPrice(p, lang) {
   return p.toLocaleString('en-US') + ' $';
 }
 // one brain's state: a named consultant makes it live; otherwise it is being matched
+export const brFee = (b, lang) => (!b.priceHi ? brPrice(b.price, lang) : lang === 'en' ? `${brPrice(b.price, lang)}–${brPrice(b.priceHi, lang).slice(1)}` : `${brPrice(b.price, lang).replace(/\u00a0\$$/, '')}–${brPrice(b.priceHi, lang)}`);
 export const brState = (b) => b.consultant && b.consultant.name ? (b.consultant.paused ? 'paused' : 'open') : 'matching';
 
 // ---------- the constellation: one per brain, drawn from its slug ----------
@@ -58,6 +59,7 @@ const brCodes = (langs) => langs.map((l) => l.toUpperCase()).join(' · ');
 export const brYearsBand = (y, L) => L.years.find(([a, b]) => y >= a && y <= b);
 export const brBand = (p, L) => L.bands.find((x) => p >= x.min && p <= x.max);
 export function brMeta(b, C, lang) {
+  if (b.consultant && b.consultant.name) return b.years ? brPl(C.grid.years, b.years, lang) : '';
   return `${brPl(C.grid.years, b.years, lang)} · ${C.grid.former} ${b.t.former}`;
 }
 export function brStatus(b, C) {
@@ -67,9 +69,10 @@ export function brStatus(b, C) {
   return `<span class="br-av br-av-matching"><i></i>${brEsc(C.grid.state.matching)}</span>`;
 }
 export function brBadge(b, C) {
-  return b.consultant && b.consultant.name
-    ? `<span class="br-ver br-ver-ok">${brEsc(C.grid.validated.replace('{v}', b.consultant.version || '1.0'))}</span>${brStatus(b, C)}`
-    : `<span class="br-ver" title="${brEsc(C.grid.state.matching)}">${brEsc(C.grid.verifying)}</span>`;
+  const c = b.consultant;
+  if (!(c && c.name)) return `<span class="br-ver" title="${brEsc(C.grid.state.matching)}">${brEsc(C.grid.verifying)}</span>`;
+  const cam = c.cambridge ? `<span class="br-cam">${brEsc(c.cambridge.type === 'PhD' ? C.grid.camPhd : C.grid.camTeach)}</span>` : '';
+  return c.pending ? `<span class="br-ver br-ver-pend">${brEsc(C.grid.pending)}</span>${cam}` : `<span class="br-ver br-ver-ok">${brEsc(C.grid.verified)}</span>${cam}`;
 }
 
 // ---------- the card ----------
@@ -82,12 +85,12 @@ export function brCardHTML(b, C, L, lang, i) {
 <article class="br-c" aria-labelledby="${id}">
 <div class="br-ctop">${brGlyph(b.slug)}<div class="br-cid"><span class="br-code">${b.id}</span>${brBadge(b, C)}</div></div>
 ${name}<h3 class="br-t" id="${id}">${brEsc(b.t.title)}</h3>
-<p class="br-meta">${brEsc(brMeta(b, C, lang))}</p>
-<span class="br-ruler" style="--y:${b.years}" aria-hidden="true"></span>
+${b.consultant && b.consultant.name ? `<p class="br-role" lang="en" dir="ltr">${brEsc(b.consultant.role)}</p>` : ''}${brMeta(b, C, lang) ? `<p class="br-meta">${brEsc(brMeta(b, C, lang))}</p>` : ''}
+${b.years ? `<span class="br-ruler" style="--y:${b.years}" aria-hidden="true"></span>` : ''}
 <ul class="br-tags">${shown.map(([t, k]) => `<li class="br-tg-${k}">${brEsc(t)}</li>`).join('')}${more > 0 ? `<li class="br-tg-m">+${more}</li>` : ''}</ul>
 <p class="br-ind">${brEsc(b.ind.map((x) => L.ind[x]).join(' · '))}</p>
 <p class="br-mk"><span class="num">${brEsc(b.codes)}</span><span class="num">${brCodes(b.langs)}</span></p>
-<div class="br-cft"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
+<div class="br-cft"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}${b.priceHi ? ` <small>${brEsc(C.grid.est)}</small>` : ''}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
 </article></li>`;
 }
 
@@ -118,46 +121,52 @@ export function brFiltersHTML(C, L, counts, state) {
 
 // ---------- the profile (in the side sheet) ----------
 export function brProfileHTML(b, C, L, lang, similar) {
-  const P = C.profile, s = brState(b), t = b.t;
+  const P = C.profile, s = brState(b), t = b.t, c = b.consultant || {}, named = !!c.name;
   const li = (a) => a.map((x) => `<li>${brEsc(x)}</li>`).join('');
-  const name = b.consultant && b.consultant.name ? `<p class="br-pname">${brEsc(b.consultant.name)}</p>` : '';
+  const en = (x) => `<span lang="en" dir="ltr">${brEsc(x)}</span>`;
   const banner = s === 'matching' ? `<p class="br-banner">${brEsc(P.banner)}</p>` : s === 'paused' ? `<p class="br-banner">${brEsc(P.paused)}</p>` : '';
-  const ln = b.consultant && b.consultant.linkedin && lang !== 'ru'
-    ? `<p class="br-ln"><a class="pd-link" href="${brEsc(b.consultant.linkedin)}" target="_blank" rel="noopener">${brEsc(P.linkedin)}<span aria-hidden="true">↗</span></a><span>${brEsc(P.linkedinNote)}</span></p>`
-    : b.consultant && b.consultant.name ? `<p class="br-ln"><button type="button" class="pd-link br-cvreq">${brEsc(P.cv)}</button></p>` : '';
-  const checked = (b.consultant && b.consultant.checked) || [];
-  const cov = P.cov[b.cov - 1];
-  const say = b.say && C.why.pairs[b.say - 1];
-  const ver = b.consultant && b.consultant.version && b.consultant.validated
-    ? `<p>${brEsc(P.versionLine.replace('{v}', b.consultant.version).replace('{d}', new Date(b.consultant.validated).toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : lang, { day: 'numeric', month: 'long', year: 'numeric' })))}</p>`
-    : `<p class="br-muted">${brEsc(P.notYet)}</p>`;
+  const isLn = named && /linkedin\.com/.test(c.url || '');
+  const ln = named ? `<p class="br-ln"><a class="pd-link" href="${brEsc(c.url)}" target="_blank" rel="noopener">${brEsc(isLn ? P.linkedin : P.profileLink)}<span aria-hidden="true"> ↗</span></a>${isLn ? `<span>${brEsc(P.linkedinNote)}</span>` : ''}${lang === 'ru' && isLn ? `<button type="button" class="pd-link br-cvreq">${brEsc(P.cv)}</button>` : ''}</p>` : '';
+  const say = !named && b.say && C.why.pairs[b.say - 1];
+  const yrs = b.years ? `${brPl(C.grid.years, b.years, lang)}${named ? '' : ` · ${t.seniority}`}` : '—';
+  const cam = named && c.cambridge ? `<p class="br-camp"><a class="pd-link" href="${brEsc(c.cambridge.url)}" target="_blank" rel="noopener">${brEsc(c.cambridge.type === 'PhD' ? C.grid.camPhd : C.grid.camTeach)}<span aria-hidden="true"> ↗</span></a></p>` : '';
+  const track = named
+    ? `<section class="br-pb"><h3>${brEsc(P.track)}</h3>${lang !== 'en' ? `<p class="br-muted">${brEsc(P.inEnglish)}</p>` : ''}
+<h4>${brEsc(P.currentRole)}</h4><p>${en(c.role)}</p>
+<h4>${brEsc(P.brief)}</h4><p>${en(c.brief)}</p>
+<h4>${brEsc(P.creds)}</h4><p>${en(c.creds)}</p>
+<h4>${brEsc(P.experienceL)}</h4><p>${en(c.exp)}</p>${cam}</section>`
+    : `<section class="br-pb"><h3>${brEsc(P.track)}</h3>
+<h4>${brEsc(P.past)}</h4><ul class="br-list">${li(t.past)}</ul>
+<h4>${brEsc(P.projects)}</h4><ul class="br-list">${li(t.projects)}</ul>
+<h4>${brEsc(P.seeking)}</h4><p>${brEsc(t.req)}</p></section>`;
+  const price = named
+    ? `<section class="br-pb"><h3>${brEsc(P.feeL)}</h3><p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p><p class="br-muted">${brEsc(P.feeNote)}</p></section>`
+    : `<section class="br-pb"><h3>${brEsc(P.price)}</h3>
+<ul class="br-fac"><li><span>${brEsc(P.factors[0])}</span><b>${brEsc(L.home[b.home])}</b></li><li><span>${brEsc(P.factors[1])}</span><b class="num">${b.years}</b></li><li><span>${brEsc(P.factors[2])}</span><b>${brEsc(P.cov[b.cov - 1])}</b></li></ul>
+<p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p></section>`;
   return `<div class="br-ptop">
 <div class="br-pav">${brGlyph(b.slug, 'br-gl br-gl-l')}</div>
-<div class="br-pid"><div class="br-cid"><span class="br-code">${b.id}</span>${brBadge(b, C)}</div>${name}
+<div class="br-pid"><div class="br-cid"><span class="br-code">${b.id}${named ? ` · ${b.spec}` : ''}</span>${brBadge(b, C)}</div>${named ? `<p class="br-pname">${brEsc(c.name)}</p>` : ''}
 <h2 class="br-pt" id="brPT">${brEsc(t.title)}</h2>
-<p class="br-what">${brEsc(P.what)}</p></div></div>
+${named ? `<p class="br-what">${brEsc(P.what)}</p>` : ''}</div></div>
 <dl class="br-facts">
-<div><dt>${brEsc(C.grid.g.years)}</dt><dd>${brEsc(brPl(C.grid.years, b.years, lang))} · ${brEsc(t.seniority)}</dd></div>
+<div><dt>${brEsc(C.grid.g.years)}</dt><dd>${brEsc(yrs)}</dd></div>
 <div><dt>${brEsc(P.marketsL)}</dt><dd class="num">${brEsc(b.codes)}</dd></div>
 <div><dt>${brEsc(P.langsL)}</dt><dd>${brEsc(b.langs.map((l) => L.langs[l]).join(', '))}</dd></div>
 <div><dt>${brEsc(C.grid.g.avail)}</dt><dd>${brStatus(b, C)}</dd></div>
 </dl>
 ${banner}${ln}
-<section class="br-pb"><h3>${brEsc(P.brief)}</h3><p>${brEsc(P.idealFor)}: ${brEsc(t.ideal)}</p></section>
+<section class="br-pb"><h3>${brEsc(P.idealFor)}</h3><p>${brEsc(t.ideal)}</p></section>
 <section class="br-pb"><h3>${brEsc(P.expertise)}</h3>
 <dl class="br-kv"><div><dt>${brEsc(P.fieldsL)}</dt><dd>${brEsc(b.fields.map((f) => L.fields[f]).join(' · '))}</dd></div><div><dt>${brEsc(P.industriesL)}</dt><dd>${brEsc(t.industries)}</dd></div><div><dt>${brEsc(P.marketsL)}</dt><dd>${brEsc(b.groups.map((g) => L.markets[g]).join(' · '))}</dd></div></dl>
 <div class="br-two"><div><h4>${brEsc(P.advises)}</h4><ul class="br-yes">${li(b.fields.map((f) => L.fields[f]))}</ul></div>
 <div><h4>${brEsc(P.notAdvise)}</h4><ul class="br-no"><li>${brEsc(P.fixed)}</li>${t.border ? `<li>${brEsc(t.border)}</li>` : ''}</ul></div></div></section>
-<section class="br-pb"><h3>${brEsc(P.track)}</h3>
-<h4>${brEsc(P.past)}</h4><ul class="br-list">${li(t.past)}</ul>
-<h4>${brEsc(P.projects)}</h4><ul class="br-list">${li(t.projects)}</ul>
-<h4>${brEsc(s === 'matching' ? P.seeking : P.creds)}</h4><p>${brEsc(t.req)}</p>${checked.length ? `<ul class="br-list">${checked.map((x) => `<li>${brEsc(x)} <span class="pd-tag">${brEsc(P.checked)}</span></li>`).join('')}</ul>` : ''}</section>
+${track}
 <section class="br-pb"><h3>${brEsc(P.questions)}</h3><p class="br-muted">${brEsc(P.questionsHint)}</p>
 <ul class="br-qs">${t.qs.map((q, i) => `<li><button type="button" class="br-q" data-q="${i}"><span class="num">${i + 1}</span>${brEsc(q)}</button></li>`).join('')}</ul></section>
 ${say ? `<section class="br-pb"><h3>${brEsc(P.answers)}</h3><blockquote class="br-say"><p>${brEsc(say[2])}</p><footer>${brEsc(say[0])}</footer></blockquote></section>` : ''}
-<section class="br-pb"><h3>${brEsc(P.price)}</h3>
-<ul class="br-fac"><li><span>${brEsc(P.factors[0])}</span><b>${brEsc(L.home[b.home])}</b></li><li><span>${brEsc(P.factors[1])}</span><b class="num">${b.years}</b></li><li><span>${brEsc(P.factors[2])}</span><b>${brEsc(cov)}</b></li></ul>
-<p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p></section>
-<section class="br-pb"><h3>${brEsc(P.versions)}</h3>${ver}</section>
-${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h3><ul class="br-sim">${similar.map((x) => `<li><button type="button" class="br-simb" data-slug="${x.slug}">${brGlyph(x.slug, 'br-gl br-gl-s')}<span><b>${brEsc(x.t.title)}</b><small>${brEsc(brPl(C.grid.years, x.years, lang))} · <span class="num">${brEsc(brPrice(x.price, lang))}</span></small></span></button></li>`).join('')}</ul></section>` : ''}`;
+${price}
+<section class="br-pb"><h3>${brEsc(P.versions)}</h3><p class="br-muted">${brEsc(P.notYet)}</p></section>
+${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h3><ul class="br-sim">${similar.map((x) => `<li><button type="button" class="br-simb" data-slug="${x.slug}">${brGlyph(x.slug, 'br-gl br-gl-s')}<span><b>${brEsc(x.consultant && x.consultant.name ? `${x.consultant.name} · ${x.t.title}` : x.t.title)}</b><small>${x.years ? `${brEsc(brPl(C.grid.years, x.years, lang))} · ` : ''}<span class="num">${brEsc(brFee(x, lang))}</span></small></span></button></li>`).join('')}</ul></section>` : ''}`;
 }

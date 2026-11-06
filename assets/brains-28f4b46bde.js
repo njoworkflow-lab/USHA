@@ -116,6 +116,7 @@ function brPrice(p, lang) {
   return p.toLocaleString('en-US') + ' $';
 }
 // one brain's state: a named consultant makes it live; otherwise it is being matched
+const brFee = (b, lang) => (!b.priceHi ? brPrice(b.price, lang) : lang === 'en' ? `${brPrice(b.price, lang)}–${brPrice(b.priceHi, lang).slice(1)}` : `${brPrice(b.price, lang).replace(/\u00a0\$$/, '')}–${brPrice(b.priceHi, lang)}`);
 const brState = (b) => b.consultant && b.consultant.name ? (b.consultant.paused ? 'paused' : 'open') : 'matching';
 
 // ---------- the constellation: one per brain, drawn from its slug ----------
@@ -159,6 +160,7 @@ const brCodes = (langs) => langs.map((l) => l.toUpperCase()).join(' · ');
 const brYearsBand = (y, L) => L.years.find(([a, b]) => y >= a && y <= b);
 const brBand = (p, L) => L.bands.find((x) => p >= x.min && p <= x.max);
 function brMeta(b, C, lang) {
+  if (b.consultant && b.consultant.name) return b.years ? brPl(C.grid.years, b.years, lang) : '';
   return `${brPl(C.grid.years, b.years, lang)} · ${C.grid.former} ${b.t.former}`;
 }
 function brStatus(b, C) {
@@ -168,9 +170,10 @@ function brStatus(b, C) {
   return `<span class="br-av br-av-matching"><i></i>${brEsc(C.grid.state.matching)}</span>`;
 }
 function brBadge(b, C) {
-  return b.consultant && b.consultant.name
-    ? `<span class="br-ver br-ver-ok">${brEsc(C.grid.validated.replace('{v}', b.consultant.version || '1.0'))}</span>${brStatus(b, C)}`
-    : `<span class="br-ver" title="${brEsc(C.grid.state.matching)}">${brEsc(C.grid.verifying)}</span>`;
+  const c = b.consultant;
+  if (!(c && c.name)) return `<span class="br-ver" title="${brEsc(C.grid.state.matching)}">${brEsc(C.grid.verifying)}</span>`;
+  const cam = c.cambridge ? `<span class="br-cam">${brEsc(c.cambridge.type === 'PhD' ? C.grid.camPhd : C.grid.camTeach)}</span>` : '';
+  return c.pending ? `<span class="br-ver br-ver-pend">${brEsc(C.grid.pending)}</span>${cam}` : `<span class="br-ver br-ver-ok">${brEsc(C.grid.verified)}</span>${cam}`;
 }
 
 // ---------- the card ----------
@@ -183,12 +186,12 @@ function brCardHTML(b, C, L, lang, i) {
 <article class="br-c" aria-labelledby="${id}">
 <div class="br-ctop">${brGlyph(b.slug)}<div class="br-cid"><span class="br-code">${b.id}</span>${brBadge(b, C)}</div></div>
 ${name}<h3 class="br-t" id="${id}">${brEsc(b.t.title)}</h3>
-<p class="br-meta">${brEsc(brMeta(b, C, lang))}</p>
-<span class="br-ruler" style="--y:${b.years}" aria-hidden="true"></span>
+${b.consultant && b.consultant.name ? `<p class="br-role" lang="en" dir="ltr">${brEsc(b.consultant.role)}</p>` : ''}${brMeta(b, C, lang) ? `<p class="br-meta">${brEsc(brMeta(b, C, lang))}</p>` : ''}
+${b.years ? `<span class="br-ruler" style="--y:${b.years}" aria-hidden="true"></span>` : ''}
 <ul class="br-tags">${shown.map(([t, k]) => `<li class="br-tg-${k}">${brEsc(t)}</li>`).join('')}${more > 0 ? `<li class="br-tg-m">+${more}</li>` : ''}</ul>
 <p class="br-ind">${brEsc(b.ind.map((x) => L.ind[x]).join(' · '))}</p>
 <p class="br-mk"><span class="num">${brEsc(b.codes)}</span><span class="num">${brCodes(b.langs)}</span></p>
-<div class="br-cft"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
+<div class="br-cft"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}${b.priceHi ? ` <small>${brEsc(C.grid.est)}</small>` : ''}</span><button type="button" class="br-open" aria-haspopup="dialog" aria-describedby="${id}">${brEsc(brState(b) === 'matching' ? C.grid.viewProfile : C.grid.view)}</button></div>
 </article></li>`;
 }
 
@@ -219,48 +222,54 @@ function brFiltersHTML(C, L, counts, state) {
 
 // ---------- the profile (in the side sheet) ----------
 function brProfileHTML(b, C, L, lang, similar) {
-  const P = C.profile, s = brState(b), t = b.t;
+  const P = C.profile, s = brState(b), t = b.t, c = b.consultant || {}, named = !!c.name;
   const li = (a) => a.map((x) => `<li>${brEsc(x)}</li>`).join('');
-  const name = b.consultant && b.consultant.name ? `<p class="br-pname">${brEsc(b.consultant.name)}</p>` : '';
+  const en = (x) => `<span lang="en" dir="ltr">${brEsc(x)}</span>`;
   const banner = s === 'matching' ? `<p class="br-banner">${brEsc(P.banner)}</p>` : s === 'paused' ? `<p class="br-banner">${brEsc(P.paused)}</p>` : '';
-  const ln = b.consultant && b.consultant.linkedin && lang !== 'ru'
-    ? `<p class="br-ln"><a class="pd-link" href="${brEsc(b.consultant.linkedin)}" target="_blank" rel="noopener">${brEsc(P.linkedin)}<span aria-hidden="true">↗</span></a><span>${brEsc(P.linkedinNote)}</span></p>`
-    : b.consultant && b.consultant.name ? `<p class="br-ln"><button type="button" class="pd-link br-cvreq">${brEsc(P.cv)}</button></p>` : '';
-  const checked = (b.consultant && b.consultant.checked) || [];
-  const cov = P.cov[b.cov - 1];
-  const say = b.say && C.why.pairs[b.say - 1];
-  const ver = b.consultant && b.consultant.version && b.consultant.validated
-    ? `<p>${brEsc(P.versionLine.replace('{v}', b.consultant.version).replace('{d}', new Date(b.consultant.validated).toLocaleDateString(lang === 'ar' ? 'ar-EG-u-nu-latn' : lang, { day: 'numeric', month: 'long', year: 'numeric' })))}</p>`
-    : `<p class="br-muted">${brEsc(P.notYet)}</p>`;
+  const isLn = named && /linkedin\.com/.test(c.url || '');
+  const ln = named ? `<p class="br-ln"><a class="pd-link" href="${brEsc(c.url)}" target="_blank" rel="noopener">${brEsc(isLn ? P.linkedin : P.profileLink)}<span aria-hidden="true"> ↗</span></a>${isLn ? `<span>${brEsc(P.linkedinNote)}</span>` : ''}${lang === 'ru' && isLn ? `<button type="button" class="pd-link br-cvreq">${brEsc(P.cv)}</button>` : ''}</p>` : '';
+  const say = !named && b.say && C.why.pairs[b.say - 1];
+  const yrs = b.years ? `${brPl(C.grid.years, b.years, lang)}${named ? '' : ` · ${t.seniority}`}` : '—';
+  const cam = named && c.cambridge ? `<p class="br-camp"><a class="pd-link" href="${brEsc(c.cambridge.url)}" target="_blank" rel="noopener">${brEsc(c.cambridge.type === 'PhD' ? C.grid.camPhd : C.grid.camTeach)}<span aria-hidden="true"> ↗</span></a></p>` : '';
+  const track = named
+    ? `<section class="br-pb"><h3>${brEsc(P.track)}</h3>${lang !== 'en' ? `<p class="br-muted">${brEsc(P.inEnglish)}</p>` : ''}
+<h4>${brEsc(P.currentRole)}</h4><p>${en(c.role)}</p>
+<h4>${brEsc(P.brief)}</h4><p>${en(c.brief)}</p>
+<h4>${brEsc(P.creds)}</h4><p>${en(c.creds)}</p>
+<h4>${brEsc(P.experienceL)}</h4><p>${en(c.exp)}</p>${cam}</section>`
+    : `<section class="br-pb"><h3>${brEsc(P.track)}</h3>
+<h4>${brEsc(P.past)}</h4><ul class="br-list">${li(t.past)}</ul>
+<h4>${brEsc(P.projects)}</h4><ul class="br-list">${li(t.projects)}</ul>
+<h4>${brEsc(P.seeking)}</h4><p>${brEsc(t.req)}</p></section>`;
+  const price = named
+    ? `<section class="br-pb"><h3>${brEsc(P.feeL)}</h3><p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brFee(b, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p><p class="br-muted">${brEsc(P.feeNote)}</p></section>`
+    : `<section class="br-pb"><h3>${brEsc(P.price)}</h3>
+<ul class="br-fac"><li><span>${brEsc(P.factors[0])}</span><b>${brEsc(L.home[b.home])}</b></li><li><span>${brEsc(P.factors[1])}</span><b class="num">${b.years}</b></li><li><span>${brEsc(P.factors[2])}</span><b>${brEsc(P.cov[b.cov - 1])}</b></li></ul>
+<p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p></section>`;
   return `<div class="br-ptop">
 <div class="br-pav">${brGlyph(b.slug, 'br-gl br-gl-l')}</div>
-<div class="br-pid"><div class="br-cid"><span class="br-code">${b.id}</span>${brBadge(b, C)}</div>${name}
+<div class="br-pid"><div class="br-cid"><span class="br-code">${b.id}${named ? ` · ${b.spec}` : ''}</span>${brBadge(b, C)}</div>${named ? `<p class="br-pname">${brEsc(c.name)}</p>` : ''}
 <h2 class="br-pt" id="brPT">${brEsc(t.title)}</h2>
-<p class="br-what">${brEsc(P.what)}</p></div></div>
+${named ? `<p class="br-what">${brEsc(P.what)}</p>` : ''}</div></div>
 <dl class="br-facts">
-<div><dt>${brEsc(C.grid.g.years)}</dt><dd>${brEsc(brPl(C.grid.years, b.years, lang))} · ${brEsc(t.seniority)}</dd></div>
+<div><dt>${brEsc(C.grid.g.years)}</dt><dd>${brEsc(yrs)}</dd></div>
 <div><dt>${brEsc(P.marketsL)}</dt><dd class="num">${brEsc(b.codes)}</dd></div>
 <div><dt>${brEsc(P.langsL)}</dt><dd>${brEsc(b.langs.map((l) => L.langs[l]).join(', '))}</dd></div>
 <div><dt>${brEsc(C.grid.g.avail)}</dt><dd>${brStatus(b, C)}</dd></div>
 </dl>
 ${banner}${ln}
-<section class="br-pb"><h3>${brEsc(P.brief)}</h3><p>${brEsc(P.idealFor)}: ${brEsc(t.ideal)}</p></section>
+<section class="br-pb"><h3>${brEsc(P.idealFor)}</h3><p>${brEsc(t.ideal)}</p></section>
 <section class="br-pb"><h3>${brEsc(P.expertise)}</h3>
 <dl class="br-kv"><div><dt>${brEsc(P.fieldsL)}</dt><dd>${brEsc(b.fields.map((f) => L.fields[f]).join(' · '))}</dd></div><div><dt>${brEsc(P.industriesL)}</dt><dd>${brEsc(t.industries)}</dd></div><div><dt>${brEsc(P.marketsL)}</dt><dd>${brEsc(b.groups.map((g) => L.markets[g]).join(' · '))}</dd></div></dl>
 <div class="br-two"><div><h4>${brEsc(P.advises)}</h4><ul class="br-yes">${li(b.fields.map((f) => L.fields[f]))}</ul></div>
 <div><h4>${brEsc(P.notAdvise)}</h4><ul class="br-no"><li>${brEsc(P.fixed)}</li>${t.border ? `<li>${brEsc(t.border)}</li>` : ''}</ul></div></div></section>
-<section class="br-pb"><h3>${brEsc(P.track)}</h3>
-<h4>${brEsc(P.past)}</h4><ul class="br-list">${li(t.past)}</ul>
-<h4>${brEsc(P.projects)}</h4><ul class="br-list">${li(t.projects)}</ul>
-<h4>${brEsc(s === 'matching' ? P.seeking : P.creds)}</h4><p>${brEsc(t.req)}</p>${checked.length ? `<ul class="br-list">${checked.map((x) => `<li>${brEsc(x)} <span class="pd-tag">${brEsc(P.checked)}</span></li>`).join('')}</ul>` : ''}</section>
+${track}
 <section class="br-pb"><h3>${brEsc(P.questions)}</h3><p class="br-muted">${brEsc(P.questionsHint)}</p>
 <ul class="br-qs">${t.qs.map((q, i) => `<li><button type="button" class="br-q" data-q="${i}"><span class="num">${i + 1}</span>${brEsc(q)}</button></li>`).join('')}</ul></section>
 ${say ? `<section class="br-pb"><h3>${brEsc(P.answers)}</h3><blockquote class="br-say"><p>${brEsc(say[2])}</p><footer>${brEsc(say[0])}</footer></blockquote></section>` : ''}
-<section class="br-pb"><h3>${brEsc(P.price)}</h3>
-<ul class="br-fac"><li><span>${brEsc(P.factors[0])}</span><b>${brEsc(L.home[b.home])}</b></li><li><span>${brEsc(P.factors[1])}</span><b class="num">${b.years}</b></li><li><span>${brEsc(P.factors[2])}</span><b>${brEsc(cov)}</b></li></ul>
-<p class="br-pp"><span class="br-price num">${brEsc(C.grid.perMonth.replace('{p}', brPrice(b.price, lang)))}</span> · ${brEsc(brBand(b.price, L).n)}</p></section>
-<section class="br-pb"><h3>${brEsc(P.versions)}</h3>${ver}</section>
-${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h3><ul class="br-sim">${similar.map((x) => `<li><button type="button" class="br-simb" data-slug="${x.slug}">${brGlyph(x.slug, 'br-gl br-gl-s')}<span><b>${brEsc(x.t.title)}</b><small>${brEsc(brPl(C.grid.years, x.years, lang))} · <span class="num">${brEsc(brPrice(x.price, lang))}</span></small></span></button></li>`).join('')}</ul></section>` : ''}`;
+${price}
+<section class="br-pb"><h3>${brEsc(P.versions)}</h3><p class="br-muted">${brEsc(P.notYet)}</p></section>
+${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h3><ul class="br-sim">${similar.map((x) => `<li><button type="button" class="br-simb" data-slug="${x.slug}">${brGlyph(x.slug, 'br-gl br-gl-s')}<span><b>${brEsc(x.consultant && x.consultant.name ? `${x.consultant.name} · ${x.t.title}` : x.t.title)}</b><small>${x.years ? `${brEsc(brPl(C.grid.years, x.years, lang))} · ` : ''}<span class="num">${brEsc(brFee(x, lang))}</span></small></span></button></li>`).join('')}</ul></section>` : ''}`;
 }
 
 // BRAINS (/brains/, /en/brains/, /ar/brains/): the page's behaviour.
@@ -281,6 +290,9 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
   const bySlug = Object.fromEntries(list.map((b) => [b.slug, b]));
   const price = (p) => brPrice(p, lang);
   const perMonth = (p) => C.grid.perMonth.replace('{p}', price(p));
+  const feeOf = (b) => C.grid.perMonth.replace('{p}', brFee(b, lang));
+  const capLine = (b) => [b.years ? yearsLabel(b.years) : '', b.consultant && b.consultant.name ? b.codes : L.home[b.home]].filter(Boolean).join(' · ');
+  const capTitle = (b) => (b.consultant && b.consultant.name ? `${b.consultant.name} · ${b.t.title}` : b.t.title);
   const yearsLabel = (n) => pl(C.grid.years, n, lang);
   const ease = 'cubic-bezier(.16,1,.3,1)';
 
@@ -297,7 +309,7 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
     let seed = 5; const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
     const centres = []; let guard = 0;
     while (centres.length < list.length && guard++ < 20000) {
-      const x = rnd() * 1.7 - 0.85, y = rnd() * 1.3 - 0.66, md = guard > 8000 ? 0.18 : 0.255;
+      const x = rnd() * 1.7 - 0.85, y = rnd() * 1.3 - 0.66, md = (guard > 8000 ? 0.18 : 0.255) * Math.sqrt(25 / list.length);
       if (inside(x, y) && inside(x + 0.1, y) && inside(x - 0.1, y) && inside(x, y + 0.08) && inside(x, y - 0.08) && centres.every((c) => Math.hypot(c[0] - x, (c[1] - y) * 1.15) > md)) centres.push([x, y]);
     }
     const cons = list.map((b, i) => ({ b, c: centres[i] || [0, 0], s: brStars(b.slug), from: [rnd() * 2.6 - 1.3, rnd() * 2 - 1], tw: rnd() * 6 }));
@@ -344,7 +356,7 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
         curve(OUT, true, 0.22, 1.2); SULCI.forEach((q) => curve(q, false, 0.13, 1));
         for (const [x, y, k] of dust) { const [px, py] = P(x, y); ctx.fillStyle = `rgba(169,236,229,${(0.12 + k * 0.38) * dA})`; ctx.fillRect(px, py + float, 1.4, 1.4); }
       }
-      const R = scale * 0.075;
+      const R = scale * 0.075 * Math.min(1, Math.sqrt(30 / list.length));
       const pos = cons.map((o, i) => { const k = easeOut((t - i * 45) / 1700); const fx = o.from[0] * W * 0.5 + W / 2, fy = o.from[1] * Hh * 0.5 + Hh / 2; const [tx, ty] = P(o.c[0], o.c[1]); return [fx + (tx - fx) * k, fy + (ty - fy) * k + float, k]; });
       // wiring between constellations
       const lA = easeOut((t - 1800) / 1200);
@@ -379,8 +391,8 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
     }
     function caption(i) {
       const b = cons[i].b;
-      $('.br-litt', lit).textContent = b.t.title;
-      $('.br-lits', lit).textContent = `${yearsLabel(b.years)} · ${L.home[b.home]}`;
+      $('.br-litt', lit).textContent = capTitle(b);
+      $('.br-lits', lit).textContent = capLine(b);
       $('.br-litb', lit).dataset.slug = b.slug;
     }
     function setHL(i) { hl = i; caption(i); }
@@ -444,7 +456,7 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
     return arr.slice().sort((a, b) => {
       if (s === 'up') return a.price - b.price || idx(a) - idx(b);
       if (s === 'down') return b.price - a.price || idx(a) - idx(b);
-      if (s === 'exp') return b.years - a.years || idx(a) - idx(b);
+      if (s === 'exp') return (b.years || 0) - (a.years || 0) || idx(a) - idx(b);
       if (s === 'new') return idx(b) - idx(a);
       // best match: open first, then the page's own language, then how many selected values it hits
       const hits = (x) => G.reduce((n, g) => n + (g !== 'avail' ? state[g].filter((v) => test[g](x, v)).length : 0), 0);
@@ -575,7 +587,7 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
     const s = brState(b);
     return `<div class="pd-hd br-phd"><span class="br-phk">${esc(C.crumb)}</span><button type="button" class="pd-x" aria-label="${esc(C.profile.close)}"></button></div>
 <div class="pd-body br-pbody">${brProfileHTML(b, C, L, lang, similarOf(b))}</div>
-<div class="pd-ft br-pft"><span class="br-price num">${esc(perMonth(b.price))}</span><button type="button" class="btn btn-p br-consult"><span class="d"></span>${esc(s === 'matching' ? C.profile.ctaMatching : C.profile.cta)}</button></div>`;
+<div class="pd-ft br-pft"><span class="br-price num">${esc(feeOf(b))}</span><button type="button" class="btn btn-p br-consult"><span class="d"></span>${esc(s === 'matching' ? C.profile.ctaMatching : C.profile.cta)}</button></div>`;
   }
   function wireProfile(b) {
     const p = prof.panel;
@@ -623,8 +635,8 @@ ${similar && similar.length ? `<section class="br-pb"><h3>${brEsc(P.similar)}</h
   const durMonths = { 0: 1, 1: 3, 2: 6 };
   function estimate(b, v) {
     const m = durMonths[v.duration];
-    if (!m) return fill(F.estimateUnsure, { p: price(b.price) });
-    return fill(F.estimate, { t: price(b.price * m), m: F.durations[+v.duration] });
+    if (!m) return fill(F.estimateUnsure, { p: brFee(b, lang) });
+    return fill(F.estimate, { t: brFee({ price: b.price * m, priceHi: b.priceHi ? b.priceHi * m : 0 }, lang), m: F.durations[+v.duration] });
   }
   function paneHTML(b, st) {
     const v = st.v;
@@ -636,7 +648,7 @@ ${field('company', F.company, input('company', v.company, 'autocomplete="organiz
 <div class="pd-grid2">${field('market', F.market, select('market', v.market, F.markets, false))}${field('size', F.size, select('size', v.size, F.sizes))}</div>
 </div>`;
     if (st.step === 1) return `<div class="pd-pane">
-<div class="br-big"><span class="br-bigp num">${esc(price(b.price))}</span><span>${esc(F.perMonth)}</span></div>
+<div class="br-big"><span class="br-bigp num">${esc(brFee(b, lang))}</span><span>${esc(F.perMonth)}</span></div>
 <fieldset class="pd-f br-fs" data-k="duration"><legend class="pd-l">${esc(F.duration)}</legend><div class="pd-rc">${F.durations.map((d, i) => `<label><input type="radio" name="duration" value="${i}"${String(i) === v.duration ? ' checked' : ''}>${esc(d)}</label>`).join('')}</div><p class="pd-h">${esc(F.billing)}</p><p class="br-est num-in" aria-live="polite">${esc(estimate(b, v))}</p></fieldset>
 <div class="br-kvs"><span>${esc(F.startMonth)}</span><b>${esc(monthOf(v.start))}</b></div>
 <div class="br-inc"><h3>${esc(F.included)}</h3><p>${esc(F.includedB)}</p></div>
@@ -657,14 +669,14 @@ ${field('email', F.email, input('email', v.email, 'type="email" autocomplete="em
     const blk = (n, rows) => `<section class="pd-rvb"><h4>${esc(F.reviewBlocks[n])}<button type="button" class="pd-link br-edit" data-step="${n}">${esc(F.edit)}</button></h4><dl>${rows.map(([k, x]) => `<dt>${esc(k)}</dt><dd>${esc(x || '—')}</dd>`).join('')}</dl></section>`;
     return `<div class="pd-pane"><div class="pd-rv">
 ${blk(0, [[F.case, v.case], [F.goals, v.goals], [F.start, v.start], [F.deadline, v.deadline], [F.company, v.company], [F.market, opt(F.markets, v.market)], [F.size, opt(F.sizes, v.size)]])}
-${blk(1, [[F.planT, perMonth(b.price)], [F.duration, opt(F.durations, v.duration)], [F.startMonth, monthOf(v.start)], ['', estimate(b, v)]])}
+${blk(1, [[F.planT, feeOf(b)], [F.duration, opt(F.durations, v.duration)], [F.startMonth, monthOf(v.start)], ['', estimate(b, v)]])}
 ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel === 'tg' ? F.tg : F.wa, v.contact], [F.name, v.name], [F.role, opt(F.roles, v.role)], [F.email, v.email], [F.lang, LANG_OPTS[+v.clang]], [F.time, opt(F.times, v.time)]])}
 </div><p class="br-nopay">${esc(F.noOnline)}</p></div>`;
   }
   function flowHTML(b, st) {
     const steps = [...F.steps, F.review];
     const last = st.step === 3, matching = brState(b) === 'matching';
-    return `<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<div><p class="br-minik" id="brFlowT">${esc(F.title)}</p><p class="br-minit">${esc(b.t.title)} · <span class="num">${esc(perMonth(b.price))}</span></p></div></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
+    return `<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<div><p class="br-minik" id="brFlowT">${esc(F.title)}</p><p class="br-minit">${esc(capTitle(b))} · <span class="num">${esc(feeOf(b))}</span></p></div></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
 <div class="br-fprog"><p class="br-fstep">${st.step < 3 ? `${esc(fill(F.stepOf, { n: st.step + 1 }))} · ` : ''}<b>${esc(steps[st.step])}</b></p><ol class="pd-steps" aria-hidden="true">${steps.map((s, i) => `<li class="${i < st.step ? 'done' : i === st.step ? 'on' : ''}">${esc(s)}</li>`).join('')}</ol></div>
 <form class="pd-body br-fbody" novalidate>${paneHTML(b, st)}<p class="br-saved" aria-live="polite"></p></form>
 <div class="pd-ft"><button type="button" class="btn btn-g btn-s br-back"${st.step === 0 ? ' hidden' : ''}>${esc(F.back)}</button><button type="button" class="btn btn-p br-nextb"><span class="d"></span>${esc(last ? (matching ? F.reserveMatching : F.reserve) : [F.next1, F.next2, F.next3][st.step])}</button></div>`;
@@ -744,7 +756,7 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
       await submitReservation({
         reservation_id: r, created_at: new Date().toISOString(), page_language: lang, brain_slug: fb.slug, brain_title: fb.t.title, brain_state: brState(fb) === 'matching' ? 'being_matched' : 'matched',
         case: v.case, goals: v.goals, start_date: v.start, deadline: v.deadline, company: v.company, market: F.markets[+v.market], company_size: F.sizes[+v.size],
-        duration: F.durations[+v.duration], est_total_usd: durMonths[v.duration] ? fb.price * durMonths[v.duration] : null, channel: v.channel === 'tg' ? 'telegram' : 'whatsapp',
+        duration: F.durations[+v.duration], est_total_usd: durMonths[v.duration] ? [fb.price * durMonths[v.duration], (fb.priceHi || fb.price) * durMonths[v.duration]] : null, channel: v.channel === 'tg' ? 'telegram' : 'whatsapp',
         [v.channel === 'tg' ? 'telegram' : 'whatsapp']: v.contact, name: v.name, role: F.roles[+v.role], email: v.email, consultation_language: LANG_OPTS[+v.clang], contact_time: F.times[+v.time] || '', consent: true, source: 'page',
       });
       PD.store.del(DRAFT);
@@ -754,11 +766,11 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
   function done(r) {
     const v = fst.v, b = fb, ch = v.channel === 'tg' ? 'Telegram' : 'WhatsApp', first = v.name.trim().split(/\s+/)[0];
     const Dn = C.done, matching = brState(b) === 'matching';
-    flow.set(`<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<p class="br-minit">${esc(b.t.title)}</p></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
+    flow.set(`<div class="pd-hd br-fhd"><div class="br-mini">${brGlyph(b.slug, 'br-gl br-gl-s')}<p class="br-minit">${esc(capTitle(b))}</p></div><button type="button" class="pd-x" aria-label="${esc(C.grid.close)}"></button></div>
 <div class="pd-body br-done">
 <div class="br-seal" aria-hidden="true">${brGlyph(b.slug, 'br-gl br-gl-seal')}</div>
 <h2 class="br-doneh" id="brDoneT" tabindex="-1">${esc(Dn.h)}</h2>
-<p class="br-donep">${esc(fill(matching ? Dn.bodyMatching : Dn.body, { name: first, ch, brain: b.t.title }))}</p>
+<p class="br-donep">${esc(fill(matching ? Dn.bodyMatching : Dn.body, { name: first, ch, brain: capTitle(b) }))}</p>
 <p class="br-ref"><span>${esc(Dn.ref.replace('{r}', ''))}</span><b class="num">${esc(r)}</b></p>
 <h3 class="br-nexth">${esc(Dn.next)}</h3><ol class="br-nextl">${Dn.steps.map((s) => `<li>${esc(s.replace('{ch}', ch))}</li>`).join('')}</ol>
 <div class="br-usha">${S.me}<p>${esc(Dn.usha)}</p></div>
@@ -818,12 +830,12 @@ ${blk(2, [[F.channel, v.channel === 'tg' ? 'Telegram' : 'WhatsApp'], [v.channel 
         if (ms.market && b.groups.includes(ms.market)) { s += 3; why.push(M.whyParts.market); }
         if (ms.lang && b.langs.includes(ms.lang)) { s += 2; why.push(M.whyParts.lang.replace('{l}', L.langs[ms.lang])); }
         if (ms.budget && brBand(b.price, L).id === ms.budget) s += 1;
-        why.push(M.whyParts.years.replace('{y}', yearsLabel(b.years)));
+        if (b.years) why.push(M.whyParts.years.replace('{y}', yearsLabel(b.years)));
         return { b, s, why };
-      }).sort((x, y) => y.s - x.s || y.b.years - x.b.years);
+      }).sort((x, y) => y.s - x.s || (y.b.years || 0) - (x.b.years || 0));
       const top = sc.slice(0, 3), exact = !ms.field || top[0].s >= 8;
       return shell(`<div class="pd-pane"><h2 class="br-mres" id="brMres" tabindex="-1">${esc(M.result)}</h2>${exact ? '' : `<p class="br-banner">${esc(M.none)}</p>`}
-<ol class="br-mlist">${top.map(({ b, why }) => `<li><button type="button" class="br-mpick" data-slug="${b.slug}">${brGlyph(b.slug, 'br-gl br-gl-s')}<span><b>${esc(b.t.title)}</b><small><span class="br-mwhy">${esc(M.why)}</span> ${esc(why.join(', '))}</small><small class="num">${esc(perMonth(b.price))}</small></span></button></li>`).join('')}</ol></div>`,
+<ol class="br-mlist">${top.map(({ b, why }) => `<li><button type="button" class="br-mpick" data-slug="${b.slug}">${brGlyph(b.slug, 'br-gl br-gl-s')}<span><b>${esc(capTitle(b))}</b><small><span class="br-mwhy">${esc(M.why)}</span> ${esc(why.join(', '))}</small><small class="num">${esc(feeOf(b))}</small></span></button></li>`).join('')}</ol></div>`,
         `<button type="button" class="btn btn-g btn-s br-magain">${esc(M.again)}</button><span></span>`);
     }
     wire();

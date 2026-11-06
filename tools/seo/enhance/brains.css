@@ -218,7 +218,7 @@ html[dir=rtl] .br-ruler{margin-inline-start:0}
 .br-gl-l{width:96px;height:96px}
 .br-pav{padding:0;border-radius:24px;background:radial-gradient(circle at 50% 50%,rgba(169,236,229,.12),transparent 70%)}
 .br-pid .br-cid{justify-items:start;text-align:start;grid-auto-flow:column;justify-content:start;align-items:center}
-.br-pname{margin-top:10px;font:500 15px var(--body);color:var(--ink2)}
+.br-pname{margin-top:10px;font:400 clamp(20px,2vw,24px)/1.2 var(--head);letter-spacing:-.03em;color:var(--teal2)}
 .br-pt{margin-top:10px;font:400 clamp(22px,2.4vw,30px)/1.18 var(--head);letter-spacing:-.035em}
 html[lang=ar] .br-pt{font-family:var(--body);line-height:1.45}
 .br-what{margin-top:10px;font-size:14.5px;line-height:1.5;color:var(--ink3)}
@@ -364,3 +364,17 @@ html[lang=ar] .br-bn{font-family:var(--body);font-weight:400}
 @media (max-width:700px){.br-bands{grid-template-columns:1fr 1fr}.br-pf{grid-template-columns:1fr;gap:14px}.br-railsv text{font-size:11px}}
 @media (max-width:420px){.br-bands{grid-template-columns:1fr}}
 .br-end .pg-me{width:min(220px,46vw)}
+
+/* named consultants */
+.br-name{font:500 15px/1.3 var(--body);color:var(--ink);margin-bottom:-6px}
+.br-role{margin-top:-4px;font-size:13.5px;line-height:1.45;color:var(--ink2)}
+html[dir=rtl] .br-role{text-align:right}
+.br-cam{display:inline-flex;padding:3px 9px;border-radius:99px;font-size:12px;line-height:1.35;color:#16100c;background:var(--peach)}
+.br-ver-pend{color:var(--fix,#FFB648);border-color:rgba(255,182,72,.7)}
+.br-cid{grid-auto-flow:row}
+.br-price small{font-size:12px;font-weight:400;color:var(--ink3)}
+.br-railsv .rl{stroke-width:2.5;stroke-linecap:round;opacity:.55;stroke:currentColor}
+.br-railsv .rl.rd-focus{color:var(--b-focus)}.br-railsv .rl.rd-senior{color:var(--b-senior)}.br-railsv .rl.rd-principal{color:var(--b-principal)}.br-railsv .rl.rd-partner{color:var(--b-partner)}.br-railsv .rl.rd-board{color:var(--b-board)}
+.br-camp{margin-top:8px}
+.br-pid .br-cid{grid-auto-flow:column}
+.br-ln{grid-template-columns:auto;justify-items:start}
